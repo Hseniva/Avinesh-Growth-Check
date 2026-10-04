@@ -70,8 +70,9 @@
   .extra .p{color:var(--gold);font-weight:700;font-size:14px;margin-top:6px}
   .note{color:var(--muted);font-size:13.5px;line-height:1.6;margin-top:16px}
   footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line)}
-  footer a{color:var(--muted);text-decoration:none}
-  footer a:hover{color:var(--text)}
+  footer .links{display:flex;gap:10px;justify-content:center;margin-top:8px}
+  footer a{color:var(--blue-text);text-decoration:none;font-weight:500}
+  footer a:hover{color:var(--white);text-decoration:underline}
   .hp{position:absolute;left:-9999px}
 </style>
 </head>
@@ -84,7 +85,7 @@
   </div>
 </div></header>
 <main><div class="card" id="app"></div></main>
-<footer><span id="tagline"></span> · <a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a></footer>
+<footer><span id="tagline"></span><div class="links"><a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a><span>·</span><a href="https://hsenivamedia.com/" target="_blank" rel="noopener">hsenivamedia.com</a></div></footer>
 
 <script>
 /* ===== CONFIG ===== */
@@ -105,7 +106,7 @@ const PRICES = { // [international EUR, local Rs]
 /* ===== TEXT ===== */
 const T = {
  en:{
-  tagline:"Performance marketing consultant · Mauritius",
+  tagline:"International performance marketing consultant",
   introTitle:"Get your growth plan <span class=\"grad\">in 2 minutes</span>",
   badge:"Avinesh Growth Check · Free",
   introLead:"Answer a few quick questions about your business. At the end you get a clear recommendation, with prices, for the next step that fits you.",
@@ -134,6 +135,7 @@ const T = {
    coach:{tag:"Learn & grow",title:"Ads coaching pack",lead:"At your budget, the best return is learning to run your own ads. We work hands-on on your own account, so you finish with a campaign already live.",items:["4 one-hour sessions, online or in person","Account, Pixel and audience setup together","Your first campaign launched with you","Checklists to keep optimising alone"]},
    consult:{title:"Strategy & business review session",lead:"One hour to look at your business, offer and marketing, and leave with a clear action list."},
    doneAlt:{title:"Prefer that I run it for you?",lead:"If you really have no time, I can manage your ads instead."},
+   timeNote:{title:"Short on time?",lead:"The coaching is built around your schedule: 1 hour a week, and you keep checklists so ads take you only a few minutes a day. Done-for-you management starts from Rs 500,000 a year in ad spend."},
    tracking:{title:"Tracking setup (GA4, Tag Manager, Pixel)",lead:"So you know exactly which ads bring enquiries and sales."},
    audit:{title:"Free website & tracking audit",lead:"I'll review your website and send you a short report with the quick wins.",free:"Free"},
    noSite:{title:"Start with a simple landing page",lead:"Ads need a page to send people to. I'll advise you on the simplest option for your business."},
@@ -146,7 +148,7 @@ const T = {
   }
  },
  fr:{
-  tagline:"Consultant en marketing de performance · Maurice",
+  tagline:"Consultant international en marketing de performance",
   introTitle:"Votre plan de croissance <span class=\"grad\">en 2 minutes</span>",
   badge:"Avinesh Growth Check · Gratuit",
   introLead:"Répondez à quelques questions rapides sur votre activité. À la fin, vous recevez une recommandation claire, avec les prix, pour la prochaine étape adaptée à vous.",
@@ -175,6 +177,7 @@ const T = {
    coach:{tag:"Apprendre et grandir",title:"Pack coaching publicité",lead:"Avec votre budget, le meilleur retour est d'apprendre à gérer vos propres publicités. On travaille ensemble sur votre propre compte, et vous repartez avec une campagne déjà en ligne.",items:["4 séances d'une heure, en ligne ou en personne","Compte, Pixel et audiences configurés ensemble","Votre première campagne lancée avec vous","Des check-lists pour continuer seul"]},
    consult:{title:"Séance stratégie & revue de votre activité",lead:"Une heure pour analyser votre activité, votre offre et votre marketing, et repartir avec une liste d'actions claire."},
    doneAlt:{title:"Vous préférez que je m'en occupe ?",lead:"Si vous n'avez vraiment pas le temps, je peux gérer vos publicités à votre place."},
+   timeNote:{title:"Peu de temps ?",lead:"Le coaching s’adapte à votre agenda : 1 heure par semaine, avec des check-lists pour que vos publicités ne vous prennent que quelques minutes par jour. La gestion complète commence à partir de Rs 500 000 par an de budget publicitaire."},
    tracking:{title:"Mise en place du suivi (GA4, Tag Manager, Pixel)",lead:"Pour savoir exactement quelles publicités apportent des demandes et des ventes."},
    audit:{title:"Audit gratuit du site et du suivi",lead:"J'analyse votre site et je vous envoie un court rapport avec les actions rapides à faire.",free:"Gratuit"},
    noSite:{title:"Commencez par une page simple",lead:"Les publicités ont besoin d'une page où envoyer les visiteurs. Je vous conseille l'option la plus simple pour votre activité."},
@@ -289,7 +292,8 @@ function recommend(a){
   const extras = [];
   if(!high){
     extras.push({kind:"consult",price:"consult"});
-    if(a.time==="done") extras.push({kind:"doneAlt",price:ch});
+    if(a.time==="done" && !local) extras.push({kind:"doneAlt",price:ch});
+    if(a.time==="done" && local) extras.push({kind:"timeNote"});
   }
   if(a.site==="none") extras.push({kind:"noSite"});
   else {
