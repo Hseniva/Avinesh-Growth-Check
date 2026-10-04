@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avinesh Growth Check – Free growth plan in 2 minutes</title>
+<meta property="og:title" content="Avinesh Growth Check">
+<meta name="description" content="Avinesh Growth Check: answer a few questions and get a tailored digital marketing recommendation from Avinesh Bundhoo, performance marketing consultant in Mauritius.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080B10; --card:#0D1220; --panel2:#111829; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+    --text:#E2E8F0; --white:#fff; --muted:#6B7A99; --blue:#4F7CFF; --blue-soft:rgba(79,124,255,.1); --blue-line:rgba(79,124,255,.25); --blue-text:#7B9FFF;
+    --gold:#E8A045; --warn:#E8A045; --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 85% -10%,rgba(79,124,255,.12),transparent 60%),var(--bg)}
+  header{border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:780px;margin:0 auto}
+  .brand{font-weight:800;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-.3px}
+  .brand b{color:var(--blue)}
+  .lang{display:flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+  .lang button{background:none;border:0;color:var(--muted);padding:7px 12px;font:600 13px Inter,sans-serif;cursor:pointer}
+  .lang button.on{background:var(--blue);color:#fff}
+  main{flex:1;width:100%;max-width:780px;margin:0 auto;padding:28px 16px 48px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px}
+  @media (max-width:560px){.card{padding:24px 18px}}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);border:1px solid var(--blue-line);color:var(--blue-text);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:500;margin-bottom:18px}
+  .badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue)}
+  .grad{background:linear-gradient(90deg,#4F7CFF,#E8A045);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .progress{height:4px;background:var(--panel2);border-radius:99px;overflow:hidden;margin:0 0 22px}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4F7CFF,#E8A045);transition:width .3s}
+  .step-n{color:var(--blue-text);font-size:13px;font-weight:600;margin-bottom:8px}
+  h1{font-size:40px;line-height:1.08;font-weight:900;letter-spacing:-1.2px;color:var(--white);margin:0 0 14px}
+  @media (max-width:560px){h1{font-size:31px;letter-spacing:-.8px}}
+  h2{font-size:23px;line-height:1.3;font-weight:800;letter-spacing:-.4px;color:var(--white);margin:0 0 6px}
+  p.lead,.hint{color:var(--muted);line-height:1.7;margin:0 0 20px;font-size:16px}
+  .hint{font-size:14px;margin-top:-2px}
+  .opts{display:grid;gap:10px}
+  .opts.two{grid-template-columns:1fr 1fr}
+  @media (max-width:560px){.opts.two{grid-template-columns:1fr}}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:15px 16px;font:500 15px Inter,sans-serif;cursor:pointer;transition:border-color .15s,background .15s}
+  .opt:hover{border-color:var(--blue-line)}
+  .opt.on{border-color:var(--blue);background:var(--blue-soft)}
+  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #34405a;margin-top:1px}
+  .opt.multi .dot{border-radius:5px}
+  .opt.on .dot{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px var(--card)}
+  label.f{display:block;font-size:14px;color:var(--muted);margin:14px 0 6px}
+  input.t{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--white);border-radius:10px;padding:13px 14px;font:15px Inter,sans-serif}
+  input.t:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:10px}
+  .btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:13px 22px;font:600 15px Inter,sans-serif;cursor:pointer;transition:filter .15s}
+  .btn:hover{filter:brightness(1.1)}
+  .btn[disabled]{opacity:.5;cursor:not-allowed}
+  .ghost{background:none;border:0;color:var(--muted);font:500 14px Inter,sans-serif;cursor:pointer;padding:10px 4px}
+  .ghost:hover{color:var(--text)}
+  .err{color:var(--warn);font-size:14px;margin-top:10px;min-height:18px}
+  .intro ul{list-style:none;margin:0 0 26px;padding:0;color:var(--text);line-height:2}
+  .intro li:before{content:"✓";color:var(--blue);font-weight:700;margin-right:10px}
+  .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(79,124,255,.09),rgba(13,18,32,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
+  .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--blue-text);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:100px;padding:4px 12px;margin-bottom:12px}
+  .price{font-size:30px;font-weight:900;letter-spacing:-.6px;color:var(--white);margin:8px 0 2px}
+  .price small{font-size:14px;color:var(--muted);font-weight:500;letter-spacing:0}
+  .rec ul{margin:12px 0 0;padding-left:18px;line-height:1.8}
+  .extra{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:12px}
+  .extra h3{margin:0 0 4px;font-size:16px;color:var(--white)}
+  .extra .p{color:var(--gold);font-weight:700;font-size:14px;margin-top:6px}
+  .note{color:var(--muted);font-size:13.5px;line-height:1.6;margin-top:16px}
+  footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line)}
+  footer a{color:var(--muted);text-decoration:none}
+  footer a:hover{color:var(--text)}
+  .hp{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <a class="brand" href="https://avineshbundhoo.com/" target="_blank" rel="noopener">Avinesh<b>.</b></a>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-l="en" class="on">EN</button>
+    <button type="button" data-l="fr">FR</button>
+  </div>
+</div></header>
+<main><div class="card" id="app"></div></main>
+<footer><span id="tagline"></span> · <a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a></footer>
+
+<script>
+/* ===== CONFIG ===== */
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxqCYE3c-La2HxGje32TGNEtWoJEdTNOXsdhmLjqdTTLdThj5HjkqOPMs0YkrB1hdi2/exec"; // Google Apps Script web app URL (stores answers + emails you)
+const LOCAL_THRESHOLD_STEP = "b4";   // local budget bands b4,b5 = Rs 500,000+/year -> we run the ads
+const INTL_THRESHOLD_STEP  = "i3";   // international bands i3,i4 = EUR 2,000+/month -> we run the ads
+
+const PRICES = { // [international EUR, local Rs]
+  consult:  {eur:"€80",  rs:"Rs 1,200", unitEn:"/ hour",  unitFr:"/ heure"},
+  coaching: {eur:"€240", rs:"Rs 4,200", unitEn:"4 sessions", unitFr:"4 séances"},
+  meta:     {eur:"€300", rs:"Rs 6,000", unitEn:"/ month", unitFr:"/ mois"},
+  google:   {eur:"€350", rs:"Rs 7,200", unitEn:"/ month", unitFr:"/ mois"},
+  both:     {eur:"€550", rs:"Rs 11,500",unitEn:"/ month", unitFr:"/ mois"},
+  tracking: {eur:"€250", rs:"Rs 5,000", unitEn:"one-off", unitFr:"une fois"},
+  workshop: {eur:"€450", rs:"Rs 7,200", unitEn:"/ day",   unitFr:"/ jour"}
+};
+
+/* ===== TEXT ===== */
+const T = {
+ en:{
+  tagline:"Performance marketing consultant · Mauritius",
+  introTitle:"Get your growth plan <span class=\"grad\">in 2 minutes</span>",
+  badge:"Avinesh Growth Check · Free",
+  introLead:"Answer a few quick questions about your business. At the end you get a clear recommendation, with prices, for the next step that fits you.",
+  introList:["No call needed","Tailored to your budget and goals","Free, no commitment"],
+  start:"Start", next:"Continue", back:"Back", send:"See my recommendation", sending:"Preparing your plan…",
+  stepOf:(a,b)=>`Question ${a} of ${b}`, required:"Please choose an answer to continue.",
+  contactErr:"Please add your name and a valid email.",
+  q:{
+   base:{t:"Where is your business based?",o:{mu:"Mauritius",abroad:"Another country"}},
+   country:{t:"Which country?",ph:"e.g. France"},
+   market:{t:"Where are the customers you want to reach?",o:{local:"Mainly in Mauritius",intl:"Mainly abroad (tourists, export, online)",mix:"Both"}},
+   type:{t:"What type of business do you run?",o:{hosp:"Hotel, guesthouse or holiday rental",food:"Restaurant, café or food",shop:"Shop or e-commerce",svc:"Services or B2B",estate:"Real estate",health:"Health, beauty or wellness",edu:"Education or training",other:"Other"}},
+   goal:{t:"What is your main goal right now?",o:{leads:"More enquiries or leads",sales:"More online sales",book:"More direct bookings",aware:"Make my brand better known",measure:"Know what my marketing really brings"}},
+   now:{t:"What do you do today for marketing?",h:"Choose all that apply.",o:{none:"Nothing yet",organic:"Social media posts",boost:"Boosted posts",ads:"I run ads myself",agency:"An agency or freelancer runs my ads"}},
+   site:{t:"How is your website?",o:{none:"I don't have one",unsure:"I have one, not sure it converts",ok:"I have one and track results (GA4, Pixel…)"}},
+   channel:{t:"Which channels interest you?",o:{meta:"Facebook & Instagram",google:"Google (Search, YouTube)",both:"Both",unsure:"Not sure, advise me"}},
+   budgetMu:{t:"How much can you spend on ads per month?",h:"Paid directly to Meta or Google, not including any fee.",o:{b1:"Under Rs 10,000",b2:"Rs 10,000 – 25,000",b3:"Rs 25,000 – 42,000",b4:"Rs 42,000 – 80,000",b5:"More than Rs 80,000"}},
+   budgetIntl:{t:"How much can you spend on ads per month?",h:"Paid directly to Meta or Google, not including any fee.",o:{i1:"Under €500",i2:"€500 – 2,000",i3:"€2,000 – 5,000",i4:"More than €5,000"}},
+   time:{t:"How do you prefer to work?",o:{learn:"Teach me, I want to run my ads myself",done:"I have no time, do it for me",unsure:"Not sure yet"}},
+   when:{t:"When would you like to start?",o:{now:"Now",month:"Within a month",explore:"Just exploring"}},
+   contact:{t:"Where should I send your plan?",h:"I'll review your answers and come back to you within 24 hours.",name:"Your name",biz:"Business name",email:"Email",phone:"WhatsApp / phone (optional)",web:"Website or page link (optional)"}
+  },
+  r:{
+   title:"Your recommended plan",badge:"Your result", for:(n)=>`Prepared for ${n}`,
+   manage:{tag:"Done for you",title:(c)=>`${c} ads management`,lead:"Your budget is large enough for a professional to run your campaigns full time. I plan, launch and optimise your ads every week, and you get a clear monthly report.",items:["Strategy, audiences and media plan","Campaign setup and creative testing","Weekly optimisation","Monthly results report (leads, sales, cost per result)"]},
+   coach:{tag:"Learn & grow",title:"Ads coaching pack",lead:"At your budget, the best return is learning to run your own ads. We work hands-on on your own account, so you finish with a campaign already live.",items:["4 one-hour sessions, online or in person","Account, Pixel and audience setup together","Your first campaign launched with you","Checklists to keep optimising alone"]},
+   consult:{title:"Strategy & business review session",lead:"One hour to look at your business, offer and marketing, and leave with a clear action list."},
+   doneAlt:{title:"Prefer that I run it for you?",lead:"If you really have no time, I can manage your ads instead."},
+   tracking:{title:"Tracking setup (GA4, Tag Manager, Pixel)",lead:"So you know exactly which ads bring enquiries and sales."},
+   audit:{title:"Free website & tracking audit",lead:"I'll review your website and send you a short report with the quick wins.",free:"Free"},
+   noSite:{title:"Start with a simple landing page",lead:"Ads need a page to send people to. I'll advise you on the simplest option for your business."},
+   spendIntl:"Recommended ad spend: from €2,000 / month, paid directly to Meta or Google.",
+   spendLocal:"Ad spend is paid directly to Meta or Google, on top of the fee. We size it together.",
+   from:"from", feeNote:"Prices exclude ad spend. Final quote after reviewing your answers.",
+   next:"What happens next: I review your answers and send you a personalised proposal within 24 hours.",
+   saveErr:"Your plan is ready below, but your answers could not be sent. Please email admin@hseniva.com so I can follow up.",
+   channel:{meta:"Facebook & Instagram",google:"Google",both:"Meta + Google",unsure:"Meta + Google"}
+  }
+ },
+ fr:{
+  tagline:"Consultant en marketing de performance · Maurice",
+  introTitle:"Votre plan de croissance <span class=\"grad\">en 2 minutes</span>",
+  badge:"Avinesh Growth Check · Gratuit",
+  introLead:"Répondez à quelques questions rapides sur votre activité. À la fin, vous recevez une recommandation claire, avec les prix, pour la prochaine étape adaptée à vous.",
+  introList:["Pas besoin d'appel","Adapté à votre budget et à vos objectifs","Gratuit et sans engagement"],
+  start:"Commencer", next:"Continuer", back:"Retour", send:"Voir ma recommandation", sending:"Préparation de votre plan…",
+  stepOf:(a,b)=>`Question ${a} sur ${b}`, required:"Choisissez une réponse pour continuer.",
+  contactErr:"Indiquez votre nom et un email valide.",
+  q:{
+   base:{t:"Où est basée votre entreprise ?",o:{mu:"À Maurice",abroad:"Dans un autre pays"}},
+   country:{t:"Dans quel pays ?",ph:"ex. France"},
+   market:{t:"Où sont les clients que vous voulez toucher ?",o:{local:"Surtout à Maurice",intl:"Surtout à l'étranger (touristes, export, en ligne)",mix:"Les deux"}},
+   type:{t:"Quel type d'activité avez-vous ?",o:{hosp:"Hôtel, maison d'hôtes ou location saisonnière",food:"Restaurant, café ou alimentation",shop:"Boutique ou e-commerce",svc:"Services ou B2B",estate:"Immobilier",health:"Santé, beauté ou bien-être",edu:"Éducation ou formation",other:"Autre"}},
+   goal:{t:"Quel est votre objectif principal en ce moment ?",o:{leads:"Plus de demandes ou de prospects",sales:"Plus de ventes en ligne",book:"Plus de réservations directes",aware:"Faire connaître ma marque",measure:"Savoir ce que mon marketing rapporte vraiment"}},
+   now:{t:"Que faites-vous aujourd'hui pour votre marketing ?",h:"Plusieurs réponses possibles.",o:{none:"Rien pour l'instant",organic:"Publications sur les réseaux sociaux",boost:"Publications boostées",ads:"Je gère mes publicités moi-même",agency:"Une agence ou un freelance gère mes publicités"}},
+   site:{t:"Où en est votre site web ?",o:{none:"Je n'en ai pas",unsure:"J'en ai un, mais je ne sais pas s'il convertit",ok:"J'en ai un et je mesure les résultats (GA4, Pixel…)"}},
+   channel:{t:"Quels canaux vous intéressent ?",o:{meta:"Facebook & Instagram",google:"Google (Recherche, YouTube)",both:"Les deux",unsure:"Je ne sais pas, conseillez-moi"}},
+   budgetMu:{t:"Combien pouvez-vous dépenser en publicité par mois ?",h:"Payé directement à Meta ou Google, hors honoraires.",o:{b1:"Moins de Rs 10 000",b2:"Rs 10 000 – 25 000",b3:"Rs 25 000 – 42 000",b4:"Rs 42 000 – 80 000",b5:"Plus de Rs 80 000"}},
+   budgetIntl:{t:"Combien pouvez-vous dépenser en publicité par mois ?",h:"Payé directement à Meta ou Google, hors honoraires.",o:{i1:"Moins de 500 €",i2:"500 – 2 000 €",i3:"2 000 – 5 000 €",i4:"Plus de 5 000 €"}},
+   time:{t:"Comment préférez-vous travailler ?",o:{learn:"Formez-moi, je veux gérer mes publicités moi-même",done:"Je n'ai pas le temps, faites-le pour moi",unsure:"Je ne sais pas encore"}},
+   when:{t:"Quand souhaitez-vous commencer ?",o:{now:"Maintenant",month:"Dans le mois",explore:"Je me renseigne"}},
+   contact:{t:"Où dois-je vous envoyer votre plan ?",h:"J'étudie vos réponses et je reviens vers vous sous 24 heures.",name:"Votre nom",biz:"Nom de l'entreprise",email:"Email",phone:"WhatsApp / téléphone (facultatif)",web:"Site web ou lien de page (facultatif)"}
+  },
+  r:{
+   title:"Votre plan recommandé",badge:"Votre résultat", for:(n)=>`Préparé pour ${n}`,
+   manage:{tag:"Je m'en occupe",title:(c)=>`Gestion des publicités ${c}`,lead:"Votre budget justifie qu'un professionnel gère vos campagnes à plein temps. Je planifie, lance et optimise vos publicités chaque semaine, et vous recevez un rapport mensuel clair.",items:["Stratégie, audiences et plan média","Création des campagnes et tests de visuels","Optimisation chaque semaine","Rapport mensuel (prospects, ventes, coût par résultat)"]},
+   coach:{tag:"Apprendre et grandir",title:"Pack coaching publicité",lead:"Avec votre budget, le meilleur retour est d'apprendre à gérer vos propres publicités. On travaille ensemble sur votre propre compte, et vous repartez avec une campagne déjà en ligne.",items:["4 séances d'une heure, en ligne ou en personne","Compte, Pixel et audiences configurés ensemble","Votre première campagne lancée avec vous","Des check-lists pour continuer seul"]},
+   consult:{title:"Séance stratégie & revue de votre activité",lead:"Une heure pour analyser votre activité, votre offre et votre marketing, et repartir avec une liste d'actions claire."},
+   doneAlt:{title:"Vous préférez que je m'en occupe ?",lead:"Si vous n'avez vraiment pas le temps, je peux gérer vos publicités à votre place."},
+   tracking:{title:"Mise en place du suivi (GA4, Tag Manager, Pixel)",lead:"Pour savoir exactement quelles publicités apportent des demandes et des ventes."},
+   audit:{title:"Audit gratuit du site et du suivi",lead:"J'analyse votre site et je vous envoie un court rapport avec les actions rapides à faire.",free:"Gratuit"},
+   noSite:{title:"Commencez par une page simple",lead:"Les publicités ont besoin d'une page où envoyer les visiteurs. Je vous conseille l'option la plus simple pour votre activité."},
+   spendIntl:"Budget publicitaire conseillé : à partir de 2 000 € / mois, payé directement à Meta ou Google.",
+   spendLocal:"Le budget publicitaire est payé directement à Meta ou Google, en plus des honoraires. On le définit ensemble.",
+   from:"à partir de", feeNote:"Prix hors budget publicitaire. Devis final après étude de vos réponses.",
+   next:"La suite : j'étudie vos réponses et je vous envoie une proposition personnalisée sous 24 heures.",
+   saveErr:"Votre plan est prêt ci-dessous, mais vos réponses n'ont pas pu être envoyées. Écrivez à admin@hseniva.com pour que je vous recontacte.",
+   channel:{meta:"Facebook & Instagram",google:"Google",both:"Meta + Google",unsure:"Meta + Google"}
+  }
+ }
+};
+
+/* ===== FLOW ===== */
+const STEPS = [
+ {id:"base",type:"one",cols:2},
+ {id:"country",type:"text",show:a=>a.base==="abroad"},
+ {id:"market",type:"one"},
+ {id:"type",type:"one",cols:2},
+ {id:"goal",type:"one"},
+ {id:"now",type:"multi"},
+ {id:"site",type:"one"},
+ {id:"channel",type:"one",cols:2},
+ {id:"budgetMu",type:"one",show:a=>a.base==="mu"},
+ {id:"budgetIntl",type:"one",show:a=>a.base==="abroad"},
+ {id:"time",type:"one"},
+ {id:"when",type:"one",cols:3},
+ {id:"contact",type:"contact"}
+];
+
+let lang = (navigator.language||"en").toLowerCase().startsWith("fr") ? "fr" : "en";
+try{ const s=localStorage.getItem("ab_lang"); if(s) lang=s; }catch(e){}
+let ans = {now:[]};
+let i = -1; // -1 = intro
+const app = document.getElementById("app");
+const L = ()=>T[lang];
+const visible = ()=>STEPS.filter(s=>!s.show||s.show(ans));
+const esc = s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function setLang(l){
+  lang=l; try{localStorage.setItem("ab_lang",l)}catch(e){}
+  document.documentElement.lang=l;
+  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
+  document.getElementById("tagline").textContent=L().tagline;
+  render();
+}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+
+function render(){
+  if(i===-1) return renderIntro();
+  if(i==="result") return renderResult();
+  const steps=visible(); const s=steps[i]; const q=L().q[s.id];
+  const pct=Math.round((i)/steps.length*100);
+  let h=`<div class="progress"><i style="width:${pct}%"></i></div><div class="step-n">${L().stepOf(i+1,steps.length)}</div><h2>${q.t}</h2>`;
+  if(q.h) h+=`<p class="hint">${q.h}</p>`; else h+=`<div style="height:12px"></div>`;
+  if(s.type==="one"||s.type==="multi"){
+    h+=`<div class="opts ${s.cols===2?'two':''}">`;
+    for(const [k,v] of Object.entries(q.o)){
+      const on = s.type==="multi" ? ans[s.id].includes(k) : ans[s.id]===k;
+      h+=`<button type="button" class="opt ${s.type==='multi'?'multi':''} ${on?'on':''}" data-k="${k}"><i class="dot"></i><span>${v}</span></button>`;
+    }
+    h+=`</div>`;
+  } else if(s.type==="text"){
+    h+=`<input class="t" id="tx" placeholder="${q.ph}" value="${esc(ans[s.id])}" autocomplete="country-name">`;
+  } else if(s.type==="contact"){
+    const f=(id,lab,type="text",ac="")=>`<label class="f" for="${id}">${lab}</label><input class="t" id="${id}" type="${type}" autocomplete="${ac}" value="${esc(ans[id])}">`;
+    h+=f("name",q.name,"text","name")+f("biz",q.biz,"text","organization")+f("email",q.email,"email","email")+f("phone",q.phone,"tel","tel")+f("web",q.web,"url","url");
+    h+=`<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">`;
+  }
+  const last = i===steps.length-1;
+  h+=`<div class="err" id="err"></div><div class="nav"><button type="button" class="ghost" id="back">${i>0?"← "+L().back:""}</button><button type="button" class="btn" id="next">${last?L().send:L().next}</button></div>`;
+  app.innerHTML=h;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k;
+    if(s.type==="multi"){
+      let a=ans[s.id]; if(k==="none") a=[]; else a=a.filter(x=>x!=="none");
+      a = a.includes(k) ? a.filter(x=>x!==k) : a.concat(k); ans[s.id]=a; render();
+    } else { ans[s.id]=k; render(); setTimeout(go,180); }
+  });
+  document.getElementById("back").onclick=()=>{ if(i>0){i--;render();} };
+  document.getElementById("next").onclick=go;
+  const tx=document.getElementById("tx"); if(tx){tx.focus(); tx.onkeydown=e=>{if(e.key==="Enter")go()}}
+}
+
+function go(){
+  const steps=visible(); const s=steps[i]; const err=document.getElementById("err");
+  if(s.type==="text"){ ans[s.id]=document.getElementById("tx").value.trim(); }
+  if(s.type==="contact"){
+    ["name","biz","email","phone","web"].forEach(k=>ans[k]=document.getElementById(k).value.trim());
+    if(!ans.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ans.email)){ err.textContent=L().contactErr; return; }
+    if(document.getElementById("hp").value) return; // bot
+    return submit();
+  }
+  const empty = s.type==="multi" ? !ans[s.id].length : !ans[s.id];
+  if(empty && s.type!=="text"){ err.textContent=L().required; return; }
+  i++; render(); window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderIntro(){
+  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn" id="start">${L().start} →</button></div>`;
+  document.getElementById("start").onclick=()=>{i=0;render();};
+}
+
+/* ===== RECOMMENDATION ENGINE ===== */
+function recommend(a){
+  const local = a.base==="mu";
+  const bands = local ? ["b1","b2","b3","b4","b5"] : ["i1","i2","i3","i4"];
+  const budget = local ? a.budgetMu : a.budgetIntl;
+  const high = bands.indexOf(budget) >= bands.indexOf(local?LOCAL_THRESHOLD_STEP:INTL_THRESHOLD_STEP);
+  const ch = a.channel==="unsure" ? "both" : a.channel;
+  const main = high ? {kind:"manage", price:ch} : {kind:"coach", price:"coaching"};
+  const extras = [];
+  if(!high){
+    extras.push({kind:"consult",price:"consult"});
+    if(a.time==="done") extras.push({kind:"doneAlt",price:ch});
+  }
+  if(a.site==="none") extras.push({kind:"noSite"});
+  else {
+    if(a.site!=="ok" || a.goal==="measure") extras.push({kind:"tracking",price:"tracking"});
+    extras.push({kind:"audit",free:true});
+  }
+  return {local, high, channel:ch, main, extras};
+}
+
+function priceTxt(key, local){
+  const p=PRICES[key]; if(!p) return "";
+  const unit = lang==="fr"?p.unitFr:p.unitEn;
+  let amt = local ? p.rs : p.eur;
+  if(lang==="fr"){ amt = local ? amt.replace(",", "\u202f") : amt.replace("€","").replace(",", "\u202f")+"\u00a0€"; }
+  return `${L().r.from} ${amt} <small>${unit.startsWith("/")?unit:"· "+unit}</small>`;
+}
+
+
+function readable(a){
+  const q=T.en.q, o={};
+  for(const [k,v] of Object.entries(a)){
+    if(k.startsWith("_")) continue;
+    if(Array.isArray(v)) o[k]=v.map(x=>(q[k]&&q[k].o&&q[k].o[x])||x).join(", ");
+    else o[k]=(q[k]&&q[k].o&&q[k].o[v])||v;
+  }
+  return o;
+}
+
+async function submit(){
+  const btn=document.getElementById("next"); btn.disabled=true; btn.textContent=L().sending;
+  const rec=recommend(ans);
+  const payload={
+    ts:new Date().toISOString(), lang, ...readable(ans),
+    segment: rec.local ? (ans.market==="local"?"Local → local market":ans.market==="intl"?"Local → international market":"Local → mixed") : "International",
+    recommendation: rec.main.kind==="manage" ? `Ads management (${rec.channel})` : "Ads coaching pack + consulting",
+    extras: rec.extras.map(e=>e.kind).join(", "),
+    quoted: rec.main.kind==="manage" ? (rec.local?PRICES[rec.channel].rs:PRICES[rec.channel].eur) : (rec.local?PRICES.coaching.rs:PRICES.coaching.eur),
+    page: location.href
+  };
+  let ok=true;
+  if(ENDPOINT && !ENDPOINT.startsWith("PASTE")){
+    try{ await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}); }
+    catch(e){ ok=false; }
+  }
+  try{ window.dataLayer=window.dataLayer||[]; dataLayer.push({event:"generate_lead",lead_segment:payload.segment,lead_recommendation:payload.recommendation}); }catch(e){}
+  i="result"; ans._ok=ok; render(); window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderResult(){
+  const r=L().r; const rec=recommend(ans); const m=rec.main;
+  const chName=r.channel[ans.channel]||r.channel.both;
+  let h=`<div class="progress"><i style="width:100%"></i></div><div class="badge">${r.badge}</div><h1>${r.title}</h1><p class="lead">${r.for(esc(ans.biz||ans.name))}</p>`;
+  if(m.kind==="manage"){
+    h+=`<div class="rec"><span class="tag">${r.manage.tag}</span><h2>${r.manage.title(chName)}</h2><div class="price">${priceTxt(m.price,rec.local)}</div><p class="lead" style="margin-top:10px">${r.manage.lead}</p><ul>${r.manage.items.map(x=>`<li>${x}</li>`).join("")}</ul>${!rec.local?`<p class="note">${r.spendIntl}</p>`:`<p class="note">${r.spendLocal}</p>`}</div>`;
+  } else {
+    h+=`<div class="rec"><span class="tag">${r.coach.tag}</span><h2>${r.coach.title}</h2><div class="price">${priceTxt("coaching",rec.local)}</div><p class="lead" style="margin-top:10px">${r.coach.lead}</p><ul>${r.coach.items.map(x=>`<li>${x}</li>`).join("")}</ul><p class="note">${r.spendLocal}</p></div>`;
+  }
+  for(const e of rec.extras){
+    const t=r[e.kind]; const pr = e.free ? r.audit.free : (e.price?priceTxt(e.price,rec.local):"");
+    h+=`<div class="extra"><h3>${t.title}</h3><div style="color:var(--muted);line-height:1.5;font-size:14.5px">${t.lead}</div>${pr?`<div class="p">${pr}</div>`:""}</div>`;
+  }
+  h+=`<p class="note">${r.feeNote}</p><p class="lead" style="margin-top:14px">${r.next}</p>`;
+  if(!ans._ok) h+=`<p class="err">${r.saveErr}</p>`;
+  app.innerHTML=h;
+}
+
+setLang(lang);
+</script>
+</body>
+</html>
