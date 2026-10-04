@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DMM Onboarding – Learning profile</title>
+<meta property="og:title" content="Digital Marketing Mastery – Onboarding">
+<meta name="description" content="Pre-bootcamp onboarding for Digital Marketing Mastery students, by Avinesh Bundhoo.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080B10; --card:#0D1220; --panel2:#111829; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+    --text:#E2E8F0; --white:#fff; --muted:#6B7A99; --blue:#4F7CFF; --blue-soft:rgba(79,124,255,.1); --blue-line:rgba(79,124,255,.25); --blue-text:#7B9FFF;
+    --gold:#E8A045; --warn:#E8A045; --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 85% -10%,rgba(79,124,255,.12),transparent 60%),var(--bg)}
+  header{border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:780px;margin:0 auto}
+  .brand{font-weight:800;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-.3px}
+  .brand b{color:var(--blue)}
+  .lang{display:flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+  .lang button{background:none;border:0;color:var(--muted);padding:7px 12px;font:600 13px Inter,sans-serif;cursor:pointer}
+  .lang button.on{background:var(--blue);color:#fff}
+  main{flex:1;width:100%;max-width:780px;margin:0 auto;padding:28px 16px 48px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px}
+  @media (max-width:560px){.card{padding:24px 18px}}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);border:1px solid var(--blue-line);color:var(--blue-text);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:500;margin-bottom:18px}
+  .badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue)}
+  .grad{background:linear-gradient(90deg,#4F7CFF,#E8A045);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .progress{height:4px;background:var(--panel2);border-radius:99px;overflow:hidden;margin:0 0 22px}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4F7CFF,#E8A045);transition:width .3s}
+  .step-n{color:var(--blue-text);font-size:13px;font-weight:600;margin-bottom:8px}
+  h1{font-size:40px;line-height:1.08;font-weight:900;letter-spacing:-1.2px;color:var(--white);margin:0 0 14px}
+  @media (max-width:560px){h1{font-size:31px;letter-spacing:-.8px}}
+  h2{font-size:23px;line-height:1.3;font-weight:800;letter-spacing:-.4px;color:var(--white);margin:0 0 6px}
+  p.lead,.hint{color:var(--muted);line-height:1.7;margin:0 0 20px;font-size:16px}
+  .hint{font-size:14px;margin-top:-2px}
+  .opts{display:grid;gap:10px}
+  .opts.two{grid-template-columns:1fr 1fr}
+  @media (max-width:560px){.opts.two{grid-template-columns:1fr}}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:15px 16px;font:500 15px Inter,sans-serif;cursor:pointer;transition:border-color .15s,background .15s}
+  .opt:hover{border-color:var(--blue-line)}
+  .opt.on{border-color:var(--blue);background:var(--blue-soft)}
+  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #34405a;margin-top:1px}
+  .opt.multi .dot{border-radius:5px}
+  .opt.on .dot{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px var(--card)}
+  label.f{display:block;font-size:14px;color:var(--muted);margin:14px 0 6px}
+  input.t{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--white);border-radius:10px;padding:13px 14px;font:15px Inter,sans-serif}
+  input.t:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:10px}
+  .btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:13px 22px;font:600 15px Inter,sans-serif;cursor:pointer;transition:filter .15s}
+  .btn:hover{filter:brightness(1.1)}
+  .btn[disabled]{opacity:.5;cursor:not-allowed}
+  .ghost{background:none;border:0;color:var(--muted);font:500 14px Inter,sans-serif;cursor:pointer;padding:10px 4px}
+  .ghost:hover{color:var(--text)}
+  .err{color:var(--warn);font-size:14px;margin-top:10px;min-height:18px}
+  .intro ul{list-style:none;margin:0 0 26px;padding:0;color:var(--text);line-height:2}
+  .intro li:before{content:"✓";color:var(--blue);font-weight:700;margin-right:10px}
+  .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(79,124,255,.09),rgba(13,18,32,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
+  .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--blue-text);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:100px;padding:4px 12px;margin-bottom:12px}
+  .price{font-size:30px;font-weight:900;letter-spacing:-.6px;color:var(--white);margin:8px 0 2px}
+  .price small{font-size:14px;color:var(--muted);font-weight:500;letter-spacing:0}
+  .rec ul{margin:12px 0 0;padding-left:18px;line-height:1.8}
+  .extra{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:12px}
+  .extra h3{margin:0 0 4px;font-size:16px;color:var(--white)}
+  .extra .p{color:var(--gold);font-weight:700;font-size:14px;margin-top:6px}
+  .note{color:var(--muted);font-size:13.5px;line-height:1.6;margin-top:16px}
+  footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line)}
+  footer .links{display:flex;gap:10px;justify-content:center;margin-top:8px}
+  footer a{color:var(--blue-text);text-decoration:none;font-weight:500}
+  footer a:hover{color:var(--white);text-decoration:underline}
+  .hp{position:absolute;left:-9999px}
+  .scenario{background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:14px;padding:18px 20px;margin:4px 0 22px;line-height:1.7;color:var(--text);font-size:15px}
+  .scenario b{color:var(--white)}
+  .scenario ul{margin:8px 0 0;padding-left:18px}
+  .formula{font-weight:700;color:var(--white);background:var(--panel2);border-radius:8px;padding:10px 14px;margin:12px 0;display:inline-block}
+  .qblock{margin-bottom:22px}
+  .qlabel{display:block;color:var(--text);font-size:15.5px;line-height:1.6;font-weight:500;margin-bottom:10px}
+  .qlabel b{color:var(--white)}
+  textarea.t{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--white);border-radius:10px;padding:13px 14px;font:15px/1.6 Inter,sans-serif;resize:vertical;min-height:110px}
+  textarea.t:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+  .opt b{color:var(--blue-text);margin-right:2px}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <a class="brand" href="https://avineshbundhoo.com/" target="_blank" rel="noopener">Avinesh<b>.</b></a>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-l="en" class="on">EN</button>
+    <button type="button" data-l="fr">FR</button>
+  </div>
+</div></header>
+<main><div class="card" id="app"></div></main>
+<footer><span id="tagline"></span><div class="links"><a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a><span>·</span><a href="https://hsenivamedia.com/" target="_blank" rel="noopener">hsenivamedia.com</a></div></footer>
+
+<script>
+/* ===== CONFIG ===== */
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwBTKoa1MUWUEltQR3b6sfHIAaowhWhp30-4TGQLqbZLStI2-XEW754t7OmFKbm0NEd-A/exec"; // Google Apps Script web app URL for the DMM onboarding Sheet
+const DRAFT_KEY = "dmm_onboarding_draft_v1";
+
+/* ===== TEXT ===== */
+const T = {
+ en:{
+  tagline:"International performance marketing consultant",
+  badge:"Digital Marketing Mastery · Cohort 2",
+  introTitle:"Your learning profile <span class=\"grad\">starts here</span>",
+  introLead:"This is not a marketing test, and you don't need any experience. It helps me understand how you think and how you learn best, so I can adapt the bootcamp to you.",
+  introList:["No marketing knowledge needed","About 35–40 minutes, in 5 short parts","Your progress is saved on this device if you pause","Answer in your own words. There are no wrong answers"],
+  start:"Start", resume:"Continue where I left off", restart:"Start again",
+  next:"Continue", back:"Back", send:"Send my answers", sending:"Sending…",
+  partOf:(a,b,t)=>`Part ${a} of ${b} · about ${t} min`,
+  required:"Please answer every question to continue. If you're not sure, write your best guess.",
+  contactErr:"Please add your name and a valid email.",
+  answerPh:"Your answer…",
+  s:{
+   profile:{t:"About you",h:"So I know who I'm working with.",
+     name:"Your name", email:"Email", phone:"WhatsApp / phone (optional)",
+     why:"Why did you join this bootcamp?"},
+   strategy:{t:"Strategic thinking",h:"Read the scenario carefully, then answer.",
+     box:"<b>Scenario: café business growth</b><br>You manage Instagram for a local café in Port Louis, Mauritius.<ul><li>Today: 400 followers, 15–30 likes per post</li><li>Goal: attract 50 new customers within 30 days</li><li>Budget: Rs 250 per week for ads</li></ul>",
+     q1:"Before spending any money on ads, what 3 key things MUST you know about your potential customers?",
+     q2:"How would you split your Rs 250/week budget across the month?",
+     q2r:"What's your reasoning behind this approach?"},
+   analytics:{t:"Analytics & calculations",h:"First a short lesson, then two questions.",
+     box:"<b>Concept: Click-Through Rate (CTR)</b><br>CTR tells you what percentage of the people who <b>saw</b> your ad actually <b>clicked</b> it.<div class=\"formula\">CTR = (Clicks ÷ Impressions) × 100</div><b>Example</b><br>Your ad was shown to 1,000 people (impressions) and 25 people clicked.<br>CTR = (25 ÷ 1,000) × 100 = <b>2.5%</b><br>So 2.5% of the people who saw your ad took action.",
+     q1:"Your ad reached 5,000 people and 75 people clicked on it. What is your CTR? Show your math step by step.",
+     q2:"A CTR of 1.5% is considered good in digital marketing. Is your CTR good, or does it need improvement? Why?"},
+   creative:{t:"Creativity & copywriting",h:"Same product, different audiences, different messages.",
+     box:"<b>Scenario: selling local artisan coffee</b><br>You're promoting a Mauritian coffee brand to two different audiences.",
+     a:"<b>Audience A: busy professionals</b> (office workers, 9 to 5). They want quality coffee to get through a busy day. Write a catchy headline for them:",
+     b:"<b>Audience B: university students</b> (tight budget). They want affordable coffee to stay focused while studying. Write a catchy headline for them:",
+     q2:"Why did you write different headlines for the two audiences? What's the link between their needs and your headlines?"},
+   style:{t:"How you learn",h:"No right or wrong answers here. Just be honest!",
+     l1:{t:"When learning something new, you prefer:",o:{A:"Visual explanations (diagrams, videos, screenshots)",B:"Step-by-step written instructions",C:"Discussion and asking questions",D:"Hands-on practice straight away"}},
+     l2:{t:"When you make a mistake, you prefer:",o:{A:"Detailed feedback on what went wrong",B:"A quick fix so you can try again",C:"Understanding WHY it happened",D:"Examples of how others made similar mistakes"}},
+     l3:"What's your biggest concern about this bootcamp? (For example: speed of learning, technical skills, time commitment, feeling lost…)",
+     l4:"What's ONE thing you want to achieve in the first 30 days of the bootcamp?"}
+  },
+  doneTitle:"Thank you!",
+  doneLead:(n)=>`Well done${n?", "+n:""}. Your answers are in.`,
+  doneNext:"I'll review your responses within 24 hours and send you your personalised learning plan.",
+  saveErr:"Your answers could not be sent. Please check your connection and try again. Your answers are still saved on this device."
+ },
+ fr:{
+  tagline:"Consultant international en marketing de performance",
+  badge:"Digital Marketing Mastery · Cohorte 2",
+  introTitle:"Votre profil d'apprentissage <span class=\"grad\">commence ici</span>",
+  introLead:"Ce n'est pas un test de marketing, et aucune expérience n'est nécessaire. Il m'aide à comprendre comment vous réfléchissez et comment vous apprenez le mieux, pour adapter le bootcamp à vous.",
+  introList:["Aucune connaissance en marketing requise","Environ 35 à 40 minutes, en 5 courtes parties","Votre progression est enregistrée sur cet appareil si vous faites une pause","Répondez avec vos propres mots. Il n'y a pas de mauvaise réponse"],
+  start:"Commencer", resume:"Reprendre où je me suis arrêté", restart:"Recommencer",
+  next:"Continuer", back:"Retour", send:"Envoyer mes réponses", sending:"Envoi…",
+  partOf:(a,b,t)=>`Partie ${a} sur ${b} · environ ${t} min`,
+  required:"Répondez à toutes les questions pour continuer. Si vous n'êtes pas sûr, donnez votre meilleure idée.",
+  contactErr:"Indiquez votre nom et un email valide.",
+  answerPh:"Votre réponse…",
+  s:{
+   profile:{t:"À propos de vous",h:"Pour savoir avec qui je travaille.",
+     name:"Votre nom", email:"Email", phone:"WhatsApp / téléphone (facultatif)",
+     why:"Pourquoi avez-vous rejoint ce bootcamp ?"},
+   strategy:{t:"Réflexion stratégique",h:"Lisez bien le scénario, puis répondez.",
+     box:"<b>Scénario : développer un café</b><br>Vous gérez l'Instagram d'un café à Port-Louis, à Maurice.<ul><li>Aujourd'hui : 400 abonnés, 15 à 30 likes par publication</li><li>Objectif : attirer 50 nouveaux clients en 30 jours</li><li>Budget : Rs 250 par semaine pour la publicité</li></ul>",
+     q1:"Avant de dépenser quoi que ce soit en publicité, quelles sont les 3 choses que vous DEVEZ savoir sur vos clients potentiels ?",
+     q2:"Comment répartiriez-vous votre budget de Rs 250 par semaine sur le mois ?",
+     q2r:"Pourquoi cette approche ?"},
+   analytics:{t:"Analyse & calculs",h:"D'abord une courte leçon, puis deux questions.",
+     box:"<b>Notion : le taux de clic (CTR)</b><br>Le CTR indique quel pourcentage des personnes qui ont <b>vu</b> votre publicité ont <b>cliqué</b> dessus.<div class=\"formula\">CTR = (Clics ÷ Impressions) × 100</div><b>Exemple</b><br>Votre publicité a été vue par 1 000 personnes (impressions) et 25 ont cliqué.<br>CTR = (25 ÷ 1 000) × 100 = <b>2,5 %</b><br>Donc 2,5 % des personnes qui ont vu votre publicité ont agi.",
+     q1:"Votre publicité a touché 5 000 personnes et 75 ont cliqué. Quel est votre CTR ? Montrez votre calcul étape par étape.",
+     q2:"Un CTR de 1,5 % est considéré comme bon en marketing digital. Votre CTR est-il bon, ou faut-il l'améliorer ? Pourquoi ?"},
+   creative:{t:"Créativité & rédaction",h:"Même produit, publics différents, messages différents.",
+     box:"<b>Scénario : vendre un café artisanal local</b><br>Vous faites la promotion d'une marque de café mauricienne auprès de deux publics différents.",
+     a:"<b>Public A : professionnels pressés</b> (employés de bureau, 9 h – 17 h). Ils veulent un café de qualité pour tenir une journée chargée. Écrivez un titre accrocheur pour eux :",
+     b:"<b>Public B : étudiants</b> (petit budget). Ils veulent un café abordable pour rester concentrés pendant leurs révisions. Écrivez un titre accrocheur pour eux :",
+     q2:"Pourquoi avez-vous écrit des titres différents pour ces deux publics ? Quel est le lien entre leurs besoins et vos titres ?"},
+   style:{t:"Votre façon d'apprendre",h:"Pas de bonne ou de mauvaise réponse. Soyez simplement honnête !",
+     l1:{t:"Pour apprendre quelque chose de nouveau, vous préférez :",o:{A:"Des explications visuelles (schémas, vidéos, captures d'écran)",B:"Des instructions écrites étape par étape",C:"Échanger et poser des questions",D:"Pratiquer tout de suite"}},
+     l2:{t:"Quand vous faites une erreur, vous préférez :",o:{A:"Un retour détaillé sur ce qui n'a pas marché",B:"Une correction rapide pour réessayer",C:"Comprendre POURQUOI c'est arrivé",D:"Des exemples d'erreurs similaires faites par d'autres"}},
+     l3:"Quelle est votre plus grande inquiétude pour ce bootcamp ? (Par exemple : rythme d'apprentissage, compétences techniques, temps à y consacrer, peur d'être perdu…)",
+     l4:"Quelle est LA chose que vous voulez accomplir pendant les 30 premiers jours du bootcamp ?"}
+  },
+  doneTitle:"Merci !",
+  doneLead:(n)=>`Bravo${n?" "+n:""}. Vos réponses sont bien reçues.`,
+  doneNext:"J'étudie vos réponses sous 24 heures et je vous envoie votre plan d'apprentissage personnalisé.",
+  saveErr:"Vos réponses n'ont pas pu être envoyées. Vérifiez votre connexion et réessayez. Elles restent enregistrées sur cet appareil."
+ }
+};
+
+/* ===== FLOW ===== */
+const PARTS = [
+ {id:"profile",  min:2,  fields:[["name","input","name"],["email","email","email"],["phone","tel","tel",true],["why","area"]]},
+ {id:"strategy", min:8,  box:true, fields:[["s1q1","area","q1"],["s1q2","area","q2"],["s1q2r","area","q2r"]]},
+ {id:"analytics",min:10, box:true, fields:[["s2q1","area","q1"],["s2q2","area","q2"]]},
+ {id:"creative", min:8,  box:true, fields:[["s3a","input","a"],["s3b","input","b"],["s3q2","area","q2"]]},
+ {id:"style",    min:5,  fields:[["l1","choice"],["l2","choice"],["l3","area"],["l4","area"]]}
+];
+
+let lang = (navigator.language||"en").toLowerCase().startsWith("fr") ? "fr" : "en";
+try{ const s=localStorage.getItem("ab_lang"); if(s) lang=s; }catch(e){}
+let ans = {}, i = -1, times = {}, enteredAt = Date.now(), ok = true;
+try{ const d=JSON.parse(localStorage.getItem(DRAFT_KEY)||"null"); if(d&&d.ans){ ans=d.ans; times=d.times||{}; } }catch(e){}
+const app=document.getElementById("app");
+const L=()=>T[lang];
+const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function saveDraft(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify({ans,times,i})); }catch(e){} }
+function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+function hasDraft(){ return Object.keys(ans).some(k=>ans[k]); }
+
+function setLang(l){
+  lang=l; try{localStorage.setItem("ab_lang",l)}catch(e){}
+  document.documentElement.lang=l;
+  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
+  document.getElementById("tagline").textContent=L().tagline;
+  if(typeof i==="number" && i>=0) collect();
+  render();
+}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+
+function render(){
+  if(i===-1) return renderIntro();
+  if(i==="done") return renderDone();
+  const p=PARTS[i], s=L().s[p.id];
+  const pct=Math.round(i/PARTS.length*100);
+  let h=`<div class="progress"><i style="width:${pct}%"></i></div><div class="step-n">${L().partOf(i+1,PARTS.length,p.min)}</div><h2>${s.t}</h2><p class="hint">${s.h}</p>`;
+  if(p.box) h+=`<div class="scenario">${s.box}</div>`;
+  for(const f of p.fields){
+    const [key,type]=f;
+    if(type==="choice"){
+      const q=s[key];
+      h+=`<div class="qblock"><div class="qlabel">${q.t}</div><div class="opts">`;
+      for(const [k,v] of Object.entries(q.o)) h+=`<button type="button" class="opt ${ans[key]===k?'on':''}" data-q="${key}" data-k="${k}"><i class="dot"></i><span><b>${k})</b> ${v}</span></button>`;
+      h+=`</div></div>`;
+      continue;
+    }
+    const lab = p.id==="profile" ? s[key] : s[f[2]||key];
+    if(type==="area") h+=`<div class="qblock"><label class="qlabel" for="${key}">${lab}</label><textarea class="t" id="${key}" rows="4" placeholder="${L().answerPh}">${esc(ans[key])}</textarea></div>`;
+    else { const it = type==="input"?"text":type; h+=`<div class="qblock"><label class="qlabel" for="${key}">${lab}</label><input class="t" id="${key}" type="${it}" autocomplete="${key==="name"?"name":type==="email"?"email":type==="tel"?"tel":"off"}" value="${esc(ans[key])}" ${p.id!=="profile"?`placeholder="${L().answerPh}"`:""}></div>`; }
+  }
+  if(p.id==="profile") h+=`<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">`;
+  const last=i===PARTS.length-1;
+  h+=`<div class="err" id="err"></div><div class="nav"><button type="button" class="ghost" id="back">${i>0?"← "+L().back:""}</button><button type="button" class="btn" id="next">${last?L().send:L().next}</button></div>`;
+  app.innerHTML=h;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ collect(); ans[b.dataset.q]=b.dataset.k; saveDraft(); render(); });
+  app.querySelectorAll("textarea,input.t").forEach(el=>el.oninput=()=>{ ans[el.id]=el.value; saveDraft(); });
+  document.getElementById("back").onclick=()=>{ if(i>0){ collect(); track(); i--; enteredAt=Date.now(); saveDraft(); render(); window.scrollTo({top:0}); } };
+  document.getElementById("next").onclick=go;
+}
+
+function collect(){
+  if(typeof i!=="number"||i<0) return;
+  for(const f of PARTS[i].fields){ const el=document.getElementById(f[0]); if(el && f[1]!=="choice") ans[f[0]]=el.value.trim(); }
+}
+function track(){ const id=PARTS[i].id; times[id]=(times[id]||0)+Math.round((Date.now()-enteredAt)/1000); }
+
+function go(){
+  collect();
+  const p=PARTS[i], err=document.getElementById("err");
+  if(p.id==="profile"){
+    if(document.getElementById("hp").value) return;
+    if(!ans.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ans.email||"")){ err.textContent=L().contactErr; return; }
+  }
+  const missing=p.fields.some(f=>!f[3] && !ans[f[0]]);
+  if(missing){ err.textContent=L().required; return; }
+  track(); saveDraft();
+  if(i===PARTS.length-1) return submit();
+  i++; enteredAt=Date.now(); saveDraft(); render(); window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderIntro(){
+  const d=hasDraft();
+  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul>`+
+    (d?`<button class="btn" id="resume">${L().resume} →</button> <button class="ghost" id="restart">${L().restart}</button>`:`<button class="btn" id="start">${L().start} →</button>`)+`</div>`;
+  const begin=(n)=>{ i=n; enteredAt=Date.now(); render(); };
+  if(d){
+    document.getElementById("resume").onclick=()=>{ let n=0; try{ n=JSON.parse(localStorage.getItem(DRAFT_KEY)).i||0; }catch(e){} begin(typeof n==="number"&&n>=0&&n<PARTS.length?n:0); };
+    document.getElementById("restart").onclick=()=>{ ans={}; times={}; clearDraft(); begin(0); };
+  } else document.getElementById("start").onclick=()=>begin(0);
+}
+
+async function submit(){
+  const btn=document.getElementById("next"); btn.disabled=true; btn.textContent=L().sending;
+  const en=T.en.s.style;
+  const total=Object.values(times).reduce((a,b)=>a+b,0);
+  const mins=s=>(Math.round(s/6)/10)+" min";
+  const payload={
+    ts:new Date().toISOString(), lang,
+    name:ans.name, email:ans.email, phone:ans.phone||"", why:ans.why,
+    s1q1:ans.s1q1, s1q2:ans.s1q2, s1q2r:ans.s1q2r,
+    s2q1:ans.s2q1, s2q2:ans.s2q2,
+    s3a:ans.s3a, s3b:ans.s3b, s3q2:ans.s3q2,
+    l1:ans.l1+") "+en.l1.o[ans.l1], l2:ans.l2+") "+en.l2.o[ans.l2], l3:ans.l3, l4:ans.l4,
+    t_strategy:mins(times.strategy||0), t_analytics:mins(times.analytics||0), t_creative:mins(times.creative||0), t_style:mins(times.style||0), t_total:mins(total),
+    page:location.href
+  };
+  ok=true;
+  try{
+    if(!ENDPOINT || ENDPOINT.startsWith("PASTE")) throw new Error("no endpoint");
+    await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  }catch(e){ ok=false; }
+  if(!ok){ btn.disabled=false; btn.textContent=L().send; document.getElementById("err").textContent=L().saveErr; return; }
+  try{ window.dataLayer=window.dataLayer||[]; dataLayer.push({event:"dmm_onboarding_submit"}); }catch(e){}
+  clearDraft(); i="done"; render(); window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderDone(){
+  app.innerHTML=`<div class="progress"><i style="width:100%"></i></div><div class="badge">${L().badge}</div><h1>${L().doneTitle}</h1><p class="lead">${L().doneLead(esc((ans.name||"").split(" ")[0]))}</p><p class="lead">${L().doneNext}</p>`;
+}
+
+setLang(lang);
+</script>
+</body>
+</html>
