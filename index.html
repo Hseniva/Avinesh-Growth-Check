@@ -70,10 +70,20 @@
   .extra .p{color:var(--gold);font-weight:700;font-size:14px;margin-top:6px}
   .note{color:var(--muted);font-size:13.5px;line-height:1.6;margin-top:16px}
   footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line)}
+  footer .ft{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 8px}
+  footer #tagline{color:var(--text);font-weight:500}
+  footer .ft-sep{opacity:.5}
+  @media (max-width:560px){footer .ft{flex-direction:column;gap:2px} footer .ft-sep{display:none}}
+  .promise{background:rgba(232,160,69,.08);border:1px solid rgba(232,160,69,.25);border-radius:12px;padding:12px 16px;margin:0 0 20px;color:var(--text);font-size:14.5px;line-height:1.6}
+  .promise b{color:var(--gold)}
   footer .links{display:flex;gap:10px;justify-content:center;margin-top:8px}
   footer a{color:var(--blue-text);text-decoration:none;font-weight:500}
   footer a:hover{color:var(--white);text-decoration:underline}
   .hp{position:absolute;left:-9999px}
+  .tbadges{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px}
+  .tbadges span{font-size:12px;font-weight:600;color:var(--gold);background:rgba(232,160,69,.1);border:1px solid rgba(232,160,69,.3);border-radius:100px;padding:4px 10px}
+  .tlink{display:inline-block;margin-top:10px;color:var(--blue-text);font-weight:600;font-size:14px;text-decoration:none}
+  .tlink:hover{color:var(--white)}
 </style>
 </head>
 <body>
@@ -85,7 +95,7 @@
   </div>
 </div></header>
 <main><div class="card" id="app"></div></main>
-<footer><span id="tagline"></span><div class="links"><a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a><span>·</span><a href="https://hsenivamedia.com/" target="_blank" rel="noopener">hsenivamedia.com</a></div></footer>
+<footer><div class="ft"><span id="tagline"></span><span class="ft-sep">·</span><span id="tagsub"></span></div><div class="links"><a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a><span>·</span><a href="https://hsenivamedia.com/" target="_blank" rel="noopener">hsenivamedia.com</a></div></footer>
 
 <script>
 /* ===== CONFIG ===== */
@@ -95,7 +105,8 @@ const INTL_THRESHOLD_STEP  = "i3";   // international bands i3,i4 = EUR 2,000+/m
 
 const PRICES = { // [international EUR, local Rs]
   consult:  {eur:"€80",  rs:"Rs 1,200", unitEn:"/ hour",  unitFr:"/ heure"},
-  coaching: {eur:"€240", rs:"Rs 4,200", unitEn:"4 sessions", unitFr:"4 séances"},
+  coaching: {eur:"€240", rs:"Rs 10,000", unitEn:"6 sessions", unitFr:"6 séances"},
+  expert:   {eur:"",     rs:"Rs 20,000", unitEn:"/ month · 3-month minimum", unitFr:"/ mois · engagement 3 mois"},
   meta:     {eur:"€300", rs:"Rs 6,000", unitEn:"/ month", unitFr:"/ mois"},
   google:   {eur:"€350", rs:"Rs 7,200", unitEn:"/ month", unitFr:"/ mois"},
   both:     {eur:"€550", rs:"Rs 11,500",unitEn:"/ month", unitFr:"/ mois"},
@@ -106,10 +117,12 @@ const PRICES = { // [international EUR, local Rs]
 /* ===== TEXT ===== */
 const T = {
  en:{
-  tagline:"International performance marketing consultant",
+  tagline:"Global Media Performance Consultant",
+  tagSub:"30+ international consultancy projects worldwide",
   introTitle:"Get your growth plan <span class=\"grad\">in 2 minutes</span>",
   badge:"Avinesh Growth Check · Free",
   introLead:"Answer a few quick questions about your business. At the end you get a clear recommendation, with prices, for the next step that fits you.",
+  promise:"<b>Nobody leaves empty-handed.</b> Complete the form and I'll send you a free audit of your website or Facebook Page.",
   introList:["No call needed","Tailored to your budget and goals","Free, no commitment"],
   start:"Start", next:"Continue", back:"Back", send:"See my recommendation", sending:"Preparing your plan…",
   stepOf:(a,b)=>`Question ${a} of ${b}`, required:"Please choose an answer to continue.",
@@ -132,12 +145,13 @@ const T = {
   r:{
    title:"Your recommended plan",badge:"Your result", for:(n)=>`Prepared for ${n}`,
    manage:{tag:"Done for you",title:(c)=>`${c} ads management`,lead:"Your budget is large enough for a professional to run your campaigns full time. I plan, launch and optimise your ads every week, and you get a clear monthly report.",items:["Strategy, audiences and media plan","Campaign setup and creative testing","Weekly optimisation","Monthly results report (leads, sales, cost per result)"]},
-   coach:{tag:"Learn & grow",title:"Ads coaching pack",lead:"At your budget, the best return is learning to run your own ads. We work hands-on on your own account, so you finish with a campaign already live.",items:["4 one-hour sessions, online or in person","Account, Pixel and audience setup together","Your first campaign launched with you","Checklists to keep optimising alone"]},
+   coach:{tag:"Learn & grow",title:"Ads coaching pack",lead:"At your budget, the best return is learning to run your own ads. We work hands-on on your own account, so you finish with a campaign already live.",items:["6 one-hour sessions, online or in person","Account, Pixel and audience setup together","Create your own ad creatives: visuals and copy","Your first campaign launched with you","Checklists to keep optimising on your own"]},
    consult:{title:"Strategy & business review session",lead:"One hour to look at your business, offer and marketing, and leave with a clear action list."},
    doneAlt:{title:"Prefer that I run it for you?",lead:"If you really have no time, I can manage your ads instead."},
-   timeNote:{title:"Short on time?",lead:"The coaching is built around your schedule: 1 hour a week, and you keep checklists so ads take you only a few minutes a day. Done-for-you management starts from Rs 500,000 a year in ad spend."},
+   timeNote:{title:"Short on time? Let my team run it for you",lead:"One of my ad specialists can plan, launch and manage your campaigns on your behalf. For advertising budgets under Rs 500,000 a year, this service starts at Rs 20,000 per month, with a minimum 3-month commitment."},
    tracking:{title:"Tracking setup (GA4, Tag Manager, Pixel)",lead:"So you know exactly which ads bring enquiries and sales."},
-   audit:{title:"Free website & tracking audit",lead:"I'll review your website and send you a short report with the quick wins.",free:"Free"},
+   training:{title:"Want to train your team?",lead:"My Digital Marketing & AI Bootcamp, Data & Analytics Mastery and Mastering AI Tools for Marketers programmes are MQA approved, with officially recognised certificates. Mauritius employers can claim the cost back through the HRDC levy refund scheme.",badges:["MQA Approved","HRDC Refundable"],link:"See the training programmes →"},
+   audit:{title:"Your free website or Facebook Page audit",lead:"As promised, I'll personally review your website or Facebook Page and send you a short report with clear, quick wins.",free:"Free, my gift to you"},
    noSite:{title:"Start with a simple landing page",lead:"Ads need a page to send people to. I'll advise you on the simplest option for your business."},
    spendIntl:"Recommended ad spend: from €2,000 / month, paid directly to Meta or Google.",
    spendLocal:"Ad spend is paid directly to Meta or Google, on top of the fee. We size it together.",
@@ -148,10 +162,12 @@ const T = {
   }
  },
  fr:{
-  tagline:"Consultant international en marketing de performance",
+  tagline:"Consultant Global en Performance Média",
+  tagSub:"Plus de 30 missions de conseil à l'international",
   introTitle:"Votre plan de croissance <span class=\"grad\">en 2 minutes</span>",
   badge:"Avinesh Growth Check · Gratuit",
   introLead:"Répondez à quelques questions rapides sur votre activité. À la fin, vous recevez une recommandation claire, avec les prix, pour la prochaine étape adaptée à vous.",
+  promise:"<b>Personne ne repart les mains vides.</b> Remplissez le formulaire et je vous envoie un audit gratuit de votre site ou de votre page Facebook.",
   introList:["Pas besoin d'appel","Adapté à votre budget et à vos objectifs","Gratuit et sans engagement"],
   start:"Commencer", next:"Continuer", back:"Retour", send:"Voir ma recommandation", sending:"Préparation de votre plan…",
   stepOf:(a,b)=>`Question ${a} sur ${b}`, required:"Choisissez une réponse pour continuer.",
@@ -174,12 +190,13 @@ const T = {
   r:{
    title:"Votre plan recommandé",badge:"Votre résultat", for:(n)=>`Préparé pour ${n}`,
    manage:{tag:"Je m'en occupe",title:(c)=>`Gestion des publicités ${c}`,lead:"Votre budget justifie qu'un professionnel gère vos campagnes à plein temps. Je planifie, lance et optimise vos publicités chaque semaine, et vous recevez un rapport mensuel clair.",items:["Stratégie, audiences et plan média","Création des campagnes et tests de visuels","Optimisation chaque semaine","Rapport mensuel (prospects, ventes, coût par résultat)"]},
-   coach:{tag:"Apprendre et grandir",title:"Pack coaching publicité",lead:"Avec votre budget, le meilleur retour est d'apprendre à gérer vos propres publicités. On travaille ensemble sur votre propre compte, et vous repartez avec une campagne déjà en ligne.",items:["4 séances d'une heure, en ligne ou en personne","Compte, Pixel et audiences configurés ensemble","Votre première campagne lancée avec vous","Des check-lists pour continuer seul"]},
+   coach:{tag:"Apprendre et grandir",title:"Pack coaching publicité",lead:"Avec votre budget, le meilleur retour est d'apprendre à gérer vos propres publicités. On travaille ensemble sur votre propre compte, et vous repartez avec une campagne déjà en ligne.",items:["6 séances d'une heure, en ligne ou en personne","Compte, Pixel et audiences configurés ensemble","Créez vos propres visuels et textes publicitaires","Votre première campagne lancée avec vous","Des check-lists pour continuer en autonomie"]},
    consult:{title:"Séance stratégie & revue de votre activité",lead:"Une heure pour analyser votre activité, votre offre et votre marketing, et repartir avec une liste d'actions claire."},
    doneAlt:{title:"Vous préférez que je m'en occupe ?",lead:"Si vous n'avez vraiment pas le temps, je peux gérer vos publicités à votre place."},
-   timeNote:{title:"Peu de temps ?",lead:"Le coaching s’adapte à votre agenda : 1 heure par semaine, avec des check-lists pour que vos publicités ne vous prennent que quelques minutes par jour. La gestion complète commence à partir de Rs 500 000 par an de budget publicitaire."},
+   timeNote:{title:"Peu de temps ? Mon équipe s'en occupe",lead:"Un de mes spécialistes publicité peut planifier, lancer et gérer vos campagnes à votre place. Pour un budget publicitaire inférieur à Rs 500 000 par an, ce service démarre à Rs 20 000 par mois, avec un engagement minimum de 3 mois."},
    tracking:{title:"Mise en place du suivi (GA4, Tag Manager, Pixel)",lead:"Pour savoir exactement quelles publicités apportent des demandes et des ventes."},
-   audit:{title:"Audit gratuit du site et du suivi",lead:"J'analyse votre site et je vous envoie un court rapport avec les actions rapides à faire.",free:"Gratuit"},
+   training:{title:"Vous voulez former votre équipe ?",lead:"Mes programmes Digital Marketing & AI Bootcamp, Data & Analytics Mastery et Mastering AI Tools for Marketers sont approuvés par la MQA, avec des certificats officiellement reconnus. Les employeurs à Maurice peuvent se faire rembourser via le HRDC (levy refund scheme).",badges:["Approuvé MQA","Remboursable HRDC"],link:"Voir les programmes de formation →"},
+   audit:{title:"Votre audit gratuit du site ou de la page Facebook",lead:"Comme promis, j'analyse personnellement votre site ou votre page Facebook et je vous envoie un court rapport avec des actions rapides et concrètes.",free:"Gratuit, c'est offert"},
    noSite:{title:"Commencez par une page simple",lead:"Les publicités ont besoin d'une page où envoyer les visiteurs. Je vous conseille l'option la plus simple pour votre activité."},
    spendIntl:"Budget publicitaire conseillé : à partir de 2 000 € / mois, payé directement à Meta ou Google.",
    spendLocal:"Le budget publicitaire est payé directement à Meta ou Google, en plus des honoraires. On le définit ensemble.",
@@ -222,6 +239,7 @@ function setLang(l){
   document.documentElement.lang=l;
   document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
   document.getElementById("tagline").textContent=L().tagline;
+  document.getElementById("tagsub").textContent=L().tagSub;
   render();
 }
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
@@ -277,7 +295,7 @@ function go(){
 }
 
 function renderIntro(){
-  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn" id="start">${L().start} →</button></div>`;
+  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><div class="promise">🎁 ${L().promise}</div><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn" id="start">${L().start} →</button></div>`;
   document.getElementById("start").onclick=()=>{i=0;render();};
 }
 
@@ -293,13 +311,12 @@ function recommend(a){
   if(!high){
     extras.push({kind:"consult",price:"consult"});
     if(a.time==="done" && !local) extras.push({kind:"doneAlt",price:ch});
-    if(a.time==="done" && local) extras.push({kind:"timeNote"});
+    if(a.time==="done" && local) extras.push({kind:"timeNote",price:"expert"});
   }
   if(a.site==="none") extras.push({kind:"noSite"});
-  else {
-    if(a.site!=="ok" || a.goal==="measure") extras.push({kind:"tracking",price:"tracking"});
-    extras.push({kind:"audit",free:true});
-  }
+  else if(a.site!=="ok" || a.goal==="measure") extras.push({kind:"tracking",price:"tracking"});
+  extras.push({kind:"audit",free:true});
+  if(local) extras.push({kind:"training"});
   return {local, high, channel:ch, main, extras};
 }
 
@@ -353,7 +370,7 @@ function renderResult(){
   }
   for(const e of rec.extras){
     const t=r[e.kind]; const pr = e.free ? r.audit.free : (e.price?priceTxt(e.price,rec.local):"");
-    h+=`<div class="extra"><h3>${t.title}</h3><div style="color:var(--muted);line-height:1.5;font-size:14.5px">${t.lead}</div>${pr?`<div class="p">${pr}</div>`:""}</div>`;
+    h+=`<div class="extra"><h3>${t.title}</h3>${t.badges?`<div class="tbadges">${t.badges.map(b=>`<span>✓ ${b}</span>`).join("")}</div>`:""}<div style="color:var(--muted);line-height:1.5;font-size:14.5px">${t.lead}</div>${pr?`<div class="p">${pr}</div>`:""}${t.link?`<a class="tlink" href="https://avineshbundhoo.com/digital-marketing-training" target="_blank" rel="noopener">${t.link}</a>`:""}</div>`;
   }
   h+=`<p class="note">${r.feeNote}</p><p class="lead" style="margin-top:14px">${r.next}</p>`;
   if(!ans._ok) h+=`<p class="err">${r.saveErr}</p>`;
