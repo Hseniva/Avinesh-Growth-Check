@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1 - Digital Foundations | Digital Marketing Mastery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .login-container {
+            display: none;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .login-container.active {
+            display: block;
+        }
+
+        .login-container h1 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .login-container p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-form input {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .login-form input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .login-form button {
+            padding: 12px 15px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .login-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .module-container {
+            display: none;
+            padding: 40px;
+        }
+
+        .module-container.active {
+            display: block;
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .module-header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .student-name {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .week-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            border-radius: 5px;
+        }
+
+        .week-section h2 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .learning-objectives {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .learning-objectives h3 {
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .learning-objectives ul {
+            margin-left: 20px;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tool-card .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .tool-card h4 {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .tool-card p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .exercise {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .exercise h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .exercise p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .exercise-list {
+            margin-left: 20px;
+        }
+
+        .exercise-list li {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .assessment-section {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .assessment-section h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .assessment-section p {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .next-module {
+            background: #d1ecf1;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 5px solid #17a2b8;
+        }
+
+        .next-module h3 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+
+        .next-module p {
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #f5c6cb;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+
+            .module-header h1 {
+                font-size: 24px;
+            }
+
+            .week-section h2 {
+                font-size: 20px;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Section -->
+        <div class="login-container active" id="loginContainer">
+            <h1>🎯 Digital Marketing Mastery</h1>
+            <p>Module 1 - Digital Foundations</p>
+            <div class="error-message" id="errorMessage"></div>
+            <form class="login-form" id="loginForm">
+                <input type="text" id="nameInput" placeholder="Enter your full name" required>
+                <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                <button type="submit">Access Module</button>
+            </form>
+        </div>
+
+        <!-- Module Content -->
+        <div class="module-container" id="moduleContainer">
+            <div class="module-header">
+                <h1>Module 1: Digital Foundations</h1>
+                <p style="color: #666; font-size: 16px;">Understanding the Digital Marketing Ecosystem & Tools</p>
+                <p class="student-name">Logged in as: <strong id="studentName"></strong></p>
+            </div>
+
+            <!-- Week 1 -->
+            <div class="week-section">
+                <h2>📚 Week 1: Digital Ecosystem & Tools Overview</h2>
+                
+                <div class="learning-objectives">
+                    <h3>Learning Objectives:</h3>
+                    <ul>
+                        <li>Understand the digital marketing landscape</li>
+                        <li>Identify key marketing channels and platforms</li>
+                        <li>Explore essential marketing technology tools</li>
+                        <li>Map out customer journey touchpoints</li>
+                    </ul>
+                </div>
+
+                <h3 style="color: #667eea; margin-top: 20px; margin-bottom: 15px;">The Digital Marketing Tools Landscape</h3>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="icon">📊</div>
+                        <h4>Google Analytics 4</h4>
+                        <p>Event-based tracking & insights</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🏷️</div>
+                        <h4>Google Tag Manager</h4>
+                        <p>Tag management without code</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🔍</div>
+                        <h4>Google Ads</h4>
+                        <p>Search, Display, Video advertising</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">📱</div>
+                        <h4>Meta Ads</h4>
+                        <p>Facebook & Instagram campaigns</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">💼</div>
+                        <h4>LinkedIn Ads</h4>
+                        <p>B2B targeting & lead generation</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">📈</div>
+                        <h4>Looker Studio</h4>
+                        <p>Data visualization & reporting</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">✉️</div>
+                        <h4>Mailchimp</h4>
+                        <p>Email marketing automation</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🤝</div>
+                        <h4>HubSpot</h4>
+                        <p>CRM & marketing platform</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">⚙️</div>
+                        <h4>Zapier</h4>
+                        <p>Workflow automation</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🔄</div>
+                        <h4>Make</h4>
+                        <p>No-code automation platform</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🤖</div>
+                        <h4>ChatGPT/Claude</h4>
+                        <p>AI content generation</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🎨</div>
+                        <h4>Canva</h4>
+                        <p>Visual content creation</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🎬</div>
+                        <h4>Midjourney</h4>
+                        <p>AI image generation</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">▶️</div>
+                        <h4>YouTube</h4>
+                        <p>Video marketing & SEO</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="icon">🌐</div>
+                        <h4>Google Search</h4>
+                        <p>SEO & organic discovery</p>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>📋 Exercise 1.1: Digital Ecosystem Mapping</h4>
+                    <p><strong>Objective:</strong> Understand where your target audience spends their time online</p>
+                    <p><strong>Task:</strong> Create a mapping of 10 digital platforms/channels and identify:</p>
+                    <ul class="exercise-list">
+                        <li>Which platforms your industry primarily uses</li>
+                        <li>Where your target customer is most active</li>
+                        <li>What type of content performs best on each platform</li>
+                        <li>Which channels align with your business goals</li>
+                    </ul>
+                    <p><strong>Deliverable:</strong> A document or spreadsheet with your ecosystem mapping</p>
+                    <p><strong>Due:</strong> Before the next session</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>🔍 Exercise 1.2: Platform Exploration</h4>
+                    <p><strong>Objective:</strong> Get hands-on experience with key marketing platforms</p>
+                    <p><strong>Task:</strong> Explore and document your findings for:</p>
+                    <ul class="exercise-list">
+                        <li><strong>Google</strong> - Search your product/service, analyze top results</li>
+                        <li><strong>Meta (Facebook/Instagram)</strong> - Find 3 competitors, analyze their posts</li>
+                        <li><strong>LinkedIn</strong> - Identify industry thought leaders & popular content</li>
+                        <li><strong>YouTube</strong> - Search for educational content in your niche</li>
+                    </ul>
+                    <p><strong>Deliverable:</strong> Screenshots and notes from your exploration</p>
+                    <p><strong>Due:</strong> Before the next session</p>
+                </div>
+            </div>
+
+            <!-- Week 2 -->
+            <div class="week-section">
+                <h2>📊 Week 2: GA4 Fundamentals & Google Tag Manager Setup</h2>
+                
+                <div class="learning-objectives">
+                    <h3>Learning Objectives:</h3>
+                    <ul>
+                        <li>Understand GA4's event-based tracking model</li>
+                        <li>Set up a GA4 property and configure data collection</li>
+                        <li>Implement Google Tag Manager (GTM)</li>
+                        <li>Configure event tracking for key user interactions</li>
+                        <li>Create custom events and user properties</li>
+                    </ul>
+                </div>
+
+                <div class="exercise">
+                    <h4>📊 Exercise 2.1: GA4 Property Setup</h4>
+                    <p><strong>Objective:</strong> Create and configure your first GA4 property</p>
+                    <p><strong>Task:</strong> Follow these steps:</p>
+                    <ul class="exercise-list">
+                        <li>Log into Google Analytics 4 (or create account)</li>
+                        <li>Create a new Property (name it "Learning Property - [Your Name]")</li>
+                        <li>Set up Web stream data collection</li>
+                        <li>Copy your Measurement ID (starts with G-)</li>
+                        <li>Document the property name and measurement ID</li>
+                        <li>Explore the GA4 interface - familiarize with Reports, Explore, Admin sections</li>
+                    </ul>
+                    <p><strong>Deliverable:</strong> Screenshot of your GA4 property with Measurement ID visible</p>
+                    <p><strong>Due:</strong> Before the next session</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>🏷️ Exercise 2.2: GTM Container Setup</h4>
+                    <p><strong>Objective:</strong> Create and configure Google Tag Manager</p>
+                    <p><strong>Task:</strong> Follow these steps:</p>
+                    <ul class="exercise-list">
+                        <li>Log into Google Tag Manager (or create account)</li>
+                        <li>Create a new Container (Account and Container name)</li>
+                        <li>Select "Web" as the target platform</li>
+                        <li>Copy the GTM Container ID (starts with GTM-)</li>
+                        <li>Copy the implementation code snippet</li>
+                        <li>Review the GTM workspace interface</li>
+                    </ul>
+                    <p><strong>Deliverable:</strong> Screenshot of GTM Container creation with Container ID visible</p>
+                    <p><strong>Due:</strong> Before the next session</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>📈 Exercise 2.3: Event Tracking Configuration</h4>
+                    <p><strong>Objective:</strong> Set up event tracking in GTM for key user interactions</p>
+                    <p><strong>Task:</strong> Research and document how to track these 5 events:</p>
+                    <ul class="exercise-list">
+                        <li><strong>Button Clicks:</strong> When users click a CTA button</li>
+                        <li><strong>Form Submissions:</strong> When a contact/signup form is submitted</li>
+                        <li><strong>Video Plays:</strong> When video content starts playing</li>
+                        <li><strong>Scroll Depth:</strong> How far down the page users scroll</li>
+                        <li><strong>PDF Downloads:</strong> When users download resources</li>
+                    </ul>
+                    <p><strong>For each event, document:</strong></p>
+                    <ul class="exercise-list">
+                        <li>Event trigger (what causes it)</li>
+                        <li>Event parameters (data captured)</li>
+                        <li>GTM trigger configuration needed</li>
+                        <li>GA4 event name to use</li>
+                    </ul>
+                    <p><strong>Deliverable:</strong> Document with event tracking specifications</p>
+                    <p><strong>Due:</strong> Before the next session</p>
+                </div>
+            </div>
+
+            <!-- Assessment -->
+            <div class="assessment-section">
+                <h3>📋 Module Assessment & Submission</h3>
+                <p>Complete all exercises from Week 1 and Week 2. Submit your work as:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Exercise 1.1 & 1.2:</strong> Ecosystem mapping document + exploration notes</li>
+                    <li><strong>Exercise 2.1 & 2.2:</strong> Screenshots of GA4 and GTM setup</li>
+                    <li><strong>Exercise 2.3:</strong> Event tracking specifications document</li>
+                </ul>
+                <p style="margin-top: 15px;">Submit all deliverables to: <strong>digitalmarketer@hseniva.com</strong> with subject line: "Module 1 - Digital Foundations - [Your Name]"</p>
+            </div>
+
+            <!-- Next Module Preview -->
+            <div class="next-module">
+                <h3>🚀 What's Next?</h3>
+                <p><strong>Module 2: Channel Strategy & Planning</strong> - Dive deep into Google Ads, Meta Ads, and LinkedIn Ads. We'll learn campaign structure, audience targeting, bidding strategies, and performance optimization.</p>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Authorized email addresses
+        const authorizedEmails = ['kavitaburrun@gmail.com', 'gaveenasee@gmail.com'];
+
+        // Check if user is already logged in
+        window.addEventListener('load', function() {
+            const session = sessionStorage.getItem('moduleSession');
+            if (session) {
+                const sessionData = JSON.parse(session);
+                showModule(sessionData.name);
+            }
+        });
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('nameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Validate inputs
+            if (!name || !email) {
+                errorMessage.textContent = 'Please enter both name and email.';
+                errorMessage.classList.add('show');
+                return;
+            }
+
+            // Check if email is authorized
+            if (!authorizedEmails.includes(email.toLowerCase())) {
+                errorMessage.textContent = 'Email not authorized. Please contact your instructor.';
+                errorMessage.classList.add('show');
+                return;
+            }
+
+            // Email is authorized - create session and show module
+            sessionStorage.setItem('moduleSession', JSON.stringify({
+                name: name,
+                email: email,
+                timestamp: new Date().getTime()
+            }));
+
+            showModule(name);
+        });
+
+        function showModule(name) {
+            document.getElementById('loginContainer').classList.remove('active');
+            document.getElementById('moduleContainer').classList.add('active');
+            document.getElementById('studentName').textContent = name;
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function logout() {
+            sessionStorage.removeItem('moduleSession');
+            document.getElementById('loginContainer').classList.add('active');
+            document.getElementById('moduleContainer').classList.remove('active');
+            document.getElementById('loginForm').reset();
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
