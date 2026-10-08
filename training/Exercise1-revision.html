@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercise 1 - Session 1 Revision | Digital Marketing Mastery</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#667eea;--p2:#764ba2;--ok:#16a34a;--okbg:#e8f7ee;--bad:#dc2626;--badbg:#fdecec;--ink:#1f2937;--mut:#6b7280;--line:#e5e7eb}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px;color:var(--ink)}
+.wrap{max-width:860px;margin:0 auto;background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.2);overflow:hidden}
+.top{padding:18px 28px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.top h1{font-size:20px}.top small{opacity:.9}
+.top a{color:#fff;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,.6);padding:6px 12px;border-radius:20px}
+.bar{height:6px;background:#eef0fb}.bar div{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);width:0;transition:width .3s}
+.body{padding:28px}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:12px;font-weight:600;color:var(--mut);cursor:pointer}
+.dot.cur{border-color:var(--p);color:var(--p)}
+.dot.right{background:var(--ok);border-color:var(--ok);color:#fff}
+.dot.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
+.dot.done{background:var(--p);border-color:var(--p);color:#fff}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:12px;margin-right:6px}
+.tag.mcq{background:#eef0fb;color:var(--p)}.tag.open{background:#f5ecfb;color:var(--p2)}.tag.topic{background:#f3f4f6;color:var(--mut);font-weight:600}
+.q{font-size:19px;font-weight:600;margin:12px 0 16px;line-height:1.45}
+.vis{background:#f8f9fc;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:18px}
+.vis svg{width:100%;height:auto;display:block;font-family:'Segoe UI',Tahoma,sans-serif}
+.cap{font-size:12px;color:var(--mut);margin-top:6px;text-align:center}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;padding:13px 16px;border:2px solid var(--line);border-radius:10px;background:#fff;font-size:15px;cursor:pointer;color:var(--ink);transition:all .15s}
+.opt:hover:not(:disabled){border-color:var(--p);background:#f7f8ff}
+.opt b{flex:none;width:28px;height:28px;border-radius:50%;background:#eef0fb;color:var(--p);display:flex;align-items:center;justify-content:center;font-size:13px}
+.opt.sel{border-color:var(--p);background:#f2f4ff}
+.opt.right{border-color:var(--ok);background:var(--okbg)}.opt.right b{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}.opt.wrong b{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+textarea{width:100%;min-height:140px;padding:14px;border:2px solid var(--line);border-radius:10px;font:inherit;font-size:15px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--p)}
+.hint{font-size:13px;color:var(--mut);margin-top:6px}
+.fb{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:14.5px;line-height:1.55;display:none}
+.fb.show{display:block}.fb.ok{background:var(--okbg);border-left:4px solid var(--ok)}.fb.no{background:var(--badbg);border-left:4px solid var(--bad)}
+.fb.model{background:#f5ecfb;border-left:4px solid var(--p2)}
+.fb ul{margin:6px 0 0 18px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px;flex-wrap:wrap}
+.btn{padding:12px 24px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:#5568d3}
+.btn-p:disabled{background:#c7cdf3;cursor:not-allowed}
+.btn-g{background:#f3f4f6;color:var(--ink)}.btn-g:hover{background:#e5e7eb}
+.btn-v{background:var(--p2);color:#fff}
+.intro{text-align:center;padding:10px 0}
+.intro h2{color:var(--p);font-size:26px;margin-bottom:8px}
+.intro p{color:var(--mut);line-height:1.6;max-width:600px;margin:0 auto 6px}
+.stats{display:flex;justify-content:center;gap:14px;margin:22px 0;flex-wrap:wrap}
+.stat{background:#f8f9fc;border:1px solid var(--line);border-radius:12px;padding:14px 20px;min-width:120px}
+.stat strong{display:block;font-size:24px;color:var(--p)}.stat span{font-size:13px;color:var(--mut)}
+.score{font-size:54px;font-weight:800;color:var(--p)}
+.rev{margin-top:24px;text-align:left}
+.rev h3{color:var(--p2);margin:18px 0 8px;font-size:17px}
+.rev .item{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:14px;line-height:1.5}
+.rev .item em{color:var(--mut);font-style:normal;font-size:13px}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.denied{text-align:center;padding:50px 20px}.denied h2{color:var(--p);margin-bottom:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:640px){body{padding:8px}.body{padding:18px}.q{font-size:17px}.top h1{font-size:17px}.btn{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>Exercise 1 - Session 1 Revision</h1><small id="who"></small></div>
+    <a href="/Module1-digitalfoundations">&larr; Back to Module 1</a>
+  </div>
+  <div class="bar"><div id="prog"></div></div>
+  <div class="body" id="app"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var AUTH = ['kavitaburrun@gmail.com', 'gaveenasee@gmail.com', 'digitalmarketer@hseniva.com'];
+var TRAINER = 'digitalmarketer@hseniva.com';
+
+/* ---------- SVG helpers ---------- */
+function S(inner, h){ return '<svg viewBox="0 0 600 ' + (h || 260) + '" xmlns="http://www.w3.org/2000/svg" role="img">' + inner + '</svg>'; }
+function T(x, y, txt, o){ o = o || {}; return '<text x="' + x + '" y="' + y + '" font-size="' + (o.s || 14) + '" fill="' + (o.c || '#1f2937') + '"' + (o.w ? ' font-weight="' + o.w + '"' : '') + (o.a ? ' text-anchor="' + o.a + '"' : '') + '>' + txt + '</text>'; }
+function R(x, y, w, h, f, o){ o = o || {}; return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (o.r == null ? 10 : o.r) + '" fill="' + f + '"' + (o.st ? ' stroke="' + o.st + '" stroke-width="' + (o.sw || 2) + '"' : '') + (o.d ? ' stroke-dasharray="6 5"' : '') + '/>'; }
+function C(x, y, r, f, o){ o = o || {}; return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + f + '"' + (o.st ? ' stroke="' + o.st + '" stroke-width="' + (o.sw || 2) + '"' : '') + '/>'; }
+function badge(x, y, l, col){ return C(x, y, 15, col || '#667eea') + T(x, y + 5, l, {a:'middle', c:'#fff', w:700, s:14}); }
+function arrow(x1, y1, x2, y2, col){ col = col || '#9ca3af'; var a = Math.atan2(y2 - y1, x2 - x1), s = 9; return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + col + '" stroke-width="2.5"/>' + '<polygon points="' + x2 + ',' + y2 + ' ' + (x2 - s * Math.cos(a - .45)) + ',' + (y2 - s * Math.sin(a - .45)) + ' ' + (x2 - s * Math.cos(a + .45)) + ',' + (y2 - s * Math.sin(a + .45)) + '" fill="' + col + '"/>'; }
+
+/* ---------- Visuals ---------- */
+var V = {};
+V.serp = S(R(0,0,600,260,'#fff',{st:'#e5e7eb'}) + R(20,14,560,36,'#f1f3f4',{r:18}) + C(44,32,7,'none',{st:'#9aa0a6'}) + T(62,37,'hotel grand baie mauritius',{c:'#3c4043'}) +
+ R(14,62,572,82,'#fffbea',{st:'#f5d76e',sw:1.5}) + T(28,84,'Sponsored',{s:12,w:700,c:'#202124'}) + T(28,106,'Lagoon View Hotel - Book Direct &amp; Save 15%',{s:17,c:'#1a0dab'}) + T(28,127,'www.lagoonview-example.mu  ·  Free breakfast  ·  Sea-view rooms',{s:12.5,c:'#4d5156'}) + badge(560,100,'A') +
+ R(14,156,572,88,'#fff',{st:'#e5e7eb',sw:1.5}) + T(28,180,'travelguide-example.com › mauritius',{s:12,c:'#4d5156'}) + T(28,202,'The 10 Best Hotels in Grand Baie (2026 Guide)',{s:17,c:'#1a0dab'}) + T(28,224,'Our editors compared prices, beaches and reviews to pick...',{s:12.5,c:'#4d5156'}) + badge(560,198,'B'));
+
+V.poem = S(
+ R(10,20,180,220,'#fff',{st:'#e5e7eb'}) + R(25,35,150,95,'#fde68a') + C(100,82,24,'#f59e0b') + T(100,152,'Hotel posts a sunset',{a:'middle',s:13,w:600}) + T(100,170,'photo on its OWN',{a:'middle',s:13}) + T(100,188,'Instagram page',{a:'middle',s:13}) + badge(100,220,'A') +
+ R(210,20,180,220,'#fff',{st:'#e5e7eb'}) + T(300,62,'★★★★★',{a:'middle',s:24,c:'#f59e0b'}) + T(300,92,'"Best stay of our',{a:'middle',s:13,c:'#374151'}) + T(300,110,'honeymoon!"',{a:'middle',s:13,c:'#374151'}) + T(300,152,'A guest leaves a',{a:'middle',s:13,w:600}) + T(300,170,'Google review',{a:'middle',s:13}) + T(300,188,'unprompted',{a:'middle',s:13}) + badge(300,220,'B') +
+ R(410,20,180,220,'#fff',{st:'#e5e7eb'}) + R(425,35,150,95,'#c7d2fe') + R(432,42,62,18,'#4f46e5',{r:4}) + T(463,55,'Sponsored',{a:'middle',s:10,c:'#fff',w:700}) + T(500,100,'-20% this week',{a:'middle',s:14,w:700,c:'#312e81'}) + T(500,152,'Hotel pays Meta to',{a:'middle',s:13,w:600}) + T(500,170,'show an ad to',{a:'middle',s:13}) + T(500,188,'couples aged 25-40',{a:'middle',s:13}) + badge(500,220,'C'));
+
+V.funnel = S(
+ '<polygon points="100,15 500,15 460,70 140,70" fill="#667eea"/>' + T(300,49,'AWARENESS',{a:'middle',c:'#fff',w:700,s:16}) +
+ '<polygon points="140,78 460,78 420,133 180,133" fill="#fff" stroke="#764ba2" stroke-width="2.5" stroke-dasharray="7 5"/>' + T(300,113,'? ? ?',{a:'middle',c:'#764ba2',w:800,s:22}) +
+ '<polygon points="180,141 420,141 380,196 220,196" fill="#8b5cf6"/>' + T(300,175,'CONVERSION',{a:'middle',c:'#fff',w:700,s:15}) +
+ '<polygon points="220,204 380,204 350,250 250,250" fill="#a855f7"/>' + T(300,232,'LOYALTY',{a:'middle',c:'#fff',w:700,s:14}) +
+ T(520,45,'"I see you"',{s:12,c:'#6b7280'}) + T(470,108,'"I compare you"',{s:12,c:'#6b7280'}) + T(430,172,'"I buy"',{s:12,c:'#6b7280'}) + T(395,232,'"I come back"',{s:12,c:'#6b7280'}));
+
+V.gtm = S(
+ R(20,40,170,180,'#1f2937') + T(35,68,'&lt;html&gt;',{s:13,c:'#93c5fd'}) + T(45,90,'&lt;head&gt;',{s:13,c:'#93c5fd'}) + R(55,100,120,26,'#f59e0b',{r:5}) + T(115,118,'1 snippet only',{a:'middle',s:12,w:700,c:'#1f2937'}) + T(45,148,'&lt;/head&gt;',{s:13,c:'#93c5fd'}) + T(35,170,'...',{s:13,c:'#9ca3af'}) + T(105,240,'Your website',{a:'middle',s:13,w:600}) +
+ arrow(195,113,260,113,'#667eea') +
+ R(265,55,150,120,'#eef0fb',{st:'#667eea'}) + T(340,95,'? ? ?',{a:'middle',s:22,w:800,c:'#667eea'}) + T(340,122,'"container"',{a:'middle',s:13,c:'#6b7280'}) + T(340,145,'manages all tags',{a:'middle',s:12,c:'#6b7280'}) +
+ arrow(420,85,470,50,'#9ca3af') + arrow(420,113,470,113,'#9ca3af') + arrow(420,140,470,176,'#9ca3af') +
+ R(475,30,110,36,'#fff',{st:'#e5e7eb'}) + T(530,53,'GA4 tag',{a:'middle',s:13}) + R(475,95,110,36,'#fff',{st:'#e5e7eb'}) + T(530,118,'Meta Pixel',{a:'middle',s:13}) + R(475,160,110,36,'#fff',{st:'#e5e7eb'}) + T(530,183,'Google Ads tag',{a:'middle',s:13}));
+
+V.ctr = S(
+ R(60,20,480,220,'#fff',{st:'#e5e7eb'}) + T(85,55,'Google Ads - Campaign "Weekend Getaway"',{s:15,w:700}) + '<line x1="85" y1="70" x2="515" y2="70" stroke="#e5e7eb"/>' +
+ R(85,90,130,110,'#eef0fb') + T(150,130,'Impressions',{a:'middle',s:13,c:'#6b7280'}) + T(150,170,'10,000',{a:'middle',s:26,w:800,c:'#667eea'}) +
+ R(235,90,130,110,'#f5ecfb') + T(300,130,'Clicks',{a:'middle',s:13,c:'#6b7280'}) + T(300,170,'250',{a:'middle',s:26,w:800,c:'#764ba2'}) +
+ R(385,90,130,110,'#fff7ed',{st:'#fb923c',d:1}) + T(450,130,'CTR',{a:'middle',s:13,c:'#6b7280'}) + T(450,170,'?',{a:'middle',s:30,w:800,c:'#ea580c'}) +
+ T(300,226,'Cost: Rs 5,000',{a:'middle',s:13,c:'#6b7280'}));
+
+(function(){
+ var d = [['Google Search',3000,45],['Facebook',2000,30],['Email',400,38],['LinkedIn',300,6]], s = '', max = 3000;
+ s += T(20,22,'Visits (bar) and conversions (number) - last month',{s:13,w:600,c:'#6b7280'});
+ for (var i = 0; i < d.length; i++){
+  var y = 45 + i * 52, w = Math.round(d[i][1] / max * 285);
+  s += T(130,y + 24,d[i][0],{a:'end',s:14,w:600}) + R(140,y + 4,w,30,'#c7d2fe',{r:6}) + T(146 + w,y + 25,d[i][1].toLocaleString('en') + ' visits',{s:12,c:'#6b7280'});
+  s += C(545,y + 19,20,'#764ba2') + T(545,y + 25,String(d[i][2]),{a:'middle',s:14,w:800,c:'#fff'});
+ }
+ s += T(545,258,'conversions',{a:'middle',s:11,c:'#6b7280'});
+ V.chart = S(s,265);
+})();
+
+V.journey = S((function(){
+ var st = ['Awareness','Consideration','Booking','Stay','Advocacy'], s = '';
+ for (var i = 0; i < 5; i++){ var x = 10 + i * 118;
+  s += R(x,30,104,40,i % 2 ? '#764ba2' : '#667eea',{r:8}) + T(x + 52,55,st[i],{a:'middle',s:12.5,w:700,c:'#fff'});
+  s += R(x,95,104,110,'#fff',{st:'#c4b5fd',d:1}) + T(x + 52,155,'?',{a:'middle',s:34,w:800,c:'#c4b5fd'});
+  if (i < 4) s += arrow(x + 106,50,x + 116,50,'#9ca3af');
+ }
+ return s + T(300,240,'A couple from Réunion planning a long weekend at a Grand Baie hotel',{a:'middle',s:13,c:'#6b7280'});
+})());
+
+V.audience = S(
+ R(10,25,180,190,'#fff',{st:'#e5e7eb'}) + T(100,58,'Platform 1',{a:'middle',s:15,w:700,c:'#667eea'}) + T(100,95,'Targets by',{a:'middle',s:13,c:'#6b7280'}) + T(100,120,'interests &amp;',{a:'middle',s:14}) + T(100,140,'behaviours',{a:'middle',s:14}) + T(100,180,'(e.g. likes travel)',{a:'middle',s:12,c:'#6b7280'}) +
+ R(210,25,180,190,'#fff',{st:'#e5e7eb'}) + T(300,58,'Platform 2',{a:'middle',s:15,w:700,c:'#667eea'}) + T(300,95,'Targets by',{a:'middle',s:13,c:'#6b7280'}) + T(300,120,'job title, company,',{a:'middle',s:14}) + T(300,140,'industry, seniority',{a:'middle',s:14}) + T(300,180,'(e.g. HR Manager)',{a:'middle',s:12,c:'#6b7280'}) +
+ R(410,25,180,190,'#fff',{st:'#e5e7eb'}) + T(500,58,'Platform 3',{a:'middle',s:15,w:700,c:'#667eea'}) + T(500,95,'Targets by',{a:'middle',s:13,c:'#6b7280'}) + T(500,120,'keywords people',{a:'middle',s:14}) + T(500,140,'type in search',{a:'middle',s:14}) + T(500,180,'(e.g. "payroll software")',{a:'middle',s:12,c:'#6b7280'}) +
+ T(300,248,'Goal: reach HR managers in Port Louis companies with a new training offer',{a:'middle',s:13,w:600,c:'#764ba2'}));
+
+V.email = S(
+ R(60,10,480,240,'#fff',{st:'#d1d5db'}) + R(60,10,480,44,'#f3f4f6',{r:10}) + T(80,30,'From: Le Lagon Hotel &lt;news@lelagon-example.mu&gt;',{s:12,c:'#374151'}) + T(80,46,'To: priya@... (subscribed via website)',{s:12,c:'#6b7280'}) +
+ R(80,66,440,70,'#0ea5e9',{r:8}) + T(300,100,'Hi Priya, your weekend offer is here',{a:'middle',s:17,w:700,c:'#fff'}) + T(300,122,'Exclusive for our newsletter members',{a:'middle',s:12,c:'#e0f2fe'}) +
+ R(80,148,440,10,'#e5e7eb',{r:4}) + R(80,166,360,10,'#e5e7eb',{r:4}) + R(80,184,400,10,'#e5e7eb',{r:4}) + R(220,206,160,32,'#f59e0b',{r:16}) + T(300,227,'Book now',{a:'middle',s:14,w:700,c:'#fff'}));
+
+V.adMock = S(
+ R(150,5,300,250,'#fff',{st:'#d1d5db'}) + C(175,28,12,'#f59e0b') + T(195,25,'Boulangerie du Port',{s:13,w:700}) + T(195,40,'Sponsored',{s:11,c:'#6b7280'}) +
+ R(160,52,280,120,'#fef3c7',{r:6}) + '<path d="M240 140 Q300 70 360 140 Z" fill="#d97706"/>' + '<path d="M255 135 Q300 95 345 135" fill="none" stroke="#fde68a" stroke-width="4"/>' +
+ T(300,195,'Fresh every morning',{a:'middle',s:16,w:700}) + R(165,212,270,32,'#e5e7eb',{r:6}) + T(300,233,'Order now',{a:'middle',s:14,w:700,c:'#1f2937'}) +
+ T(475,90,'1',{s:18,w:800,c:'#764ba2'}) + T(475,195,'2',{s:18,w:800,c:'#764ba2'}) + T(475,233,'3',{s:18,w:800,c:'#764ba2'}) +
+ arrow(470,85,445,100,'#764ba2') + arrow(470,190,415,190,'#764ba2') + arrow(470,228,440,228,'#764ba2'));
+
+V.flow = S(
+ R(10,90,120,70,'#eef0fb',{st:'#667eea'}) + T(70,120,'Website',{a:'middle',s:14,w:700}) + T(70,140,'contact form',{a:'middle',s:12,c:'#6b7280'}) + arrow(132,125,162,125) +
+ R(166,80,130,90,'#fff7ed',{st:'#fb923c',d:1}) + T(231,125,'? ? ?',{a:'middle',s:22,w:800,c:'#ea580c'}) + T(231,150,'connects apps',{a:'middle',s:11,c:'#6b7280'}) + arrow(298,125,328,125) +
+ R(332,90,120,70,'#f5ecfb',{st:'#764ba2'}) + T(392,120,'HubSpot',{a:'middle',s:14,w:700}) + T(392,140,'CRM contact',{a:'middle',s:12,c:'#6b7280'}) + arrow(454,125,484,125) +
+ R(488,90,104,70,'#ecfdf5',{st:'#16a34a'}) + T(540,120,'Mailchimp',{a:'middle',s:14,w:700}) + T(540,140,'welcome email',{a:'middle',s:12,c:'#6b7280'}) +
+ T(300,215,'Every new lead is added and welcomed automatically - nobody copies data by hand',{a:'middle',s:13,c:'#6b7280'}));
+
+V.dash = S(
+ R(10,10,580,240,'#fff',{st:'#e5e7eb'}) + T(30,38,'Monthly Marketing Report',{s:15,w:700}) + T(570,38,'Sources: GA4 · Google Ads · Google Sheets',{a:'end',s:11,c:'#6b7280'}) +
+ R(30,52,130,58,'#eef0fb') + T(45,74,'Users',{s:12,c:'#6b7280'}) + T(45,100,'12.4k',{s:20,w:800,c:'#667eea'}) +
+ R(170,52,130,58,'#f5ecfb') + T(185,74,'Conversions',{s:12,c:'#6b7280'}) + T(185,100,'318',{s:20,w:800,c:'#764ba2'}) +
+ R(310,52,130,58,'#ecfdf5') + T(325,74,'Ad spend',{s:12,c:'#6b7280'}) + T(325,100,'Rs 42k',{s:20,w:800,c:'#16a34a'}) +
+ R(450,52,120,58,'#fff7ed') + T(465,74,'ROAS',{s:12,c:'#6b7280'}) + T(465,100,'4.2x',{s:20,w:800,c:'#ea580c'}) +
+ '<polyline points="40,220 100,200 160,210 220,175 280,185 340,150 400,160 440,130" fill="none" stroke="#667eea" stroke-width="3"/>' + '<line x1="40" y1="232" x2="440" y2="232" stroke="#e5e7eb"/>' +
+ '<circle cx="515" cy="182" r="44" fill="none" stroke="#c7d2fe" stroke-width="22"/><circle cx="515" cy="182" r="44" fill="none" stroke="#764ba2" stroke-width="22" stroke-dasharray="120 400" transform="rotate(-90 515 182)"/>');
+
+V.hub = S((function(){
+ var sp = [['Google Search',300,30],['Social media',520,80],['Email',520,190],['Paid ads',300,240],['Reviews',80,190],['Influencers',80,80]], s = '';
+ for (var i = 0; i < sp.length; i++){ s += '<line x1="300" y1="135" x2="' + sp[i][1] + '" y2="' + sp[i][2] + '" stroke="#c7d2fe" stroke-width="3"/>'; }
+ for (i = 0; i < sp.length; i++){ s += R(sp[i][1] - 62,sp[i][2] - 17,124,34,'#fff',{st:'#c7d2fe',r:17}) + T(sp[i][1],sp[i][2] + 5,sp[i][0],{a:'middle',s:13,w:600}); }
+ return s + C(300,135,52,'#667eea') + T(300,132,'YOUR',{a:'middle',s:13,w:700,c:'#fff'}) + T(300,150,'WEBSITE',{a:'middle',s:13,w:700,c:'#fff'});
+})(),265);
+
+V.events = S((function(){
+ var ev = [['page_view','Lands on homepage'],['scroll','Reads 90% of page'],['click','Taps "Rooms"'],['form_submit','Sends enquiry']], s = '<line x1="60" y1="110" x2="560" y2="110" stroke="#c7d2fe" stroke-width="4"/>';
+ for (var i = 0; i < 4; i++){ var x = 75 + i * 155;
+  s += C(x,110,16,'#667eea') + T(x,116,String(i + 1),{a:'middle',s:13,w:700,c:'#fff'});
+  s += R(x - 68,30,136,44,'#eef0fb',{r:8}) + T(x,57,ev[i][0],{a:'middle',s:14,w:700,c:'#4338ca'});
+  s += T(x,155,ev[i][1],{a:'middle',s:12.5,c:'#374151'});
+ }
+ return s + T(300,205,"One visitor's session on a hotel website, step by step",{a:'middle',s:13,c:'#6b7280'});
+})(),230);
+
+V.seo = S(
+ R(15,15,275,230,'#fff',{st:'#667eea'}) + T(152,48,'Column A',{a:'middle',s:17,w:800,c:'#667eea'}) + T(40,90,'• Pay for every click',{s:14}) + T(40,120,'• Results from day 1',{s:14}) + T(40,150,'• Traffic stops when',{s:14}) + T(56,170,'budget stops',{s:14}) + T(40,200,'• Shows "Sponsored"',{s:14}) +
+ R(310,15,275,230,'#fff',{st:'#764ba2'}) + T(447,48,'Column B',{a:'middle',s:17,w:800,c:'#764ba2'}) + T(335,90,'• No cost per click',{s:14}) + T(335,120,'• Takes weeks/months',{s:14}) + T(335,150,'• Builds long-term',{s:14}) + T(351,170,'visibility',{s:14}) + T(335,200,'• Depends on content',{s:14}) + T(351,220,'&amp; site quality',{s:14}));
+
+V.formats = S(
+ R(60,15,110,200,'#1f2937',{r:16}) + R(68,25,94,180,'#a5b4fc',{r:10}) + '<polygon points="105,95 105,135 135,115" fill="#fff"/>' + T(115,240,'A: 9:16 vertical',{a:'middle',s:13,w:600}) +
+ R(220,60,200,115,'#1f2937',{r:10}) + R(228,68,184,99,'#c4b5fd',{r:6}) + '<polygon points="305,100 305,135 335,117" fill="#fff"/>' + T(320,240,'B: 16:9 horizontal',{a:'middle',s:13,w:600}) +
+ R(460,40,110,160,'#fff',{st:'#d1d5db'}) + R(472,58,86,8,'#9ca3af',{r:3}) + R(472,76,80,8,'#d1d5db',{r:3}) + R(472,94,86,8,'#d1d5db',{r:3}) + R(472,112,60,8,'#d1d5db',{r:3}) + R(472,130,82,8,'#d1d5db',{r:3}) + T(515,240,'C: long text post',{a:'middle',s:13,w:600}));
+
+V.ai = S(
+ R(15,70,240,110,'#fff',{st:'#d1d5db'}) + T(30,95,'Prompt:',{s:12,w:700,c:'#6b7280'}) + T(30,120,'"A tropical beach hotel',{s:14}) + T(30,140,'at sunset, Le Morne in',{s:14}) + T(30,160,'background, photorealistic"',{s:14}) +
+ arrow(262,125,318,125,'#667eea') + R(275,92,32,22,'#eef0fb',{r:6}) + T(291,108,'AI',{a:'middle',s:12,w:800,c:'#667eea'}) +
+ R(325,30,260,190,'#fde68a',{r:10}) + R(325,150,260,70,'#38bdf8',{r:0}) + C(455,150,40,'#f97316') + R(325,150,260,70,'#0ea5e9',{r:0}) + '<polygon points="470,150 585,150 585,70 540,95" fill="#065f46"/>' + R(355,120,70,30,'#fff',{r:3}) + R(365,128,12,10,'#93c5fd',{r:1}) + R(385,128,12,10,'#93c5fd',{r:1}) + R(405,128,12,10,'#93c5fd',{r:1}) +
+ T(455,245,'Output: a brand-new image',{a:'middle',s:13,w:600,c:'#6b7280'}));
+
+V.picker = S((function(){
+ var p = ['Google Search','Google Maps','Facebook','Instagram','TikTok','LinkedIn','YouTube','WhatsApp','Email','Website'], s = '';
+ for (var i = 0; i < 10; i++){ var x = 15 + (i % 5) * 116, y = 40 + Math.floor(i / 5) * 90;
+  s += R(x,y,106,62,i % 2 ? '#f5ecfb' : '#eef0fb',{st:i % 2 ? '#c4b5fd' : '#c7d2fe',sw:1.5}) + T(x + 53,y + 37,p[i],{a:'middle',s:13,w:600});
+ }
+ return s + T(300,240,'Your 10-platform ecosystem map (Exercise 1.1) - pick your top 3',{a:'middle',s:13,c:'#6b7280'});
+})(),255);
+
+V.omni = S((function(){
+ var st = [['Sees a Facebook','ad (Sponsored)'],['Googles the','hotel name'],['Reads reviews','on TripAdvisor'],['Visits the hotel','website'],['Books','a room']], col = ['#667eea','#7c6fe0','#8b5cf6','#9a5ad8','#764ba2'], s = '';
+ for (var i = 0; i < 5; i++){ var x = 62 + i * 119;
+  s += C(x,80,34,col[i]) + T(x,88,String(i + 1),{a:'middle',s:22,w:800,c:'#fff'});
+  s += T(x,140,st[i][0],{a:'middle',s:12.5,w:600}) + T(x,158,st[i][1],{a:'middle',s:12.5});
+  s += R(x - 50,180,100,30,'#fff',{st:'#c4b5fd',d:1,r:6}) + T(x,200,'paid / owned / earned?',{a:'middle',s:9,c:'#9ca3af'});
+  if (i < 4) s += arrow(x + 38,80,x + 80,80);
+ }
+ return s + T(300,240,"Ravi's path to booking",{a:'middle',s:13,c:'#6b7280'});
+})(),255);
+
+V.bulb = S(C(300,105,62,'#fde68a') + C(300,105,46,'#fbbf24') + R(276,165,48,14,'#9ca3af',{r:4}) + R(280,183,40,12,'#6b7280',{r:4}) +
+ '<path d="M285 120 L300 85 L315 120" fill="none" stroke="#fff" stroke-width="4"/>' +
+ arrow(215,105,195,105,'#fbbf24') + arrow(385,105,405,105,'#fbbf24') + arrow(300,30,300,12,'#fbbf24') + arrow(240,50,225,35,'#fbbf24') + arrow(360,50,375,35,'#fbbf24') +
+ T(300,235,'What clicked for you in session 1?',{a:'middle',s:15,w:600,c:'#764ba2'}),250);
+
+/* ---------- Questions ---------- */
+var Q = [
+ {t:'mcq',topic:'Search: SEO vs SEA',vis:'serp',cap:'Google results page for a hotel search',
+  q:'Look at the Google results page. Which result is PAID (search advertising / SEA)?',
+  o:['Result A','Result B','Both are paid','Neither - Google results are always free'],a:0,
+  e:'Result A carries the <strong>"Sponsored"</strong> label: the hotel pays each time someone clicks (pay-per-click). Result B appears because of SEO: Google ranked the page on its own, with no payment per click.'},
+ {t:'mcq',topic:'Paid · Owned · Earned media',vis:'poem',cap:'Three pieces of content about the same hotel',
+  q:'Which one is EARNED media?',o:['A - the hotel\'s own Instagram post','B - the guest\'s Google review','C - the sponsored ad','All three'],a:1,
+  e:'<strong>Earned</strong> = attention you did not pay for and do not control (reviews, shares, press, word of mouth). A is <strong>owned</strong> (your own channel). C is <strong>paid</strong>.'},
+ {t:'mcq',topic:'The marketing funnel',vis:'funnel',cap:'The marketing funnel - one stage is hidden',
+  q:'Which stage is missing from the funnel?',o:['Retargeting','Consideration','Impressions','Checkout'],a:1,
+  e:'The classic funnel is <strong>Awareness → Consideration → Conversion → Loyalty</strong>. In Consideration, people compare options: reading reviews, visiting your website, checking prices.'},
+ {t:'mcq',topic:'Tools landscape',vis:'gtm',cap:'One snippet on the site manages many tracking tags',
+  q:'Which tool is the "container" that lets you add and manage tracking tags without editing the website code every time?',o:['Looker Studio','Google Tag Manager (GTM)','Canva','Mailchimp'],a:1,
+  e:'<strong>Google Tag Manager</strong>: you install one GTM snippet once, then add, edit or remove tags (GA4, Meta Pixel, Google Ads) from the GTM interface without a developer.'},
+ {t:'mcq',topic:'Core KPIs',vis:'ctr',cap:'Results of a Google Ads campaign',
+  q:'What is the Click-Through Rate (CTR) of this campaign?',o:['25%','0.25%','2.5%','40%'],a:2,
+  e:'CTR = Clicks ÷ Impressions × 100 = 250 ÷ 10,000 × 100 = <strong>2.5%</strong>. Bonus: Cost per Click (CPC) = Rs 5,000 ÷ 250 = <strong>Rs 20</strong>.'},
+ {t:'mcq',topic:'Reading data',vis:'chart',cap:'Example data for a Mauritian business (illustrative only)',
+  q:'Which channel has the HIGHEST conversion rate (conversions ÷ visits)?',o:['Google Search','Facebook','Email','LinkedIn'],a:2,
+  e:'Email: 38 ÷ 400 = <strong>9.5%</strong>. Google Search: 45 ÷ 3,000 = 1.5%. Facebook: 1.5%. LinkedIn: 2%. The channel with the most visits is not always the best performer: always look at <strong>rates</strong>, not only volumes.'},
+ {t:'open',topic:'Customer journey',vis:'journey',cap:'Customer journey map - fill the empty boxes',
+  q:'For this hotel, name ONE digital touchpoint the couple could meet at each stage (Awareness, Consideration, Booking, Stay, Advocacy). Write one line per stage.',
+  ph:'Awareness: ...\nConsideration: ...\nBooking: ...\nStay: ...\nAdvocacy: ...',
+  m:['<strong>Awareness:</strong> Instagram Reel or Facebook ad targeting Réunion, a travel influencer\'s post','<strong>Consideration:</strong> Google search, TripAdvisor / Google reviews, the hotel website rooms page','<strong>Booking:</strong> Website booking engine, WhatsApp enquiry, Booking.com','<strong>Stay:</strong> WhatsApp concierge, Wi-Fi landing page, in-room QR code to the spa menu','<strong>Advocacy:</strong> Post-stay email asking for a Google review, guest tags the hotel on Instagram']},
+ {t:'mcq',topic:'Choosing the right platform',vis:'audience',cap:'Three ad platforms, three ways to target',
+  q:'Which platform is the best fit for this B2B goal?',o:['Platform 1 - Meta Ads (Facebook/Instagram)','Platform 2 - LinkedIn Ads','Platform 3 - Google Search Ads','TikTok Ads'],a:1,
+  e:'<strong>LinkedIn Ads</strong> lets you target by job title, function, industry and company size, which is ideal for B2B. Meta targets interests and behaviour, and Google Search targets what people type.'},
+ {t:'mcq',topic:'Paid · Owned · Earned media',vis:'email',cap:'A newsletter sent to subscribers',
+  q:'This newsletter goes to people who subscribed on the hotel\'s website. What type of media is it?',o:['Paid media','Owned media','Earned media','None of these'],a:1,
+  e:'<strong>Owned</strong>: the hotel owns its email list and controls the message, so it pays no platform per message. Tools: Mailchimp, HubSpot.'},
+ {t:'open',topic:'Ad anatomy',vis:'adMock',cap:'A Facebook/Instagram ad for a (fictional) local bakery',
+  q:'Name the 3 numbered elements of this ad, then suggest ONE improvement to make it work better for a Mauritian audience.',
+  ph:'1 = ...\n2 = ...\n3 = ...\nImprovement: ...',
+  m:['<strong>1 = Visual</strong> (the image that stops the scroll)','<strong>2 = Headline / message</strong>','<strong>3 = Call-to-action (CTA) button</strong>','Improvements could include: show real products and local faces, add a time or place hook ("Hot croissants before 8am in Port Louis"), add a WhatsApp CTA (very popular in Mauritius), use Kreol or French in the copy, and make the CTA button stand out with a stronger colour.']},
+ {t:'mcq',topic:'Automation',vis:'flow',cap:'An automated lead flow - one tool is hidden',
+  q:'Which type of tool sits in the middle and passes the lead from the form to the CRM and the email tool?',o:['Zapier / Make','Canva','Google Analytics 4','Midjourney'],a:0,
+  e:'<strong>Zapier</strong> and <strong>Make</strong> are automation tools that connect apps ("when X happens in app A, do Y in app B"). They save hours of manual copy-paste.'},
+ {t:'mcq',topic:'Tools landscape',vis:'dash',cap:'A dashboard that combines several data sources',
+  q:'Which tool from session 1 is used to build shareable dashboards like this, pulling data from GA4, Google Ads and Sheets?',o:['Google Tag Manager','HubSpot','Looker Studio','Meta Ads Manager'],a:2,
+  e:'<strong>Looker Studio</strong> (formerly Google Data Studio) is free. It connects to GA4, Google Ads, Sheets and more, and turns the data into live, shareable reports.'},
+ {t:'open',topic:'The digital ecosystem',vis:'hub',cap:'Hub-and-spoke view of the digital ecosystem',
+  q:'Why is the website at the CENTRE of the digital ecosystem? What happens to the other channels if the website is slow or confusing?',
+  ph:'The website is the hub because...\nIf it is weak...',
+  m:['It is the one channel you <strong>fully own and control</strong>: no algorithm or platform rules.','Almost every other channel (ads, social, email, search) <strong>sends traffic to it</strong>, and that is where conversions happen and get tracked (GA4).','If the website is slow or confusing, you <strong>waste the money and effort</strong> spent on every other channel: people click, then leave.']},
+ {t:'mcq',topic:'GA4 basics',vis:'events',cap:'What GA4 records during one visit',
+  q:'In GA4, which of these actions are tracked as EVENTS?',o:['Only page_view','Only form_submit','All four of them','None - GA4 only counts sessions'],a:2,
+  e:'GA4 is <strong>event-based</strong>: every interaction (page_view, scroll, click, form_submit...) is an event. That is the big difference from the old Universal Analytics, which was built around sessions and pageviews.'},
+ {t:'mcq',topic:'Search: SEO vs SEA',vis:'seo',cap:'Two ways to appear on Google',
+  q:'Which column describes SEO (Search Engine Optimisation)?',o:['Column A','Column B','Both','Neither'],a:1,
+  e:'Column B = <strong>SEO</strong>: you pay nothing per click, but it takes time and depends on content and site quality. Column A = <strong>SEA / Google Ads</strong>: instant, paid per click, and it stops when the budget stops. Strong brands use both.'},
+ {t:'open',topic:'Your ecosystem (links to Exercise 1.1)',vis:'picker',cap:'Pick your top 3',
+  q:'Think of your own business or the industry you want to work in. Pick the 3 most important channels from this map and justify each in one sentence (who is there + what you would post or run).',
+  ph:'Industry/business: ...\n1. ... because ...\n2. ... because ...\n3. ... because ...',
+  m:['A strong answer names the <strong>audience</strong> and matches the channel to a <strong>goal</strong>. For example, a restaurant in Flic-en-Flac might pick:','<strong>Google Maps</strong>: people searching "restaurant near me", so keep reviews, photos and opening hours up to date','<strong>Instagram</strong>: tourists and young locals discover food visually, so post Reels of signature dishes','<strong>WhatsApp</strong>: the main booking and enquiry channel in Mauritius, so set up quick replies and a catalogue']},
+ {t:'mcq',topic:'Content per platform',vis:'formats',cap:'Three content formats',
+  q:'Which format is built for Instagram Reels and TikTok?',o:['A - short vertical video (9:16)','B - horizontal video (16:9)','C - long text post','They all perform the same everywhere'],a:0,
+  e:'Reels, TikTok and YouTube Shorts are <strong>vertical, short (≈7-60s), and hook the viewer in the first 2 seconds</strong>. Horizontal 16:9 suits YouTube long-form, and long text suits LinkedIn or blogs. Adapt content to each platform rather than copy-pasting.'},
+ {t:'mcq',topic:'AI tools',vis:'ai',cap:'Text prompt in, image out',
+  q:'Which tool from the session 1 tools list is built to create images from a text prompt like this?',o:['Mailchimp','Midjourney','Google Tag Manager','Looker Studio'],a:1,
+  e:'<strong>Midjourney</strong> is an AI image generator. ChatGPT, Claude and Gemini are mainly used for text (copy, ideas, analysis), and Canva for designing and editing visuals.'},
+ {t:'open',topic:'Paid · Owned · Earned media',vis:'omni',cap:'One customer, five touchpoints',
+  q:'Label each of Ravi\'s 5 steps as PAID, OWNED or EARNED, and explain step 2 in one sentence.',
+  ph:'1 = ...\n2 = ...\n3 = ...\n4 = ...\n5 = ...\nStep 2 explained: ...',
+  m:['<strong>1 = Paid</strong> (Facebook ad)','<strong>2 = Owned or Paid</strong>: if he clicks the hotel\'s organic listing it is owned (the website through SEO), and if he clicks a brand-name Google ad it is paid. Many hotels bid on their own name so that OTAs and competitors cannot take the click.','<strong>3 = Earned</strong> (reviews)','<strong>4 = Owned</strong> (website)','<strong>5 = Owned</strong>: the conversion happens on your own channel. The journey mixes all three types, which is why we look at the whole ecosystem.']},
+ {t:'open',topic:'Reflection',vis:'bulb',cap:'Your turn',
+  q:'What was your BIGGEST takeaway from session 1, and what is ONE question you would like answered in the next session?',
+  ph:'My biggest takeaway: ...\nMy question for next session: ...',
+  m:['There is no single right answer. Your trainer will read your reflection and use your question to shape the next session.']}
+];
+
+/* ---------- State ---------- */
+var me = null, cur = -1, ans = {};
+var KEY = 'ex1Answers';
+function save(){ try { sessionStorage.setItem(KEY, JSON.stringify({cur:cur, ans:ans})); } catch(e){} }
+function load(){ try { var d = JSON.parse(sessionStorage.getItem(KEY) || 'null'); if (d){ ans = d.ans || {}; cur = d.cur == null ? -1 : d.cur; } } catch(e){} }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function toast(m){ var t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 2200); }
+var app = document.getElementById('app');
+var MCQN = Q.filter(function(q){ return q.t === 'mcq'; }).length, OPENN = Q.length - MCQN;
+
+function score(){ var s = 0; Q.forEach(function(q, i){ if (q.t === 'mcq' && ans[i] && ans[i].c === q.a) s++; }); return s; }
+function answered(i){ return ans[i] && (Q[i].t === 'mcq' ? ans[i].done : ans[i].done); }
+
+function setProg(){ var n = 0; for (var i = 0; i < Q.length; i++) if (answered(i)) n++; document.getElementById('prog').style.width = (n / Q.length * 100) + '%'; }
+
+function intro(){
+ cur = -1; save(); setProg();
+ var n = 0; for (var i = 0; i < Q.length; i++) if (answered(i)) n++;
+ app.innerHTML = '<div class="intro"><h2>Hi ' + esc(me.name.split(' ')[0]) + ' 👋</h2>' +
+  '<p>Let\'s revise what we covered in <strong>Session 1: the Digital Ecosystem &amp; Tools</strong>.</p>' +
+  '<p>Multiple-choice questions give you instant feedback. For open questions, write your answer first, then compare it with the model answer.</p>' +
+  '<div class="stats"><div class="stat"><strong>20</strong><span>questions</span></div><div class="stat"><strong>' + MCQN + '</strong><span>multiple choice</span></div><div class="stat"><strong>' + OPENN + '</strong><span>open-ended</span></div><div class="stat"><strong>~25</strong><span>minutes</span></div></div>' +
+  '<p>At the end you\'ll send your answers to your trainer.</p>' +
+  '<div class="actions"><button class="btn btn-p" onclick="go(' + (n && n < Q.length ? firstOpen() : 0) + ')">' + (n ? (n < Q.length ? 'Continue (' + n + '/20 done)' : 'Review my answers') : 'Start the revision') + '</button>' + (n === Q.length ? '<button class="btn btn-v" onclick="results()">See results</button>' : '') + '</div></div>';
+}
+function firstOpen(){ for (var i = 0; i < Q.length; i++) if (!answered(i)) return i; return 0; }
+
+function dots(){
+ var s = '<div class="dots">';
+ for (var i = 0; i < Q.length; i++){
+  var c = 'dot'; if (i === cur) c += ' cur';
+  if (answered(i)) c += Q[i].t === 'mcq' ? (ans[i].c === Q[i].a ? ' right' : ' wrong') : ' done';
+  s += '<button class="' + c + '" onclick="go(' + i + ')" title="Question ' + (i + 1) + '">' + (i + 1) + '</button>';
+ }
+ return s + '</div>';
+}
+
+function go(i){
+ cur = i; save(); setProg();
+ var q = Q[i], a = ans[i] || {}, h = dots();
+ h += '<span class="tag ' + q.t + '">' + (q.t === 'mcq' ? 'Multiple choice' : 'Open question') + '</span><span class="tag topic">' + q.topic + '</span>';
+ h += '<div class="q">' + (i + 1) + '. ' + q.q + '</div>';
+ h += '<div class="vis">' + V[q.vis] + '<div class="cap">' + q.cap + '</div></div>';
+ if (q.t === 'mcq'){
+  h += '<div class="opts">';
+  q.o.forEach(function(o, k){
+   var c = 'opt';
+   if (a.done){ if (k === q.a) c += ' right'; else if (k === a.c) c += ' wrong'; }
+   else if (a.c === k) c += ' sel';
+   h += '<button class="' + c + '" ' + (a.done ? 'disabled' : '') + ' onclick="pick(' + k + ')"><b>' + 'ABCD'[k] + '</b><span>' + esc(o) + '</span></button>';
+  });
+  h += '</div>';
+  h += '<div class="fb ' + (a.done ? 'show ' + (a.c === q.a ? 'ok' : 'no') : '') + '" id="fb">' + (a.done ? (a.c === q.a ? '<strong>✅ Correct!</strong> ' : '<strong>❌ Not quite.</strong> The answer is <strong>' + 'ABCD'[q.a] + '</strong>. ') + q.e : '') + '</div>';
+ } else {
+  h += '<textarea id="ta" placeholder="' + esc(q.ph) + '" oninput="typing()">' + esc(a.text || '') + '</textarea>';
+  h += '<div class="hint">Write in your own words. Bullet points are fine.</div>';
+  h += '<div class="fb model ' + (a.done ? 'show' : '') + '" id="fb"><strong>💡 Model answer: compare it with yours</strong><ul>' + q.m.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
+ }
+ var last = i === Q.length - 1;
+ h += '<div class="nav"><button class="btn btn-g" onclick="' + (i ? 'go(' + (i - 1) + ')' : 'intro()') + '">← Back</button>';
+ if (q.t === 'mcq' && !a.done) h += '<button class="btn btn-p" id="chk" ' + (a.c == null ? 'disabled' : '') + ' onclick="check()">Check answer</button>';
+ else if (q.t === 'open' && !a.done) h += '<button class="btn btn-p" id="chk" ' + ((a.text || '').trim().length < 5 ? 'disabled' : '') + ' onclick="saveOpen()">Save &amp; see model answer</button>';
+ else h += '<button class="btn btn-p" onclick="' + (last ? 'results()' : 'go(' + (i + 1) + ')') + '">' + (last ? 'See my results →' : 'Next →') + '</button>';
+ h += '</div>';
+ app.innerHTML = h;
+ window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function pick(k){ ans[cur] = {c:k}; save(); go(cur); }
+function check(){ ans[cur].done = true; save(); go(cur); }
+function typing(){ var v = document.getElementById('ta').value; ans[cur] = {text:v}; save(); document.getElementById('chk').disabled = v.trim().length < 5; }
+function saveOpen(){ var v = document.getElementById('ta').value.trim(); if (v.length < 5) return; ans[cur] = {text:v, done:true}; save(); go(cur); }
+
+function report(){
+ var lines = ['DMM - Module 1 - Exercise 1: Session 1 Revision', 'Student: ' + me.name + ' <' + me.email + '>', 'Date: ' + new Date().toLocaleString('en-GB'), 'MCQ score: ' + score() + '/' + MCQN, ''];
+ Q.forEach(function(q, i){
+  var a = ans[i] || {};
+  lines.push('Q' + (i + 1) + ' [' + (q.t === 'mcq' ? 'MCQ' : 'OPEN') + '] ' + q.q.replace(/<[^>]+>/g, ''));
+  if (q.t === 'mcq') lines.push('  Answer: ' + (a.done ? 'ABCD'[a.c] + ' - ' + q.o[a.c] + (a.c === q.a ? ' (correct)' : ' (incorrect, correct: ' + 'ABCD'[q.a] + ')') : '(not answered)'));
+  else lines.push('  Answer: ' + (a.text ? a.text.replace(/\n/g, '\n          ') : '(not answered)'));
+  lines.push('');
+ });
+ return lines.join('\n');
+}
+
+function results(){
+ cur = Q.length; save(); setProg();
+ var sc = score(), pct = Math.round(sc / MCQN * 100), todo = [];
+ for (var i = 0; i < Q.length; i++) if (!answered(i)) todo.push(i + 1);
+ var msg = pct >= 85 ? 'Excellent! You have a solid grip on the digital ecosystem.' : pct >= 60 ? 'Good work. Review the topics you missed before the next session.' : 'Keep going. Re-read the Week 1 notes and try the questions you missed again.';
+ var h = '<div class="intro"><h2>Your results</h2><div class="score">' + sc + '/' + MCQN + '</div><p>Multiple choice · ' + pct + '%</p><p>' + msg + '</p>';
+ if (todo.length) h += '<p style="color:#dc2626;margin-top:10px">Still unanswered: Q' + todo.join(', Q') + '</p>';
+ h += '<div class="actions"><button class="btn btn-p" onclick="sendMail()">📧 Email my answers to the trainer</button><button class="btn btn-v" onclick="copyAns()">📋 Copy my answers</button><button class="btn btn-g" onclick="dl()">⬇ Download (.txt)</button></div>';
+ h += '<div class="rev"><h3>Review</h3>';
+ Q.forEach(function(q, i){
+  var a = ans[i] || {}, mark = q.t === 'mcq' ? (a.done ? (a.c === q.a ? '✅' : '❌') : '⬜') : (a.done ? '📝' : '⬜');
+  h += '<div class="item">' + mark + ' <strong>Q' + (i + 1) + '.</strong> ' + q.topic + ' <em>· <a href="#" onclick="go(' + i + ');return false">open</a></em></div>';
+ });
+ h += '</div><div class="actions"><button class="btn btn-g" onclick="restart()">↺ Start again</button></div></div>';
+ app.innerHTML = h; window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function sendMail(){
+ var body = report();
+ if (body.length > 1700) body = body.slice(0, 1700) + '\n\n[...truncated - full answers attached / pasted below]';
+ window.location.href = 'mailto:' + TRAINER + '?subject=' + encodeURIComponent('Module 1 - Exercise 1 Revision - ' + me.name) + '&body=' + encodeURIComponent(body);
+ copyAns(true);
+}
+function copyAns(silent){
+ var txt = report();
+ function done(){ toast(silent ? 'Full answers also copied: paste them into the email if they were cut off' : 'Answers copied to clipboard'); }
+ if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); });
+ else { fallbackCopy(txt); done(); }
+}
+function fallbackCopy(t){ var x = document.createElement('textarea'); x.value = t; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); } catch(e){} x.remove(); }
+function dl(){ var b = new Blob([report()], {type:'text/plain'}), u = URL.createObjectURL(b), l = document.createElement('a'); l.href = u; l.download = 'Exercise1-Revision-' + me.name.replace(/\s+/g, '_') + '.txt'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function(){ URL.revokeObjectURL(u); }, 1000); }
+function restart(){ ans = {}; save(); go(0); }
+
+/* ---------- Access check ---------- */
+(function(){
+ try { me = JSON.parse(sessionStorage.getItem('moduleSession') || 'null'); } catch(e){ me = null; }
+ if (!me || AUTH.indexOf(String(me.email).toLowerCase()) < 0){
+  document.getElementById('who').textContent = 'Restricted access';
+  app.innerHTML = '<div class="denied"><h2>🔒 Please log in first</h2><p>This exercise is only for enrolled students. Log in on the Module 1 page, then click <strong>Exercise 1</strong> again.</p><div class="actions"><a class="btn btn-p" style="text-decoration:none" href="/Module1-digitalfoundations">Go to Module 1 login</a></div></div>';
+  return;
+ }
+ document.getElementById('who').textContent = 'Logged in as ' + me.name;
+ load();
+ if (cur >= 0 && cur < Q.length) go(cur); else if (cur === Q.length) results(); else intro();
+})();
+</script>
+</body>
+</html>
