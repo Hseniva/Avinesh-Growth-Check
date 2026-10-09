@@ -69,14 +69,16 @@ textarea:focus{outline:none;border-color:var(--p)}
 <div class="wrap">
   <div class="top">
     <div><h1>Exercise 1 - Session 1 Revision</h1><small id="who"></small></div>
-    <a href="/Module1-digitalfoundations">&larr; Back to Module 1</a>
+    <a href="/">&larr; Back to my dashboard</a>
   </div>
   <div class="bar"><div id="prog"></div></div>
   <div class="body" id="app"></div>
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="/platform.js"></script>
 <script>
+var QUIZ_MODULE = 'M1';
 var AUTH = ['kavitaburrun@gmail.com', 'gaveenasee@gmail.com', 'digitalmarketer@hseniva.com'];
 var TRAINER = 'digitalmarketer@hseniva.com';
 
@@ -395,6 +397,7 @@ function results(){
  var msg = pct >= 85 ? 'Excellent! You have a solid grip on the digital ecosystem.' : pct >= 60 ? 'Good work. Review the topics you missed before the next session.' : 'Keep going. Re-read the Week 1 notes and try the questions you missed again.';
  var h = '<div class="intro"><h2>Your results</h2><div class="score">' + sc + '/' + MCQN + '</div><p>Multiple choice · ' + pct + '%</p><p>' + msg + '</p>';
  if (todo.length) h += '<p style="color:#dc2626;margin-top:10px">Still unanswered: Q' + todo.join(', Q') + '</p>';
+ if (window.DMM && DMM.configured() && DMM.session()) h += '<div id="saveBox" style="margin:20px auto 0;max-width:580px;padding:16px 18px;border-radius:12px;background:#f3f2fc;line-height:1.6">' + (todo.length ? 'Answer all 20 questions, then submit your score to your progress.' : '<button class="btn btn-p" id="saveBtn" onclick="saveScore()">✅ Submit my score to my progress</button><div style="margin-top:8px;font-size:13px;color:#6b7280">Your best attempt counts towards your module progress.</div>') + '</div>';
  h += '<div class="actions"><button class="btn btn-p" onclick="sendMail()">📧 Email my answers to the trainer</button><button class="btn btn-v" onclick="copyAns()">📋 Copy my answers</button><button class="btn btn-g" onclick="dl()">⬇ Download (.txt)</button></div>';
  h += '<div class="rev"><h3>Review</h3>';
  Q.forEach(function(q, i){
@@ -405,6 +408,15 @@ function results(){
  app.innerHTML = h; window.scrollTo({top:0, behavior:'smooth'});
 }
 
+function saveScore(){
+ var b = document.getElementById('saveBtn'); b.disabled = true; b.textContent = 'Saving…';
+ DMM.api('quiz', {module: QUIZ_MODULE, score: score(), total: MCQN, answers: report()}).then(function(r){
+  var box = document.getElementById('saveBox');
+  if (!r.ok){ if (r.authError){ location.href = '/?next=/Exercise1-revision'; return; } b.disabled = false; b.textContent = 'Try again'; toast(r.error || 'Could not save your score'); return; }
+  try{Object.keys(sessionStorage).forEach(function(k){if(k.indexOf("dmm_dash")===0||k==="dmm_my")sessionStorage.removeItem(k);});}catch(e){}
+  box.innerHTML = r.result.passed ? '<strong>🎉 Passed with ' + r.result.pct + '%!</strong> Your revision quiz is complete and your progress has been updated. <a href="/">Back to my dashboard →</a>' : '<strong>' + r.result.pct + '%: not passed yet</strong> (pass mark ' + r.result.pass_mark + '%). Review the questions you missed, then press <em>Start again</em> below to retry. <a href="/">Back to my dashboard</a>';
+ });
+}
 function sendMail(){
  var body = report();
  if (body.length > 1700) body = body.slice(0, 1700) + '\n\n[...truncated - full answers attached / pasted below]';
@@ -423,8 +435,10 @@ function restart(){ ans = {}; save(); go(0); }
 
 /* ---------- Access check ---------- */
 (function(){
- try { me = JSON.parse(sessionStorage.getItem('moduleSession') || 'null'); } catch(e){ me = null; }
- if (!me || AUTH.indexOf(String(me.email).toLowerCase()) < 0){
+ var PLATFORM = !!(window.DMM && DMM.configured());
+ if (PLATFORM){ me = DMM.session(); if (!me){ location.replace('/?next=/Exercise1-revision'); return; } me.name = me.name || me.email; }
+ else { try { me = JSON.parse(sessionStorage.getItem('moduleSession') || 'null'); } catch(e){ me = null; } }
+ if (!me || (!PLATFORM && AUTH.indexOf(String(me.email).toLowerCase()) < 0)){
   document.getElementById('who').textContent = 'Restricted access';
   app.innerHTML = '<div class="denied"><h2>🔒 Please log in first</h2><p>This exercise is only for enrolled students. Log in on the Module 1 page, then click <strong>Exercise 1</strong> again.</p><div class="actions"><a class="btn btn-p" style="text-decoration:none" href="/Module1-digitalfoundations">Go to Module 1 login</a></div></div>';
   return;
