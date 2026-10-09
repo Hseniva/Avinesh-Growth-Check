@@ -42,8 +42,12 @@ button{font:inherit;cursor:pointer}
 .btn-done{background:var(--greenbg);color:var(--green);cursor:default}
 
 /* ===== welcome ===== */
-.hero{padding:64px 0 40px}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start}
+.hero{position:relative;padding:72px 0 80px;min-height:calc(100vh - 68px);display:flex;align-items:center;background-color:#eef0fb;background-position:center 58%;background-size:cover;background-repeat:no-repeat}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(248,249,253,.97) 0%,rgba(248,249,253,.9) 38%,rgba(248,249,253,.45) 68%,rgba(248,249,253,.12) 100%)}
+.hero>.wrap{position:relative;z-index:1;width:100%}
+.hero-cap{position:absolute;right:24px;bottom:20px;z-index:1;background:rgba(255,255,255,.92);color:var(--ink);font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(27,33,64,.12)}
+.hero-cap i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grad);margin-right:7px;vertical-align:1px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--lav);color:var(--b2);font-weight:600;font-size:13px;padding:6px 12px;border-radius:999px}
 .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--grad)}
 .hero h1{font-size:46px;line-height:1.1;letter-spacing:-.03em;color:var(--ink);margin:18px 0 16px;font-weight:800}
@@ -237,7 +241,9 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
   .pgrid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:720px){
-  .photo{aspect-ratio:4/3}
+  .hero{min-height:0;flex-direction:column;align-items:stretch;background-position:72% center}
+  .hero::before{background:linear-gradient(180deg,rgba(248,249,253,.8) 0%,rgba(248,249,253,.88) 45%,rgba(248,249,253,.95) 100%)}
+  .hero-cap{position:relative;right:auto;bottom:auto;align-self:flex-start;margin:20px 16px 0;font-size:12px}
   .wrap{padding:0 16px}
   .hero{padding:36px 0 24px}
   .hero h1{font-size:34px}
@@ -381,17 +387,15 @@ function pickCourse(id) { SEL = id; renderCatalog(); var j = document.querySelec
 
 function renderWelcome(info) {
   setWho();
-  var photo = PHOTO_URL
-    ? '<figure class="photo"><img src="' + esc(PHOTO_URL) + '" alt="Avinesh Bundhoo &amp; Fareez Fawdar delivering a digital marketing training session to students at Oreegami Mauritius"><figcaption><i></i>Live training with Avinesh Bundhoo &amp; Fareez Fawdar · Oreegami Mauritius</figcaption></figure>'
-    : '<div class="photo"><div class="photo-ph"><strong>Training photo goes here</strong></div></div>';
+  var heroBg = PHOTO_URL ? ' style="background-image:url(\'' + esc(PHOTO_URL) + '\')"' : '';
+  var heroCap = PHOTO_URL ? '<div class="hero-cap" role="note" aria-label="Background photo: Avinesh Bundhoo &amp; Fareez Fawdar delivering a digital marketing training session at Oreegami Mauritius"><i></i>Live training with Avinesh Bundhoo &amp; Fareez Fawdar · Oreegami Mauritius</div>' : '';
   app.innerHTML =
-    '<section class="hero"><div class="wrap hero-grid">' +
+    '<section class="hero"' + heroBg + '><div class="wrap hero-grid">' +
       '<div>' +
         '<span class="eyebrow"><i></i>Digital Marketing Training</span>' +
         '<h1>Welcome to the <span>Digital Marketing & AI Bootcamp</span></h1>' +
         '<p class="lead">A practical, hands-on programme that takes you from the foundations of the digital ecosystem to running paid campaigns, using AI and building a real marketing strategy. Each module gives you a presentation, reading notes, exercises and a revision quiz, and you can follow your progress every step of the way.</p>' +
         '<div class="facts"><div class="fact"><strong>20</strong><span>weeks</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
-        photo +
       '</div>' +
       '<div id="login"><form class="login" id="loginForm" novalidate>' +
         '<h2 id="lgTitle">Student login</h2>' +
@@ -404,7 +408,7 @@ function renderWelcome(info) {
         '<button class="btn btn-grad" id="lgBtn" type="submit">Login to Access Your Training</button>' +
         '<p class="alt">First time here? Enter your email and press the button: you\'ll be asked to create your password.<br>New student? <a href="/pre-assessment">Take the pre-assessment</a>.</p>' +
       '</form></div>' +
-    '</div></section>' +
+    '</div>' + heroCap + '</section>' +
     '<section class="section"><div class="wrap"><h3>Our courses</h3><p class="intro">Every programme follows the same structure: phases, modules, exercises and revision quizzes, with your progress tracked from 0% to 100%.</p><div id="catalog"></div></div></section>';
   loginMode = 'login';
   document.getElementById('loginForm').onsubmit = doLogin;
