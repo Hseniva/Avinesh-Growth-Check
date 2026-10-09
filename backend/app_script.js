@@ -176,7 +176,7 @@ function loadMyCourses() {
 function renderMyCourses(fromCache) {
   var isTrainer = MY.role === 'trainer';
   if (!isTrainer && MY.courses.length === 1) { location.replace('#/c/' + encodeURIComponent(MY.courses[0].id)); return; }
-  var h = '<div class="wrap dash"><div class="page-h"><div><h1>' + (isTrainer ? 'Courses' : 'My courses') + '</h1><p>' + (isTrainer ? 'Open a course to see the learning view or your students\' progress.' : 'Welcome back, ' + esc(first(MY.name)) + '. Choose a course to continue.') + '</p></div></div>';
+  var h = '<div class="wrap dash"><div class="page-h"><div><h1>' + (isTrainer ? 'Courses' : 'My courses') + '</h1><p>' + (isTrainer ? 'Open a course to see the learning view or your students\' progress.' : 'Welcome back, ' + esc(first(MY.name)) + '. Choose a course to continue.') + '</p></div>' + (isTrainer ? '<a class="btn btn-grad" href="/admin">Admin: add material &amp; students</a>' : '') + '</div>';
   if (!MY.courses.length) h += '<div class="card empty">You are not enrolled in a course yet. Please contact your trainer at <a href="mailto:digitalmarketer@hseniva.com">digitalmarketer@hseniva.com</a>.</div>';
   else h += '<div class="cgrid">' + MY.courses.map(function (c) { return courseCard(c, { progress: true, onclick: 'location.hash=\'#/c/' + encodeURIComponent(c.id) + '\'' }); }).join('') + '</div>';
   app.innerHTML = h + '</div>';
@@ -208,7 +208,7 @@ function crumbs() {
 function trainerTabs(active) {
   if (!D || D.student.role !== 'trainer') return '';
   var base = '#/c/' + encodeURIComponent(D.course.id);
-  return '<div class="tabs"><a href="' + base + '" class="' + (active === 'learn' ? 'on' : '') + '">Learning view</a><a href="' + base + '/students" class="' + (active === 'students' ? 'on' : '') + '">Students\' progress</a></div>';
+  return '<div class="tabs"><a href="' + base + '" class="' + (active === 'learn' ? 'on' : '') + '">Learning view</a><a href="' + base + '/students" class="' + (active === 'students' ? 'on' : '') + '">Students\' progress</a><a href="/admin?course=' + encodeURIComponent(D.course.id) + '">Admin ⚙</a></div>';
 }
 function renderGate() {
   var url = D.course.preassessment_url || '/pre-assessment';

@@ -70,6 +70,11 @@ function route_(req) {
     case 'quizQuestions':     return quizQuestions_(auth_(req), req);
     case 'quizSubmit':        return quizSubmit_(auth_(req), req);
     case 'overview':          return overview_(auth_(req), req.course);
+    case 'adminData':         return adminData_(req);
+    case 'adminSave':         return adminSave_(req);
+    case 'adminDelete':       return adminDelete_(req);
+    case 'adminSaveQuiz':     return adminSaveQuiz_(req);
+    case 'adminResetPassword':return adminResetPassword_(req);
     default: throw new Error('Unknown action.');
   }
 }
@@ -531,6 +536,157 @@ function overview_(student, courseId) {
     });
   });
   return { ok: true, course: { id: c.id, title: c.title }, phases: lc.phases.map(function (p) { return { phase: p.phase, title: p.title }; }), students: rows };
+}
+
+/* ================= Admin (trainer only) ================= */
+
+var ADMIN_TABS = {
+  Courses:    { key: ['course_id'] },
+  Phases:     { key: ['course_id', 'phase'] },
+  Modules:    { key: ['module_id'] },
+  Students:   { key: ['email'], deny: ['password_hash', 'salt', 'created_at', 'last_login'] },
+  Enrolments: { key: ['email', 'course_id'] }
+};
+
+function requireTrainer_(req) {
+  var s = auth_(req);
+  if (!isTrainer_(s)) throw new Error('Trainer access only.');
+  return s;
+}
+
+function plain_(v) { return v instanceof Date ? (isNaN(v) ? '' : v.toISOString()) : v; }
+
+function rowsOut_(name, hide) {
+  return table_(name).rows.map(function (r) {
+    var o = {};
+    TABS[name].forEach(function (h) { if (!hide || hide.indexOf(h) < 0) o[h] = plain_(r[h] === undefined ? '' : r[h]); });
+    return o;
+  });
+}
+
+function adminData_(req) {
+  requireTrainer_(req);
+  var students = table_('Students').rows.map(function (s) {
+    return { email: norm_(s.email), name: str_(s.name), role: str_(s.role) || 'student', active: s.active === '' ? true : truthy_(s.active),
+             has_password: !!str_(s.password_hash), created_at: plain_(s.created_at), last_login: plain_(s.last_login) };
+  });
+  return {
+    ok: true, courses: rowsOut_('Courses'), phases: rowsOut_('Phases'), modules: rowsOut_('Modules'),
+    quizzes: rowsOut_('Quizzes'), enrolments: rowsOut_('Enrolments'), students: students
+  };
+}
+
+function cleanAdminRow_(tab, row) {
+  var spec = ADMIN_TABS[tab], deny = spec.deny || [], o = {};
+  TABS[tab].forEach(function (h) {
+    if (deny.indexOf(h) >= 0 || !row.hasOwnProperty(h)) return;
+    var v = row[h];
+    if (typeof v === 'boolean' || typeof v === 'number') o[h] = v;
+    else o[h] = String(v == null ? '' : v).replace(/\r\n/g, '\n').trim();
+  });
+  if (o.hasOwnProperty('email')) o.email = norm_(o.email);
+  spec.key.forEach(function (k) { if (!str_(o[k])) throw new Error('Please fill in "' + k + '".'); });
+  if (o.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.email)) throw new Error('That email address does not look right.');
+  if (o.course_id && tab !== 'Courses' && !course_(o.course_id)) throw new Error('Unknown course "' + o.course_id + '".');
+  if (tab === 'Enrolments' && !findStudent_(o.email)) throw new Error('Add ' + o.email + ' as a student first.');
+  ['ppt_url', 'notes_url', 'image_url', 'quiz_url', 'preassessment_url'].forEach(function (k) {
+    if (o[k] && !/^(https?:\/\/|\/)/.test(o[k])) throw new Error('"' + k + '" must start with https:// (or / for a page on this site).');
+  });
+  return o;
+}
+
+function findByKey_(tab, keyObj) {
+  var keys = ADMIN_TABS[tab].key, rows = table_(tab).rows;
+  for (var i = 0; i < rows.length; i++) {
+    var ok = keys.every(function (k) {
+      return k === 'email' ? norm_(rows[i][k]) === norm_(keyObj[k]) : str_(rows[i][k]) === str_(keyObj[k]);
+    });
+    if (ok) return rows[i];
+  }
+  return null;
+}
+
+function adminSave_(req) {
+  requireTrainer_(req);
+  var tab = String(req.tab || '');
+  if (!ADMIN_TABS[tab]) throw new Error('Unknown table.');
+  var row = cleanAdminRow_(tab, req.row || {});
+  var original = req.original ? req.original : row;           /* lets you rename a key */
+  var existing = findByKey_(tab, original);
+  if (req.original && findByKey_(tab, row) && (!existing || findByKey_(tab, row)._row !== existing._row)) throw new Error('That one already exists.');
+  if (existing) update_(tab, existing._row, row);
+  else {
+    if (tab === 'Students') { row.created_at = now_(); if (!row.role) row.role = 'student'; if (!row.hasOwnProperty('active')) row.active = true; }
+    if (tab === 'Enrolments') { row.enrolled_at = row.enrolled_at || now_(); if (!row.hasOwnProperty('active')) row.active = true; }
+    append_(tab, row);
+  }
+  if (tab === 'Modules' && req.original && str_(req.original.module_id) && str_(req.original.module_id) !== row.module_id) {
+    table_('Quizzes').rows.forEach(function (q) { if (str_(q.module_id) === str_(req.original.module_id)) update_('Quizzes', q._row, { module_id: row.module_id }); });
+  }
+  return { ok: true, created: !existing };
+}
+
+function deleteRows_(tab, pred) {
+  var sh = sheet_(tab), rows = table_(tab).rows.filter(pred).map(function (r) { return r._row; }).sort(function (a, b) { return b - a; });
+  rows.forEach(function (r) { sh.deleteRow(r); });
+  delete _cache[tab];
+  return rows.length;
+}
+
+function adminDelete_(req) {
+  requireTrainer_(req);
+  var tab = String(req.tab || '');
+  if (!ADMIN_TABS[tab]) throw new Error('Unknown table.');
+  if (tab === 'Students') throw new Error('Students are not deleted: switch them to inactive instead, so their history is kept.');
+  var target = findByKey_(tab, req.key || {});
+  if (!target) throw new Error('Nothing to delete.');
+  if (tab === 'Courses' && table_('Enrolments').rows.some(function (e) { return str_(e.course_id) === str_(target.course_id); })) {
+    throw new Error('This course has students enrolled. Set its status to "draft" instead.');
+  }
+  deleteRows_(tab, function (r) { return r._row === target._row; });
+  if (tab === 'Modules') deleteRows_('Quizzes', function (q) { return str_(q.module_id) === str_(target.module_id); });
+  return { ok: true };
+}
+
+/* Replaces every question of one module in a single save. */
+function adminSaveQuiz_(req) {
+  requireTrainer_(req);
+  var id = str_(req.module_id);
+  if (!id || !findByKey_('Modules', { module_id: id })) throw new Error('Unknown module.');
+  var qs = (req.questions || []).filter(function (q) { return str_(q.question); });
+  if (qs.length > 60) throw new Error('A quiz can have up to 60 questions.');
+  qs.forEach(function (q, i) {
+    var t = str_(q.type).toLowerCase() === 'open' ? 'open' : 'mcq';
+    if (t === 'mcq') {
+      var opts = lines_(q.options);
+      if (opts.length < 2) throw new Error('Question ' + (i + 1) + ': add at least 2 options (one per line).');
+      var a = str_(q.answer).toUpperCase();
+      if (opts.length > 8) throw new Error('Question ' + (i + 1) + ': up to 8 options.');
+      if (!/^[A-H]$/.test(a) || a.charCodeAt(0) - 65 >= opts.length) throw new Error('Question ' + (i + 1) + ': choose which option is correct.');
+    }
+  });
+  deleteRows_('Quizzes', function (q) { return str_(q.module_id) === id; });
+  var sh = sheet_('Quizzes'), headers = table_('Quizzes').headers;
+  var values = qs.map(function (q, i) {
+    var t = str_(q.type).toLowerCase() === 'open' ? 'open' : 'mcq';
+    var o = { module_id: id, q_no: i + 1, type: t, question: str_(q.question), image_url: str_(q.image_url),
+              options: t === 'mcq' ? lines_(q.options).join('\n') : '', answer: t === 'mcq' ? str_(q.answer).toUpperCase() : '',
+              explanation: str_(q.explanation), model_answer: str_(q.model_answer) };
+    return headers.map(function (h) { return o[h] === undefined ? '' : o[h]; });
+  });
+  if (values.length) sh.getRange(sh.getLastRow() + 1, 1, values.length, headers.length).setValues(values);
+  delete _cache.Quizzes;
+  return { ok: true, saved: values.length };
+}
+
+function adminResetPassword_(req) {
+  var me = requireTrainer_(req);
+  var s = findStudent_(req.email);
+  if (!s) throw new Error('No student with that email.');
+  if (norm_(s.email) === norm_(me.email)) throw new Error('You cannot reset your own password here.');
+  update_('Students', s._row, { password_hash: '', salt: '' });
+  table_('Sessions').rows.forEach(function (r) { if (norm_(r.email) === norm_(s.email)) update_('Sessions', r._row, { expires_at: new Date(0) }); });
+  return { ok: true };
 }
 
 /* ================= Helpers to run from the editor ================= */
