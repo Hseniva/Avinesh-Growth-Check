@@ -11,30 +11,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#080B10; --card:#0D1220; --panel2:#111829; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
-    --text:#E2E8F0; --white:#fff; --muted:#6B7A99; --blue:#4F7CFF; --blue-soft:rgba(79,124,255,.1); --blue-line:rgba(79,124,255,.25); --blue-text:#7B9FFF;
-    --gold:#E8A045; --warn:#E8A045; --radius:20px;
+    --bg:#f5f6fa; --card:#ffffff; --panel2:#f7f8fc; --line:#e8eaf4; --line2:#dfe2ef;
+    --text:#3d4466; --white:#1b2140; --muted:#6b7392; --blue:#667eea; --blue-soft:rgba(102,126,234,.10); --blue-line:rgba(102,126,234,.32); --blue-text:#764ba2;
+    --gold:#b8721a; --warn:#c2410c; --radius:20px; --g:linear-gradient(90deg,#667eea,#764ba2);
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
-  body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 85% -10%,rgba(79,124,255,.12),transparent 60%),var(--bg)}
-  header{border-bottom:1px solid var(--line)}
-  .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:780px;margin:0 auto}
-  .brand{font-weight:800;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-.3px}
-  .brand b{color:var(--blue)}
-  .lang{display:flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+  body{min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(90deg,rgba(245,246,250,.97) 0%,rgba(245,246,250,.93) 48%,rgba(245,246,250,.62) 100%),url(training/img/training-session.jpg) center/cover fixed,var(--bg)}
+  @media (max-width:820px){body{background:linear-gradient(rgba(245,246,250,.94),rgba(245,246,250,.94)),url(training/img/training-session.jpg) center/cover fixed,var(--bg)}}
+  header{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(27,33,64,.03)}
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1160px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-.2px}
+  .brand .logo{width:44px;height:44px;border-radius:12px;background:var(--g);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;letter-spacing:.3px;box-shadow:0 6px 16px rgba(118,75,162,.25)}
+  @media (max-width:480px){.brand .bt{display:none}}
+  .lang{display:flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:#fff}
   .lang button{background:none;border:0;color:var(--muted);padding:7px 12px;font:600 13px Inter,sans-serif;cursor:pointer}
-  .lang button.on{background:var(--blue);color:#fff}
-  main{flex:1;width:100%;max-width:780px;margin:0 auto;padding:28px 16px 48px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px}
+  .lang button.on{background:var(--g);color:#fff}
+  main{flex:1;width:100%;max-width:1160px;margin:0 auto;padding:40px 16px 56px}
+  main .card{max-width:740px}
+  @media (max-width:820px){main .card{max-width:none}}
+  .card{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:38px 32px 32px;box-shadow:0 24px 60px rgba(27,33,64,.12)}
+  .card:before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--g)}
   @media (max-width:560px){.card{padding:24px 18px}}
-  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);border:1px solid var(--blue-line);color:var(--blue-text);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:500;margin-bottom:18px}
-  .badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue)}
-  .grad{background:linear-gradient(90deg,#4F7CFF,#E8A045);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(118,75,162,.08);border:0;color:var(--blue-text);border-radius:100px;padding:7px 14px;font-size:13.5px;font-weight:600;margin-bottom:18px}
+  .badge:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue-text)}
+  .grad{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
   .progress{height:4px;background:var(--panel2);border-radius:99px;overflow:hidden;margin:0 0 22px}
-  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4F7CFF,#E8A045);transition:width .3s}
+  .progress i{display:block;height:100%;width:0;background:var(--g);transition:width .3s}
   .step-n{color:var(--blue-text);font-size:13px;font-weight:600;margin-bottom:8px}
-  h1{font-size:40px;line-height:1.08;font-weight:900;letter-spacing:-1.2px;color:var(--white);margin:0 0 14px}
+  h1{font-size:44px;line-height:1.08;font-weight:900;letter-spacing:-1.4px;color:var(--white);margin:0 0 14px}
   @media (max-width:560px){h1{font-size:31px;letter-spacing:-.8px}}
   h2{font-size:23px;line-height:1.3;font-weight:800;letter-spacing:-.4px;color:var(--white);margin:0 0 6px}
   p.lead,.hint{color:var(--muted);line-height:1.7;margin:0 0 20px;font-size:16px}
@@ -44,23 +49,24 @@
   @media (max-width:560px){.opts.two{grid-template-columns:1fr}}
   .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:15px 16px;font:500 15px Inter,sans-serif;cursor:pointer;transition:border-color .15s,background .15s}
   .opt:hover{border-color:var(--blue-line)}
-  .opt.on{border-color:var(--blue);background:var(--blue-soft)}
-  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #34405a;margin-top:1px}
+  .opt{background:#fff}
+  .opt.on{border-color:var(--blue);background:var(--blue-soft);color:var(--white)}
+  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #c3c8dc;margin-top:1px}
   .opt.multi .dot{border-radius:5px}
   .opt.on .dot{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px var(--card)}
-  label.f{display:block;font-size:14px;color:var(--muted);margin:14px 0 6px}
-  input.t{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--white);border-radius:10px;padding:13px 14px;font:15px Inter,sans-serif}
+  label.f{display:block;font-size:14px;font-weight:600;color:var(--white);margin:16px 0 7px}
+  input.t{width:100%;background:#fff;border:1px solid var(--line2);color:var(--white);border-radius:14px;padding:15px 16px;font:15px Inter,sans-serif}
   input.t:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
   .nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:10px}
-  .btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:13px 22px;font:600 15px Inter,sans-serif;cursor:pointer;transition:filter .15s}
-  .btn:hover{filter:brightness(1.1)}
+  .btn{background:var(--g);color:#fff;border:0;border-radius:14px;padding:14px 26px;font:700 15px Inter,sans-serif;cursor:pointer;transition:filter .15s,transform .15s;box-shadow:0 10px 24px rgba(102,126,234,.3)}
+  .btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
   .btn[disabled]{opacity:.5;cursor:not-allowed}
   .ghost{background:none;border:0;color:var(--muted);font:500 14px Inter,sans-serif;cursor:pointer;padding:10px 4px}
   .ghost:hover{color:var(--text)}
   .err{color:var(--warn);font-size:14px;margin-top:10px;min-height:18px}
   .intro ul{list-style:none;margin:0 0 26px;padding:0;color:var(--text);line-height:2}
   .intro li:before{content:"✓";color:var(--blue);font-weight:700;margin-right:10px}
-  .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(79,124,255,.09),rgba(13,18,32,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
+  .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(102,126,234,.08),rgba(255,255,255,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
   .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--blue-text);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:100px;padding:4px 12px;margin-bottom:12px}
   .price{font-size:30px;font-weight:900;letter-spacing:-.6px;color:var(--white);margin:8px 0 2px}
   .price small{font-size:14px;color:var(--muted);font-weight:500;letter-spacing:0}
@@ -69,26 +75,26 @@
   .extra h3{margin:0 0 4px;font-size:16px;color:var(--white)}
   .extra .p{color:var(--gold);font-weight:700;font-size:14px;margin-top:6px}
   .note{color:var(--muted);font-size:13.5px;line-height:1.6;margin-top:16px}
-  footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line)}
+  footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line);background:#fff}
   footer .ft{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 8px}
   footer #tagline{color:var(--text);font-weight:500}
   footer .ft-sep{opacity:.5}
   @media (max-width:560px){footer .ft{flex-direction:column;gap:2px} footer .ft-sep{display:none}}
-  .promise{background:rgba(232,160,69,.08);border:1px solid rgba(232,160,69,.25);border-radius:12px;padding:12px 16px;margin:0 0 20px;color:var(--text);font-size:14.5px;line-height:1.6}
+  .promise{background:#fff8ec;border:1px solid #f1d6ab;border-radius:12px;padding:12px 16px;margin:0 0 20px;color:var(--text);font-size:14.5px;line-height:1.6}
   .promise b{color:var(--gold)}
   footer .links{display:flex;gap:10px;justify-content:center;margin-top:8px}
   footer a{color:var(--blue-text);text-decoration:none;font-weight:500}
-  footer a:hover{color:var(--white);text-decoration:underline}
+  footer a:hover{color:var(--blue);text-decoration:underline}
   .hp{position:absolute;left:-9999px}
   .tbadges{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px}
-  .tbadges span{font-size:12px;font-weight:600;color:var(--gold);background:rgba(232,160,69,.1);border:1px solid rgba(232,160,69,.3);border-radius:100px;padding:4px 10px}
+  .tbadges span{font-size:12px;font-weight:600;color:var(--gold);background:#fff8ec;border:1px solid #f1d6ab;border-radius:100px;padding:4px 10px}
   .tlink{display:inline-block;margin-top:10px;color:var(--blue-text);font-weight:600;font-size:14px;text-decoration:none}
-  .tlink:hover{color:var(--white)}
+  .tlink:hover{color:var(--blue)}
 </style>
 </head>
 <body>
 <header><div class="bar">
-  <a class="brand" href="https://avineshbundhoo.com/" target="_blank" rel="noopener">Avinesh<b>.</b></a>
+  <a class="brand" href="https://avineshbundhoo.com/" target="_blank" rel="noopener"><span class="logo">AB</span><span class="bt">Avinesh Growth Check</span></a>
   <div class="lang" role="group" aria-label="Language">
     <button type="button" data-l="en" class="on">EN</button>
     <button type="button" data-l="fr">FR</button>
