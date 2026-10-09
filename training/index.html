@@ -320,6 +320,7 @@ function first(n) { return String(n || '').split(' ')[0]; }
 function safeNext() { var n = new URLSearchParams(location.search).get('next') || ''; return /^\/(?!\/)[A-Za-z0-9\-_/?=&.%]*$/.test(n) ? n : ''; }
 function loading(msg) { app.innerHTML = '<div class="loading"><div class="spin"></div><p>' + esc(msg || 'Loading…') + '</p></div>'; }
 function bar(p, done) { return '<div class="bar' + (done ? ' done-bar' : '') + '"><i style="width:' + p + '%"></i></div>'; }
+function isAdminUser() { var s = DMM.session(); return !!(s && s.admin); }
 function modNum(id) { var m = String(id).match(/(\d+)\s*$/); return m ? m[1] : id; }
 var ICON_LOCK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 var ICON_CHECK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -443,7 +444,7 @@ function doLogin(ev) {
     if (!r.ok) return showErr(r.error || 'Something went wrong. Please try again.');
     if (r.needPassword) return setCreateMode(r.name);
     if (!r.token) return showErr('Please enter your password.');
-    DMM.setSession({ token: r.token, name: r.name || email, email: email.toLowerCase(), role: r.role || 'student' });
+    DMM.setSession({ token: r.token, name: r.name || email, email: email.toLowerCase(), role: r.role || 'student', admin: !!r.admin });
     cacheClear();
     var next = safeNext();
     if (next) { location.href = next; return; }
@@ -459,6 +460,7 @@ function loadMyCourses() {
   DMM.api('myCourses').then(function (r) {
     if (!r.ok) { if (!cached || r.authError) handleErr(r, loadMyCourses); else toast(r.error); return; }
     MY = r; cacheSet('dmm_my', r);
+    var ss = DMM.session(); if (ss && !!ss.admin !== !!r.admin) { ss.admin = !!r.admin; DMM.setSession(ss); }
     if (/^#\/c\//.test(location.hash)) return;   /* user already moved to a course */
     renderMyCourses(false);
   });
@@ -466,7 +468,7 @@ function loadMyCourses() {
 function renderMyCourses(fromCache) {
   var isTrainer = MY.role === 'trainer';
   if (!isTrainer && MY.courses.length === 1) { location.replace('#/c/' + encodeURIComponent(MY.courses[0].id)); return; }
-  var h = '<div class="wrap dash"><div class="page-h"><div><h1>' + (isTrainer ? 'Courses' : 'My courses') + '</h1><p>' + (isTrainer ? 'Open a course to see the learning view or your students\' progress.' : 'Welcome back, ' + esc(first(MY.name)) + '. Choose a course to continue.') + '</p></div>' + (isTrainer ? '<a class="btn btn-grad" href="/admin">Admin: add material &amp; students</a>' : '') + '</div>';
+  var h = '<div class="wrap dash"><div class="page-h"><div><h1>' + (isTrainer ? 'Courses' : 'My courses') + '</h1><p>' + (isTrainer ? 'Open a course to see the learning view or your students\' progress.' : 'Welcome back, ' + esc(first(MY.name)) + '. Choose a course to continue.') + '</p></div>' + (isTrainer ? '<a class="btn btn-grad" href="/admin">' + (isAdminUser() ? 'Admin: add material &amp; students' : 'Trainer area: add material &amp; students') + '</a>' : '') + '</div>';
   if (!MY.courses.length) h += '<div class="card empty">You are not enrolled in a course yet. Please contact your trainer at <a href="mailto:digitalmarketer@hseniva.com">digitalmarketer@hseniva.com</a>.</div>';
   else h += '<div class="cgrid">' + MY.courses.map(function (c) { return courseCard(c, { progress: true, onclick: 'location.hash=\'#/c/' + encodeURIComponent(c.id) + '\'' }); }).join('') + '</div>';
   app.innerHTML = h + '</div>';
@@ -498,7 +500,7 @@ function crumbs() {
 function trainerTabs(active) {
   if (!D || D.student.role !== 'trainer') return '';
   var base = '#/c/' + encodeURIComponent(D.course.id);
-  return '<div class="tabs"><a href="' + base + '" class="' + (active === 'learn' ? 'on' : '') + '">Learning view</a><a href="' + base + '/students" class="' + (active === 'students' ? 'on' : '') + '">Students\' progress</a><a href="/admin?course=' + encodeURIComponent(D.course.id) + '">Admin ⚙</a></div>';
+  return '<div class="tabs"><a href="' + base + '" class="' + (active === 'learn' ? 'on' : '') + '">Learning view</a><a href="' + base + '/students" class="' + (active === 'students' ? 'on' : '') + '">Students\' progress</a><a href="/admin?course=' + encodeURIComponent(D.course.id) + '">' + (isAdminUser() ? 'Admin ⚙' : 'Trainer area ⚙') + '</a></div>';
 }
 function renderGate() {
   var url = D.course.preassessment_url || '/pre-assessment';
