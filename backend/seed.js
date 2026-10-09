@@ -17,7 +17,8 @@ const TABS = {
 const students = [
   ['kavitaburrun@gmail.com', 'Kavita', '', '', 'student', true, '', ''],
   ['gaveenasee@gmail.com', 'Gaveena', '', '', 'student', true, '', ''],
-  ['digitalmarketer@hseniva.com', 'Avinesh', '', '', 'trainer', true, '', '']
+  ['digitalmarketer@hseniva.com', 'Avinesh', '', '', 'admin', true, '', ''],
+  ['fareezfawdar@gmail.com', 'Fareez Fawdar', '', '', 'trainer', true, '', '']
 ];
 
 const courses = [

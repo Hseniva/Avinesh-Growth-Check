@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>Admin | Digital Marketing Training</title>
+<title>Trainer area | Digital Marketing Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
@@ -100,6 +100,12 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--b1);box-sha
 
 .note{background:var(--amberbg);color:var(--amber);border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:16px}
 .note.info{background:var(--lav);color:var(--b2)}
+input[readonly],textarea[readonly],select:disabled{background:var(--greybg);color:var(--mut);cursor:not-allowed}
+.ri.lock{background:var(--greybg)}
+.lockbox{background:var(--greybg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:var(--text);max-height:220px;overflow:auto}
+.q.locked{background:var(--bg)}
+.q.locked .qt{font-weight:600;color:var(--ink);margin-bottom:8px}
+.lk{font-size:11.5px;font-weight:700;color:var(--mut);background:var(--greybg);padding:3px 9px;border-radius:999px}
 
 /* quiz */
 .q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
@@ -174,11 +180,11 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--b1);box-sha
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/"><span class="mark">DM</span><span class="bt">Digital Marketing Training</span><span class="pill-admin">ADMIN</span></a>
+    <a class="brand" href="/"><span class="mark">DM</span><span class="bt">Digital Marketing Training</span><span class="pill-admin" id="rolePill">TRAINER</span></a>
     <div class="who"><span class="nm" id="whoName"></span><a class="btn btn-ghost btn-sm" href="/">← Back to site</a></div>
   </div>
 </header>
-<main id="app"><div class="loading"><div class="spin"></div><p>Loading the admin…</p></div></main>
+<main id="app"><div class="loading"><div class="spin"></div><p>Loading…</p></div></main>
 <div class="toast" id="toast"></div>
 <div id="modal"></div>
 
@@ -186,7 +192,7 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--b1);box-sha
 <script>
 /* ================= helpers ================= */
 var app = document.getElementById('app');
-var DATA = null, COURSE = null, TAB = 'content', SEL = { content: null, quiz: null }, DIRTY = false;
+var DATA = null, ME = { admin: false, email: '' }, COURSE = null, TAB = 'content', SEL = { content: null, quiz: null }, DIRTY = false;
 var ICON_X = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 function toast(m, err) { var t = document.getElementById('toast'); t.textContent = m; t.className = 'toast show' + (err ? ' err' : ''); clearTimeout(toast.t); toast.t = setTimeout(function () { t.className = 'toast'; }, 3200); }
@@ -217,13 +223,15 @@ function boot() {
   load(true);
 }
 function load(first) {
-  if (first) app.innerHTML = '<div class="loading"><div class="spin"></div><p>Loading the admin…</p></div>';
+  if (first) app.innerHTML = '<div class="loading"><div class="spin"></div><p>Loading…</p></div>';
   return api('adminData').then(function (r) {
     if (!r.ok) {
-      app.innerHTML = '<div class="wrap"><div class="card empty" style="margin-top:40px"><h2 style="color:var(--ink);margin-bottom:8px">Admin access only</h2><p>' + esc(/Trainer/.test(r.error) ? 'This area is for the trainer account. You are logged in as a student.' : r.error) + '</p><p style="margin-top:16px"><a class="btn btn-grad" href="/">Back to the site</a></p></div></div>';
+      app.innerHTML = '<div class="wrap"><div class="card empty" style="margin-top:40px"><h2 style="color:var(--ink);margin-bottom:8px">Trainers only</h2><p>' + esc(/Trainer/.test(r.error) ? 'This area is for trainers. You are logged in as a student.' : r.error) + '</p><p style="margin-top:16px"><a class="btn btn-grad" href="/">Back to the site</a></p></div></div>';
       return false;
     }
-    DATA = r;
+    DATA = r; ME = r.me || ME;
+    document.getElementById('rolePill').textContent = ME.admin ? 'ADMIN' : 'TRAINER';
+    document.title = (ME.admin ? 'Admin' : 'Trainer area') + ' | Digital Marketing Training';
     if (!COURSE || !DATA.courses.some(function (c) { return str(c.course_id) === COURSE; })) {
       var q = new URLSearchParams(location.search).get('course');
       COURSE = (q && DATA.courses.some(function (c) { return str(c.course_id) === q; })) ? q : (DATA.courses[0] ? str(DATA.courses[0].course_id) : null);
@@ -237,15 +245,18 @@ function courseRow() { return DATA.courses.filter(function (c) { return str(c.co
 function phasesOf(cid) { return DATA.phases.filter(function (p) { return str(p.course_id) === cid; }).sort(function (a, b) { return num(a.phase, 0) - num(b.phase, 0); }); }
 function modulesOf(cid) { return DATA.modules.filter(function (m) { return str(m.course_id) === cid && str(m.module_id); }).sort(function (a, b) { return num(a.phase, 0) - num(b.phase, 0) || num(a.order, 0) - num(b.order, 0); }); }
 function quizOf(mid) { return DATA.quizzes.filter(function (q) { return str(q.module_id) === mid && str(q.question); }).sort(function (a, b) { return num(a.q_no, 0) - num(b.q_no, 0); }); }
+function mine(row) { return !!str(row && row.owner) && str(row.owner).toLowerCase() === ME.email; }
+function canEdit(row) { return ME.admin || mine(row); }
+function ownerName(row) { var o = str(row && row.owner).toLowerCase(); if (!o) { var ad = DATA.students.filter(function (s) { return s.role === 'admin'; })[0]; return ad ? (ad.name || 'the admin') + ' (admin)' : 'the admin'; } var p = DATA.students.filter(function (s) { return s.email === o; })[0]; return p ? (p.name || o) : o; }
 function modById(mid) { return DATA.modules.filter(function (m) { return str(m.module_id) === mid; })[0] || null; }
 
 /* ================= layout ================= */
 function render() {
   var c = courseRow();
-  var h = '<div class="wrap"><div class="page-h"><div><h1>Admin</h1><p>Add your course material, quizzes and students. Changes show on the student dashboard straight away.</p></div>';
+  var h = '<div class="wrap"><div class="page-h"><div><h1>' + (ME.admin ? 'Admin' : 'Trainer area') + '</h1><p>' + (ME.admin ? 'Add your course material, quizzes and students. Changes show on the student dashboard straight away.' : 'Add course material, quiz questions and students. Material posted by the admin is locked: you can add to it, but not change or remove it.') + '</p></div>';
   h += '<div class="course-pick"><label for="coursePick">Course</label><select id="coursePick" onchange="switchCourse(this.value)">' +
        DATA.courses.map(function (x) { return '<option value="' + esc(x.course_id) + '"' + (str(x.course_id) === COURSE ? ' selected' : '') + '>' + esc(x.title || x.course_id) + (str(x.status).toLowerCase() === 'draft' ? ' (draft)' : '') + '</option>'; }).join('') +
-       '<option value="__new">+ New course…</option></select></div></div>';
+       (ME.admin ? '<option value="__new">+ New course…</option>' : '') + '</select></div></div>';
   var tabs = [['content', 'Modules & material'], ['quiz', 'Quizzes'], ['students', 'Students'], ['course', 'Course & phases']];
   h += '<div class="tabs">' + tabs.map(function (t) { return '<button class="' + (TAB === t[0] ? 'on' : '') + '" onclick="setTab(\'' + t[0] + '\')">' + t[1] + '</button>'; }).join('') + '</div>';
   h += '<div id="body"></div></div>';
@@ -295,26 +306,30 @@ function renderContent() {
   var m = isNew ? { course_id: COURSE, module_id: '', phase: ph.length ? ph[0].phase : 1, order: mods.length + 1, week: '', title: '', description: '', ppt_url: '', notes_url: '', notes_text: '', resources: '', exercises: '', quiz_url: '', pass_mark: 70, max_attempts: '', w_ppt: 20, w_notes: 20, w_exercises: 30, w_quiz: 30 } : modById(SEL.content);
   if (!m) { SEL.content = null; return renderContent(); }
   var qn = isNew ? 0 : quizOf(str(m.module_id)).length;
-  var res = lines(m.resources).map(function (l) { var p = l.split('|'); return { label: str(p[0]), url: str(p[1] || p[0]) }; });
-  var exs = lines(m.exercises).map(function (l) { var p = l.split('|'); return { id: str(p[0]), title: str(p[1]), text: p.slice(2).join('|').trim() }; });
+  var locked = !isNew && !canEdit(m);
+  function ro(v) { return locked && str(v) !== '' ? ' readonly' : ''; }
+  var res = lines(m.resources).map(function (l) { var p = l.split('|'); return { label: str(p[0]), url: str(p[1] || p[0]), raw: locked ? l : '' }; });
+  var exs = lines(m.exercises).map(function (l) { var p = l.split('|'); return { id: str(p[0]), title: str(p[1]), text: p.slice(2).join('|').trim(), raw: locked ? l : '' }; });
 
-  var h = '<h2>' + (isNew ? 'New module' : 'Module ' + esc(modNum(m.module_id)) + ': ' + esc(m.title)) + '</h2><p class="sub">' + (isNew ? 'Fill in the basics, then add the material. Students see it as soon as you save.' : 'Everything below appears in this module on the student dashboard.') + '</p>';
+  var h = (locked ? '<div class="note info">🔒 Posted by ' + esc(ownerName(m)) + '. You can add material (empty fields, new resources, exercises and notes), but what is already here cannot be changed or removed.</div>' : '') + '<h2>' + (isNew ? 'New module' : 'Module ' + esc(modNum(m.module_id)) + ': ' + esc(m.title)) + '</h2><p class="sub">' + (isNew ? 'Fill in the basics, then add the material. Students see it as soon as you save.' : 'Everything below appears in this module on the student dashboard.') + '</p>';
 
   h += '<div class="sec" style="border:0;margin-top:0;padding-top:0"><h3><span class="n">1</span>Basics</h3><div class="grid">' +
-    '<div class="f s3"><label>Title</label><input type="text" id="m_title" value="' + esc(m.title) + '" placeholder="e.g. Google Analytics 4 essentials"></div>' +
-    '<div class="f"><label>Module code <small>(unique)</small></label><input type="text" id="m_id" value="' + esc(m.module_id) + '" placeholder="e.g. M3"></div>' +
-    '<div class="f"><label>Phase</label><select id="m_phase">' + ph.map(function (p) { return '<option value="' + esc(p.phase) + '"' + (num(p.phase, 0) === num(m.phase, 0) ? ' selected' : '') + '>Phase ' + esc(p.phase) + ' · ' + esc(p.title) + '</option>'; }).join('') + '</select></div>' +
-    '<div class="f"><label>Week label</label><input type="text" id="m_week" value="' + esc(m.week) + '" placeholder="e.g. Week 3"></div>' +
-    '<div class="f"><label>Order in phase</label><input type="number" id="m_order" value="' + esc(m.order) + '" min="0"></div>' +
-    '<div class="f s4"><label>Short description <small>(what students will learn)</small></label><textarea id="m_desc" style="min-height:70px">' + esc(m.description) + '</textarea></div>' +
+    '<div class="f s3"><label>Title</label><input type="text" id="m_title"' + ro(m.title) + ' value="' + esc(m.title) + '" placeholder="e.g. Google Analytics 4 essentials"></div>' +
+    '<div class="f"><label>Module code <small>(unique)</small></label><input type="text" id="m_id"' + (locked ? ' readonly' : '') + ' value="' + esc(m.module_id) + '" placeholder="e.g. M3"></div>' +
+    '<div class="f"><label>Phase</label><select id="m_phase"' + (ro(m.phase) ? ' disabled' : '') + '>' + ph.map(function (p) { return '<option value="' + esc(p.phase) + '"' + (num(p.phase, 0) === num(m.phase, 0) ? ' selected' : '') + '>Phase ' + esc(p.phase) + ' · ' + esc(p.title) + '</option>'; }).join('') + '</select></div>' +
+    '<div class="f"><label>Week label</label><input type="text" id="m_week"' + ro(m.week) + ' value="' + esc(m.week) + '" placeholder="e.g. Week 3"></div>' +
+    '<div class="f"><label>Order in phase</label><input type="number" id="m_order"' + ro(m.order) + ' value="' + esc(m.order) + '" min="0"></div>' +
+    '<div class="f s4"><label>Short description <small>(what students will learn)</small></label><textarea id="m_desc"' + ro(m.description) + ' style="min-height:70px">' + esc(m.description) + '</textarea></div>' +
     '</div></div>';
 
   h += '<div class="sec"><h3><span class="n">2</span>Presentation (PowerPoint)</h3><p class="hint">Paste the share link to your slides (Google Slides, OneDrive, Canva, or a PDF in Drive). Make sure the link is set to "Anyone with the link can view".</p>' +
-    '<div class="linkrow"><input type="url" id="m_ppt" value="' + esc(m.ppt_url) + '" placeholder="https://docs.google.com/presentation/d/…"><button class="btn btn-ghost btn-sm" onclick="testLink(\'m_ppt\')">Open ↗</button></div></div>';
+    '<div class="linkrow"><input type="url" id="m_ppt"' + ro(m.ppt_url) + ' value="' + esc(m.ppt_url) + '" placeholder="https://docs.google.com/presentation/d/…"><button class="btn btn-ghost btn-sm" onclick="testLink(\'m_ppt\')">Open ↗</button></div></div>';
 
   h += '<div class="sec"><h3><span class="n">3</span>Reading notes</h3><p class="hint">Use a link to a document, write the notes here, or both. Links you paste into the text become clickable for students.</p>' +
-    '<div class="f"><label>Notes link <small>(optional)</small></label><div class="linkrow"><input type="url" id="m_notesurl" value="' + esc(m.notes_url) + '" placeholder="https://docs.google.com/document/d/…"><button class="btn btn-ghost btn-sm" onclick="testLink(\'m_notesurl\')">Open ↗</button></div></div>' +
-    '<div class="f" style="margin-top:12px"><label>Notes text <small>(optional)</small></label><textarea id="m_notes" style="min-height:160px" placeholder="Key points for this module…">' + esc(m.notes_text) + '</textarea></div></div>';
+    '<div class="f"><label>Notes link <small>(optional)</small></label><div class="linkrow"><input type="url" id="m_notesurl"' + ro(m.notes_url) + ' value="' + esc(m.notes_url) + '" placeholder="https://docs.google.com/document/d/…"><button class="btn btn-ghost btn-sm" onclick="testLink(\'m_notesurl\')">Open ↗</button></div></div>' +
+    (locked && str(m.notes_text) ? '<div class="f" style="margin-top:12px"><label>Notes text <small>(posted by ' + esc(ownerName(m)) + ', locked)</small></label><div class="lockbox">' + esc(m.notes_text) + '</div></div>' +
+      '<div class="f" style="margin-top:12px"><label>Add to the notes <small>(added below the existing notes)</small></label><textarea id="m_notes_add" style="min-height:110px" placeholder="Your extra notes…"></textarea></div></div>'
+    : '<div class="f" style="margin-top:12px"><label>Notes text <small>(optional)</small></label><textarea id="m_notes" style="min-height:160px" placeholder="Key points for this module…">' + esc(m.notes_text) + '</textarea></div></div>');
 
   h += '<div class="sec"><h3><span class="n">4</span>Extra resources</h3><p class="hint">Useful links shown under the notes (tools, articles, templates).</p><div class="rep" id="resList">' +
     res.map(resRow).join('') + '</div><button class="btn btn-soft btn-sm addrow" style="margin-top:10px" onclick="addRes()">+ Add a resource</button></div>';
@@ -325,24 +340,26 @@ function renderContent() {
   h += '<div class="sec"><h3><span class="n">6</span>Quiz</h3>' +
     (qn ? '<div class="note info">This module has <strong>' + qn + ' quiz question' + (qn === 1 ? '' : 's') + '</strong> in the built-in quiz. <a href="#" onclick="if(okToLeave()){DIRTY=false;SEL.quiz=\'' + esc(m.module_id) + '\';TAB=\'quiz\';render();}return false">Edit the questions →</a></div>' :
       (isNew ? '<p class="hint">Save the module first, then add questions in the Quizzes tab.</p>' : '<p class="hint">No questions yet. Add them in the <a href="#" onclick="if(okToLeave()){DIRTY=false;SEL.quiz=\'' + esc(m.module_id) + '\';TAB=\'quiz\';render();}return false">Quizzes tab</a>.</p>')) +
-    '<div class="grid"><div class="f"><label>Pass mark (%)</label><input type="number" id="m_pass" value="' + esc(m.pass_mark === '' ? 70 : m.pass_mark) + '" min="0" max="100"></div>' +
-    '<div class="f"><label>Max attempts <small>(blank = unlimited)</small></label><input type="number" id="m_att" value="' + esc(m.max_attempts) + '" min="0"></div>' +
-    '<div class="f s2"><label>Custom quiz page <small>(optional, replaces the built-in quiz)</small></label><input type="text" id="m_quizurl" value="' + esc(m.quiz_url) + '" placeholder="Leave blank to use the built-in quiz"></div></div></div>';
+    '<div class="grid"><div class="f"><label>Pass mark (%)</label><input type="number" id="m_pass"' + ro(m.pass_mark) + ' value="' + esc(m.pass_mark === '' ? 70 : m.pass_mark) + '" min="0" max="100"></div>' +
+    '<div class="f"><label>Max attempts <small>(blank = unlimited)</small></label><input type="number" id="m_att"' + ro(m.max_attempts) + ' value="' + esc(m.max_attempts) + '" min="0"></div>' +
+    '<div class="f s2"><label>Custom quiz page <small>(optional, replaces the built-in quiz)</small></label><input type="text" id="m_quizurl"' + ro(m.quiz_url) + ' value="' + esc(m.quiz_url) + '" placeholder="Leave blank to use the built-in quiz"></div></div></div>';
 
   h += '<div class="sec"><details><summary style="cursor:pointer;font-weight:600;color:var(--ink);font-size:14px">Advanced: how much each part counts towards the module %</summary><p class="hint" style="margin-top:8px">Parts without content are left out automatically and the rest is rebalanced.</p><div class="grid">' +
-    '<div class="f"><label>Slides</label><input type="number" id="w_ppt" value="' + esc(m.w_ppt === '' ? 20 : m.w_ppt) + '"></div>' +
-    '<div class="f"><label>Notes</label><input type="number" id="w_notes" value="' + esc(m.w_notes === '' ? 20 : m.w_notes) + '"></div>' +
-    '<div class="f"><label>Exercises</label><input type="number" id="w_ex" value="' + esc(m.w_exercises === '' ? 30 : m.w_exercises) + '"></div>' +
-    '<div class="f"><label>Quiz</label><input type="number" id="w_quiz" value="' + esc(m.w_quiz === '' ? 30 : m.w_quiz) + '"></div></div></details></div>';
+    '<div class="f"><label>Slides</label><input type="number" id="w_ppt"' + ro(m.w_ppt) + ' value="' + esc(m.w_ppt === '' ? 20 : m.w_ppt) + '"></div>' +
+    '<div class="f"><label>Notes</label><input type="number" id="w_notes"' + ro(m.w_notes) + ' value="' + esc(m.w_notes === '' ? 20 : m.w_notes) + '"></div>' +
+    '<div class="f"><label>Exercises</label><input type="number" id="w_ex"' + ro(m.w_exercises) + ' value="' + esc(m.w_exercises === '' ? 30 : m.w_exercises) + '"></div>' +
+    '<div class="f"><label>Quiz</label><input type="number" id="w_quiz"' + ro(m.w_quiz) + ' value="' + esc(m.w_quiz === '' ? 30 : m.w_quiz) + '"></div></div></details></div>';
 
   h += '<div class="actbar"><button class="btn btn-grad" id="saveBtn" onclick="saveModule(' + (isNew ? 'true' : 'false') + ')">' + (isNew ? 'Create module' : 'Save changes') + '</button><span id="saveState"></span><span class="sp"></span>' +
-    (isNew ? '<button class="btn btn-ghost btn-sm" onclick="DIRTY=false;SEL.content=null;render()">Cancel</button>' : '<button class="btn btn-danger btn-sm" onclick="deleteModule()">Delete module</button>') + '</div>';
+    (isNew ? '<button class="btn btn-ghost btn-sm" onclick="DIRTY=false;SEL.content=null;render()">Cancel</button>' : (canEdit(m) && (ME.admin || quizOf(str(m.module_id)).every(mine)) ? '<button class="btn btn-danger btn-sm" onclick="deleteModule()">Delete module</button>' : '')) + '</div>';
   ed.innerHTML = h;
   ed.addEventListener('input', markDirty);
   ed.dataset.orig = isNew ? '' : str(m.module_id);
 }
-function resRow(r) { r = r || {}; return '<div class="ri res"><input type="text" class="r_label" value="' + esc(r.label) + '" placeholder="Label, e.g. GA4 demo account"><input type="url" class="r_url" value="' + esc(r.url) + '" placeholder="https://…"><button class="btn-x" title="Remove" onclick="this.parentNode.remove();markDirty()">' + ICON_X + '</button></div>'; }
-function exRow(e) { e = e || {}; return '<div class="ri ex"><input type="text" class="e_id" value="' + esc(e.id) + '" placeholder="No. e.g. 3.1"><input type="text" class="e_title" value="' + esc(e.title) + '" placeholder="Exercise title"><button class="btn-x" title="Remove" onclick="this.parentNode.remove();markDirty()">' + ICON_X + '</button><textarea class="e_text" placeholder="Instructions for the student…">' + esc(e.text) + '</textarea></div>'; }
+function resRow(r) { r = r || {}; if (r.raw) return '<div class="ri res lock" data-raw="' + esc(r.raw) + '"><input type="text" readonly value="' + esc(r.label) + '"><input type="url" readonly value="' + esc(r.url) + '"><span class="lk">🔒</span></div>';
+  return '<div class="ri res"><input type="text" class="r_label" value="' + esc(r.label) + '" placeholder="Label, e.g. GA4 demo account"><input type="url" class="r_url" value="' + esc(r.url) + '" placeholder="https://…"><button class="btn-x" title="Remove" onclick="this.parentNode.remove();markDirty()">' + ICON_X + '</button></div>'; }
+function exRow(e) { e = e || {}; if (e.raw) return '<div class="ri ex lock" data-raw="' + esc(e.raw) + '"><input type="text" readonly value="' + esc(e.id) + '"><input type="text" readonly value="' + esc(e.title) + '"><span class="lk">🔒</span><textarea readonly>' + esc(e.text) + '</textarea></div>';
+  return '<div class="ri ex"><input type="text" class="e_id" value="' + esc(e.id) + '" placeholder="No. e.g. 3.1"><input type="text" class="e_title" value="' + esc(e.title) + '" placeholder="Exercise title"><button class="btn-x" title="Remove" onclick="this.parentNode.remove();markDirty()">' + ICON_X + '</button><textarea class="e_text" placeholder="Instructions for the student…">' + esc(e.text) + '</textarea></div>'; }
 function addRes() { document.getElementById('resList').insertAdjacentHTML('beforeend', resRow()); markDirty(); }
 function addEx() {
   var list = document.getElementById('exList'), n = list.children.length + 1, base = modNum(val('m_id')) || '';
@@ -358,16 +375,22 @@ function saveModule(isNew) {
   if (!id) return toast('Please add a module code, e.g. M3', true);
   var orig = ed.dataset.orig;
   if ((isNew || id !== orig) && modById(id)) return toast('Module code "' + id + '" is already used. Choose another one.', true);
-  var res = [].map.call(ed.querySelectorAll('.ri.res'), function (r) { var l = clean1(r.querySelector('.r_label').value), u = r.querySelector('.r_url').value.trim(); return u ? (l || u) + ' | ' + u : ''; }).filter(String);
-  var bad = res.filter(function (l) { return !/\|\s*https?:\/\//.test(l); });
-  if (bad.length) return toast('Resource links must start with https://', true);
+  var badUrl = false;
+  var res = [].map.call(ed.querySelectorAll('.ri.res'), function (r) {
+    if (r.dataset.raw) return r.dataset.raw;
+    var l = clean1(r.querySelector('.r_label').value), u = r.querySelector('.r_url').value.trim();
+    if (u && !/^https?:\/\//.test(u)) badUrl = true;
+    return u ? (l || u) + ' | ' + u : '';
+  }).filter(String);
+  if (badUrl) return toast('Resource links must start with https://', true);
   var exs = [].map.call(ed.querySelectorAll('.ri.ex'), function (r, i) {
+    if (r.dataset.raw) return r.dataset.raw;
     var eid = clean1(r.querySelector('.e_id').value) || String(i + 1), t = clean1(r.querySelector('.e_title').value), tx = clean1(r.querySelector('.e_text').value);
     return (t || tx) ? eid + ' | ' + (t || 'Exercise ' + eid) + ' | ' + tx : '';
   }).filter(String);
   var row = {
     course_id: COURSE, module_id: id, phase: num(val('m_phase'), 1), order: num(val('m_order'), 0), week: val('m_week'), title: val('m_title'),
-    description: val('m_desc'), ppt_url: val('m_ppt'), notes_url: val('m_notesurl'), notes_text: document.getElementById('m_notes').value.trim(),
+    description: val('m_desc'), ppt_url: val('m_ppt'), notes_url: val('m_notesurl'), notes_text: notesValue(),
     resources: res.join('\n'), exercises: exs.join('\n'), quiz_url: val('m_quizurl'),
     pass_mark: num(val('m_pass'), 70), max_attempts: val('m_att') === '' ? '' : num(val('m_att'), ''),
     w_ppt: num(val('w_ppt'), 20), w_notes: num(val('w_notes'), 20), w_exercises: num(val('w_ex'), 30), w_quiz: num(val('w_quiz'), 30)
@@ -381,6 +404,12 @@ function saveModule(isNew) {
     DIRTY = false; SEL.content = id; clearStudentCache();
     load().then(function () { var s = document.getElementById('saveState'); if (s) { s.className = 'saved'; s.textContent = '✓ Saved. Students can see it now.'; } toast(isNew ? 'Module created ✓' : 'Saved ✓'); });
   });
+}
+function notesValue() {
+  var t = document.getElementById('m_notes'); if (t) return t.value.trim();
+  var m = modById(SEL.content), add = (document.getElementById('m_notes_add') || {}).value || '';
+  var old = String(m.notes_text || '').replace(/\r\n/g, '\n').trim();
+  return add.trim() ? old + '\n\n' + add.trim() : old;
 }
 function deleteModule() {
   var m = modById(SEL.content); if (!m) return;
@@ -404,9 +433,10 @@ function renderQuiz() {
   if (!m) { ed.innerHTML = '<div class="empty">Create a module first, then add its quiz here.</div>'; return; }
   QZ = quizOf(str(m.module_id)).map(function (q) {
     var opts = lines(q.options), a = str(q.answer).toUpperCase(), idx = /^[A-H]$/.test(a) ? a.charCodeAt(0) - 65 : (/^\d+$/.test(a) ? parseInt(a, 10) - 1 : -1);
-    return { type: str(q.type).toLowerCase() === 'open' ? 'open' : 'mcq', question: str(q.question), image_url: str(q.image_url), options: opts.length ? opts : ['', ''], answer: idx, explanation: str(q.explanation), model_answer: str(q.model_answer) };
+    return { type: str(q.type).toLowerCase() === 'open' ? 'open' : 'mcq', question: str(q.question), image_url: str(q.image_url), options: opts.length ? opts : ['', ''], answer: idx, explanation: str(q.explanation), model_answer: str(q.model_answer), locked: !ME.admin && !mine(q), by: ownerName(q) };
   });
   var h = '<h2>Quiz · ' + esc(m.title || m.module_id) + '</h2><p class="sub">Mix multiple-choice questions (scored automatically) with open questions (students write an answer and then see your model answer). Aim for around 20 questions.</p>';
+  if (!ME.admin && QZ.some(function (q) { return q.locked; })) h += '<div class="note info">🔒 Questions posted by the admin are locked. You can add your own questions, and edit or delete the ones you wrote.</div>';
   if (str(m.quiz_url)) h += '<div class="note">This module currently opens a custom quiz page (<strong>' + esc(m.quiz_url) + '</strong>). Questions you add here are used only once you clear "Custom quiz page" in the module settings.</div>';
   h += '<div id="qList"></div><button class="btn btn-soft btn-sm" onclick="addQ(\'mcq\')">+ Multiple-choice question</button> <button class="btn btn-soft btn-sm" onclick="addQ(\'open\')">+ Open question</button>';
   h += '<div class="actbar"><button class="btn btn-grad" id="saveBtn" onclick="saveQuiz()">Save quiz</button><span id="saveState"></span><span class="sp"></span><span id="qCount" style="font-size:13px;color:var(--mut)"></span>' +
@@ -416,7 +446,7 @@ function renderQuiz() {
 }
 function readQ() {
   [].forEach.call(document.querySelectorAll('.q'), function (el) {
-    var i = +el.dataset.i, q = QZ[i]; if (!q) return;
+    var i = +el.dataset.i, q = QZ[i]; if (!q || q.locked) return;
     q.question = el.querySelector('.q_text').value;
     q.image_url = el.querySelector('.q_img').value.trim();
     q.explanation = el.querySelector('.q_exp').value;
@@ -428,6 +458,13 @@ function readQ() {
 function drawQ() {
   var L = 'ABCDEFGH';
   document.getElementById('qList').innerHTML = QZ.length ? QZ.map(function (q, i) {
+    if (q.locked) return '<div class="q locked" data-i="' + i + '"><div class="q-h"><span class="qn">Q' + (i + 1) + '</span><span class="lk">🔒 ' + (q.type === 'mcq' ? 'Multiple choice' : 'Open') + ' · by ' + esc(q.by) + '</span><span class="sp"></span>' +
+      '<button class="btn-x" title="Move up" onclick="moveQ(' + i + ',-1)"' + (i ? '' : ' disabled style="opacity:.3"') + '><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg></button>' +
+      '<button class="btn-x" title="Move down" onclick="moveQ(' + i + ',1)"' + (i < QZ.length - 1 ? '' : ' disabled style="opacity:.3"') + '><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button></div>' +
+      '<div class="qt">' + esc(q.question) + '</div>' +
+      (q.type === 'mcq' ? q.options.map(function (o, j) { return '<div class="opt' + (q.answer === j ? ' right' : '') + '"><span class="L">' + L[j] + '</span><span>' + esc(o) + '</span></div>'; }).join('') : '<div style="font-size:13.5px;color:var(--mut)">Model answer: ' + esc(q.model_answer || '—') + '</div>') +
+      (q.explanation ? '<div style="font-size:13px;color:var(--mut);margin-top:6px">Explanation: ' + esc(q.explanation) + '</div>' : '') +
+      (/^https?:\/\//.test(q.image_url) ? '<img class="qimg" src="' + esc(q.image_url) + '" alt="">' : '') + '</div>';
     var h = '<div class="q" data-i="' + i + '"><div class="q-h"><span class="qn">Q' + (i + 1) + '</span><span class="seg"><button class="' + (q.type === 'mcq' ? 'on' : '') + '" onclick="setQType(' + i + ',\'mcq\')">Multiple choice</button><button class="' + (q.type === 'open' ? 'on' : '') + '" onclick="setQType(' + i + ',\'open\')">Open</button></span><span class="sp"></span>' +
       '<button class="btn-x" title="Move up" onclick="moveQ(' + i + ',-1)"' + (i ? '' : ' disabled style="opacity:.3"') + '><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg></button>' +
       '<button class="btn-x" title="Move down" onclick="moveQ(' + i + ',1)"' + (i < QZ.length - 1 ? '' : ' disabled style="opacity:.3"') + '><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>' +
@@ -466,7 +503,7 @@ function saveQuiz() {
       opts.forEach(function (o, j) { if (o) { if (j === q.answer) newAns = keep.length; keep.push(o); } });
       if (keep.length < 2) { err = 'Q' + (i + 1) + ': add at least 2 options.'; return; }
       if (newAns < 0) { err = 'Q' + (i + 1) + ': tick the correct answer.'; return; }
-      out.push({ type: 'mcq', question: str(q.question), image_url: q.image_url, options: keep.join('\n'), answer: L[newAns], explanation: str(q.explanation) });
+      out.push({ type: 'mcq', question: str(q.question), image_url: q.image_url, options: keep.join('\n'), answer: L[newAns], explanation: str(q.explanation), model_answer: str(q.model_answer) });
     } else out.push({ type: 'open', question: str(q.question), image_url: q.image_url, explanation: str(q.explanation), model_answer: str(q.model_answer) });
   });
   if (err) return toast(err, true);
@@ -498,7 +535,7 @@ function renderStudents() {
         '<td>' + (!active ? '<span class="tag off">Inactive</span>' : s.has_password ? '<span class="tag ok">Password set</span>' : '<span class="tag todo">Not logged in yet</span>') + '</td>' +
         '<td>' + (c.preassessment_url ? (truthy(e.preassessment_done) ? '<span class="tag ok">Done</span>' : '<span class="tag todo">Not yet</span>') : '<span style="color:var(--mut)">n/a</span>') + '</td>' +
         '<td>' + phaseTxt + '</td><td style="white-space:nowrap">' + (fmtDate(s.last_login) || '<span style="color:var(--grey)">Never</span>') + '</td>' +
-        '<td><div class="acts"><button class="btn btn-ghost btn-sm" onclick="studentForm(\'' + esc(s.email) + '\')">Edit</button>' + (s.has_password ? '<button class="btn btn-ghost btn-sm" onclick="resetPw(\'' + esc(s.email) + '\')">Reset password</button>' : '') + '</div></td></tr>';
+        '<td><div class="acts"><button class="btn btn-ghost btn-sm" onclick="studentForm(\'' + esc(s.email) + '\')">Edit</button>' + (s.has_password && (ME.admin || s.role === 'student') ? '<button class="btn btn-ghost btn-sm" onclick="resetPw(\'' + esc(s.email) + '\')">Reset password</button>' : '') + '</div></td></tr>';
     });
     h += '</tbody></table></div>';
   }
@@ -517,9 +554,10 @@ function studentForm(email) {
   var h = '<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="card modal"><h3>' + (s ? 'Edit ' + esc(s.name || s.email) : 'Add a student') + '</h3><div class="grid" style="grid-template-columns:1fr 1fr">' +
     '<div class="f"><label>Full name</label><input type="text" id="s_name" value="' + esc(s ? s.name : '') + '"></div>' +
     '<div class="f"><label>Email <small>(their login)</small></label><input type="email" id="s_email" value="' + esc(s ? s.email : '') + '"' + (s ? ' disabled' : '') + '></div>' +
-    '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_active"' + (!s || s.active ? ' checked' : '') + '> Account active <small style="color:var(--mut);font-weight:500">(untick to block access without losing their progress)</small></label></div></div>' +
+    '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_active"' + (!s || s.active ? ' checked' : '') + (!ME.admin && s && s.active ? ' disabled' : '') + '> Account active <small style="color:var(--mut);font-weight:500">(untick to block access without losing their progress)</small></label></div></div>' +
+    (!ME.admin && s ? '<p style="font-size:12.5px;color:var(--mut);margin-top:10px">Only the admin can deactivate a student or remove them from a course.</p>' : '') +
     '<div class="sec" style="margin-top:16px;padding-top:16px"><h3>' + esc(c.title || c.course_id) + '</h3><div class="grid" style="grid-template-columns:1fr 1fr;margin-top:10px">' +
-    '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_enrol"' + (!s || e ? ' checked' : '') + '> Enrolled in this course</label></div>' +
+    '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_enrol"' + (!s || e ? ' checked' : '') + (!ME.admin && e && blankOrTrue(e.active) ? ' disabled' : '') + '> Enrolled in this course</label></div>' +
     (c.preassessment_url ? '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_pre"' + (e && truthy(e.preassessment_done) ? ' checked' : '') + '> Pre-assessment already done <small style="color:var(--mut);font-weight:500">(tick for past students)</small></label></div>' : '') +
     '<div class="f" style="grid-column:span 2"><label>Phases open</label><select id="s_unl"><option value="">Automatic (opens as they progress)</option>' +
     ph.map(function (p) { return '<option value="' + esc(p.phase) + '"' + (unl === str(p.phase) ? ' selected' : '') + '>Open up to Phase ' + esc(p.phase) + ' · ' + esc(p.title) + '</option>'; }).join('') + '</select></div></div></div>' +
@@ -586,7 +624,14 @@ function renderCourse() {
     '<div class="actbar"><button class="btn btn-grad" id="saveBtn" onclick="saveCourse(' + isNew + ')">' + (isNew ? 'Create course' : 'Save course') + '</button><span id="saveState"></span></div></div>';
   document.getElementById('body').innerHTML = h;
   drawPh();
-  document.getElementById('editor').addEventListener('input', markDirty);
+  var edc = document.getElementById('editor');
+  if (!ME.admin) {
+    edc.querySelectorAll('input,textarea').forEach(function (x) { x.readOnly = true; });
+    edc.querySelectorAll('select').forEach(function (x) { x.disabled = true; });
+    edc.querySelectorAll('.btn-x, .actbar, #editor > .sec > .btn-soft').forEach(function (x) { x.remove(); });
+    edc.insertAdjacentHTML('afterbegin', '<div class="note info">🔒 Only the admin can change the course and its phases.</div>');
+  }
+  edc.addEventListener('input', markDirty);
 }
 function drawPh() {
   document.getElementById('phList').innerHTML = PH.map(function (p, i) {

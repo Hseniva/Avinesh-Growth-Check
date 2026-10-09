@@ -6,7 +6,7 @@
  * Web app (Execute as: Me, Who has access: Anyone).
  *
  * The Sheet is the database AND the content manager. Supports several courses:
- *   Students      people who can log in (role = student or trainer)
+ *   Students      people who can log in (role = student, trainer or admin)
  *   Courses       one row per course (catalogue)
  *   Enrolments    which student is in which course, pre-assessment status, manual unlock
  *   Phases        phases of each course (course_id + phase number)
@@ -28,8 +28,8 @@ var TABS = {
   Courses:      ['course_id', 'title', 'subtitle', 'description', 'image_url', 'duration', 'format', 'preassessment_url', 'status', 'order'],
   Enrolments:   ['email', 'course_id', 'preassessment_done', 'unlocked_phase', 'active', 'enrolled_at'],
   Phases:       ['course_id', 'phase', 'title', 'weeks', 'focus', 'unlock_threshold'],
-  Modules:      ['course_id', 'module_id', 'phase', 'order', 'week', 'title', 'description', 'ppt_url', 'notes_url', 'notes_text', 'resources', 'exercises', 'quiz_url', 'pass_mark', 'max_attempts', 'w_ppt', 'w_notes', 'w_exercises', 'w_quiz'],
-  Quizzes:      ['module_id', 'q_no', 'type', 'question', 'image_url', 'options', 'answer', 'explanation', 'model_answer'],
+  Modules:      ['course_id', 'module_id', 'phase', 'order', 'week', 'title', 'description', 'ppt_url', 'notes_url', 'notes_text', 'resources', 'exercises', 'quiz_url', 'pass_mark', 'max_attempts', 'w_ppt', 'w_notes', 'w_exercises', 'w_quiz', 'owner'],
+  Quizzes:      ['module_id', 'q_no', 'type', 'question', 'image_url', 'options', 'answer', 'explanation', 'model_answer', 'owner'],
   Progress:     ['email', 'module_id', 'item', 'value', 'updated_at'],
   Submissions:  ['email', 'module_id', 'exercise_id', 'text', 'submitted_at'],
   QuizAttempts: ['email', 'module_id', 'score', 'total', 'pct', 'passed', 'answers', 'attempted_at'],
@@ -96,14 +96,19 @@ function sheet_(name) {
 
 function table_(name) {
   if (_cache[name]) return _cache[name];
-  var values = sheet_(name).getDataRange().getValues();
+  var sh = sheet_(name), values = sh.getDataRange().getValues();
   var headers = (values[0] || []).map(function (h) { return String(h).trim(); });
+  var missing = (TABS[name] || []).filter(function (h) { return headers.indexOf(h) < 0; });
+  if (missing.length && headers.length) {          /* add new columns (e.g. owner) to older sheets */
+    sh.getRange(1, headers.length + 1, 1, missing.length).setValues([missing]);
+    headers = headers.concat(missing);
+  }
   var rows = [];
   for (var r = 1; r < values.length; r++) {
     var o = { _row: r + 1 }, empty = true;
     for (var c = 0; c < headers.length; c++) {
-      o[headers[c]] = values[r][c];
-      if (values[r][c] !== '' && values[r][c] !== null) empty = false;
+      o[headers[c]] = values[r][c] === undefined ? '' : values[r][c];
+      if (o[headers[c]] !== '' && o[headers[c]] !== null) empty = false;
     }
     if (!empty) rows.push(o);
   }
@@ -152,7 +157,8 @@ function findStudent_(email) {
   return null;
 }
 
-function isTrainer_(s) { return str_(s.role).toLowerCase() === 'trainer'; }
+function isTrainer_(s) { var r = str_(s.role).toLowerCase(); return r === 'trainer' || r === 'admin'; }
+function isAdmin_(s) { return str_(s.role).toLowerCase() === 'admin'; }
 
 function newSession_(email) {
   var token = Utilities.getUuid() + Utilities.getUuid().replace(/-/g, '');
@@ -190,7 +196,7 @@ function login_(req) {
   }
   cache.remove(key);
   update_('Students', s._row, { last_login: now_() });
-  return { ok: true, token: newSession_(email), name: str_(s.name), role: isTrainer_(s) ? 'trainer' : 'student' };
+  return { ok: true, token: newSession_(email), name: str_(s.name), role: isTrainer_(s) ? 'trainer' : 'student', admin: isAdmin_(s) };
 }
 
 function setPassword_(req) {
@@ -203,7 +209,7 @@ function setPassword_(req) {
   var patch = { password_hash: hash_(pw, salt), salt: salt, last_login: now_() };
   if (!str_(s.created_at)) patch.created_at = now_();
   update_('Students', s._row, patch);
-  return { ok: true, token: newSession_(email), name: str_(s.name), role: isTrainer_(s) ? 'trainer' : 'student' };
+  return { ok: true, token: newSession_(email), name: str_(s.name), role: isTrainer_(s) ? 'trainer' : 'student', admin: isAdmin_(s) };
 }
 
 function logout_(req) {
@@ -356,7 +362,7 @@ function myCourses_(student) {
     list.push({ id: c.id, title: c.title, subtitle: c.subtitle, image_url: c.image_url, duration: c.duration, status: c.status,
       overall: acc.overall, preassessment_done: acc.pre, current: cur ? { phase: cur.phase, title: cur.title } : null, phases: lc.phases.length });
   });
-  return { ok: true, role: isTrainer_(student) ? 'trainer' : 'student', name: str_(student.name), courses: list };
+  return { ok: true, role: isTrainer_(student) ? 'trainer' : 'student', admin: isAdmin_(student), name: str_(student.name), courses: list };
 }
 
 function dashboard_(student, courseId) {
@@ -565,19 +571,20 @@ function rowsOut_(name, hide) {
 }
 
 function adminData_(req) {
-  requireTrainer_(req);
+  var me = requireTrainer_(req);
   var students = table_('Students').rows.map(function (s) {
-    return { email: norm_(s.email), name: str_(s.name), role: str_(s.role) || 'student', active: s.active === '' ? true : truthy_(s.active),
+    return { email: norm_(s.email), name: str_(s.name), role: str_(s.role).toLowerCase() || 'student', active: s.active === '' ? true : truthy_(s.active),
              has_password: !!str_(s.password_hash), created_at: plain_(s.created_at), last_login: plain_(s.last_login) };
   });
   return {
-    ok: true, courses: rowsOut_('Courses'), phases: rowsOut_('Phases'), modules: rowsOut_('Modules'),
+    ok: true, me: { email: norm_(me.email), name: str_(me.name), admin: isAdmin_(me) },
+    courses: rowsOut_('Courses'), phases: rowsOut_('Phases'), modules: rowsOut_('Modules'),
     quizzes: rowsOut_('Quizzes'), enrolments: rowsOut_('Enrolments'), students: students
   };
 }
 
 function cleanAdminRow_(tab, row) {
-  var spec = ADMIN_TABS[tab], deny = spec.deny || [], o = {};
+  var spec = ADMIN_TABS[tab], deny = (spec.deny || []).concat(['owner']), o = {};
   TABS[tab].forEach(function (h) {
     if (deny.indexOf(h) >= 0 || !row.hasOwnProperty(h)) return;
     var v = row[h];
@@ -585,6 +592,7 @@ function cleanAdminRow_(tab, row) {
     else o[h] = String(v == null ? '' : v).replace(/\r\n/g, '\n').trim();
   });
   if (o.hasOwnProperty('email')) o.email = norm_(o.email);
+  if (o.hasOwnProperty('role')) { o.role = str_(o.role).toLowerCase() || 'student'; if (['student', 'trainer', 'admin'].indexOf(o.role) < 0) throw new Error('Unknown role.'); }
   spec.key.forEach(function (k) { if (!str_(o[k])) throw new Error('Please fill in "' + k + '".'); });
   if (o.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.email)) throw new Error('That email address does not look right.');
   if (o.course_id && tab !== 'Courses' && !course_(o.course_id)) throw new Error('Unknown course "' + o.course_id + '".');
@@ -606,16 +614,58 @@ function findByKey_(tab, keyObj) {
   return null;
 }
 
+/* ---- permissions: the admin can do everything; a trainer can add, and edit only what they posted ---- */
+function ownedBy_(row, me) { return !!str_(row.owner) && norm_(row.owner) === norm_(me.email); }
+function normLine_(l) { return String(l).split('|').map(function (x) { return x.trim(); }).join('|'); }
+var PROTECT_MSG = 'This was posted by the admin: you can add to it, but not change or remove what is already there';
+
+function guardModule_(existing, row, me) {
+  Object.keys(row).forEach(function (f) {
+    if (f === 'module_id' || f === 'owner') return;
+    var old = String(existing[f] == null ? '' : existing[f]).replace(/\r\n/g, '\n').trim(), nw = String(row[f] == null ? '' : row[f]).trim();
+    if (old === '') return;
+    if (f === 'resources' || f === 'exercises') {
+      var have = lines_(nw).map(normLine_);
+      lines_(old).forEach(function (l) { if (have.indexOf(normLine_(l)) < 0) throw new Error(PROTECT_MSG + ' (' + (f === 'resources' ? 'a resource' : 'an exercise') + ' was removed or changed).'); });
+    } else if (f === 'notes_text') {
+      if (nw.indexOf(old) !== 0) throw new Error(PROTECT_MSG + ' (the existing notes were changed; add new notes after them).');
+    } else if (old !== nw) {
+      throw new Error(PROTECT_MSG + ' ("' + f + '").');
+    }
+  });
+}
+
 function adminSave_(req) {
-  requireTrainer_(req);
+  var me = requireTrainer_(req), admin = isAdmin_(me);
   var tab = String(req.tab || '');
   if (!ADMIN_TABS[tab]) throw new Error('Unknown table.');
+  if (!admin && (tab === 'Courses' || tab === 'Phases')) throw new Error('Only the admin can change courses and phases.');
   var row = cleanAdminRow_(tab, req.row || {});
   var original = req.original ? req.original : row;           /* lets you rename a key */
   var existing = findByKey_(tab, original);
   if (req.original && findByKey_(tab, row) && (!existing || findByKey_(tab, row)._row !== existing._row)) throw new Error('That one already exists.');
+
+  if (!admin) {
+    if (tab === 'Modules' && existing && !ownedBy_(existing, me)) {
+      if (str_(row.module_id) !== str_(existing.module_id)) throw new Error(PROTECT_MSG + ' (module code).');
+      guardModule_(existing, row, me);
+    }
+    if (tab === 'Students') {
+      delete row.role;
+      if (existing) {
+        var r = str_(existing.role).toLowerCase();
+        if ((r === 'trainer' || r === 'admin') && norm_(existing.email) !== norm_(me.email)) throw new Error('Only the admin can change trainer accounts.');
+        if (row.hasOwnProperty('active') && !truthy_(row.active) && blankOrTrue_(existing.active)) throw new Error('Only the admin can deactivate a student.');
+      }
+    }
+    if (tab === 'Enrolments' && existing && row.hasOwnProperty('active') && !truthy_(row.active) && blankOrTrue_(existing.active)) {
+      throw new Error('Only the admin can remove a student from a course.');
+    }
+  }
+
   if (existing) update_(tab, existing._row, row);
   else {
+    if (tab === 'Modules') row.owner = norm_(me.email);
     if (tab === 'Students') { row.created_at = now_(); if (!row.role) row.role = 'student'; if (!row.hasOwnProperty('active')) row.active = true; }
     if (tab === 'Enrolments') { row.enrolled_at = row.enrolled_at || now_(); if (!row.hasOwnProperty('active')) row.active = true; }
     append_(tab, row);
@@ -634,12 +684,16 @@ function deleteRows_(tab, pred) {
 }
 
 function adminDelete_(req) {
-  requireTrainer_(req);
+  var me = requireTrainer_(req), admin = isAdmin_(me);
   var tab = String(req.tab || '');
   if (!ADMIN_TABS[tab]) throw new Error('Unknown table.');
   if (tab === 'Students') throw new Error('Students are not deleted: switch them to inactive instead, so their history is kept.');
   var target = findByKey_(tab, req.key || {});
   if (!target) throw new Error('Nothing to delete.');
+  if (!admin) {
+    if (tab !== 'Modules' || !ownedBy_(target, me)) throw new Error('Only the admin can delete this.');
+    if (quizRows_(str_(target.module_id)).some(function (q) { return !ownedBy_(q, me); })) throw new Error('Only the admin can delete this: it contains quiz questions posted by the admin.');
+  }
   if (tab === 'Courses' && table_('Enrolments').rows.some(function (e) { return str_(e.course_id) === str_(target.course_id); })) {
     throw new Error('This course has students enrolled. Set its status to "draft" instead.');
   }
@@ -648,9 +702,15 @@ function adminDelete_(req) {
   return { ok: true };
 }
 
-/* Replaces every question of one module in a single save. */
+function quizKey_(q) {
+  var t = str_(q.type).toLowerCase() === 'open' ? 'open' : 'mcq', a = str_(q.answer).toUpperCase();   /* must match what is stored */
+  if (/^\d+$/.test(a)) a = String.fromCharCode(64 + parseInt(a, 10));
+  return [t, str_(q.question), str_(q.image_url), t === 'mcq' ? lines_(q.options).join('\n') : '', t === 'mcq' ? a : '', str_(q.explanation), str_(q.model_answer)].join('\u0001');
+}
+
+/* Replaces every question of one module in a single save. A trainer must keep the admin's questions unchanged. */
 function adminSaveQuiz_(req) {
-  requireTrainer_(req);
+  var me = requireTrainer_(req), admin = isAdmin_(me);
   var id = str_(req.module_id);
   if (!id || !findByKey_('Modules', { module_id: id })) throw new Error('Unknown module.');
   var qs = (req.questions || []).filter(function (q) { return str_(q.question); });
@@ -665,13 +725,24 @@ function adminSaveQuiz_(req) {
       if (!/^[A-H]$/.test(a) || a.charCodeAt(0) - 65 >= opts.length) throw new Error('Question ' + (i + 1) + ': choose which option is correct.');
     }
   });
+  /* keep track of who wrote each question */
+  var pool = table_('Quizzes').rows.filter(function (q) { return str_(q.module_id) === id && str_(q.question); })
+    .map(function (q) { return { key: quizKey_(q), owner: str_(q.owner), used: false }; });
+  var owners = qs.map(function (q) {
+    var k = quizKey_(q);
+    for (var i = 0; i < pool.length; i++) if (!pool[i].used && pool[i].key === k) { pool[i].used = true; return pool[i].owner; }
+    return norm_(me.email);
+  });
+  if (!admin && pool.some(function (p) { return !p.used && norm_(p.owner) !== norm_(me.email); })) {
+    throw new Error(PROTECT_MSG + ' (a quiz question posted by the admin was changed or deleted).');
+  }
   deleteRows_('Quizzes', function (q) { return str_(q.module_id) === id; });
   var sh = sheet_('Quizzes'), headers = table_('Quizzes').headers;
   var values = qs.map(function (q, i) {
     var t = str_(q.type).toLowerCase() === 'open' ? 'open' : 'mcq';
     var o = { module_id: id, q_no: i + 1, type: t, question: str_(q.question), image_url: str_(q.image_url),
               options: t === 'mcq' ? lines_(q.options).join('\n') : '', answer: t === 'mcq' ? str_(q.answer).toUpperCase() : '',
-              explanation: str_(q.explanation), model_answer: str_(q.model_answer) };
+              explanation: str_(q.explanation), model_answer: str_(q.model_answer), owner: owners[i] };
     return headers.map(function (h) { return o[h] === undefined ? '' : o[h]; });
   });
   if (values.length) sh.getRange(sh.getLastRow() + 1, 1, values.length, headers.length).setValues(values);
@@ -684,6 +755,7 @@ function adminResetPassword_(req) {
   var s = findStudent_(req.email);
   if (!s) throw new Error('No student with that email.');
   if (norm_(s.email) === norm_(me.email)) throw new Error('You cannot reset your own password here.');
+  if (!isAdmin_(me) && isTrainer_(s)) throw new Error('Only the admin can reset a trainer password.');
   update_('Students', s._row, { password_hash: '', salt: '' });
   table_('Sessions').rows.forEach(function (r) { if (norm_(r.email) === norm_(s.email)) update_('Sessions', r._row, { expires_at: new Date(0) }); });
   return { ok: true };
