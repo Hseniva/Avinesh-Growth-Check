@@ -570,17 +570,25 @@
 
             <!-- Logout Button -->
             <div class="button-group">
+                <a class="btn btn-primary" href="/" style="text-decoration:none">← Back to my dashboard</a>
                 <button class="btn btn-secondary" onclick="logout()">Logout</button>
             </div>
         </div>
     </div>
 
+    <script src="/platform.js"></script>
     <script>
         // Authorized email addresses
         const authorizedEmails = ['kavitaburrun@gmail.com', 'gaveenasee@gmail.com', 'digitalmarketer@hseniva.com'];
 
         // Check if user is already logged in
         window.addEventListener('load', function() {
+            if (window.DMM && DMM.configured()) {
+                const s = DMM.session();
+                if (s) { showModule(s.name || s.email); return; }
+                location.replace('/?next=/Module1-digitalfoundations');
+                return;
+            }
             const session = sessionStorage.getItem('moduleSession');
             if (session) {
                 const sessionData = JSON.parse(session);
@@ -629,6 +637,7 @@
 
         function logout() {
             sessionStorage.removeItem('moduleSession');
+            if (window.DMM && DMM.configured()) { DMM.api('logout'); DMM.clear(); location.href = '/'; return; }
             document.getElementById('loginContainer').classList.add('active');
             document.getElementById('moduleContainer').classList.remove('active');
             document.getElementById('loginForm').reset();
