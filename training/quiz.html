@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revision Quiz | Digital Marketing Training</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--b1:#667eea;--b2:#764ba2;--grad:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--ink:#1b2140;--text:#3d4466;--mut:#6b7392;--line:#e8eaf4;--bg:#f8f9fd;--lav:#f3f2fc;--lav2:#ebe9fb;--green:#16a34a;--greenbg:#eaf8ef;--red:#dc2626;--redbg:#fdeeee;--shadow:0 1px 2px rgba(27,33,64,.04),0 8px 24px rgba(27,33,64,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--b1)}
+button{font:inherit;cursor:pointer}
+.top{background:#fff;border-bottom:1px solid var(--line)}
+.top .in{max-width:860px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;text-decoration:none}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.back{font-size:14px;font-weight:600;text-decoration:none}
+.wrap{max-width:860px;margin:0 auto;padding:32px 24px 72px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.card::before{content:'';display:block;height:5px;background:var(--grad)}
+.in2{padding:30px 32px}
+.k{font-size:12px;font-weight:700;color:var(--b1);text-transform:uppercase;letter-spacing:.06em}
+h1{font-size:26px;color:var(--ink);letter-spacing:-.02em;line-height:1.25;margin:6px 0 8px}
+.mut{color:var(--mut)}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 24px}
+.stat{background:var(--lav);border-radius:12px;padding:10px 14px;font-size:14px;color:var(--b2)}
+.stat strong{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 22px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .15s}
+.btn-grad{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(102,126,234,.35)}
+.btn-grad:hover{transform:translateY(-1px)}
+.btn-grad:disabled{opacity:.5;transform:none;cursor:not-allowed}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.prog{height:6px;background:var(--lav2);border-radius:6px;overflow:hidden;margin:4px 0 18px}
+.prog i{display:block;height:100%;background:var(--grad);transition:width .3s}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+.dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:12px;font-weight:700;color:var(--mut)}
+.dot.cur{border-color:var(--b1);color:var(--b1)}
+.dot.ans{background:var(--lav);border-color:var(--lav2);color:var(--b2)}
+.tagq{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--lav);color:var(--b2)}
+.q{font-size:19px;font-weight:600;color:var(--ink);margin:12px 0 18px;line-height:1.45}
+.qimg{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:18px;background:#fff}
+.qimg img{width:100%;display:block}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;padding:14px 16px;border:2px solid var(--line);border-radius:12px;background:#fff;font-size:15px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--b1);background:#f7f8ff}
+.opt b{flex:none;width:28px;height:28px;border-radius:50%;background:var(--lav);color:var(--b2);display:flex;align-items:center;justify-content:center;font-size:13px}
+.opt.sel{border-color:var(--b1);background:#f2f4ff}
+.opt.sel b{background:var(--grad);color:#fff}
+textarea{width:100%;min-height:150px;padding:14px;border:2px solid var(--line);border-radius:12px;font:inherit;font-size:15px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--b1)}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:26px;flex-wrap:wrap}
+.score{font-size:56px;font-weight:800;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin:14px 0 6px}
+.res{border-radius:14px;padding:14px 16px;margin:16px 0;font-size:15px}
+.res.ok{background:var(--greenbg);color:#14532d}
+.res.no{background:var(--redbg);color:#7f1d1d}
+.rv{border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:12px}
+.rv h3{font-size:15px;color:var(--ink);margin-bottom:8px;line-height:1.4}
+.rv .row{font-size:14px;margin:3px 0}
+.rv .good{color:var(--green);font-weight:600}
+.rv .bad{color:var(--red);font-weight:600}
+.rv .ex{font-size:14px;background:var(--lav);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--text)}
+.err{color:var(--red);font-size:14px;margin-top:10px}
+.spin{width:34px;height:34px;border:4px solid var(--lav2);border-top-color:var(--b1);border-radius:50%;animation:sp 1s linear infinite;margin:80px auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:640px){.wrap{padding:20px 14px 60px}.in2{padding:22px 18px}h1{font-size:22px}.q{font-size:17px}.btn{flex:1}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="brand" href="/"><span class="mark">DM</span>Digital Marketing Training</a><a class="back" id="backLink" href="/">← Back to my course</a></div></header>
+<main class="wrap" id="app"><div class="spin"></div><p class="mut" style="text-align:center">Loading your quiz…</p></main>
+
+<script src="/platform.js"></script>
+<script>
+var MID = new URLSearchParams(location.search).get('m') || '';
+var app = document.getElementById('app');
+var Q = null, MOD = null, ATT = null, ans = {}, cur = 0;
+var KEY = 'dmm_quiz_' + MID;
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function save() { try { sessionStorage.setItem(KEY, JSON.stringify(ans)); } catch (e) {} }
+function load() { try { ans = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { ans = {}; } }
+function answered(n) { var v = ans[n]; return v !== undefined && v !== null && String(v).trim() !== ''; }
+function courseLink() { return MOD ? '/#/c/' + encodeURIComponent(MOD.course) : '/'; }
+function fail(msg) { app.innerHTML = '<div class="card"><div class="in2"><h1>We couldn\'t open this quiz</h1><p class="mut">' + esc(msg) + '</p><div class="nav"><a class="btn btn-ghost" href="' + courseLink() + '">← Back to my course</a></div></div></div>'; }
+
+function start() {
+  if (!MID) return fail('No quiz selected.');
+  if (!DMM.configured()) return fail('The platform is not connected yet.');
+  if (!DMM.session()) { location.replace('/?next=' + encodeURIComponent('/quiz?m=' + MID)); return; }
+  DMM.api('quizQuestions', { module: MID }).then(function (r) {
+    if (!r.ok) { if (r.authError) { location.replace('/?next=' + encodeURIComponent('/quiz?m=' + MID)); return; } return fail(r.error); }
+    Q = r.questions; MOD = r.module; ATT = r.attempts; load();
+    document.getElementById('backLink').href = courseLink();
+    document.title = 'Quiz: ' + MOD.title + ' | Digital Marketing Training';
+    intro();
+  });
+}
+
+function intro() {
+  var mcq = Q.filter(function (q) { return q.type === 'mcq'; }).length, open = Q.length - mcq;
+  var left = MOD.max_attempts ? Math.max(0, MOD.max_attempts - ATT.count) : null;
+  var h = '<div class="card"><div class="in2"><div class="k">Revision quiz · ' + esc(MOD.week) + '</div><h1>' + esc(MOD.title) + '</h1>' +
+    '<p class="mut">Answer every question, then submit. Your multiple-choice answers are scored when you submit, and you\'ll see the correct answers with explanations.</p>' +
+    '<div class="stats"><span class="stat"><strong>' + Q.length + '</strong> questions</span>' + (mcq ? '<span class="stat"><strong>' + mcq + '</strong> multiple choice</span>' : '') + (open ? '<span class="stat"><strong>' + open + '</strong> open</span>' : '') +
+    '<span class="stat">Pass mark <strong>' + MOD.pass_mark + '%</strong></span><span class="stat">Attempts <strong>' + ATT.count + (MOD.max_attempts ? ' / ' + MOD.max_attempts : '') + '</strong></span>' + (ATT.count ? '<span class="stat">Best <strong>' + ATT.best + '%</strong></span>' : '') + '</div>';
+  if (left === 0 && !ATT.passed) h += '<div class="res no">You have used all your attempts. Please contact your trainer.</div>';
+  else {
+    var n = Q.filter(function (q) { return answered(q.n); }).length;
+    h += '<div class="nav" style="justify-content:flex-start"><button class="btn btn-grad" onclick="go(' + (n && n < Q.length ? firstOpen() : 0) + ')">' + (n ? 'Continue (' + n + '/' + Q.length + ' answered)' : (ATT.passed ? 'Retake the quiz' : 'Start the quiz')) + ' →</button></div>';
+  }
+  app.innerHTML = h + '</div></div>';
+}
+function firstOpen() { for (var i = 0; i < Q.length; i++) if (!answered(Q[i].n)) return i; return 0; }
+
+function go(i) {
+  cur = i; var q = Q[i], done = Q.filter(function (x) { return answered(x.n); }).length;
+  var h = '<div class="card"><div class="in2"><div class="k">' + esc(MOD.title) + '</div><div class="prog"><i style="width:' + (done / Q.length * 100) + '%"></i></div><div class="dots">';
+  Q.forEach(function (x, k) { h += '<button class="dot' + (k === i ? ' cur' : '') + (answered(x.n) ? ' ans' : '') + '" onclick="go(' + k + ')">' + x.n + '</button>'; });
+  h += '</div><span class="tagq">' + (q.type === 'mcq' ? 'Multiple choice' : 'Open question') + '</span><div class="q">' + q.n + '. ' + esc(q.question) + '</div>';
+  if (q.image_url) h += '<div class="qimg"><img src="' + esc(q.image_url) + '" alt="Illustration for question ' + q.n + '"></div>';
+  if (q.type === 'mcq') {
+    h += '<div class="opts">' + q.options.map(function (o, k) { return '<button class="opt' + (String(ans[q.n]) === String(k) ? ' sel' : '') + '" onclick="pick(' + q.n + ',' + k + ')"><b>' + String.fromCharCode(65 + k) + '</b><span>' + esc(o) + '</span></button>'; }).join('') + '</div>';
+  } else {
+    h += '<textarea id="ta" placeholder="Write your answer…" oninput="typed(' + q.n + ')">' + esc(ans[q.n] || '') + '</textarea>';
+  }
+  var last = i === Q.length - 1;
+  h += '<div class="nav"><button class="btn btn-ghost" onclick="' + (i ? 'go(' + (i - 1) + ')' : 'intro()') + '">← Back</button>' +
+       (last ? '<button class="btn btn-grad" onclick="review()">Review & submit →</button>' : '<button class="btn btn-grad" onclick="go(' + (i + 1) + ')">Next →</button>') + '</div></div></div>';
+  app.innerHTML = h; window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function pick(n, k) { ans[n] = k; save(); go(cur); }
+function typed(n) { ans[n] = document.getElementById('ta').value; save(); }
+
+function review() {
+  var missing = Q.filter(function (q) { return !answered(q.n); }).map(function (q) { return q.n; });
+  var h = '<div class="card"><div class="in2"><div class="k">' + esc(MOD.title) + '</div><h1>Ready to submit?</h1>';
+  h += missing.length ? '<p class="mut">You still have ' + missing.length + ' unanswered question' + (missing.length > 1 ? 's' : '') + ': ' + missing.map(function (n) { return '<a href="#" onclick="go(' + (n - 1) + ');return false">Q' + n + '</a>'; }).join(', ') + '. Unanswered multiple-choice questions count as wrong.</p>' : '<p class="mut">All ' + Q.length + ' questions are answered. Once you submit, your score is saved to your progress.</p>';
+  h += '<div class="nav"><button class="btn btn-ghost" onclick="go(' + (Q.length - 1) + ')">← Back to the questions</button><button class="btn btn-grad" id="sub" onclick="submit()">Submit my answers</button></div><div class="err" id="err"></div></div></div>';
+  app.innerHTML = h;
+}
+
+function submit() {
+  var b = document.getElementById('sub'); b.disabled = true; b.textContent = 'Submitting…';
+  DMM.api('quizSubmit', { module: MID, answers: ans }).then(function (r) {
+    if (!r.ok) { if (r.authError) { location.replace('/?next=' + encodeURIComponent('/quiz?m=' + MID)); return; } b.disabled = false; b.textContent = 'Try again'; document.getElementById('err').textContent = r.error; return; }
+    try { Object.keys(sessionStorage).forEach(function (k) { if (k.indexOf('dmm_dash_') === 0 || k === 'dmm_my') sessionStorage.removeItem(k); }); sessionStorage.removeItem(KEY); } catch (e) {}
+    ATT.count++; if (r.result.passed) ATT.passed = true; ATT.best = Math.max(ATT.best, r.result.pct);
+    results(r);
+  });
+}
+
+function results(r) {
+  var res = r.result, left = MOD.max_attempts ? Math.max(0, MOD.max_attempts - ATT.count) : null;
+  var h = '<div class="card"><div class="in2"><div class="k">' + esc(MOD.title) + '</div><h1>Your result</h1>' +
+    (res.total ? '<div class="score">' + res.pct + '%</div><p class="mut">' + res.score + ' of ' + res.total + ' multiple-choice answers correct · pass mark ' + res.pass_mark + '%</p>' : '<p class="mut">Your answers have been submitted.</p>') +
+    (res.passed ? '<div class="res ok"><strong>🎉 Passed!</strong> Your revision quiz is complete and your module progress has been updated.</div>'
+                : '<div class="res no"><strong>Not passed yet.</strong> Read the explanations below, review the module, then try again' + (left !== null ? ' (' + left + ' attempt' + (left === 1 ? '' : 's') + ' left)' : '') + '.</div>') +
+    '<div class="nav" style="justify-content:flex-start"><a class="btn btn-grad" href="' + courseLink() + '">Back to my course →</a>' + (!res.passed && left !== 0 ? '<button class="btn btn-ghost" onclick="retry()">Try again</button>' : '') + '</div>';
+  h += '<h2 style="font-size:18px;color:var(--ink);margin:30px 0 4px">Review your answers</h2>';
+  r.review.forEach(function (v) {
+    var q = Q.filter(function (x) { return x.n === v.n; })[0];
+    h += '<div class="rv"><h3>' + v.n + '. ' + esc(q.question) + '</h3>';
+    if (v.type === 'mcq') {
+      h += '<div class="row">Your answer: <span class="' + (v.ok ? 'good' : 'bad') + '">' + (v.picked >= 0 ? String.fromCharCode(65 + v.picked) + ' · ' + esc(q.options[v.picked]) : 'not answered') + (v.ok ? ' ✓' : ' ✗') + '</span></div>';
+      if (!v.ok && v.correct >= 0) h += '<div class="row">Correct answer: <span class="good">' + String.fromCharCode(65 + v.correct) + ' · ' + esc(q.options[v.correct]) + '</span></div>';
+    } else {
+      h += '<div class="row">Your answer: ' + (v.text ? esc(v.text).replace(/\n/g, '<br>') : '<span class="mut">not answered</span>') + '</div>';
+      if (v.model_answer) h += '<div class="ex"><strong>Model answer:</strong> ' + esc(v.model_answer).replace(/\n/g, '<br>') + '</div>';
+    }
+    if (v.explanation) h += '<div class="ex">' + esc(v.explanation) + '</div>';
+    h += '</div>';
+  });
+  app.innerHTML = h + '</div></div>'; window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function retry() { ans = {}; save(); go(0); }
+
+start();
+</script>
+</body>
+</html>

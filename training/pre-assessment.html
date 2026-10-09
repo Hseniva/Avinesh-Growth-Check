@@ -450,9 +450,10 @@ function dmmLinkDone(){
   try{
     if(!window.DMM||!DMM.configured()||!DMM.session()) return;
     var box=document.createElement("div"); box.style.cssText="margin-top:28px;text-align:center";
-    box.innerHTML='<p id="dmmMsg" style="margin-bottom:12px;color:#6b7392">Opening your learning dashboard…</p><a href="/" style="display:inline-block;padding:14px 26px;border-radius:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:700;text-decoration:none">Go to my learning dashboard →</a>';
+    var dmmCourse=new URLSearchParams(location.search).get("course")||"";
+    box.innerHTML='<p id="dmmMsg" style="margin-bottom:12px;color:#6b7392">Opening your learning dashboard…</p><a href="'+(dmmCourse?'/#/c/'+encodeURIComponent(dmmCourse):'/')+'" style="display:inline-block;padding:14px 26px;border-radius:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:700;text-decoration:none">Go to my learning dashboard →</a>';
     app.appendChild(box);
-    DMM.api("preassessmentDone").then(function(r){ var m=document.getElementById("dmmMsg"); try{sessionStorage.removeItem("dmm_dash");}catch(e){} if(m) m.textContent = r.ok ? "Done! Your dashboard and Phase 1 are now open." : "We couldn't update your dashboard automatically. Please tell your trainer."; });
+    DMM.api("preassessmentDone",{course:dmmCourse}).then(function(r){ var m=document.getElementById("dmmMsg"); try{Object.keys(sessionStorage).forEach(function(k){if(k.indexOf("dmm_dash")===0||k==="dmm_my")sessionStorage.removeItem(k);});}catch(e){} if(m) m.textContent = r.ok ? "Done! Your dashboard and Phase 1 are now open." : "We couldn't update your dashboard automatically. Please tell your trainer."; });
   }catch(e){}
 }
 function renderDone(){

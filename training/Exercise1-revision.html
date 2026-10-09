@@ -413,7 +413,7 @@ function saveScore(){
  DMM.api('quiz', {module: QUIZ_MODULE, score: score(), total: MCQN, answers: report()}).then(function(r){
   var box = document.getElementById('saveBox');
   if (!r.ok){ if (r.authError){ location.href = '/?next=/Exercise1-revision'; return; } b.disabled = false; b.textContent = 'Try again'; toast(r.error || 'Could not save your score'); return; }
-  try { sessionStorage.removeItem('dmm_dash'); } catch(e){}
+  try{Object.keys(sessionStorage).forEach(function(k){if(k.indexOf("dmm_dash")===0||k==="dmm_my")sessionStorage.removeItem(k);});}catch(e){}
   box.innerHTML = r.result.passed ? '<strong>🎉 Passed with ' + r.result.pct + '%!</strong> Your revision quiz is complete and your progress has been updated. <a href="/">Back to my dashboard →</a>' : '<strong>' + r.result.pct + '%: not passed yet</strong> (pass mark ' + r.result.pass_mark + '%). Review the questions you missed, then press <em>Start again</em> below to retry. <a href="/">Back to my dashboard</a>';
  });
 }
