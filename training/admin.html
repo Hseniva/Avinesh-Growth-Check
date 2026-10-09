@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin | Digital Marketing Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --b1:#667eea;--b2:#764ba2;--grad:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  --ink:#1b2140;--text:#3d4466;--mut:#6b7392;--line:#e8eaf4;--bg:#f8f9fd;--card:#fff;--lav:#f3f2fc;--lav2:#ebe9fb;
+  --green:#16a34a;--greenbg:#eaf8ef;--grey:#a3a9c2;--greybg:#f2f3f7;--amber:#b45309;--amberbg:#fff7e6;--red:#dc2626;--redbg:#fdecec;
+  --r:16px;--shadow:0 1px 2px rgba(27,33,64,.04),0 8px 24px rgba(27,33,64,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--b1)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.hidden{display:none!important}
+
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-weight:700}
+.mark{flex:none;width:36px;height:36px;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.pill-admin{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--b2);background:var(--lav);padding:4px 9px;border-radius:999px}
+.who{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--mut)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;padding:10px 18px;font-weight:600;font-size:14px;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s;white-space:nowrap}
+.btn-grad{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(102,126,234,.3)}
+.btn-grad:hover{transform:translateY(-1px)}
+.btn-grad:disabled{opacity:.6;transform:none;cursor:wait}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--b1);color:var(--b1)}
+.btn-soft{background:var(--lav);color:var(--b2)}
+.btn-soft:hover{background:var(--lav2)}
+.btn-danger{background:#fff;color:var(--red);border:1px solid #f5c7c7}
+.btn-danger:hover{background:var(--redbg)}
+.btn-sm{padding:7px 12px;font-size:13px;border-radius:9px}
+.btn-x{background:none;border:0;color:var(--grey);padding:6px;border-radius:8px;line-height:0}
+.btn-x:hover{color:var(--red);background:var(--redbg)}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.page-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:30px 0 6px}
+.page-h h1{font-size:26px;color:var(--ink);letter-spacing:-.02em}
+.page-h p{color:var(--mut);font-size:14px}
+.course-pick{display:flex;align-items:center;gap:10px}
+.course-pick label{font-size:13px;color:var(--mut);font-weight:600}
+
+.tabs{display:flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;margin:18px 0 22px;overflow-x:auto}
+.tabs button{border:0;background:none;padding:9px 16px;border-radius:9px;font-size:14px;font-weight:600;color:var(--mut);white-space:nowrap}
+.tabs button.on{background:var(--grad);color:#fff}
+
+.split{display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;padding-bottom:60px}
+.side{padding:10px;position:sticky;top:82px;max-height:calc(100vh - 100px);overflow:auto}
+.side h5{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:12px 10px 6px}
+.mi{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:10px;color:var(--ink)}
+.mi:hover{background:var(--lav)}
+.mi.on{background:var(--lav2)}
+.mi b{display:block;font-size:14px;font-weight:600;line-height:1.3}
+.mi .dots{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
+.d{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--greybg);color:var(--grey)}
+.d.y{background:var(--greenbg);color:var(--green)}
+.side .add{margin:10px;width:calc(100% - 20px)}
+
+.panel{padding:26px 28px}
+.panel h2{font-size:20px;color:var(--ink);letter-spacing:-.01em}
+.panel .sub{color:var(--mut);font-size:14px;margin:2px 0 18px}
+.sec{border-top:1px solid var(--line);padding-top:20px;margin-top:22px}
+.sec h3{font-size:15px;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.sec h3 .n{width:24px;height:24px;border-radius:7px;background:var(--lav);color:var(--b2);font-size:12px;display:inline-flex;align-items:center;justify-content:center;font-weight:800}
+.sec .hint{font-size:13px;color:var(--mut);margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.f{display:flex;flex-direction:column;gap:5px}
+.f.s2{grid-column:span 2}.f.s3{grid-column:span 3}.f.s4{grid-column:span 4}
+.f label{font-size:12.5px;font-weight:600;color:var(--ink)}
+.f label small{font-weight:500;color:var(--mut)}
+input[type=text],input[type=email],input[type=url],input[type=number],select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink);background:#fff;transition:border .15s,box-shadow .15s}
+textarea{resize:vertical;min-height:90px;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--b1);box-shadow:0 0 0 3px rgba(102,126,234,.15)}
+.chk{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink);font-weight:500}
+.chk input{width:17px;height:17px;accent-color:var(--b1)}
+.linkrow{display:flex;gap:8px}
+.linkrow input{flex:1}
+
+.rep{display:flex;flex-direction:column;gap:10px}
+.ri{display:grid;gap:8px;align-items:start;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px}
+.ri.res{grid-template-columns:1fr 1.6fr auto}
+.ri.ex{grid-template-columns:90px 1fr auto}
+.ri.ex textarea{grid-column:1 / 3;min-height:64px}
+.addrow{align-self:flex-start}
+
+.actbar{position:sticky;bottom:0;background:linear-gradient(to top,#fff 70%,rgba(255,255,255,0));padding:18px 0 4px;margin-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.actbar .sp{flex:1}
+.saved{font-size:13px;color:var(--green);font-weight:600}
+.dirty{font-size:13px;color:var(--amber);font-weight:600}
+
+.note{background:var(--amberbg);color:var(--amber);border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:16px}
+.note.info{background:var(--lav);color:var(--b2)}
+
+/* quiz */
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.q-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.q-h .qn{font-weight:800;color:var(--b2);background:var(--lav);border-radius:8px;padding:3px 9px;font-size:13px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:6px 12px;font-size:13px;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--lav2);color:var(--b2)}
+.q-h .sp{flex:1}
+.opt{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.opt .L{width:26px;height:26px;border-radius:8px;background:var(--greybg);color:var(--mut);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.opt.right .L{background:var(--green);color:#fff}
+.opt input[type=radio]{accent-color:var(--green);width:17px;height:17px;flex:none}
+.opt input[type=text]{flex:1}
+.q .f{margin-top:10px}
+.qimg{max-width:240px;max-height:140px;border-radius:10px;border:1px solid var(--line);margin-top:8px}
+
+/* students */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .nm{font-weight:600;color:var(--ink)}
+.tbl .em{font-size:13px;color:var(--mut)}
+.tag{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.tag.ok{background:var(--greenbg);color:var(--green)}
+.tag.todo{background:var(--amberbg);color:var(--amber)}
+.tag.off{background:var(--greybg);color:var(--mut)}
+.tag.tr{background:var(--lav);color:var(--b2)}
+.tblwrap{overflow-x:auto}
+.acts{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.modal-bg{position:fixed;inset:0;background:rgba(27,33,64,.35);display:flex;align-items:flex-start;justify-content:center;padding:60px 16px;z-index:40;overflow:auto}
+.modal{max-width:620px;width:100%;padding:24px}
+.modal h3{font-size:18px;color:var(--ink);margin-bottom:14px}
+.copybox{width:100%;min-height:220px;font-size:13.5px}
+
+.phase-row{display:grid;grid-template-columns:60px 1.2fr 0.8fr 1.6fr 110px auto;gap:8px;align-items:center;margin-bottom:8px}
+.phase-row .pn{font-weight:800;color:var(--b2);text-align:center}
+.phase-head{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600}
+
+.spin{width:34px;height:34px;border:4px solid var(--lav2);border-top-color:var(--b1);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading{padding:110px 0;text-align:center;color:var(--mut)}
+.loading p{margin-top:14px}
+.empty{padding:50px 20px;text-align:center;color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:all .3s;z-index:60;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--red)}
+
+@media (max-width:900px){
+  .split{grid-template-columns:1fr}
+  .side{position:static;max-height:none}
+  .grid{grid-template-columns:1fr 1fr}
+  .f.s3,.f.s4{grid-column:span 2}
+  .panel{padding:20px 16px}
+  .phase-row{grid-template-columns:40px 1fr 1fr;}
+  .phase-row .pf{grid-column:1 / 4}
+  .phase-head{display:none}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .grid{grid-template-columns:1fr}
+  .f.s2,.f.s3,.f.s4{grid-column:span 1}
+  .ri.res,.ri.ex{grid-template-columns:1fr auto}
+  .ri.res input:nth-child(2){grid-column:1 / 2}
+  .ri.ex textarea{grid-column:1 / 3}
+  .who .nm{display:none}
+  .brand .bt{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="mark">DM</span><span class="bt">Digital Marketing Training</span><span class="pill-admin">ADMIN</span></a>
+    <div class="who"><span class="nm" id="whoName"></span><a class="btn btn-ghost btn-sm" href="/">← Back to site</a></div>
+  </div>
+</header>
+<main id="app"><div class="loading"><div class="spin"></div><p>Loading the admin…</p></div></main>
+<div class="toast" id="toast"></div>
+<div id="modal"></div>
+
+<script src="/platform.js"></script>
+<script>
+/* ================= helpers ================= */
+var app = document.getElementById('app');
+var DATA = null, COURSE = null, TAB = 'content', SEL = { content: null, quiz: null }, DIRTY = false;
+var ICON_X = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function toast(m, err) { var t = document.getElementById('toast'); t.textContent = m; t.className = 'toast show' + (err ? ' err' : ''); clearTimeout(toast.t); toast.t = setTimeout(function () { t.className = 'toast'; }, 3200); }
+function str(v) { return String(v == null ? '' : v).trim(); }
+function truthy(v) { var s = String(v).trim().toLowerCase(); return v === true || s === 'true' || s === 'yes' || s === 'y' || s === '1' || s === 'x'; }
+function blankOrTrue(v) { return String(v).trim() === '' ? true : truthy(v); }
+function num(v, d) { var n = parseFloat(v); return isNaN(n) ? d : n; }
+function lines(t) { return String(t || '').split(/\r?\n/).map(function (l) { return l.trim(); }).filter(String); }
+function val(id) { var e = document.getElementById(id); return e ? (e.type === 'checkbox' ? e.checked : e.value.trim()) : ''; }
+function fmtDate(v) { if (!v) return ''; var d = new Date(v); return isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+function modNum(id) { var m = String(id).match(/(\d+)\s*$/); return m ? m[1] : id; }
+function markDirty() { DIRTY = true; var s = document.getElementById('saveState'); if (s) { s.className = 'dirty'; s.textContent = 'Unsaved changes'; } }
+function okToLeave() { return !DIRTY || confirm('You have unsaved changes. Leave without saving?'); }
+window.addEventListener('beforeunload', function (e) { if (DIRTY) { e.preventDefault(); e.returnValue = ''; } });
+
+function api(action, data) {
+  return DMM.api(action, data).then(function (r) {
+    if (r.authError) { location.href = '/?next=/admin'; }
+    return r;
+  });
+}
+
+/* ================= boot ================= */
+function boot() {
+  var s = DMM.session();
+  if (!DMM.configured() || !s) { location.replace('/?next=/admin'); return; }
+  document.getElementById('whoName').textContent = s.name || s.email;
+  load(true);
+}
+function load(first) {
+  if (first) app.innerHTML = '<div class="loading"><div class="spin"></div><p>Loading the admin…</p></div>';
+  return api('adminData').then(function (r) {
+    if (!r.ok) {
+      app.innerHTML = '<div class="wrap"><div class="card empty" style="margin-top:40px"><h2 style="color:var(--ink);margin-bottom:8px">Admin access only</h2><p>' + esc(/Trainer/.test(r.error) ? 'This area is for the trainer account. You are logged in as a student.' : r.error) + '</p><p style="margin-top:16px"><a class="btn btn-grad" href="/">Back to the site</a></p></div></div>';
+      return false;
+    }
+    DATA = r;
+    if (!COURSE || !DATA.courses.some(function (c) { return str(c.course_id) === COURSE; })) {
+      var q = new URLSearchParams(location.search).get('course');
+      COURSE = (q && DATA.courses.some(function (c) { return str(c.course_id) === q; })) ? q : (DATA.courses[0] ? str(DATA.courses[0].course_id) : null);
+    }
+    render();
+    return true;
+  });
+}
+
+function courseRow() { return DATA.courses.filter(function (c) { return str(c.course_id) === COURSE; })[0] || null; }
+function phasesOf(cid) { return DATA.phases.filter(function (p) { return str(p.course_id) === cid; }).sort(function (a, b) { return num(a.phase, 0) - num(b.phase, 0); }); }
+function modulesOf(cid) { return DATA.modules.filter(function (m) { return str(m.course_id) === cid && str(m.module_id); }).sort(function (a, b) { return num(a.phase, 0) - num(b.phase, 0) || num(a.order, 0) - num(b.order, 0); }); }
+function quizOf(mid) { return DATA.quizzes.filter(function (q) { return str(q.module_id) === mid && str(q.question); }).sort(function (a, b) { return num(a.q_no, 0) - num(b.q_no, 0); }); }
+function modById(mid) { return DATA.modules.filter(function (m) { return str(m.module_id) === mid; })[0] || null; }
+
+/* ================= layout ================= */
+function render() {
+  var c = courseRow();
+  var h = '<div class="wrap"><div class="page-h"><div><h1>Admin</h1><p>Add your course material, quizzes and students. Changes show on the student dashboard straight away.</p></div>';
+  h += '<div class="course-pick"><label for="coursePick">Course</label><select id="coursePick" onchange="switchCourse(this.value)">' +
+       DATA.courses.map(function (x) { return '<option value="' + esc(x.course_id) + '"' + (str(x.course_id) === COURSE ? ' selected' : '') + '>' + esc(x.title || x.course_id) + (str(x.status).toLowerCase() === 'draft' ? ' (draft)' : '') + '</option>'; }).join('') +
+       '<option value="__new">+ New course…</option></select></div></div>';
+  var tabs = [['content', 'Modules & material'], ['quiz', 'Quizzes'], ['students', 'Students'], ['course', 'Course & phases']];
+  h += '<div class="tabs">' + tabs.map(function (t) { return '<button class="' + (TAB === t[0] ? 'on' : '') + '" onclick="setTab(\'' + t[0] + '\')">' + t[1] + '</button>'; }).join('') + '</div>';
+  h += '<div id="body"></div></div>';
+  app.innerHTML = h;
+  if (!c && TAB !== 'course') { TAB = 'course'; return render(); }
+  ({ content: renderContent, quiz: renderQuiz, students: renderStudents, course: renderCourse })[TAB]();
+}
+function setTab(t) { if (t === TAB || !okToLeave()) return; DIRTY = false; TAB = t; render(); window.scrollTo(0, 0); }
+function switchCourse(v) {
+  if (!okToLeave()) { document.getElementById('coursePick').value = COURSE; return; }
+  DIRTY = false;
+  if (v === '__new') { COURSE = null; TAB = 'course'; render(); return; }
+  COURSE = v; SEL = { content: null, quiz: null }; render();
+}
+
+function moduleList(kind) {
+  var ph = phasesOf(COURSE), mods = modulesOf(COURSE), h = '';
+  var groups = ph.map(function (p) { return { p: p, mods: mods.filter(function (m) { return num(m.phase, 0) === num(p.phase, 0); }) }; });
+  var orphan = mods.filter(function (m) { return !ph.some(function (p) { return num(p.phase, 0) === num(m.phase, 0); }); });
+  if (orphan.length) groups.push({ p: { phase: '?', title: 'No phase set' }, mods: orphan });
+  groups.forEach(function (g) {
+    h += '<h5>Phase ' + esc(g.p.phase) + ' · ' + esc(g.p.title) + '</h5>';
+    if (!g.mods.length) h += '<div style="padding:4px 10px 8px;font-size:13px;color:var(--grey)">No modules yet</div>';
+    g.mods.forEach(function (m) {
+      var id = str(m.module_id), qn = quizOf(id).length, ex = lines(m.exercises).length;
+      var dots = kind === 'quiz'
+        ? '<span class="d' + (qn ? ' y' : '') + '">' + qn + ' question' + (qn === 1 ? '' : 's') + '</span>' + (str(m.quiz_url) ? '<span class="d y">Custom quiz page</span>' : '')
+        : '<span class="d' + (str(m.ppt_url) ? ' y' : '') + '">Slides</span><span class="d' + (str(m.notes_url) || str(m.notes_text) ? ' y' : '') + '">Notes</span><span class="d' + (ex ? ' y' : '') + '">' + ex + ' exercise' + (ex === 1 ? '' : 's') + '</span><span class="d' + (qn || str(m.quiz_url) ? ' y' : '') + '">Quiz</span>';
+      h += '<button class="mi' + (SEL[kind] === id ? ' on' : '') + '" onclick="pick(\'' + kind + '\',\'' + esc(id) + '\')"><b>' + esc(m.week ? m.week + ' · ' : '') + esc(m.title || id) + '</b><span class="dots">' + dots + '</span></button>';
+    });
+  });
+  if (kind === 'content') h += '<button class="btn btn-soft btn-sm add" onclick="pick(\'content\',\'__new\')">+ Add a module</button>';
+  return h;
+}
+function pick(kind, id) { if (SEL[kind] === id || !okToLeave()) return; DIRTY = false; SEL[kind] = id; render(); var p = document.getElementById('editor'); if (p && window.innerWidth < 900) p.scrollIntoView({ behavior: 'smooth' }); }
+
+/* ================= Modules & material ================= */
+function renderContent() {
+  var mods = modulesOf(COURSE);
+  if (!SEL.content && mods.length) SEL.content = str(mods[0].module_id);
+  var body = document.getElementById('body');
+  body.innerHTML = '<div class="split"><div class="card side">' + moduleList('content') + '</div><div class="card panel" id="editor"></div></div>';
+  var ed = document.getElementById('editor');
+  if (!SEL.content) { ed.innerHTML = '<div class="empty">No modules yet. Click <strong>+ Add a module</strong> to create the first one.</div>'; return; }
+  var isNew = SEL.content === '__new';
+  var ph = phasesOf(COURSE);
+  var m = isNew ? { course_id: COURSE, module_id: '', phase: ph.length ? ph[0].phase : 1, order: mods.length + 1, week: '', title: '', description: '', ppt_url: '', notes_url: '', notes_text: '', resources: '', exercises: '', quiz_url: '', pass_mark: 70, max_attempts: '', w_ppt: 20, w_notes: 20, w_exercises: 30, w_quiz: 30 } : modById(SEL.content);
+  if (!m) { SEL.content = null; return renderContent(); }
+  var qn = isNew ? 0 : quizOf(str(m.module_id)).length;
+  var res = lines(m.resources).map(function (l) { var p = l.split('|'); return { label: str(p[0]), url: str(p[1] || p[0]) }; });
+  var exs = lines(m.exercises).map(function (l) { var p = l.split('|'); return { id: str(p[0]), title: str(p[1]), text: p.slice(2).join('|').trim() }; });
+
+  var h = '<h2>' + (isNew ? 'New module' : 'Module ' + esc(modNum(m.module_id)) + ': ' + esc(m.title)) + '</h2><p class="sub">' + (isNew ? 'Fill in the basics, then add the material. Students see it as soon as you save.' : 'Everything below appears in this module on the student dashboard.') + '</p>';
+
+  h += '<div class="sec" style="border:0;margin-top:0;padding-top:0"><h3><span class="n">1</span>Basics</h3><div class="grid">' +
+    '<div class="f s3"><label>Title</label><input type="text" id="m_title" value="' + esc(m.title) + '" placeholder="e.g. Google Analytics 4 essentials"></div>' +
+    '<div class="f"><label>Module code <small>(unique)</small></label><input type="text" id="m_id" value="' + esc(m.module_id) + '" placeholder="e.g. M3"></div>' +
+    '<div class="f"><label>Phase</label><select id="m_phase">' + ph.map(function (p) { return '<option value="' + esc(p.phase) + '"' + (num(p.phase, 0) === num(m.phase, 0) ? ' selected' : '') + '>Phase ' + esc(p.phase) + ' · ' + esc(p.title) + '</option>'; }).join('') + '</select></div>' +
+    '<div class="f"><label>Week label</label><input type="text" id="m_week" value="' + esc(m.week) + '" placeholder="e.g. Week 3"></div>' +
+    '<div class="f"><label>Order in phase</label><input type="number" id="m_order" value="' + esc(m.order) + '" min="0"></div>' +
+    '<div class="f s4"><label>Short description <small>(what students will learn)</small></label><textarea id="m_desc" style="min-height:70px">' + esc(m.description) + '</textarea></div>' +
+    '</div></div>';
+
+  h += '<div class="sec"><h3><span class="n">2</span>Presentation (PowerPoint)</h3><p class="hint">Paste the share link to your slides (Google Slides, OneDrive, Canva, or a PDF in Drive). Make sure the link is set to "Anyone with the link can view".</p>' +
+    '<div class="linkrow"><input type="url" id="m_ppt" value="' + esc(m.ppt_url) + '" placeholder="https://docs.google.com/presentation/d/…"><button class="btn btn-ghost btn-sm" onclick="testLink(\'m_ppt\')">Open ↗</button></div></div>';
+
+  h += '<div class="sec"><h3><span class="n">3</span>Reading notes</h3><p class="hint">Use a link to a document, write the notes here, or both. Links you paste into the text become clickable for students.</p>' +
+    '<div class="f"><label>Notes link <small>(optional)</small></label><div class="linkrow"><input type="url" id="m_notesurl" value="' + esc(m.notes_url) + '" placeholder="https://docs.google.com/document/d/…"><button class="btn btn-ghost btn-sm" onclick="testLink(\'m_notesurl\')">Open ↗</button></div></div>' +
+    '<div class="f" style="margin-top:12px"><label>Notes text <small>(optional)</small></label><textarea id="m_notes" style="min-height:160px" placeholder="Key points for this module…">' + esc(m.notes_text) + '</textarea></div></div>';
+
+  h += '<div class="sec"><h3><span class="n">4</span>Extra resources</h3><p class="hint">Useful links shown under the notes (tools, articles, templates).</p><div class="rep" id="resList">' +
+    res.map(resRow).join('') + '</div><button class="btn btn-soft btn-sm addrow" style="margin-top:10px" onclick="addRes()">+ Add a resource</button></div>';
+
+  h += '<div class="sec"><h3><span class="n">5</span>Exercises</h3><p class="hint">Each exercise gets its own answer box on the student dashboard. Students submit their work there and you see it in the Submissions tab of your Sheet.</p><div class="rep" id="exList">' +
+    exs.map(exRow).join('') + '</div><button class="btn btn-soft btn-sm addrow" style="margin-top:10px" onclick="addEx()">+ Add an exercise</button></div>';
+
+  h += '<div class="sec"><h3><span class="n">6</span>Quiz</h3>' +
+    (qn ? '<div class="note info">This module has <strong>' + qn + ' quiz question' + (qn === 1 ? '' : 's') + '</strong> in the built-in quiz. <a href="#" onclick="if(okToLeave()){DIRTY=false;SEL.quiz=\'' + esc(m.module_id) + '\';TAB=\'quiz\';render();}return false">Edit the questions →</a></div>' :
+      (isNew ? '<p class="hint">Save the module first, then add questions in the Quizzes tab.</p>' : '<p class="hint">No questions yet. Add them in the <a href="#" onclick="if(okToLeave()){DIRTY=false;SEL.quiz=\'' + esc(m.module_id) + '\';TAB=\'quiz\';render();}return false">Quizzes tab</a>.</p>')) +
+    '<div class="grid"><div class="f"><label>Pass mark (%)</label><input type="number" id="m_pass" value="' + esc(m.pass_mark === '' ? 70 : m.pass_mark) + '" min="0" max="100"></div>' +
+    '<div class="f"><label>Max attempts <small>(blank = unlimited)</small></label><input type="number" id="m_att" value="' + esc(m.max_attempts) + '" min="0"></div>' +
+    '<div class="f s2"><label>Custom quiz page <small>(optional, replaces the built-in quiz)</small></label><input type="text" id="m_quizurl" value="' + esc(m.quiz_url) + '" placeholder="Leave blank to use the built-in quiz"></div></div></div>';
+
+  h += '<div class="sec"><details><summary style="cursor:pointer;font-weight:600;color:var(--ink);font-size:14px">Advanced: how much each part counts towards the module %</summary><p class="hint" style="margin-top:8px">Parts without content are left out automatically and the rest is rebalanced.</p><div class="grid">' +
+    '<div class="f"><label>Slides</label><input type="number" id="w_ppt" value="' + esc(m.w_ppt === '' ? 20 : m.w_ppt) + '"></div>' +
+    '<div class="f"><label>Notes</label><input type="number" id="w_notes" value="' + esc(m.w_notes === '' ? 20 : m.w_notes) + '"></div>' +
+    '<div class="f"><label>Exercises</label><input type="number" id="w_ex" value="' + esc(m.w_exercises === '' ? 30 : m.w_exercises) + '"></div>' +
+    '<div class="f"><label>Quiz</label><input type="number" id="w_quiz" value="' + esc(m.w_quiz === '' ? 30 : m.w_quiz) + '"></div></div></details></div>';
+
+  h += '<div class="actbar"><button class="btn btn-grad" id="saveBtn" onclick="saveModule(' + (isNew ? 'true' : 'false') + ')">' + (isNew ? 'Create module' : 'Save changes') + '</button><span id="saveState"></span><span class="sp"></span>' +
+    (isNew ? '<button class="btn btn-ghost btn-sm" onclick="DIRTY=false;SEL.content=null;render()">Cancel</button>' : '<button class="btn btn-danger btn-sm" onclick="deleteModule()">Delete module</button>') + '</div>';
+  ed.innerHTML = h;
+  ed.addEventListener('input', markDirty);
+  ed.dataset.orig = isNew ? '' : str(m.module_id);
+}
+function resRow(r) { r = r || {}; return '<div class="ri res"><input type="text" class="r_label" value="' + esc(r.label) + '" placeholder="Label, e.g. GA4 demo account"><input type="url" class="r_url" value="' + esc(r.url) + '" placeholder="https://…"><button class="btn-x" title="Remove" onclick="this.parentNode.remove();markDirty()">' + ICON_X + '</button></div>'; }
+function exRow(e) { e = e || {}; return '<div class="ri ex"><input type="text" class="e_id" value="' + esc(e.id) + '" placeholder="No. e.g. 3.1"><input type="text" class="e_title" value="' + esc(e.title) + '" placeholder="Exercise title"><button class="btn-x" title="Remove" onclick="this.parentNode.remove();markDirty()">' + ICON_X + '</button><textarea class="e_text" placeholder="Instructions for the student…">' + esc(e.text) + '</textarea></div>'; }
+function addRes() { document.getElementById('resList').insertAdjacentHTML('beforeend', resRow()); markDirty(); }
+function addEx() {
+  var list = document.getElementById('exList'), n = list.children.length + 1, base = modNum(val('m_id')) || '';
+  list.insertAdjacentHTML('beforeend', exRow({ id: base ? base + '.' + n : String(n) })); markDirty();
+}
+function testLink(id) { var u = val(id); if (!/^https?:\/\//.test(u)) return toast('Paste a link starting with https:// first', true); window.open(u, '_blank', 'noopener'); }
+function clean1(s) { return String(s || '').replace(/\|/g, '/').replace(/\s*\n\s*/g, ' ').trim(); }
+
+function saveModule(isNew) {
+  var ed = document.getElementById('editor'), btn = document.getElementById('saveBtn');
+  var id = val('m_id').replace(/\s+/g, '-');
+  if (!val('m_title')) return toast('Please add a title', true);
+  if (!id) return toast('Please add a module code, e.g. M3', true);
+  var orig = ed.dataset.orig;
+  if ((isNew || id !== orig) && modById(id)) return toast('Module code "' + id + '" is already used. Choose another one.', true);
+  var res = [].map.call(ed.querySelectorAll('.ri.res'), function (r) { var l = clean1(r.querySelector('.r_label').value), u = r.querySelector('.r_url').value.trim(); return u ? (l || u) + ' | ' + u : ''; }).filter(String);
+  var bad = res.filter(function (l) { return !/\|\s*https?:\/\//.test(l); });
+  if (bad.length) return toast('Resource links must start with https://', true);
+  var exs = [].map.call(ed.querySelectorAll('.ri.ex'), function (r, i) {
+    var eid = clean1(r.querySelector('.e_id').value) || String(i + 1), t = clean1(r.querySelector('.e_title').value), tx = clean1(r.querySelector('.e_text').value);
+    return (t || tx) ? eid + ' | ' + (t || 'Exercise ' + eid) + ' | ' + tx : '';
+  }).filter(String);
+  var row = {
+    course_id: COURSE, module_id: id, phase: num(val('m_phase'), 1), order: num(val('m_order'), 0), week: val('m_week'), title: val('m_title'),
+    description: val('m_desc'), ppt_url: val('m_ppt'), notes_url: val('m_notesurl'), notes_text: document.getElementById('m_notes').value.trim(),
+    resources: res.join('\n'), exercises: exs.join('\n'), quiz_url: val('m_quizurl'),
+    pass_mark: num(val('m_pass'), 70), max_attempts: val('m_att') === '' ? '' : num(val('m_att'), ''),
+    w_ppt: num(val('w_ppt'), 20), w_notes: num(val('w_notes'), 20), w_exercises: num(val('w_ex'), 30), w_quiz: num(val('w_quiz'), 30)
+  };
+  btn.disabled = true; btn.textContent = 'Saving…';
+  var req = { tab: 'Modules', row: row };
+  if (!isNew && orig) req.original = { module_id: orig };
+  api('adminSave', req).then(function (r) {
+    btn.disabled = false; btn.textContent = isNew ? 'Create module' : 'Save changes';
+    if (!r.ok) return toast(r.error || 'Could not save', true);
+    DIRTY = false; SEL.content = id; clearStudentCache();
+    load().then(function () { var s = document.getElementById('saveState'); if (s) { s.className = 'saved'; s.textContent = '✓ Saved. Students can see it now.'; } toast(isNew ? 'Module created ✓' : 'Saved ✓'); });
+  });
+}
+function deleteModule() {
+  var m = modById(SEL.content); if (!m) return;
+  var qn = quizOf(str(m.module_id)).length;
+  if (!confirm('Delete "' + (m.title || m.module_id) + '"' + (qn ? ' and its ' + qn + ' quiz questions' : '') + '? This cannot be undone.')) return;
+  api('adminDelete', { tab: 'Modules', key: { module_id: str(m.module_id) } }).then(function (r) {
+    if (!r.ok) return toast(r.error, true);
+    DIRTY = false; SEL.content = null; clearStudentCache(); load(); toast('Module deleted');
+  });
+}
+function clearStudentCache() { try { Object.keys(sessionStorage).forEach(function (k) { if (k.indexOf('dmm_') === 0 && k !== 'dmm_open') sessionStorage.removeItem(k); }); } catch (e) {} }
+
+/* ================= Quizzes ================= */
+var QZ = [];
+function renderQuiz() {
+  var mods = modulesOf(COURSE);
+  if (!SEL.quiz && mods.length) SEL.quiz = str(mods[0].module_id);
+  var body = document.getElementById('body');
+  body.innerHTML = '<div class="split"><div class="card side">' + moduleList('quiz') + '</div><div class="card panel" id="editor"></div></div>';
+  var ed = document.getElementById('editor'), m = modById(SEL.quiz);
+  if (!m) { ed.innerHTML = '<div class="empty">Create a module first, then add its quiz here.</div>'; return; }
+  QZ = quizOf(str(m.module_id)).map(function (q) {
+    var opts = lines(q.options), a = str(q.answer).toUpperCase(), idx = /^[A-H]$/.test(a) ? a.charCodeAt(0) - 65 : (/^\d+$/.test(a) ? parseInt(a, 10) - 1 : -1);
+    return { type: str(q.type).toLowerCase() === 'open' ? 'open' : 'mcq', question: str(q.question), image_url: str(q.image_url), options: opts.length ? opts : ['', ''], answer: idx, explanation: str(q.explanation), model_answer: str(q.model_answer) };
+  });
+  var h = '<h2>Quiz · ' + esc(m.title || m.module_id) + '</h2><p class="sub">Mix multiple-choice questions (scored automatically) with open questions (students write an answer and then see your model answer). Aim for around 20 questions.</p>';
+  if (str(m.quiz_url)) h += '<div class="note">This module currently opens a custom quiz page (<strong>' + esc(m.quiz_url) + '</strong>). Questions you add here are used only once you clear "Custom quiz page" in the module settings.</div>';
+  h += '<div id="qList"></div><button class="btn btn-soft btn-sm" onclick="addQ(\'mcq\')">+ Multiple-choice question</button> <button class="btn btn-soft btn-sm" onclick="addQ(\'open\')">+ Open question</button>';
+  h += '<div class="actbar"><button class="btn btn-grad" id="saveBtn" onclick="saveQuiz()">Save quiz</button><span id="saveState"></span><span class="sp"></span><span id="qCount" style="font-size:13px;color:var(--mut)"></span>' +
+       (quizOf(str(m.module_id)).length && !str(m.quiz_url) ? '<a class="btn btn-ghost btn-sm" target="_blank" href="/quiz?m=' + encodeURIComponent(m.module_id) + '">Preview as student ↗</a>' : '') + '</div>';
+  ed.innerHTML = h;
+  drawQ();
+}
+function readQ() {
+  [].forEach.call(document.querySelectorAll('.q'), function (el) {
+    var i = +el.dataset.i, q = QZ[i]; if (!q) return;
+    q.question = el.querySelector('.q_text').value;
+    q.image_url = el.querySelector('.q_img').value.trim();
+    q.explanation = el.querySelector('.q_exp').value;
+    var ma = el.querySelector('.q_model'); if (ma) q.model_answer = ma.value;
+    var os = el.querySelectorAll('.q_opt'); if (os.length) q.options = [].map.call(os, function (o) { return o.value; });
+    var r = el.querySelector('input[type=radio]:checked'); if (r) q.answer = +r.value;
+  });
+}
+function drawQ() {
+  var L = 'ABCDEFGH';
+  document.getElementById('qList').innerHTML = QZ.length ? QZ.map(function (q, i) {
+    var h = '<div class="q" data-i="' + i + '"><div class="q-h"><span class="qn">Q' + (i + 1) + '</span><span class="seg"><button class="' + (q.type === 'mcq' ? 'on' : '') + '" onclick="setQType(' + i + ',\'mcq\')">Multiple choice</button><button class="' + (q.type === 'open' ? 'on' : '') + '" onclick="setQType(' + i + ',\'open\')">Open</button></span><span class="sp"></span>' +
+      '<button class="btn-x" title="Move up" onclick="moveQ(' + i + ',-1)"' + (i ? '' : ' disabled style="opacity:.3"') + '><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg></button>' +
+      '<button class="btn-x" title="Move down" onclick="moveQ(' + i + ',1)"' + (i < QZ.length - 1 ? '' : ' disabled style="opacity:.3"') + '><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>' +
+      '<button class="btn-x" title="Delete question" onclick="delQ(' + i + ')">' + ICON_X + '</button></div>' +
+      '<textarea class="q_text" style="min-height:60px" placeholder="Write the question…">' + esc(q.question) + '</textarea>';
+    if (q.type === 'mcq') {
+      h += '<div style="margin-top:12px">' + q.options.map(function (o, j) {
+        return '<div class="opt' + (q.answer === j ? ' right' : '') + '"><span class="L">' + L[j] + '</span><input type="text" class="q_opt" value="' + esc(o) + '" placeholder="Option ' + L[j] + '"><label class="chk" title="Correct answer"><input type="radio" name="ans' + i + '" value="' + j + '"' + (q.answer === j ? ' checked' : '') + ' onchange="readQ();drawQ();markDirty()"> Correct</label>' +
+          (q.options.length > 2 ? '<button class="btn-x" title="Remove option" onclick="delOpt(' + i + ',' + j + ')">' + ICON_X + '</button>' : '') + '</div>';
+      }).join('') + (q.options.length < 8 ? '<button class="btn btn-ghost btn-sm" onclick="addOpt(' + i + ')">+ Option</button>' : '') + '</div>';
+    } else {
+      h += '<div class="f"><label>Model answer <small>(shown to the student after they submit)</small></label><textarea class="q_model" style="min-height:64px">' + esc(q.model_answer) + '</textarea></div>';
+    }
+    h += '<div class="f"><label>Explanation <small>(optional, shown after submitting)</small></label><input type="text" class="q_exp" value="' + esc(q.explanation) + '"></div>' +
+      '<div class="f"><label>Image link <small>(optional: a chart, screenshot or ad example)</small></label><input type="url" class="q_img" value="' + esc(q.image_url) + '" placeholder="https://…" onchange="readQ();drawQ()"></div>' +
+      (/^https?:\/\//.test(q.image_url) ? '<img class="qimg" src="' + esc(q.image_url) + '" alt="" onerror="this.style.display=\'none\'">' : '') + '</div>';
+    return h;
+  }).join('') : '<div class="empty" style="padding:30px 10px">No questions yet. Add your first one below.</div>';
+  var mc = QZ.filter(function (q) { return q.type === 'mcq'; }).length;
+  var c = document.getElementById('qCount'); if (c) c.textContent = QZ.length + ' question' + (QZ.length === 1 ? '' : 's') + ' · ' + mc + ' multiple choice · ' + (QZ.length - mc) + ' open';
+  var ed = document.getElementById('editor'); if (ed && !ed.dataset.bound) { ed.addEventListener('input', markDirty); ed.dataset.bound = '1'; }
+}
+function addQ(t) { readQ(); QZ.push({ type: t, question: '', image_url: '', options: ['', '', '', ''], answer: -1, explanation: '', model_answer: '' }); drawQ(); markDirty(); var all = document.querySelectorAll('.q'); var last = all[all.length - 1]; if (last) { last.scrollIntoView({ behavior: 'smooth', block: 'center' }); last.querySelector('.q_text').focus(); } }
+function setQType(i, t) { readQ(); QZ[i].type = t; if (t === 'mcq' && QZ[i].options.length < 2) QZ[i].options = ['', '', '', '']; drawQ(); markDirty(); }
+function moveQ(i, d) { readQ(); var j = i + d; if (j < 0 || j >= QZ.length) return; var x = QZ[i]; QZ[i] = QZ[j]; QZ[j] = x; drawQ(); markDirty(); }
+function delQ(i) { readQ(); if (str(QZ[i].question) && !confirm('Delete question ' + (i + 1) + '?')) return; QZ.splice(i, 1); drawQ(); markDirty(); }
+function addOpt(i) { readQ(); QZ[i].options.push(''); drawQ(); markDirty(); }
+function delOpt(i, j) { readQ(); var q = QZ[i]; q.options.splice(j, 1); if (q.answer === j) q.answer = -1; else if (q.answer > j) q.answer--; drawQ(); markDirty(); }
+function saveQuiz() {
+  readQ();
+  var L = 'ABCDEFGH', out = [], err = '';
+  QZ.forEach(function (q, i) {
+    if (err || !str(q.question)) return;
+    if (q.type === 'mcq') {
+      var opts = q.options.map(str), keep = [], newAns = -1;
+      opts.forEach(function (o, j) { if (o) { if (j === q.answer) newAns = keep.length; keep.push(o); } });
+      if (keep.length < 2) { err = 'Q' + (i + 1) + ': add at least 2 options.'; return; }
+      if (newAns < 0) { err = 'Q' + (i + 1) + ': tick the correct answer.'; return; }
+      out.push({ type: 'mcq', question: str(q.question), image_url: q.image_url, options: keep.join('\n'), answer: L[newAns], explanation: str(q.explanation) });
+    } else out.push({ type: 'open', question: str(q.question), image_url: q.image_url, explanation: str(q.explanation), model_answer: str(q.model_answer) });
+  });
+  if (err) return toast(err, true);
+  var btn = document.getElementById('saveBtn'); btn.disabled = true; btn.textContent = 'Saving…';
+  api('adminSaveQuiz', { module_id: SEL.quiz, questions: out }).then(function (r) {
+    btn.disabled = false; btn.textContent = 'Save quiz';
+    if (!r.ok) return toast(r.error || 'Could not save', true);
+    DIRTY = false; clearStudentCache();
+    load().then(function () { var s = document.getElementById('saveState'); if (s) { s.className = 'saved'; s.textContent = '✓ ' + r.saved + ' questions saved'; } toast('Quiz saved ✓'); });
+  });
+}
+
+/* ================= Students ================= */
+function enrolOf(email, cid) { return DATA.enrolments.filter(function (e) { return str(e.email).toLowerCase() === email && str(e.course_id) === cid; })[0] || null; }
+function renderStudents() {
+  var c = courseRow(), ph = phasesOf(COURSE);
+  var enrolled = DATA.students.filter(function (s) { return enrolOf(s.email, COURSE); });
+  var others = DATA.students.filter(function (s) { return !enrolOf(s.email, COURSE) && s.role !== 'trainer'; });
+  var trainers = DATA.students.filter(function (s) { return s.role === 'trainer'; });
+  var h = '<div class="card panel" style="margin-bottom:60px"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap"><div><h2>Students in ' + esc(c.title || c.course_id) + '</h2><p class="sub">Students log in with their email. The first time, they create their own password, so you never need to send passwords.</p></div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="copyLogins()">Copy login details</button><button class="btn btn-grad btn-sm" onclick="studentForm()">+ Add a student</button></div></div>';
+  if (!enrolled.length) h += '<div class="empty">No students enrolled yet.</div>';
+  else {
+    h += '<div class="tblwrap"><table class="tbl"><thead><tr><th>Student</th><th>Login</th><th>Pre-assessment</th><th>Phases open</th><th>Last login</th><th></th></tr></thead><tbody>';
+    enrolled.forEach(function (s) {
+      var e = enrolOf(s.email, COURSE), active = s.active && blankOrTrue(e.active);
+      var phaseTxt = str(e.unlocked_phase) ? 'Up to Phase ' + esc(e.unlocked_phase) + ' <span class="tag tr">set by you</span>' : '<span style="color:var(--mut)">Automatic</span>';
+      h += '<tr><td><div class="nm">' + esc(s.name || '—') + '</div><div class="em">' + esc(s.email) + '</div></td>' +
+        '<td>' + (!active ? '<span class="tag off">Inactive</span>' : s.has_password ? '<span class="tag ok">Password set</span>' : '<span class="tag todo">Not logged in yet</span>') + '</td>' +
+        '<td>' + (c.preassessment_url ? (truthy(e.preassessment_done) ? '<span class="tag ok">Done</span>' : '<span class="tag todo">Not yet</span>') : '<span style="color:var(--mut)">n/a</span>') + '</td>' +
+        '<td>' + phaseTxt + '</td><td style="white-space:nowrap">' + (fmtDate(s.last_login) || '<span style="color:var(--grey)">Never</span>') + '</td>' +
+        '<td><div class="acts"><button class="btn btn-ghost btn-sm" onclick="studentForm(\'' + esc(s.email) + '\')">Edit</button>' + (s.has_password ? '<button class="btn btn-ghost btn-sm" onclick="resetPw(\'' + esc(s.email) + '\')">Reset password</button>' : '') + '</div></td></tr>';
+    });
+    h += '</tbody></table></div>';
+  }
+  if (others.length) {
+    h += '<div class="sec"><h3>Other students (not in this course)</h3><p class="hint">Enrol them here with one click.</p><div class="acts" style="justify-content:flex-start">' +
+      others.map(function (s) { return '<button class="btn btn-soft btn-sm" onclick="studentForm(\'' + esc(s.email) + '\')">+ ' + esc(s.name || s.email) + '</button>'; }).join('') + '</div></div>';
+  }
+  h += '<div class="sec"><p class="hint" style="margin:0">Trainer account' + (trainers.length > 1 ? 's' : '') + ': ' + trainers.map(function (t) { return esc(t.email); }).join(', ') + '. Trainers see every course and every phase.</p></div></div>';
+  document.getElementById('body').innerHTML = h;
+}
+function closeModal() { document.getElementById('modal').innerHTML = ''; }
+function studentForm(email) {
+  var s = email ? DATA.students.filter(function (x) { return x.email === email; })[0] : null;
+  var e = s ? enrolOf(s.email, COURSE) : null, c = courseRow(), ph = phasesOf(COURSE);
+  var unl = e ? str(e.unlocked_phase) : '';
+  var h = '<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="card modal"><h3>' + (s ? 'Edit ' + esc(s.name || s.email) : 'Add a student') + '</h3><div class="grid" style="grid-template-columns:1fr 1fr">' +
+    '<div class="f"><label>Full name</label><input type="text" id="s_name" value="' + esc(s ? s.name : '') + '"></div>' +
+    '<div class="f"><label>Email <small>(their login)</small></label><input type="email" id="s_email" value="' + esc(s ? s.email : '') + '"' + (s ? ' disabled' : '') + '></div>' +
+    '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_active"' + (!s || s.active ? ' checked' : '') + '> Account active <small style="color:var(--mut);font-weight:500">(untick to block access without losing their progress)</small></label></div></div>' +
+    '<div class="sec" style="margin-top:16px;padding-top:16px"><h3>' + esc(c.title || c.course_id) + '</h3><div class="grid" style="grid-template-columns:1fr 1fr;margin-top:10px">' +
+    '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_enrol"' + (!s || e ? ' checked' : '') + '> Enrolled in this course</label></div>' +
+    (c.preassessment_url ? '<div class="f" style="grid-column:span 2"><label class="chk"><input type="checkbox" id="s_pre"' + (e && truthy(e.preassessment_done) ? ' checked' : '') + '> Pre-assessment already done <small style="color:var(--mut);font-weight:500">(tick for past students)</small></label></div>' : '') +
+    '<div class="f" style="grid-column:span 2"><label>Phases open</label><select id="s_unl"><option value="">Automatic (opens as they progress)</option>' +
+    ph.map(function (p) { return '<option value="' + esc(p.phase) + '"' + (unl === str(p.phase) ? ' selected' : '') + '>Open up to Phase ' + esc(p.phase) + ' · ' + esc(p.title) + '</option>'; }).join('') + '</select></div></div></div>' +
+    '<div class="actbar" style="position:static;padding-top:18px"><button class="btn btn-grad" id="sSave" onclick="saveStudent(' + (s ? '\'' + esc(s.email) + '\'' : '') + ')">' + (s ? 'Save' : 'Add student') + '</button><button class="btn btn-ghost" onclick="closeModal()">Cancel</button></div></div></div>';
+  document.getElementById('modal').innerHTML = h;
+  var f = document.getElementById(s ? 's_name' : 's_name'); if (f) f.focus();
+}
+function saveStudent(existing) {
+  var email = existing || val('s_email').toLowerCase(), name = val('s_name');
+  if (!name) return toast('Please add their name', true);
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return toast('Please check the email address', true);
+  if (!existing && DATA.students.some(function (x) { return x.email === email; })) return toast('This email is already a student. Use Edit instead.', true);
+  var btn = document.getElementById('sSave'); btn.disabled = true; btn.textContent = 'Saving…';
+  var sRow = { email: email, name: name, active: val('s_active') };
+  var pre = document.getElementById('s_pre');
+  var enrolWanted = val('s_enrol'), had = enrolOf(email, COURSE);
+  api('adminSave', { tab: 'Students', row: sRow }).then(function (r) {
+    if (!r.ok) throw r;
+    if (enrolWanted) return api('adminSave', { tab: 'Enrolments', row: { email: email, course_id: COURSE, preassessment_done: pre ? pre.checked : (had ? had.preassessment_done : ''), unlocked_phase: val('s_unl'), active: true } });
+    if (had) return api('adminSave', { tab: 'Enrolments', row: { email: email, course_id: COURSE, active: false } });
+    return { ok: true };
+  }).then(function (r) {
+    if (!r.ok) throw r;
+    closeModal(); load(); toast(existing ? 'Saved ✓' : name + ' added ✓');
+  }).catch(function (r) { btn.disabled = false; btn.textContent = existing ? 'Save' : 'Add student'; toast((r && r.error) || 'Could not save', true); });
+}
+function resetPw(email) {
+  if (!confirm('Reset the password for ' + email + '? They will be logged out and will create a new password the next time they log in.')) return;
+  api('adminResetPassword', { email: email }).then(function (r) { if (!r.ok) return toast(r.error, true); load(); toast('Password reset. They can now create a new one.'); });
+}
+function copyLogins() {
+  var c = courseRow(), site = location.origin + '/';
+  var list = DATA.students.filter(function (s) { var e = enrolOf(s.email, COURSE); return e && blankOrTrue(e.active) && s.active; });
+  var txt = 'Hi everyone,\n\nYour learning platform for ' + (c.title || c.course_id) + ' is ready:\n' + site + '\n\nHow to log in:\n1. Open the link and enter your email (see below).\n2. The first time, you will be asked to create your own password (at least 8 characters).\n3. After that, log in with your email and that password.\n\nYour login emails:\n' +
+    list.map(function (s) { return '• ' + (s.name || s.email) + ': ' + s.email; }).join('\n') + '\n\nIf you forget your password, just let me know and I will reset it.\n';
+  var h = '<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="card modal"><h3>Login details to send</h3><p class="sub" style="color:var(--mut);font-size:14px;margin-bottom:12px">Edit if you like, then copy and paste it into WhatsApp or an email.</p><textarea class="copybox" id="copyTxt">' + esc(txt) + '</textarea>' +
+    '<div class="actbar" style="position:static;padding-top:14px"><button class="btn btn-grad" onclick="doCopy()">Copy</button><button class="btn btn-ghost" onclick="closeModal()">Close</button></div></div></div>';
+  document.getElementById('modal').innerHTML = h;
+}
+function doCopy() {
+  var t = document.getElementById('copyTxt'); t.select();
+  (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).then(function () { toast('Copied ✓'); }, function () { try { document.execCommand('copy'); toast('Copied ✓'); } catch (e) { toast('Select the text and copy it', true); } });
+}
+
+/* ================= Course & phases ================= */
+var PH = [];
+function renderCourse() {
+  var isNew = !COURSE, c = isNew ? { course_id: '', title: '', subtitle: '', description: '', image_url: '', duration: '', format: '', preassessment_url: '', status: 'draft', order: DATA.courses.length + 1 } : courseRow();
+  PH = isNew ? [{ phase: 1, title: '', weeks: '', focus: '', unlock_threshold: 100 }] : phasesOf(COURSE).map(function (p) { return { phase: p.phase, title: p.title, weeks: p.weeks, focus: p.focus, unlock_threshold: p.unlock_threshold === '' ? 100 : p.unlock_threshold, _orig: p.phase }; });
+  var h = '<div class="card panel" style="margin-bottom:60px" id="editor"><h2>' + (isNew ? 'New course' : esc(c.title)) + '</h2><p class="sub">' + (isNew ? 'Create a new course with the same platform: phases, modules, quizzes and progress tracking.' : 'How this course appears on the welcome page and the student dashboard.') + '</p>' +
+    '<div class="grid"><div class="f s3"><label>Course title</label><input type="text" id="c_title" value="' + esc(c.title) + '"></div>' +
+    '<div class="f"><label>Course code <small>(short, unique)</small></label><input type="text" id="c_id" value="' + esc(c.course_id) + '"' + (isNew ? '' : ' disabled') + ' placeholder="e.g. SEO"></div>' +
+    '<div class="f s2"><label>Subtitle</label><input type="text" id="c_sub" value="' + esc(c.subtitle) + '"></div>' +
+    '<div class="f"><label>Duration</label><input type="text" id="c_dur" value="' + esc(c.duration) + '" placeholder="e.g. 20 weeks"></div>' +
+    '<div class="f"><label>Format</label><input type="text" id="c_fmt" value="' + esc(c.format) + '" placeholder="e.g. Hybrid"></div>' +
+    '<div class="f s4"><label>Description</label><textarea id="c_desc" style="min-height:70px">' + esc(c.description) + '</textarea></div>' +
+    '<div class="f s2"><label>Cover image link <small>(optional)</small></label><input type="text" id="c_img" value="' + esc(c.image_url) + '" placeholder="/img/training-session.jpg"></div>' +
+    '<div class="f s2"><label>Pre-assessment page <small>(optional; Phase 1 opens after it)</small></label><input type="text" id="c_pre" value="' + esc(c.preassessment_url) + '" placeholder="/pre-assessment"></div>' +
+    '<div class="f"><label>Status</label><select id="c_status"><option value="published"' + (str(c.status).toLowerCase() !== 'draft' ? ' selected' : '') + '>Published (on the welcome page)</option><option value="draft"' + (str(c.status).toLowerCase() === 'draft' ? ' selected' : '') + '>Draft (hidden)</option></select></div>' +
+    '<div class="f"><label>Order on the site</label><input type="number" id="c_order" value="' + esc(c.order) + '"></div></div>' +
+    '<div class="sec"><h3>Phases</h3><p class="hint">The next phase opens automatically when a student reaches the "opens at" % of the previous phase.</p>' +
+    '<div class="phase-row phase-head"><span style="text-align:center">#</span><span>Title</span><span>Weeks</span><span class="pf">Focus</span><span>Next opens at</span><span></span></div><div id="phList"></div>' +
+    '<button class="btn btn-soft btn-sm" onclick="readPh();PH.push({phase:PH.length?Math.max.apply(null,PH.map(function(p){return +p.phase||0}))+1:1,title:\'\',weeks:\'\',focus:\'\',unlock_threshold:100});drawPh();markDirty()">+ Add a phase</button></div>' +
+    '<div class="actbar"><button class="btn btn-grad" id="saveBtn" onclick="saveCourse(' + isNew + ')">' + (isNew ? 'Create course' : 'Save course') + '</button><span id="saveState"></span></div></div>';
+  document.getElementById('body').innerHTML = h;
+  drawPh();
+  document.getElementById('editor').addEventListener('input', markDirty);
+}
+function drawPh() {
+  document.getElementById('phList').innerHTML = PH.map(function (p, i) {
+    return '<div class="phase-row" data-i="' + i + '"><span class="pn">' + esc(p.phase) + '</span><input type="text" class="p_title" value="' + esc(p.title) + '" placeholder="Phase title"><input type="text" class="p_weeks" value="' + esc(p.weeks) + '" placeholder="Weeks 1–4"><input type="text" class="p_focus pf" value="' + esc(p.focus) + '" placeholder="Topics covered"><input type="number" class="p_th" value="' + esc(p.unlock_threshold) + '" min="0" max="100" title="%"><button class="btn-x" title="Remove phase" onclick="delPh(' + i + ')">' + ICON_X + '</button></div>';
+  }).join('');
+}
+function readPh() { [].forEach.call(document.querySelectorAll('#phList .phase-row'), function (r) { var p = PH[+r.dataset.i]; p.title = r.querySelector('.p_title').value.trim(); p.weeks = r.querySelector('.p_weeks').value.trim(); p.focus = r.querySelector('.p_focus').value.trim(); p.unlock_threshold = num(r.querySelector('.p_th').value, 100); }); }
+function delPh(i) {
+  readPh(); var p = PH[i];
+  if (COURSE && modulesOf(COURSE).some(function (m) { return num(m.phase, 0) === num(p.phase, 0); })) return toast('Move or delete the modules in Phase ' + p.phase + ' first.', true);
+  PH.splice(i, 1); drawPh(); markDirty();
+}
+function saveCourse(isNew) {
+  readPh();
+  var id = isNew ? val('c_id').replace(/\s+/g, '-').toUpperCase() : COURSE;
+  if (!val('c_title')) return toast('Please add a course title', true);
+  if (!id) return toast('Please add a course code', true);
+  if (isNew && DATA.courses.some(function (c) { return str(c.course_id).toUpperCase() === id; })) return toast('That course code is already used', true);
+  if (PH.some(function (p) { return !p.title; })) return toast('Give every phase a title', true);
+  var row = { course_id: id, title: val('c_title'), subtitle: val('c_sub'), description: val('c_desc'), image_url: val('c_img'), duration: val('c_dur'), format: val('c_fmt'), preassessment_url: val('c_pre'), status: val('c_status'), order: num(val('c_order'), 99) };
+  var btn = document.getElementById('saveBtn'); btn.disabled = true; btn.textContent = 'Saving…';
+  var oldPh = isNew ? [] : phasesOf(id).map(function (p) { return str(p.phase); });
+  var keepPh = PH.map(function (p) { return str(p.phase); });
+  var chain = api('adminSave', { tab: 'Courses', row: row });
+  PH.forEach(function (p) { chain = chain.then(function (r) { if (!r.ok) throw r; return api('adminSave', { tab: 'Phases', row: { course_id: id, phase: p.phase, title: p.title, weeks: p.weeks, focus: p.focus, unlock_threshold: p.unlock_threshold } }); }); });
+  oldPh.filter(function (n) { return keepPh.indexOf(n) < 0; }).forEach(function (n) { chain = chain.then(function (r) { if (!r.ok) throw r; return api('adminDelete', { tab: 'Phases', key: { course_id: id, phase: n } }); }); });
+  chain.then(function (r) {
+    if (!r.ok) throw r;
+    DIRTY = false; COURSE = id; clearStudentCache();
+    load().then(function () { toast(isNew ? 'Course created ✓ Now add its modules.' : 'Course saved ✓'); });
+  }).catch(function (r) { btn.disabled = false; btn.textContent = isNew ? 'Create course' : 'Save course'; toast((r && r.error) || 'Could not save', true); });
+}
+
+boot();
+</script>
+</body>
+</html>
