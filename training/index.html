@@ -1,460 +1,704 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DMM Onboarding – Learning profile</title>
-<meta property="og:title" content="Digital Marketing Mastery – Onboarding">
-<meta name="description" content="Pre-bootcamp onboarding for Digital Marketing Mastery students, by Avinesh Bundhoo.">
-<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Marketing & AI Bootcamp | Digital Marketing Training</title>
+<meta name="description" content="Digital Marketing & AI Bootcamp by Avinesh Bundhoo. Student learning platform.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
-  :root{
-    --bg:#080B10; --card:#0D1220; --panel2:#111829; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
-    --text:#E2E8F0; --white:#fff; --muted:#6B7A99; --blue:#4F7CFF; --blue-soft:rgba(79,124,255,.1); --blue-line:rgba(79,124,255,.25); --blue-text:#7B9FFF;
-    --gold:#E8A045; --warn:#E8A045; --radius:20px;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
-  body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 85% -10%,rgba(79,124,255,.12),transparent 60%),var(--bg)}
-  header{border-bottom:1px solid var(--line)}
-  .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:780px;margin:0 auto}
-  .brand{font-weight:800;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-.3px}
-  .brand b{color:var(--blue)}
-  .lang{display:flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden}
-  .lang button{background:none;border:0;color:var(--muted);padding:7px 12px;font:600 13px Inter,sans-serif;cursor:pointer}
-  .lang button.on{background:var(--blue);color:#fff}
-  main{flex:1;width:100%;max-width:780px;margin:0 auto;padding:28px 16px 48px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px}
-  @media (max-width:560px){.card{padding:24px 18px}}
-  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);border:1px solid var(--blue-line);color:var(--blue-text);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:500;margin-bottom:18px}
-  .badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue)}
-  .grad{background:linear-gradient(90deg,#4F7CFF,#E8A045);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .progress{height:4px;background:var(--panel2);border-radius:99px;overflow:hidden;margin:0 0 22px}
-  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4F7CFF,#E8A045);transition:width .3s}
-  .step-n{color:var(--blue-text);font-size:13px;font-weight:600;margin-bottom:8px}
-  h1{font-size:40px;line-height:1.08;font-weight:900;letter-spacing:-1.2px;color:var(--white);margin:0 0 14px}
-  @media (max-width:560px){h1{font-size:31px;letter-spacing:-.8px}}
-  h2{font-size:23px;line-height:1.3;font-weight:800;letter-spacing:-.4px;color:var(--white);margin:0 0 6px}
-  p.lead,.hint{color:var(--muted);line-height:1.7;margin:0 0 20px;font-size:16px}
-  .hint{font-size:14px;margin-top:-2px}
-  .opts{display:grid;gap:10px}
-  .opts.two{grid-template-columns:1fr 1fr}
-  @media (max-width:560px){.opts.two{grid-template-columns:1fr}}
-  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:15px 16px;font:500 15px Inter,sans-serif;cursor:pointer;transition:border-color .15s,background .15s}
-  .opt:hover{border-color:var(--blue-line)}
-  .opt.on{border-color:var(--blue);background:var(--blue-soft)}
-  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #34405a;margin-top:1px}
-  .opt.multi .dot{border-radius:5px}
-  .opt.on .dot{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px var(--card)}
-  label.f{display:block;font-size:14px;color:var(--muted);margin:14px 0 6px}
-  input.t{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--white);border-radius:10px;padding:13px 14px;font:15px Inter,sans-serif}
-  input.t:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
-  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:10px}
-  .btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:13px 22px;font:600 15px Inter,sans-serif;cursor:pointer;transition:filter .15s}
-  .btn:hover{filter:brightness(1.1)}
-  .btn[disabled]{opacity:.5;cursor:not-allowed}
-  .ghost{background:none;border:0;color:var(--muted);font:500 14px Inter,sans-serif;cursor:pointer;padding:10px 4px}
-  .ghost:hover{color:var(--text)}
-  .err{color:var(--warn);font-size:14px;margin-top:10px;min-height:18px}
-  .intro ul{list-style:none;margin:0 0 26px;padding:0;color:var(--text);line-height:2}
-  .intro li:before{content:"✓";color:var(--blue);font-weight:700;margin-right:10px}
-  .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(79,124,255,.09),rgba(13,18,32,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
-  .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--blue-text);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:100px;padding:4px 12px;margin-bottom:12px}
-  .price{font-size:30px;font-weight:900;letter-spacing:-.6px;color:var(--white);margin:8px 0 2px}
-  .price small{font-size:14px;color:var(--muted);font-weight:500;letter-spacing:0}
-  .rec ul{margin:12px 0 0;padding-left:18px;line-height:1.8}
-  .extra{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:12px}
-  .extra h3{margin:0 0 4px;font-size:16px;color:var(--white)}
-  .extra .p{color:var(--gold);font-weight:700;font-size:14px;margin-top:6px}
-  .note{color:var(--muted);font-size:13.5px;line-height:1.6;margin-top:16px}
-  footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line)}
-  footer .links{display:flex;gap:10px;justify-content:center;margin-top:8px}
-  footer a{color:var(--blue-text);text-decoration:none;font-weight:500}
-  footer a:hover{color:var(--white);text-decoration:underline}
-  .hp{position:absolute;left:-9999px}
-  .scenario{background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:14px;padding:18px 20px;margin:4px 0 22px;line-height:1.7;color:var(--text);font-size:15px}
-  .scenario b{color:var(--white)}
-  .scenario ul{margin:8px 0 0;padding-left:18px}
-  .formula{font-weight:700;color:var(--white);background:var(--panel2);border-radius:8px;padding:10px 14px;margin:12px 0;display:inline-block}
-  .qblock{margin-bottom:22px}
-  .qlabel{display:block;color:var(--text);font-size:15.5px;line-height:1.6;font-weight:500;margin-bottom:10px}
-  .qlabel b{color:var(--white)}
-  textarea.t{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--white);border-radius:10px;padding:13px 14px;font:15px/1.6 Inter,sans-serif;resize:vertical;min-height:110px}
-  textarea.t:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
-  .opt b{color:var(--blue-text);margin-right:2px}
-  .lk-legend{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin:0 0 14px;padding:10px 14px;background:var(--panel2);border-radius:10px}
-  .lk{padding:14px 0;border-bottom:1px solid var(--line)}
-  .lk .qlabel{margin-bottom:10px}
-  .lk-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:360px}
-  .lk-btn{height:44px;border-radius:10px;border:1px solid var(--line2);background:var(--panel2);color:var(--text);font:600 15px Inter,sans-serif;cursor:pointer;transition:all .15s}
-  .lk-btn:hover{border-color:var(--blue-line)}
-  .lk-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
-  .lt-sub{color:var(--gold);font-weight:600;margin:4px 0 0}
-  .lt-bars{display:grid;gap:8px;margin:16px 0 6px}
-  .lt-bar{display:grid;grid-template-columns:170px 1fr;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
-  .lt-bar i{display:block;height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}
-  .lt-bar b{display:block;height:100%;background:linear-gradient(90deg,#4F7CFF,#E8A045);border-radius:99px}
-  .lt-h{font-size:16px;color:var(--white);margin:18px 0 0}
-  @media (max-width:560px){.lt-bar{grid-template-columns:130px 1fr}}
+:root{
+  --b1:#667eea;--b2:#764ba2;--grad:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  --ink:#1b2140;--text:#3d4466;--mut:#6b7392;--line:#e8eaf4;--bg:#f8f9fd;--card:#fff;--lav:#f3f2fc;--lav2:#ebe9fb;
+  --green:#16a34a;--greenbg:#eaf8ef;--grey:#a3a9c2;--greybg:#f2f3f7;--amber:#b45309;--amberbg:#fff7e6;--red:#dc2626;
+  --r:18px;--shadow:0 1px 2px rgba(27,33,64,.04),0 8px 24px rgba(27,33,64,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--b1)}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.hidden{display:none!important}
+
+/* top bar */
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-weight:700;letter-spacing:-.01em}
+.mark{width:38px;height:38px;border-radius:11px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.brand small{display:block;font-weight:500;color:var(--mut);font-size:12px;margin-top:-2px}
+.who{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mut)}
+.who strong{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 20px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s}
+.btn-grad{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(102,126,234,.35)}
+.btn-grad:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(102,126,234,.4)}
+.btn-grad:disabled{opacity:.6;transform:none;cursor:wait}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--b1);color:var(--b1)}
+.btn-soft{background:var(--lav);color:var(--b2)}
+.btn-soft:hover{background:var(--lav2)}
+.btn-sm{padding:8px 14px;font-size:14px;border-radius:10px}
+.btn-done{background:var(--greenbg);color:var(--green);cursor:default}
+
+/* ===== welcome ===== */
+.hero{padding:64px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--lav);color:var(--b2);font-weight:600;font-size:13px;padding:6px 12px;border-radius:999px}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--grad)}
+.hero h1{font-size:46px;line-height:1.1;letter-spacing:-.03em;color:var(--ink);margin:18px 0 16px;font-weight:800}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:18px;color:var(--text);max-width:560px}
+.facts{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 30px}
+.fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px;min-width:120px}
+.fact strong{display:block;color:var(--ink);font-size:20px;line-height:1.2}
+.fact span{font-size:13px;color:var(--mut)}
+.photo{border-radius:24px;overflow:hidden;background:var(--lav);aspect-ratio:21/9;position:relative;box-shadow:var(--shadow);margin-top:8px}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
+.photo figcaption{position:absolute;left:18px;bottom:16px;background:rgba(255,255,255,.92);color:var(--ink);font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(27,33,64,.12)}
+.photo figcaption i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grad);margin-right:7px;vertical-align:1px}
+.photo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;border:2px dashed #c9c5f0;border-radius:24px;color:var(--b2);padding:20px}
+.photo-ph strong{font-size:15px}.photo-ph span{font-size:13px;color:var(--mut)}
+.login{background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow);position:sticky;top:96px}
+.login::before{content:'';display:block;height:5px;margin:-32px -32px 26px;border-radius:24px 24px 0 0;background:var(--grad)}
+.login h2{color:var(--ink);font-size:22px;letter-spacing:-.01em}
+.login p.lsub{color:var(--mut);font-size:14px;margin:4px 0 22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.field input{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:15px;color:var(--ink);background:#fff;transition:border-color .15s,box-shadow .15s}
+.field input:focus{outline:none;border-color:var(--b1);box-shadow:0 0 0 4px rgba(102,126,234,.15)}
+.login .btn{width:100%;padding:14px}
+.msg{font-size:14px;border-radius:12px;padding:11px 14px;margin-bottom:16px}
+.msg.err{background:#fdeeee;color:#b42318}
+.msg.info{background:var(--lav);color:var(--b2)}
+.login .alt{font-size:13px;color:var(--mut);margin-top:18px;text-align:center}
+.section{padding:40px 0 72px}
+.section h3{font-size:26px;color:var(--ink);letter-spacing:-.02em;margin-bottom:6px}
+.section p.intro{color:var(--mut);margin-bottom:24px}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.pcard .num{width:36px;height:36px;border-radius:10px;background:var(--lav);color:var(--b2);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.pcard h4{color:var(--ink);font-size:16px;line-height:1.3}
+.pcard .wk{font-size:13px;color:var(--b1);font-weight:600;margin:4px 0 8px}
+.pcard p{font-size:14px;color:var(--mut)}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--mut);font-size:13px;background:#fff}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ===== dashboard ===== */
+.dash{padding:32px 0 72px}
+.course{background:var(--grad);border-radius:24px;color:#fff;padding:30px 34px;display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 14px 34px rgba(118,75,162,.22)}
+.course .k{font-size:13px;font-weight:600;opacity:.85;letter-spacing:.02em}
+.course h1{font-size:30px;letter-spacing:-.02em;line-height:1.2;margin:4px 0 6px}
+.course p{opacity:.92}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
+.ring{flex:none;width:118px;height:118px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .v{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.ring .v strong{font-size:28px}.ring .v span{font-size:12px;opacity:.85}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.road{margin-top:24px;padding:26px 28px}
+.road-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.road-h h2{font-size:18px;color:var(--ink)}
+.road-h span{font-size:14px;color:var(--mut)}
+.steps{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:0;position:relative}
+.step{position:relative;text-align:center;padding:0 10px;background:none;border:0;color:inherit}
+.step:not(.lk){cursor:pointer}
+.step::before{content:'';position:absolute;top:27px;left:-50%;width:100%;height:4px;background:var(--line);z-index:0}
+.step:first-child::before{display:none}
+.step.fill::before{background:var(--grad)}
+.node{position:relative;z-index:1;width:58px;height:58px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;background:#fff;border:3px solid var(--line);color:var(--grey);transition:transform .2s}
+.step:not(.lk):hover .node{transform:scale(1.06)}
+.step.done .node{background:var(--green);border-color:var(--green);color:#fff}
+.step.cur .node{border-color:transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;color:var(--b2);box-shadow:0 0 0 6px rgba(102,126,234,.14)}
+.step.open .node{border-color:var(--b1);color:var(--b1)}
+.step .ph{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+.step .t{font-weight:700;color:var(--ink);font-size:15px;line-height:1.3;margin:2px 0}
+.step .w{font-size:13px;color:var(--mut)}
+.step.lk .t{color:var(--mut)}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;margin-top:8px}
+.pill.done{background:var(--greenbg);color:var(--green)}
+.pill.cur{background:var(--lav);color:var(--b2)}
+.pill.open{background:#eef1fe;color:var(--b1)}
+.pill.lk{background:var(--greybg);color:var(--mut)}
+.pill.ns{background:var(--greybg);color:var(--mut)}
+.mini{height:6px;border-radius:6px;background:var(--greybg);margin:10px auto 0;max-width:140px;overflow:hidden}
+.mini i,.bar i{display:block;height:100%;border-radius:inherit;background:var(--grad);transition:width .6s ease}
+.done-bar i{background:var(--green)!important}
+.next{margin-top:20px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-left:5px solid var(--b1)}
+.next .k{font-size:12px;font-weight:700;color:var(--b1);text-transform:uppercase;letter-spacing:.06em}
+.next h3{font-size:17px;color:var(--ink)}
+.next p{font-size:14px;color:var(--mut)}
+.phases{margin-top:28px;display:grid;gap:16px}
+.phase{overflow:hidden}
+.phase-h{width:100%;display:flex;align-items:center;gap:18px;padding:22px 24px;background:#fff;border:0;text-align:left}
+.phase-h .num{flex:none;width:46px;height:46px;border-radius:14px;background:var(--lav);color:var(--b2);font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center}
+.phase.done .phase-h .num{background:var(--greenbg);color:var(--green)}
+.phase.lk .phase-h .num{background:var(--greybg);color:var(--grey)}
+.phase-h .main{flex:1;min-width:0}
+.phase-h h3{font-size:18px;color:var(--ink);line-height:1.3}
+.phase-h .meta{font-size:13px;color:var(--mut)}
+.phase-h .pr{flex:none;width:170px;text-align:right}
+.phase-h .pr strong{font-size:15px;color:var(--ink)}
+.bar{height:8px;border-radius:8px;background:var(--greybg);overflow:hidden;margin-top:6px}
+.chev{flex:none;width:30px;height:30px;border-radius:50%;background:var(--greybg);display:flex;align-items:center;justify-content:center;color:var(--mut);transition:transform .25s}
+.open-x>.phase-h .chev,.open-x>.mod-h .chev{transform:rotate(180deg)}
+.phase-b{border-top:1px solid var(--line);padding:8px 24px 22px;background:#fcfcfe}
+.lockbox{display:flex;gap:14px;align-items:flex-start;background:var(--greybg);border-radius:14px;padding:16px 18px;margin:14px 0 6px;color:var(--text);font-size:14px}
+.lockbox svg{flex:none;margin-top:2px}
+.mod{background:#fff;border:1px solid var(--line);border-radius:16px;margin-top:14px;overflow:hidden}
+.mod-h{width:100%;display:flex;align-items:center;gap:16px;padding:16px 18px;background:#fff;border:0;text-align:left}
+.mod-h .ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--lav);display:flex;align-items:center;justify-content:center;color:var(--b2);font-weight:700;font-size:13px}
+.mod.done .mod-h .ic{background:var(--greenbg);color:var(--green)}
+.mod.lk .mod-h{cursor:default}
+.mod.lk .mod-h .ic{background:var(--greybg);color:var(--grey)}
+.mod-h .main{flex:1;min-width:0}
+.mod-h .wk{font-size:12px;color:var(--mut);font-weight:600}
+.mod-h h4{font-size:16px;color:var(--ink);line-height:1.35}
+.mod.lk h4{color:var(--mut)}
+.mod-h .pr{flex:none;width:150px}
+.mod-h .pr .row{display:flex;justify-content:space-between;font-size:13px;color:var(--mut)}
+.mod-h .pr .row strong{color:var(--ink)}
+.mod-b{border-top:1px solid var(--line);padding:6px 20px 22px}
+.mod-desc{font-size:14px;color:var(--mut);margin:14px 0 4px}
+.blk{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:18px 0;border-bottom:1px dashed var(--line)}
+.blk:last-child{border-bottom:0}
+.blk .l{width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+.blk.ok .l{background:var(--green)}
+.blk.na .l{background:var(--greybg);color:var(--grey)}
+.blk h5{font-size:15px;color:var(--ink);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.blk h5 small{font-size:12px;font-weight:600;color:var(--mut)}
+.blk .d{font-size:14px;color:var(--text);margin:4px 0 12px}
+.blk .acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ph-box{border:1.5px dashed var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--mut);background:#fff}
+.res{list-style:none;margin:0 0 12px}
+.res li{font-size:14px;margin:4px 0}
+.ex{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;background:#fff}
+.ex.ok{border-color:#c7ecd4;background:#fbfefc}
+.ex h6{font-size:15px;color:var(--ink);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.ex p{font-size:14px;color:var(--text);margin:6px 0 12px}
+.ex textarea{width:100%;min-height:96px;padding:12px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:14px;resize:vertical}
+.ex textarea:focus{outline:none;border-color:var(--b1);box-shadow:0 0 0 4px rgba(102,126,234,.12)}
+.sub{font-size:14px;background:var(--greenbg);border-radius:10px;padding:10px 12px;color:#14532d;white-space:pre-wrap;word-break:break-word;margin-bottom:10px}
+.tag{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.tag.ok{background:var(--greenbg);color:var(--green)}
+.tag.todo{background:var(--amberbg);color:var(--amber)}
+.qstats{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
+.qstat{background:var(--lav);border-radius:10px;padding:8px 12px;font-size:13px;color:var(--b2)}
+.qstat strong{color:var(--ink)}
+.err-inline{color:var(--red);font-size:13px;margin-top:8px}
+.gate{max-width:640px;margin:56px auto;padding:40px;text-align:center}
+.gate h2{color:var(--ink);font-size:26px;margin:12px 0 8px}
+.gate p{color:var(--mut);margin-bottom:24px}
+.spin{width:36px;height:36px;border:4px solid var(--lav2);border-top-color:var(--b1);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading{padding:120px 0;text-align:center;color:var(--mut)}
+.loading p{margin-top:14px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:all .3s;z-index:50;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== courses (catalogue + my courses) ===== */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.ccard{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;text-align:left;padding:0;transition:transform .2s,box-shadow .2s}
+.ccard:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(27,33,64,.1)}
+.ccard .img{aspect-ratio:16/8;background:var(--grad);position:relative;overflow:hidden}
+.ccard .img img{width:100%;height:100%;object-fit:cover;display:block}
+.ccard .img .tag2{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);color:var(--b2);font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px}
+.ccard .bd{padding:20px 22px 22px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ccard h3{font-size:18px;color:var(--ink);line-height:1.3;margin:0}
+.ccard .st{font-size:13px;color:var(--b1);font-weight:600}
+.ccard p{font-size:14px;color:var(--mut)}
+.ccard .meta2{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.ccard .meta2 span{font-size:12px;background:var(--lav);color:var(--b2);border-radius:999px;padding:4px 10px;font-weight:600}
+.ccard .ft{margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ccard .ft .bar{flex:1}
+.journey{margin-top:28px}
+.journey h4{font-size:15px;color:var(--ink);margin-bottom:12px}
+.crumbs{font-size:14px;color:var(--mut);margin-bottom:14px}
+.crumbs a{color:var(--b1);text-decoration:none;font-weight:600}
+.page-h{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.page-h h1{font-size:28px;color:var(--ink);letter-spacing:-.02em}
+.page-h p{color:var(--mut)}
+.tabs{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;margin:18px 0 0}
+.tabs a{padding:8px 16px;border-radius:9px;font-size:14px;font-weight:600;color:var(--mut);text-decoration:none}
+.tabs a.on{background:var(--grad);color:#fff}
+.tbl-wrap{overflow-x:auto;margin-top:20px}
+table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+.tbl th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+.tbl td .bar{width:110px;margin-top:4px}
+.tbl tr:last-child td{border-bottom:0}
+.muted{color:var(--mut)}
+.empty{padding:40px;text-align:center;color:var(--mut)}
+
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr}
+  .login{position:static}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+  .photo{aspect-ratio:4/3}
+  .wrap{padding:0 16px}
+  .hero{padding:36px 0 24px}
+  .hero h1{font-size:34px}
+  .lead{font-size:16px}
+  .pgrid{grid-template-columns:1fr}
+  .course{flex-direction:column;align-items:flex-start;padding:24px}
+  .course h1{font-size:24px}
+  .ring{width:96px;height:96px}
+  .road{padding:20px}
+  .steps{grid-template-columns:1fr;gap:6px}
+  .step{display:grid;grid-template-columns:52px 1fr;text-align:left;align-items:center;gap:0 14px;padding:8px 0}
+  .step::before{top:-20px;left:25px;width:4px;height:44px}
+  .node{width:52px;height:52px;margin:0;grid-row:span 4}
+  .mini{margin:6px 0 0}
+  .phase-h{flex-wrap:wrap;padding:18px}
+  .phase-h .pr{width:100%;order:5;text-align:left}
+  .mod-h{flex-wrap:wrap}
+  .mod-h .pr{width:100%;order:5}
+  .mod-b{padding:4px 14px 18px}
+  .blk{grid-template-columns:1fr;gap:8px}
+  .who .nm{display:none}
+  .login{padding:24px}
+  .login::before{margin:-24px -24px 22px}
+}
 </style>
 </head>
 <body>
-<header><div class="bar">
-  <a class="brand" href="https://avineshbundhoo.com/" target="_blank" rel="noopener">Avinesh<b>.</b></a>
-  <div class="lang" role="group" aria-label="Language">
-    <button type="button" data-l="en" class="on">EN</button>
-    <button type="button" data-l="fr">FR</button>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="mark">DM</span><span>Digital Marketing Training<small>by Avinesh Bundhoo</small></span></a>
+    <div class="who hidden" id="who"><span class="nm">Logged in as <strong id="whoName"></strong></span><button class="btn btn-ghost btn-sm" id="logoutBtn">Log out</button></div>
   </div>
-</div></header>
-<main><div class="card" id="app"></div></main>
-<footer><span id="tagline"></span><div class="links"><a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a><span>·</span><a href="https://hsenivamedia.com/" target="_blank" rel="noopener">hsenivamedia.com</a></div></footer>
+</header>
 
+<main id="app">
+  <div class="loading"><div class="spin"></div><p>Loading…</p></div>
+</main>
+
+<footer>
+  <div class="wrap"><span>© Digital Marketing Training · Avinesh Bundhoo</span><span>Questions? <a href="mailto:digitalmarketer@hseniva.com">digitalmarketer@hseniva.com</a></span></div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script src="/platform.js"></script>
 <script>
-/* ===== CONFIG ===== */
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbwBTKoa1MUWUEltQR3b6sfHIAaowhWhp30-4TGQLqbZLStI2-XEW754t7OmFKbm0NEd-A/exec"; // Google Apps Script web app URL for the DMM onboarding Sheet
-const DRAFT_KEY = "dmm_onboarding_draft_v1";
+/* ---------------- settings ---------------- */
+var PHOTO_URL = '/img/training-session.jpg';
+var FALLBACK_COURSES = [{
+  id: 'DMM', title: 'Digital Marketing & AI Bootcamp', subtitle: 'DMM & AI · 20-week professional programme',
+  description: 'A practical, hands-on programme that takes you from the foundations of the digital ecosystem to paid campaigns, AI tools and a full marketing strategy.',
+  image_url: '/img/training-session.jpg', duration: '20 weeks', format: 'In-person, hybrid or online', modules: 20,
+  phases: [
+    { phase: 1, title: 'Digital Foundations', weeks: 'Weeks 1–4', focus: 'Ecosystem, Analytics, SEO, Content Strategy' },
+    { phase: 2, title: 'Core Channels & Paid Media', weeks: 'Weeks 5–10', focus: 'Social Media, Google Ads, Meta Ads, Display, Email' },
+    { phase: 3, title: 'Advanced Performance & AI', weeks: 'Weeks 11–16', focus: 'Data Analysis, ROAS Optimization, AI Tools, Automation, E-commerce' },
+    { phase: 4, title: 'Strategy & Leadership', weeks: 'Weeks 17–20', focus: 'Digital Strategy, Reporting, Personal Branding, Capstone Project' }
+  ]
+}];
 
-/* ===== TEXT ===== */
-const T = {
- en:{
-  tagline:"International performance marketing consultant",
-  badge:"Digital Marketing Mastery · Cohort 2",
-  introTitle:"Your learning profile <span class=\"grad\">starts here</span>",
-  introLead:"This is not a marketing test, and you don't need any experience. It helps me understand how you think and how you learn best, so I can adapt the bootcamp to you.",
-  introList:["No marketing knowledge needed","About 40 minutes, in 6 short parts","Your progress is saved on this device if you pause","Answer in your own words. There are no wrong answers","Discover your learning type at the end"],
-  start:"Start", resume:"Continue where I left off", restart:"Start again",
-  next:"Continue", back:"Back", send:"Send my answers", sending:"Sending…",
-  partOf:(a,b,t)=>`Part ${a} of ${b} · about ${t} min`,
-  required:"Please answer every question to continue. If you're not sure, write your best guess.",
-  contactErr:"Please add your name and a valid email.",
-  answerPh:"Your answer…",
-  s:{
-   profile:{t:"About you",h:"So I know who I'm working with.",
-     name:"Your name", email:"Email", phone:"WhatsApp / phone (optional)",
-     why:"Why did you join this bootcamp?"},
-   strategy:{t:"Strategic thinking",h:"Read the scenario carefully, then answer.",
-     box:"<b>Scenario: café business growth</b><br>You manage Instagram for a local café in Port Louis, Mauritius.<ul><li>Today: 400 followers, 15–30 likes per post</li><li>Goal: attract 50 new customers within 30 days</li><li>Budget: Rs 250 per week for ads</li></ul>",
-     q1:"Before spending any money on ads, what 3 key things MUST you know about your potential customers?",
-     q2:"How would you split your Rs 250/week budget across the month?",
-     q2r:"What's your reasoning behind this approach?"},
-   analytics:{t:"Analytics & calculations",h:"First a short lesson, then two questions.",
-     box:"<b>Concept: Click-Through Rate (CTR)</b><br>CTR tells you what percentage of the people who <b>saw</b> your ad actually <b>clicked</b> it.<div class=\"formula\">CTR = (Clicks ÷ Impressions) × 100</div><b>Example</b><br>Your ad was shown to 1,000 people (impressions) and 25 people clicked.<br>CTR = (25 ÷ 1,000) × 100 = <b>2.5%</b><br>So 2.5% of the people who saw your ad took action.",
-     q1:"Your ad reached 5,000 people and 75 people clicked on it. What is your CTR? Show your math step by step.",
-     q2:"A CTR of 1.5% is considered good in digital marketing. Is your CTR good, or does it need improvement? Why?"},
-   creative:{t:"Creativity & copywriting",h:"Same product, different audiences, different messages.",
-     box:"<b>Scenario: selling local artisan coffee</b><br>You're promoting a Mauritian coffee brand to two different audiences.",
-     a:"<b>Audience A: busy professionals</b> (office workers, 9 to 5). They want quality coffee to get through a busy day. Write a catchy headline for them:",
-     b:"<b>Audience B: university students</b> (tight budget). They want affordable coffee to stay focused while studying. Write a catchy headline for them:",
-     q2:"Why did you write different headlines for the two audiences? What's the link between their needs and your headlines?"},
-   ltype:{t:"Your learning type",h:"How much do you agree with each statement? Go with your first instinct.",
-     scale:["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"],
-     q:{
-      v1:"I understand a new idea faster when I see a diagram, chart or video.",
-      r1:"I like clear written steps that I can follow one by one.",
-      s1:"I learn best when I can talk things through with someone.",
-      h1:"I'd rather try something myself than read about it first.",
-      v2:"I remember things better when I can picture them in my head.",
-      r2:"I take notes and re-read them to really learn something.",
-      s2:"Asking questions out loud helps me understand.",
-      h2:"I learn from my mistakes by testing and adjusting.",
-      v3:"Screenshots, colours and visual examples help me a lot.",
-      r3:"I prefer to read the instructions before I start.",
-      s3:"I enjoy working in a group more than working alone.",
-      h3:"I get bored if I can't practise quickly."
-     }},
-   style:{t:"How you learn",h:"No right or wrong answers here. Just be honest!",
-     l1:{t:"When learning something new, you prefer:",o:{A:"Visual explanations (diagrams, videos, screenshots)",B:"Step-by-step written instructions",C:"Discussion and asking questions",D:"Hands-on practice straight away"}},
-     l2:{t:"When you make a mistake, you prefer:",o:{A:"Detailed feedback on what went wrong",B:"A quick fix so you can try again",C:"Understanding WHY it happened",D:"Examples of how others made similar mistakes"}},
-     l3:"What's your biggest concern about this bootcamp? (For example: speed of learning, technical skills, time commitment, feeling lost…)",
-     l4:"What's ONE thing you want to achieve in the first 30 days of the bootcamp?"}
-  },
-  resTitle:"Your learning type",
-  resMix:(a,b)=>`Second strength: ${b}`,
-  types:{
-   V:{name:"The Visual Thinker",lead:"You learn best when you can see it. Diagrams, screenshots and videos make ideas click for you.",tips:["Watch the demo first, then do it","Turn every new process into a simple diagram or mind map","Use colour-coded dashboards to read your campaign results"]},
-   R:{name:"The Structured Learner",lead:"You like clear steps, good notes and knowing the plan before you start. Order helps you go deep.",tips:["Follow the written guides and checklists step by step","Keep your own notes and summarise each module","Read the instructions before every hands-on exercise"]},
-   S:{name:"The Social Learner",lead:"You understand best by talking, asking and sharing. Discussion turns ideas into real understanding.",tips:["Ask questions during live sessions, there are no silly ones","Explain what you learned to a classmate","Join group exercises and peer reviews"]},
-   H:{name:"The Hands-on Doer",lead:"You learn by doing. Testing, breaking things and fixing them is how you make skills stick.",tips:["Jump into the practice account early","Launch small test campaigns and learn from the results","Use theory as a reference when you get stuck"]},
-   B:{name:"The All-rounder",lead:"You're comfortable learning in many ways. You can adapt to videos, guides, discussion and practice.",tips:["Mix formats: watch, read, discuss, then practise","Pick the format that fits each topic","Help classmates who learn differently from you"]}
-  },
-  tipsTitle:"How you'll learn best in the bootcamp",
-  basis:"Based on all your answers: how you approached each part, your choices and your ratings. There are no right or wrong answers.",
-  doneTitle:"Thank you!",
-  doneLead:(n)=>`Well done${n?", "+n:""}. Your answers are in.`,
-  doneNext:"I'll review your responses within 24 hours and send you your personalised learning plan.",
-  saveErr:"Your answers could not be sent. Please check your connection and try again. Your answers are still saved on this device."
- },
- fr:{
-  tagline:"Consultant international en marketing de performance",
-  badge:"Digital Marketing Mastery · Cohorte 2",
-  introTitle:"Votre profil d'apprentissage <span class=\"grad\">commence ici</span>",
-  introLead:"Ce n'est pas un test de marketing, et aucune expérience n'est nécessaire. Il m'aide à comprendre comment vous réfléchissez et comment vous apprenez le mieux, pour adapter le bootcamp à vous.",
-  introList:["Aucune connaissance en marketing requise","Environ 40 minutes, en 6 courtes parties","Votre progression est enregistrée sur cet appareil si vous faites une pause","Répondez avec vos propres mots. Il n'y a pas de mauvaise réponse","Découvrez votre profil d'apprentissage à la fin"],
-  start:"Commencer", resume:"Reprendre où je me suis arrêté", restart:"Recommencer",
-  next:"Continuer", back:"Retour", send:"Envoyer mes réponses", sending:"Envoi…",
-  partOf:(a,b,t)=>`Partie ${a} sur ${b} · environ ${t} min`,
-  required:"Répondez à toutes les questions pour continuer. Si vous n'êtes pas sûr, donnez votre meilleure idée.",
-  contactErr:"Indiquez votre nom et un email valide.",
-  answerPh:"Votre réponse…",
-  s:{
-   profile:{t:"À propos de vous",h:"Pour savoir avec qui je travaille.",
-     name:"Votre nom", email:"Email", phone:"WhatsApp / téléphone (facultatif)",
-     why:"Pourquoi avez-vous rejoint ce bootcamp ?"},
-   strategy:{t:"Réflexion stratégique",h:"Lisez bien le scénario, puis répondez.",
-     box:"<b>Scénario : développer un café</b><br>Vous gérez l'Instagram d'un café à Port-Louis, à Maurice.<ul><li>Aujourd'hui : 400 abonnés, 15 à 30 likes par publication</li><li>Objectif : attirer 50 nouveaux clients en 30 jours</li><li>Budget : Rs 250 par semaine pour la publicité</li></ul>",
-     q1:"Avant de dépenser quoi que ce soit en publicité, quelles sont les 3 choses que vous DEVEZ savoir sur vos clients potentiels ?",
-     q2:"Comment répartiriez-vous votre budget de Rs 250 par semaine sur le mois ?",
-     q2r:"Pourquoi cette approche ?"},
-   analytics:{t:"Analyse & calculs",h:"D'abord une courte leçon, puis deux questions.",
-     box:"<b>Notion : le taux de clic (CTR)</b><br>Le CTR indique quel pourcentage des personnes qui ont <b>vu</b> votre publicité ont <b>cliqué</b> dessus.<div class=\"formula\">CTR = (Clics ÷ Impressions) × 100</div><b>Exemple</b><br>Votre publicité a été vue par 1 000 personnes (impressions) et 25 ont cliqué.<br>CTR = (25 ÷ 1 000) × 100 = <b>2,5 %</b><br>Donc 2,5 % des personnes qui ont vu votre publicité ont agi.",
-     q1:"Votre publicité a touché 5 000 personnes et 75 ont cliqué. Quel est votre CTR ? Montrez votre calcul étape par étape.",
-     q2:"Un CTR de 1,5 % est considéré comme bon en marketing digital. Votre CTR est-il bon, ou faut-il l'améliorer ? Pourquoi ?"},
-   creative:{t:"Créativité & rédaction",h:"Même produit, publics différents, messages différents.",
-     box:"<b>Scénario : vendre un café artisanal local</b><br>Vous faites la promotion d'une marque de café mauricienne auprès de deux publics différents.",
-     a:"<b>Public A : professionnels pressés</b> (employés de bureau, 9 h – 17 h). Ils veulent un café de qualité pour tenir une journée chargée. Écrivez un titre accrocheur pour eux :",
-     b:"<b>Public B : étudiants</b> (petit budget). Ils veulent un café abordable pour rester concentrés pendant leurs révisions. Écrivez un titre accrocheur pour eux :",
-     q2:"Pourquoi avez-vous écrit des titres différents pour ces deux publics ? Quel est le lien entre leurs besoins et vos titres ?"},
-   ltype:{t:"Votre profil d'apprentissage",h:"Êtes-vous d'accord avec chaque affirmation ? Suivez votre première impression.",
-     scale:["Pas du tout d'accord","Pas d'accord","Neutre","D'accord","Tout à fait d'accord"],
-     q:{
-      v1:"Je comprends une nouvelle idée plus vite avec un schéma, un graphique ou une vidéo.",
-      r1:"J'aime avoir des étapes écrites claires à suivre une par une.",
-      s1:"J'apprends mieux quand je peux en parler avec quelqu'un.",
-      h1:"Je préfère essayer moi-même plutôt que lire d'abord.",
-      v2:"Je retiens mieux quand je peux visualiser les choses dans ma tête.",
-      r2:"Je prends des notes et je les relis pour vraiment apprendre.",
-      s2:"Poser des questions à voix haute m'aide à comprendre.",
-      h2:"J'apprends de mes erreurs en testant et en ajustant.",
-      v3:"Les captures d'écran, les couleurs et les exemples visuels m'aident beaucoup.",
-      r3:"Je préfère lire les instructions avant de commencer.",
-      s3:"J'aime plus travailler en groupe que seul.",
-      h3:"Je m'ennuie si je ne peux pas pratiquer rapidement."
-     }},
-   style:{t:"Votre façon d'apprendre",h:"Pas de bonne ou de mauvaise réponse. Soyez simplement honnête !",
-     l1:{t:"Pour apprendre quelque chose de nouveau, vous préférez :",o:{A:"Des explications visuelles (schémas, vidéos, captures d'écran)",B:"Des instructions écrites étape par étape",C:"Échanger et poser des questions",D:"Pratiquer tout de suite"}},
-     l2:{t:"Quand vous faites une erreur, vous préférez :",o:{A:"Un retour détaillé sur ce qui n'a pas marché",B:"Une correction rapide pour réessayer",C:"Comprendre POURQUOI c'est arrivé",D:"Des exemples d'erreurs similaires faites par d'autres"}},
-     l3:"Quelle est votre plus grande inquiétude pour ce bootcamp ? (Par exemple : rythme d'apprentissage, compétences techniques, temps à y consacrer, peur d'être perdu…)",
-     l4:"Quelle est LA chose que vous voulez accomplir pendant les 30 premiers jours du bootcamp ?"}
-  },
-  resTitle:"Votre profil d'apprentissage",
-  resMix:(a,b)=>`Second point fort : ${b}`,
-  types:{
-   V:{name:"Le Visuel",lead:"Vous apprenez mieux quand vous voyez. Les schémas, captures d'écran et vidéos rendent les idées claires pour vous.",tips:["Regardez d'abord la démo, puis faites-la","Transformez chaque nouveau processus en schéma ou carte mentale","Utilisez des tableaux de bord avec couleurs pour lire vos résultats"]},
-   R:{name:"Le Méthodique",lead:"Vous aimez les étapes claires, les bonnes notes et connaître le plan avant de commencer. L'ordre vous aide à approfondir.",tips:["Suivez les guides écrits et les check-lists étape par étape","Prenez vos propres notes et résumez chaque module","Lisez les consignes avant chaque exercice pratique"]},
-   S:{name:"Le Social",lead:"Vous comprenez mieux en parlant, en posant des questions et en partageant. L'échange transforme les idées en vraie compréhension.",tips:["Posez vos questions pendant les sessions, aucune n'est bête","Expliquez ce que vous avez appris à un camarade","Participez aux exercices de groupe et aux relectures entre pairs"]},
-   H:{name:"Le Pratique",lead:"Vous apprenez en faisant. Tester, se tromper et corriger, c'est comme ça que vos compétences s'ancrent.",tips:["Lancez-vous tôt dans le compte d'entraînement","Lancez de petites campagnes test et apprenez des résultats","Gardez la théorie comme référence quand vous bloquez"]},
-   B:{name:"Le Polyvalent",lead:"Vous êtes à l'aise avec plusieurs façons d'apprendre. Vous vous adaptez aux vidéos, guides, échanges et à la pratique.",tips:["Variez les formats : regarder, lire, échanger, puis pratiquer","Choisissez le format adapté à chaque sujet","Aidez les camarades qui apprennent autrement que vous"]}
-  },
-  tipsTitle:"Comment vous apprendrez le mieux pendant le bootcamp",
-  basis:"Basé sur toutes vos réponses : votre façon d'aborder chaque partie, vos choix et vos notes. Il n'y a pas de bonne ou de mauvaise réponse.",
-  doneTitle:"Merci !",
-  doneLead:(n)=>`Bravo${n?" "+n:""}. Vos réponses sont bien reçues.`,
-  doneNext:"J'étudie vos réponses sous 24 heures et je vous envoie votre plan d'apprentissage personnalisé.",
-  saveErr:"Vos réponses n'ont pas pu être envoyées. Vérifiez votre connexion et réessayez. Elles restent enregistrées sur cet appareil."
- }
+/* ---------------- helpers ---------------- */
+var app = document.getElementById('app');
+var D = null, MY = null, CATALOG = null, SEL = null;
+var OPEN = {}, OPENED_PPT = {};
+try { OPEN = JSON.parse(sessionStorage.getItem('dmm_open') || '{}'); } catch (e) {}
+function saveOpen() { try { sessionStorage.setItem('dmm_open', JSON.stringify(OPEN)); } catch (e) {} }
+function cacheGet(k) { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { return null; } }
+function cacheSet(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function cacheClear() { try { Object.keys(sessionStorage).forEach(function (k) { if (k.indexOf('dmm_') === 0 && k !== 'dmm_open') sessionStorage.removeItem(k); }); } catch (e) {} }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function linkify(s) { return esc(s).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'); }
+function toast(m) { var t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('show'); }, 2600); }
+function first(n) { return String(n || '').split(' ')[0]; }
+function safeNext() { var n = new URLSearchParams(location.search).get('next') || ''; return /^\/(?!\/)[A-Za-z0-9\-_/?=&.%]*$/.test(n) ? n : ''; }
+function loading(msg) { app.innerHTML = '<div class="loading"><div class="spin"></div><p>' + esc(msg || 'Loading…') + '</p></div>'; }
+function bar(p, done) { return '<div class="bar' + (done ? ' done-bar' : '') + '"><i style="width:' + p + '%"></i></div>'; }
+function modNum(id) { var m = String(id).match(/(\d+)\s*$/); return m ? m[1] : id; }
+var ICON_LOCK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+var ICON_CHECK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+var ICON_CHEV = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+var ICON_EXT = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 14L20 4M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>';
+
+function setWho() {
+  var s = DMM.session();
+  document.getElementById('who').classList.toggle('hidden', !s);
+  if (s) document.getElementById('whoName').textContent = s.name || s.email;
+}
+document.getElementById('logoutBtn').onclick = function () {
+  DMM.api('logout'); DMM.clear(); cacheClear(); D = null; MY = null;
+  history.replaceState(null, '', '/'); setWho(); renderWelcome('You have been logged out.');
 };
-
-/* ===== FLOW ===== */
-const LIKERT = ["v1","r1","s1","h1","v2","r2","s2","h2","v3","r3","s3","h3"];
-const PARTS = [
- {id:"profile",  min:2,  fields:[["name","input","name"],["email","email","email"],["phone","tel","tel",true],["why","area"]]},
- {id:"strategy", min:8,  box:true, fields:[["s1q1","area","q1"],["s1q2","area","q2"],["s1q2r","area","q2r"]]},
- {id:"analytics",min:10, box:true, fields:[["s2q1","area","q1"],["s2q2","area","q2"]]},
- {id:"creative", min:8,  box:true, fields:[["s3a","input","a"],["s3b","input","b"],["s3q2","area","q2"]]},
- {id:"ltype",    min:4,  fields:[["lk","likert"]]},
- {id:"style",    min:5,  fields:[["l1","choice"],["l2","choice"],["l3","area"],["l4","area"]]}
-];
-
-let lang = (navigator.language||"en").toLowerCase().startsWith("fr") ? "fr" : "en";
-try{ const s=localStorage.getItem("ab_lang"); if(s) lang=s; }catch(e){}
-let ans = {}, i = -1, times = {}, enteredAt = Date.now(), ok = true;
-try{ const d=JSON.parse(localStorage.getItem(DRAFT_KEY)||"null"); if(d&&d.ans){ ans=d.ans; times=d.times||{}; } }catch(e){}
-const app=document.getElementById("app");
-const L=()=>T[lang];
-const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-
-function saveDraft(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify({ans,times,i})); }catch(e){} }
-function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
-function hasDraft(){ return Object.keys(ans).some(k=>ans[k]); }
-
-function setLang(l){
-  lang=l; try{localStorage.setItem("ab_lang",l)}catch(e){}
-  document.documentElement.lang=l;
-  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
-  document.getElementById("tagline").textContent=L().tagline;
-  if(typeof i==="number" && i>=0) collect();
-  render();
+function handleErr(r, retry) {
+  if (r.authError) { D = null; MY = null; history.replaceState(null, '', '/'); renderWelcome(r.error); return; }
+  app.innerHTML = '<div class="wrap"><div class="card gate"><h2>Something went wrong</h2><p>' + esc(r.error) + '</p><button class="btn btn-grad" id="retryBtn">Try again</button> <a class="btn btn-ghost" href="#/courses">My courses</a></div></div>';
+  document.getElementById('retryBtn').onclick = retry;
 }
-document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 
-function render(){
-  if(i===-1) return renderIntro();
-  if(i==="done") return renderDone();
-  const p=PARTS[i], s=L().s[p.id];
-  const pct=Math.round(i/PARTS.length*100);
-  let h=`<div class="progress"><i style="width:${pct}%"></i></div><div class="step-n">${L().partOf(i+1,PARTS.length,p.min)}</div><h2>${s.t}</h2><p class="hint">${s.h}</p>`;
-  if(p.box) h+=`<div class="scenario">${s.box}</div>`;
-  for(const f of p.fields){
-    const [key,type]=f;
-    if(type==="likert"){
-      const sc=s.scale;
-      h+=`<div class="lk-legend"><span>1 = ${sc[0]}</span><span>5 = ${sc[4]}</span></div>`;
-      for(const id of LIKERT){
-        const v=ans["lk_"+id];
-        h+=`<div class="lk"><div class="qlabel">${s.q[id]}</div><div class="lk-row" role="radiogroup">`;
-        for(let n=1;n<=5;n++) h+=`<button type="button" class="lk-btn ${v===n?'on':''}" data-lk="${id}" data-n="${n}" title="${sc[n-1]}" aria-label="${n} – ${sc[n-1]}">${n}</button>`;
-        h+=`</div></div>`;
-      }
-      continue;
-    }
-    if(type==="choice"){
-      const q=s[key];
-      h+=`<div class="qblock"><div class="qlabel">${q.t}</div><div class="opts">`;
-      for(const [k,v] of Object.entries(q.o)) h+=`<button type="button" class="opt ${ans[key]===k?'on':''}" data-q="${key}" data-k="${k}"><i class="dot"></i><span><b>${k})</b> ${v}</span></button>`;
-      h+=`</div></div>`;
-      continue;
-    }
-    const lab = p.id==="profile" ? s[key] : s[f[2]||key];
-    if(type==="area") h+=`<div class="qblock"><label class="qlabel" for="${key}">${lab}</label><textarea class="t" id="${key}" rows="4" placeholder="${L().answerPh}">${esc(ans[key])}</textarea></div>`;
-    else { const it = type==="input"?"text":type; h+=`<div class="qblock"><label class="qlabel" for="${key}">${lab}</label><input class="t" id="${key}" type="${it}" autocomplete="${key==="name"?"name":type==="email"?"email":type==="tel"?"tel":"off"}" value="${esc(ans[key])}" ${p.id!=="profile"?`placeholder="${L().answerPh}"`:""}></div>`; }
+/* ---------------- router ---------------- */
+function route() {
+  setWho();
+  if (!DMM.configured() || !DMM.session()) return renderWelcome();
+  var h = location.hash.replace(/^#\/?/, '').split('/');
+  if (h[0] === 'c' && h[1]) return loadCourse(decodeURIComponent(h[1]), h[2] || '');
+  return loadMyCourses();
+}
+window.addEventListener('hashchange', route);
+
+/* ---------------- welcome + login + catalogue ---------------- */
+var loginMode = 'login';
+function courseCard(c, opts) {
+  opts = opts || {};
+  var img = c.image_url ? '<img src="' + esc(c.image_url) + '" alt="" loading="lazy">' : '';
+  var meta = [];
+  if (c.duration) meta.push(c.duration);
+  if (c.phases && c.phases.length !== undefined) meta.push((c.phases.length || c.phases) + ' phases');
+  else if (c.phases) meta.push(c.phases + ' phases');
+  if (c.modules) meta.push(c.modules + ' modules');
+  if (c.format) meta.push(c.format);
+  var foot = opts.progress !== undefined
+    ? '<div class="ft"><div style="flex:1"><div class="row muted" style="font-size:13px;display:flex;justify-content:space-between"><span>' + (c.current ? 'Phase ' + c.current.phase + ': ' + esc(c.current.title) : (c.overall >= 100 ? 'Completed' : (c.preassessment_done ? 'Ready to start' : 'Pre-assessment to do'))) + '</span><strong style="color:var(--ink)">' + c.overall + '%</strong></div>' + bar(c.overall, c.overall >= 100) + '</div></div>'
+    : '<div class="ft"><span class="muted" style="font-size:13px">' + esc(opts.cta || 'View course') + '</span><span style="color:var(--b1);font-weight:700">→</span></div>';
+  return '<button class="ccard" ' + (opts.onclick ? 'onclick="' + opts.onclick + '"' : '') + '><div class="img">' + img + (c.status && c.status !== 'published' ? '<span class="tag2">' + esc(c.status) + '</span>' : '') + '</div><div class="bd">' +
+    (c.subtitle ? '<span class="st">' + esc(c.subtitle) + '</span>' : '') + '<h3>' + esc(c.title) + '</h3>' + (c.description ? '<p>' + esc(c.description) + '</p>' : '') +
+    (meta.length ? '<div class="meta2">' + meta.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' : '') + foot + '</div></button>';
+}
+function journeyHTML(c) {
+  if (!c || !c.phases || !c.phases.length) return '';
+  return '<div class="journey"><h4>' + esc(c.title) + ': learning journey</h4><div class="pgrid">' + c.phases.map(function (p) {
+    return '<div class="pcard"><div class="num">' + ('0' + p.phase).slice(-2) + '</div><h4>' + esc(p.title) + '</h4><div class="wk">' + esc(p.weeks) + '</div><p>' + esc(p.focus) + '</p></div>';
+  }).join('') + '</div><p class="muted" style="margin-top:14px;font-size:14px">Phases unlock one after the other as you complete them. <a href="#login" onclick="document.getElementById(\'lgEmail\').focus()">Log in to access this course →</a></p></div>';
+}
+function renderCatalog() {
+  var el = document.getElementById('catalog');
+  if (!el) return;
+  var list = CATALOG || FALLBACK_COURSES;
+  if (!SEL) SEL = list[0] && list[0].id;
+  var sel = list.filter(function (c) { return c.id === SEL; })[0] || list[0];
+  el.innerHTML = '<div class="cgrid">' + list.map(function (c) { return courseCard(c, { onclick: 'pickCourse(\'' + esc(c.id) + '\')', cta: 'See the learning journey' }); }).join('') + '</div>' + journeyHTML(sel);
+}
+function pickCourse(id) { SEL = id; renderCatalog(); var j = document.querySelector('.journey'); if (j) j.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+function renderWelcome(info) {
+  setWho();
+  var photo = PHOTO_URL
+    ? '<figure class="photo"><img src="' + esc(PHOTO_URL) + '" alt="Avinesh Bundhoo delivering a digital marketing training session to a group of students at Oreegami Mauritius"><figcaption><i></i>Live training session · Oreegami Mauritius</figcaption></figure>'
+    : '<div class="photo"><div class="photo-ph"><strong>Training photo goes here</strong></div></div>';
+  app.innerHTML =
+    '<section class="hero"><div class="wrap hero-grid">' +
+      '<div>' +
+        '<span class="eyebrow"><i></i>Digital Marketing Training</span>' +
+        '<h1>Welcome to the <span>Digital Marketing & AI Bootcamp</span></h1>' +
+        '<p class="lead">A practical, hands-on programme that takes you from the foundations of the digital ecosystem to running paid campaigns, using AI and building a real marketing strategy. Each module gives you a presentation, reading notes, exercises and a revision quiz, and you can follow your progress every step of the way.</p>' +
+        '<div class="facts"><div class="fact"><strong>20</strong><span>weeks</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
+        photo +
+      '</div>' +
+      '<div id="login"><form class="login" id="loginForm" novalidate>' +
+        '<h2 id="lgTitle">Student login</h2>' +
+        '<p class="lsub" id="lgSub">Use the email you enrolled with.</p>' +
+        (info ? '<div class="msg info">' + esc(info) + '</div>' : '') +
+        '<div class="msg err hidden" id="lgErr"></div>' +
+        '<div class="field"><label for="lgEmail">Email</label><input id="lgEmail" type="email" autocomplete="username" required placeholder="you@example.com"></div>' +
+        '<div class="field"><label for="lgPw" id="lgPwLabel">Password</label><input id="lgPw" type="password" autocomplete="current-password" placeholder="Your password"></div>' +
+        '<div class="field hidden" id="lgPw2Wrap"><label for="lgPw2">Confirm password</label><input id="lgPw2" type="password" autocomplete="new-password" placeholder="Type it again"></div>' +
+        '<button class="btn btn-grad" id="lgBtn" type="submit">Login to Access Your Training</button>' +
+        '<p class="alt">First time here? Enter your email and press the button: you\'ll be asked to create your password.<br>New student? <a href="/pre-assessment">Take the pre-assessment</a>.</p>' +
+      '</form></div>' +
+    '</div></section>' +
+    '<section class="section"><div class="wrap"><h3>Our courses</h3><p class="intro">Every programme follows the same structure: phases, modules, exercises and revision quizzes, with your progress tracked from 0% to 100%.</p><div id="catalog"></div></div></section>';
+  loginMode = 'login';
+  document.getElementById('loginForm').onsubmit = doLogin;
+  renderCatalog();
+  if (!DMM.configured()) { showErr('The student platform is being set up. Please check back shortly.'); return; }
+  if (!CATALOG) DMM.api('catalog').then(function (r) { if (r.ok && r.courses && r.courses.length) { CATALOG = r.courses; renderCatalog(); } });
+}
+function showErr(m) { var e = document.getElementById('lgErr'); if (!e) return; e.textContent = m; e.classList.toggle('hidden', !m); }
+function setCreateMode(name) {
+  loginMode = 'create';
+  document.getElementById('lgTitle').textContent = name ? 'Welcome, ' + first(name) + '!' : 'Create your password';
+  document.getElementById('lgSub').textContent = 'This is your first login. Choose a password (at least 8 characters) to protect your progress.';
+  document.getElementById('lgPwLabel').textContent = 'New password';
+  document.getElementById('lgPw').setAttribute('autocomplete', 'new-password');
+  document.getElementById('lgPw').placeholder = 'At least 8 characters';
+  document.getElementById('lgPw2Wrap').classList.remove('hidden');
+  document.getElementById('lgBtn').textContent = 'Create password & continue';
+  document.getElementById('lgEmail').readOnly = true;
+  document.getElementById('lgPw').focus();
+}
+function doLogin(ev) {
+  ev.preventDefault(); showErr('');
+  var email = document.getElementById('lgEmail').value.trim(), pw = document.getElementById('lgPw').value, btn = document.getElementById('lgBtn');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr('Please enter a valid email address.');
+  if (loginMode === 'create') {
+    if (pw.length < 8) return showErr('Please choose a password of at least 8 characters.');
+    if (pw !== document.getElementById('lgPw2').value) return showErr('The two passwords don\'t match.');
   }
-  if(p.id==="profile") h+=`<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">`;
-  const last=i===PARTS.length-1;
-  h+=`<div class="err" id="err"></div><div class="nav"><button type="button" class="ghost" id="back">${i>0?"← "+L().back:""}</button><button type="button" class="btn" id="next">${last?L().send:L().next}</button></div>`;
-  app.innerHTML=h;
-  app.querySelectorAll(".lk-btn").forEach(b=>b.onclick=()=>{ ans["lk_"+b.dataset.lk]=+b.dataset.n; saveDraft(); const er=document.getElementById("err"); if(er) er.textContent=""; b.parentNode.querySelectorAll(".lk-btn").forEach(x=>x.classList.toggle("on",x===b)); });
-  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ collect(); ans[b.dataset.q]=b.dataset.k; saveDraft(); render(); });
-  app.querySelectorAll("textarea,input.t").forEach(el=>el.oninput=()=>{ ans[el.id]=el.value; saveDraft(); });
-  document.getElementById("back").onclick=()=>{ if(i>0){ collect(); track(); i--; enteredAt=Date.now(); saveDraft(); render(); window.scrollTo({top:0}); } };
-  document.getElementById("next").onclick=go;
+  var label = btn.textContent; btn.disabled = true; btn.textContent = 'Checking…';
+  (loginMode === 'create' ? DMM.api('setPassword', { email: email, password: pw }) : DMM.api('login', { email: email, password: pw })).then(function (r) {
+    btn.disabled = false; btn.textContent = label;
+    if (!r.ok) return showErr(r.error || 'Something went wrong. Please try again.');
+    if (r.needPassword) return setCreateMode(r.name);
+    if (!r.token) return showErr('Please enter your password.');
+    DMM.setSession({ token: r.token, name: r.name || email, email: email.toLowerCase(), role: r.role || 'student' });
+    cacheClear();
+    var next = safeNext();
+    if (next) { location.href = next; return; }
+    history.replaceState(null, '', '/#/courses');
+    route();
+  });
 }
 
-function collect(){
-  if(typeof i!=="number"||i<0) return;
-  for(const f of PARTS[i].fields){ const el=document.getElementById(f[0]); if(el && f[1]!=="choice") ans[f[0]]=el.value.trim(); }
+/* ---------------- my courses ---------------- */
+function loadMyCourses() {
+  var cached = cacheGet('dmm_my');
+  if (cached) { MY = cached; renderMyCourses(true); } else loading('Loading your courses…');
+  DMM.api('myCourses').then(function (r) {
+    if (!r.ok) { if (!cached || r.authError) handleErr(r, loadMyCourses); else toast(r.error); return; }
+    MY = r; cacheSet('dmm_my', r);
+    if (/^#\/c\//.test(location.hash)) return;   /* user already moved to a course */
+    renderMyCourses(false);
+  });
 }
-function track(){ const id=PARTS[i].id; times[id]=(times[id]||0)+Math.round((Date.now()-enteredAt)/1000); }
+function renderMyCourses(fromCache) {
+  var isTrainer = MY.role === 'trainer';
+  if (!isTrainer && MY.courses.length === 1) { location.replace('#/c/' + encodeURIComponent(MY.courses[0].id)); return; }
+  var h = '<div class="wrap dash"><div class="page-h"><div><h1>' + (isTrainer ? 'Courses' : 'My courses') + '</h1><p>' + (isTrainer ? 'Open a course to see the learning view or your students\' progress.' : 'Welcome back, ' + esc(first(MY.name)) + '. Choose a course to continue.') + '</p></div></div>';
+  if (!MY.courses.length) h += '<div class="card empty">You are not enrolled in a course yet. Please contact your trainer at <a href="mailto:digitalmarketer@hseniva.com">digitalmarketer@hseniva.com</a>.</div>';
+  else h += '<div class="cgrid">' + MY.courses.map(function (c) { return courseCard(c, { progress: true, onclick: 'location.hash=\'#/c/' + encodeURIComponent(c.id) + '\'' }); }).join('') + '</div>';
+  app.innerHTML = h + '</div>';
+}
 
-function go(){
-  collect();
-  const p=PARTS[i], err=document.getElementById("err");
-  if(p.id==="profile"){
-    if(document.getElementById("hp").value) return;
-    if(!ans.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ans.email||"")){ err.textContent=L().contactErr; return; }
+/* ---------------- course dashboard ---------------- */
+var CUR_ID = null, CUR_SUB = '';
+function loadCourse(id, sub) {
+  CUR_ID = id; CUR_SUB = sub;
+  if (sub === 'students') return loadOverview(id);
+  var cached = cacheGet('dmm_dash_' + id);
+  if (cached) { D = cached; showCourse(); } else loading('Loading your course…');
+  DMM.api('dashboard', { course: id }).then(function (r) {
+    if (CUR_ID !== id || CUR_SUB !== sub) return;
+    if (!r.ok) { if (!cached || r.authError) handleErr(r, function () { loadCourse(id, sub); }); else toast(r.error); return; }
+    setData(r.data); showCourse();
+  });
+}
+function setData(d) {
+  D = d; cacheSet('dmm_dash_' + d.course.id, d);
+  var s = DMM.session();
+  if (s && d.student.name && s.name !== d.student.name) { s.name = d.student.name; DMM.setSession(s); setWho(); }
+}
+function showCourse() { if (!D.student.preassessment_done) return renderGate(); renderDashboard(); }
+function crumbs() {
+  var multi = (MY && MY.courses && MY.courses.length > 1) || (D && D.student.role === 'trainer');
+  return multi ? '<div class="crumbs"><a href="#/courses">' + (D.student.role === 'trainer' ? 'Courses' : 'My courses') + '</a> / ' + esc(D.course.title) + '</div>' : '';
+}
+function trainerTabs(active) {
+  if (!D || D.student.role !== 'trainer') return '';
+  var base = '#/c/' + encodeURIComponent(D.course.id);
+  return '<div class="tabs"><a href="' + base + '" class="' + (active === 'learn' ? 'on' : '') + '">Learning view</a><a href="' + base + '/students" class="' + (active === 'students' ? 'on' : '') + '">Students\' progress</a></div>';
+}
+function renderGate() {
+  var url = D.course.preassessment_url || '/pre-assessment';
+  app.innerHTML = '<div class="wrap">' + '<div style="padding-top:28px">' + crumbs() + '</div><div class="card gate">' +
+    '<span class="eyebrow"><i></i>Step 1 of your journey</span>' +
+    '<h2>Hi ' + esc(first(D.student.name)) + ', let\'s start with your pre-assessment</h2>' +
+    '<p>It takes about 20 minutes and helps your trainer adapt <strong>' + esc(D.course.title) + '</strong> to how you learn best. As soon as you submit it, your learning dashboard and Phase 1 will open.</p>' +
+    '<a class="btn btn-grad" href="' + esc(url) + '">Start the pre-assessment</a>' +
+    '<p style="margin:18px 0 0;font-size:13px">Already completed it? <a href="#" onclick="cacheClear();route();return false">Refresh</a> or contact your trainer.</p>' +
+  '</div></div>';
+}
+function statusPill(st) {
+  var map = { completed: ['done', 'Completed'], in_progress: ['cur', 'In progress'], not_started: ['ns', 'Not started'], locked: ['lk', 'Locked'], open: ['open', 'Available'] };
+  var m = map[st] || map.not_started;
+  return '<span class="pill ' + m[0] + '">' + m[1] + '</span>';
+}
+function phaseKind(p) { if (p.status === 'locked') return 'lk'; if (p.status === 'completed') return 'done'; if (p.phase === D.currentPhase) return 'cur'; return 'open'; }
+function ring(pct) {
+  var r = 50, c = 2 * Math.PI * r, off = c * (1 - pct / 100);
+  return '<div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="' + r + '" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="12"/><circle cx="60" cy="60" r="' + r + '" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"/></svg><div class="v"><strong>' + pct + '%</strong><span>course</span></div></div>';
+}
+function nextStep() {
+  for (var i = 0; i < D.phases.length; i++) {
+    var p = D.phases[i];
+    if (!p.unlocked) continue;
+    for (var j = 0; j < p.modules.length; j++) {
+      var m = p.modules[j];
+      if (m.pct >= 100) continue;
+      var label = 'Module ' + modNum(m.id) + ': ' + m.title;
+      if (!m.hasContent) return { m: m, p: p, title: label, text: 'The content for this module is being prepared. Your trainer will open it soon.', cta: '' };
+      if (m.ppt && !m.ppt.done) return { m: m, p: p, title: label, text: 'Review the presentation, then mark it as reviewed.', cta: 'Open module' };
+      if (m.notes && !m.notes.done) return { m: m, p: p, title: label, text: 'Read the reading notes and mark them as read.', cta: 'Open module' };
+      for (var k = 0; k < m.exercises.length; k++) if (!m.exercises[k].done) return { m: m, p: p, title: label, text: 'Submit Exercise ' + m.exercises[k].id + ': ' + m.exercises[k].title + '.', cta: 'Open module' };
+      if (m.quiz && !m.quiz.passed) return { m: m, p: p, title: label, text: 'Take the revision quiz (pass mark ' + m.quiz.pass_mark + '%).', cta: 'Open module' };
+      return { m: m, p: p, title: label, text: 'Continue this module.', cta: 'Open module' };
+    }
   }
-  const missing=p.fields.some(f=> f[1]==="likert" ? LIKERT.some(id=>!ans["lk_"+id]) : (!f[3] && !ans[f[0]]));
-  if(missing){ err.textContent=L().required; return; }
-  track(); saveDraft();
-  if(i===PARTS.length-1) return submit();
-  i++; enteredAt=Date.now(); saveDraft(); render(); window.scrollTo({top:0,behavior:"smooth"});
+  var lockedNext = D.phases.filter(function (p) { return !p.unlocked; })[0];
+  if (lockedNext) return { title: 'Phase ' + lockedNext.phase + ' is next', text: lockedNext.lockMsg, cta: '' };
+  return { title: 'You have completed every available module', text: 'Brilliant work. Your trainer will be in touch about your next steps.', cta: '' };
 }
 
-function renderIntro(){
-  const d=hasDraft();
-  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul>`+
-    (d?`<button class="btn" id="resume">${L().resume} →</button> <button class="ghost" id="restart">${L().restart}</button>`:`<button class="btn" id="start">${L().start} →</button>`)+`</div>`;
-  const begin=(n)=>{ i=n; enteredAt=Date.now(); render(); };
-  if(d){
-    document.getElementById("resume").onclick=()=>{ let n=0; try{ n=JSON.parse(localStorage.getItem(DRAFT_KEY)).i||0; }catch(e){} begin(typeof n==="number"&&n>=0&&n<PARTS.length?n:0); };
-    document.getElementById("restart").onclick=()=>{ ans={}; times={}; clearDraft(); begin(0); };
-  } else document.getElementById("start").onclick=()=>begin(0);
+function renderDashboard() {
+  var s = D.student, cur = D.phases.filter(function (p) { return p.phase === D.currentPhase; })[0];
+  var h = '<div class="wrap dash">' + crumbs();
+  h += '<section class="course"><div><div class="k">' + (s.role === 'trainer' ? 'TRAINER PREVIEW' : 'YOUR COURSE') + '</div><h1>' + esc(D.course.title) + '</h1><p>' + (s.role === 'trainer' ? 'You see every phase unlocked. Students only see what they have unlocked.' : 'Welcome back, ' + esc(first(s.name)) + '. Here is where you are in your learning journey.') + '</p>' +
+       '<div class="chips">' + (s.role === 'trainer' ? '' : (D.course.preassessment_url ? '<span class="chip">✓ Pre-assessment completed</span>' : '')) + (cur ? '<span class="chip">Current: Phase ' + cur.phase + ' · ' + esc(cur.title) + ' (' + cur.pct + '%)</span>' : '') + '</div></div>' + ring(D.overall) + '</section>';
+  h += trainerTabs('learn');
+  h += '<section class="card road" aria-label="Learning roadmap"><div class="road-h"><h2>Your learning roadmap</h2><span>Overall progress: <strong style="color:var(--ink)">' + D.overall + '%</strong></span></div><div class="steps" style="--n:' + Math.max(1, D.phases.length) + '">';
+  D.phases.forEach(function (p, i) {
+    var k = phaseKind(p), prevDone = i > 0 && D.phases[i - 1].status === 'completed';
+    var node = k === 'done' ? ICON_CHECK : k === 'lk' ? ICON_LOCK : (k === 'cur' ? p.pct + '%' : p.phase);
+    var label = { done: ['done', 'Completed'], cur: ['cur', 'In progress'], open: ['open', 'Available'], lk: ['lk', 'Locked'] }[k];
+    h += '<button class="step ' + k + (prevDone ? ' fill' : '') + '" ' + (k === 'lk' ? 'disabled title="' + esc(p.lockMsg) + '"' : 'onclick="goPhase(' + p.phase + ')"') + '>' +
+         '<div class="node">' + node + '</div><div><div class="ph">Phase ' + p.phase + '</div><div class="t">' + esc(p.title) + '</div><div class="w">' + esc(p.weeks) + '</div>' +
+         '<span class="pill ' + label[0] + '">' + label[1] + '</span>' + (k !== 'lk' ? '<div class="mini' + (k === 'done' ? ' done-bar' : '') + '"><i style="width:' + p.pct + '%"></i></div>' : '') + '</div></button>';
+  });
+  h += '</div></section>';
+  var n = nextStep();
+  h += '<section class="card next"><div><div class="k">Your next step</div><h3>' + esc(n.title) + '</h3><p>' + esc(n.text) + '</p></div>' +
+       (n.cta ? '<button class="btn btn-grad" onclick="goModule(' + n.p.phase + ',\'' + esc(n.m.id) + '\')">' + n.cta + ' →</button>' : '') + '</section>';
+  h += '<section class="phases">';
+  D.phases.forEach(function (p) { h += phaseHTML(p); });
+  h += '</section></div>';
+  app.innerHTML = h;
+  if (window.mobileSteps) mobileSteps();
 }
 
-/* ===== LEARNING TYPE =====
-   Not a right/wrong score: it reads HOW the person answers across the whole form.
-   Weights: 1–5 statements 50% · A/B/C/D choices 25% · way they answered parts 1–4 25% */
-const CUES = {
-  V:/(?<!\p{L})(see|seeing|look|visual|visually|image|images|photo|photos|picture|video|videos|reel|reels|story|stories|colou?r|design|show|voir|regarder|visuel|visuelle|vid[ée]o|couleur|montrer|dessin|sch[ée]ma)(?!\p{L})/giu,
-  R:/(?<!\p{L})(first|second|third|then|next|finally|step|steps|plan|structure|analy[sz]e|calculate|because|therefore|so that|d'abord|premi[eè]rement|ensuite|puis|enfin|[ée]tape|[ée]tapes|planifier|analyser|calculer|parce que|donc)(?!\p{L})/giu,
-  S:/(?<!\p{L})(ask|asking|talk|discuss|survey|feedback|review|reviews|community|friends|family|team|together|share|word of mouth|comment|comments|demander|parler|[ée]changer|sondage|avis|communaut[ée]|amis|famille|[ée]quipe|ensemble|partager|bouche[- ][àa][- ]oreille)(?!\p{L})/giu,
-  H:/(?<!\p{L})(test|testing|try|trying|experiment|launch|practice|practise|adjust|a\/b|optimi[sz]e|start small|tester|essayer|exp[ée]rimenter|lancer|pratique|pratiquer|ajuster|optimiser)(?!\p{L})/giu
-};
-function answerSignals(){
-  const keys=["why","s1q1","s1q2","s1q2r","s2q1","s2q2","s3a","s3b","s3q2","l3","l4"];
-  const text=keys.map(k=>ans[k]||"").join("\n");
-  const hits={V:0,R:0,S:0,H:0};
-  for(const k in CUES) hits[k]=(text.match(CUES[k])||[]).length;
-  // Structure of the answers themselves
-  const listLines=(text.match(/^\s*(\d+[.)]|[-•*])\s+/gm)||[]).length;
-  if(listLines>=2) hits.R+=2;                                   // organises ideas into lists
-  if(/[=÷×*\/]/.test(ans.s2q1||"") && (ans.s2q1||"").split(/\n|=/).length>=3) hits.R+=1; // shows working step by step
-  if(/[\u{1F300}-\u{1FAFF}\u2600-\u27BF]/u.test((ans.s3a||"")+(ans.s3b||""))) hits.V+=1;   // emojis / imagery in headlines
-  if(/\?/.test((ans.s3a||"")+(ans.s3b||""))) hits.S+=1;          // talks to the reader with a question
-  // Pace on the thinking parts (2–4), compared with the suggested time
-  const spent=(times.strategy||0)+(times.analytics||0)+(times.creative||0), expected=(8+10+8)*60;
-  if(spent && spent<expected*0.35) hits.H+=1;                    // goes fast, prefers doing
-  if(spent>expected*1.2) hits.R+=1;                              // takes time to think it through
-  const total=hits.V+hits.R+hits.S+hits.H;
-  const X={}; for(const k in hits) X[k]= total ? hits[k]/total : 0;
-  return {X, hits, has: total>0};
-}
-function learningType(){
-  // 1) statements, 1–5
-  const sum={V:0,R:0,S:0,H:0}, map={v:"V",r:"R",s:"S",h:"H"};
-  for(const id of LIKERT) sum[map[id[0]]]+=(ans["lk_"+id]||3);
-  const Lk={}, avg={}; for(const k in sum){ avg[k]=Math.round(sum[k]/3*10)/10; Lk[k]=(sum[k]/3-1)/4; }
-  // 2) A/B/C/D choices
-  const C={V:0,R:0,S:0,H:0};
-  const m1={A:"V",B:"R",C:"S",D:"H"}, m2={A:"R",B:"H",C:"R",D:"S"};
-  if(m1[ans.l1]) C[m1[ans.l1]]+=0.67;
-  if(m2[ans.l2]) C[m2[ans.l2]]+=0.33;
-  // 3) how they answered parts 1–4
-  const sig=answerSignals();
-  const w = sig.has ? {L:0.5,C:0.25,X:0.25} : {L:0.67,C:0.33,X:0};
-  const score={}; for(const k of ["V","R","S","H"]) score[k]=w.L*Lk[k]+w.C*C[k]+w.X*sig.X[k];
-  const mx=Math.max(...Object.values(score))||1;
-  const pct={}; for(const k in score) pct[k]=Math.round(score[k]/mx*100);
-  const order=Object.keys(score).sort((a,b)=>score[b]-score[a]);
-  const top=order[0], second=order[1];
-  const spread=(score[order[0]]-score[order[3]])/mx;
-  const signals=`statements V${avg.V} R${avg.R} S${avg.S} H${avg.H} | choices ${ans.l1||"-"}/${ans.l2||"-"} | answer cues V${sig.hits.V} R${sig.hits.R} S${sig.hits.S} H${sig.hits.H}`;
-  if(spread<0.2) return {type:"B", second:null, pct, avg, signals};
-  return {type:top, second:(score[second]/score[top]>=0.85?second:null), pct, avg, signals};
+function phaseHTML(p) {
+  var k = phaseKind(p), key = D.course.id + ':p' + p.phase;
+  var isOpen = p.unlocked && (OPEN[key] !== undefined ? OPEN[key] : p.phase === D.currentPhase);
+  var h = '<article class="card phase ' + (k === 'lk' ? 'lk' : k === 'done' ? 'done' : '') + (isOpen ? ' open-x' : '') + '" id="phase-' + p.phase + '">';
+  h += '<button class="phase-h" onclick="togglePhase(' + p.phase + ')" aria-expanded="' + (isOpen || !!OPEN[key]) + '">' +
+       '<span class="num">' + (k === 'done' ? ICON_CHECK : k === 'lk' ? ICON_LOCK : ('0' + p.phase).slice(-2)) + '</span>' +
+       '<span class="main"><h3>Phase ' + p.phase + ': ' + esc(p.title) + '</h3><span class="meta">' + esc(p.weeks) + (p.focus ? ' · ' + esc(p.focus) : '') + '</span></span>' +
+       '<span class="pr">' + (p.unlocked ? '<strong>' + p.pct + '%</strong> complete' + bar(p.pct, k === 'done') : statusPill('locked')) + '</span>' +
+       '<span class="chev">' + ICON_CHEV + '</span></button>';
+  if (!p.unlocked) {
+    if (OPEN[key]) {
+      h += '<div class="phase-b"><div class="lockbox">' + ICON_LOCK + '<div><strong>' + esc(p.lockMsg) + '</strong><br>Modules in this phase:</div></div>';
+      p.modules.forEach(function (m) { h += '<div class="mod lk"><div class="mod-h"><span class="ic">' + ICON_LOCK + '</span><span class="main"><span class="wk">' + esc(m.week) + '</span><h4>Module ' + modNum(m.id) + ': ' + esc(m.title) + '</h4></span></div></div>'; });
+      h += '</div>';
+    }
+    return h + '</article>';
+  }
+  if (isOpen) { h += '<div class="phase-b">'; p.modules.forEach(function (m) { h += moduleHTML(p, m); }); h += '</div>'; }
+  return h + '</article>';
 }
 
-async function submit(){
-  const btn=document.getElementById("next"); btn.disabled=true; btn.textContent=L().sending;
-  const en=T.en.s.style;
-  const total=Object.values(times).reduce((a,b)=>a+b,0);
-  const mins=s=>(Math.round(s/6)/10)+" min";
-  const payload={
-    ts:new Date().toISOString(), lang,
-    name:ans.name, email:ans.email, phone:ans.phone||"", why:ans.why,
-    s1q1:ans.s1q1, s1q2:ans.s1q2, s1q2r:ans.s1q2r,
-    s2q1:ans.s2q1, s2q2:ans.s2q2,
-    s3a:ans.s3a, s3b:ans.s3b, s3q2:ans.s3q2,
-    l1:ans.l1+") "+en.l1.o[ans.l1], l2:ans.l2+") "+en.l2.o[ans.l2], l3:ans.l3, l4:ans.l4,
-    learning_type: (()=>{ const r=learningType(); return T.en.types[r.type].name+(r.second?" + "+T.en.types[r.second].name:""); })(),
-    lt_visual: learningType().pct.V+"%", lt_structured: learningType().pct.R+"%", lt_social: learningType().pct.S+"%", lt_handson: learningType().pct.H+"%",
-    lt_signals: learningType().signals,
-    likert: LIKERT.map(id=>id+"="+ans["lk_"+id]).join(" "),
-    t_ltype:mins(times.ltype||0),
-    t_strategy:mins(times.strategy||0), t_analytics:mins(times.analytics||0), t_creative:mins(times.creative||0), t_style:mins(times.style||0), t_total:mins(total),
-    page:location.href
-  };
-  ok=true;
-  try{
-    if(!ENDPOINT || ENDPOINT.startsWith("PASTE")) throw new Error("no endpoint");
-    if(ENDPOINT!=="PREVIEW") await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
-  }catch(e){ ok=false; }
-  if(!ok){ btn.disabled=false; btn.textContent=L().send; document.getElementById("err").textContent=L().saveErr; return; }
-  try{ window.dataLayer=window.dataLayer||[]; dataLayer.push({event:"dmm_onboarding_submit"}); }catch(e){}
-  clearDraft(); i="done"; render(); window.scrollTo({top:0,behavior:"smooth"});
+function moduleHTML(p, m) {
+  var key = D.course.id + ':' + m.id, isOpen = !!OPEN[key], num = modNum(m.id);
+  var h = '<div class="mod ' + (m.pct >= 100 ? 'done' : '') + (isOpen ? ' open-x' : '') + '" id="mod-' + esc(m.id) + '">';
+  h += '<button class="mod-h" onclick="toggleModule(\'' + esc(m.id) + '\')" aria-expanded="' + isOpen + '"><span class="ic">' + (m.pct >= 100 ? ICON_CHECK : 'M' + num) + '</span>' +
+       '<span class="main"><span class="wk">' + esc(m.week) + '</span><h4>Module ' + num + ': ' + esc(m.title) + '</h4></span>' +
+       '<span class="pr"><span class="row"><span>' + (m.hasContent ? 'Progress' : 'Coming soon') + '</span><strong>' + m.pct + '%</strong></span>' + bar(m.pct, m.pct >= 100) + '</span>' +
+       '<span class="chev">' + ICON_CHEV + '</span></button>';
+  if (!isOpen) return h + '</div>';
+  var w = m.weights || {}, tot = 0;
+  Object.keys(w).forEach(function (k) { tot += w[k]; });
+  function share(k) { return tot && w[k] ? '<small>counts for ' + Math.round(w[k] / tot * 100) + '% of this module</small>' : ''; }
+  var mid = esc(m.id);
+  h += '<div class="mod-b">';
+  if (m.description) h += '<p class="mod-desc">' + esc(m.description) + '</p>';
+  if (!m.hasContent) h += '<div class="ph-box" style="margin-top:14px">The presentation, notes, exercises and quiz for this module are being prepared and will appear here.</div>';
+  if (m.ppt) {
+    h += '<div class="blk ' + (m.ppt.done ? 'ok' : '') + '"><span class="l">' + (m.ppt.done ? '✓' : 'A') + '</span><div><h5>Presentation ' + share('ppt') + '</h5><p class="d">Go through the slides for this module.</p><div class="acts">' +
+         '<a class="btn btn-soft btn-sm" href="' + esc(m.ppt.url) + '" target="_blank" rel="noopener" onclick="pptOpened(\'' + mid + '\')">Open presentation ' + ICON_EXT + '</a>' +
+         (m.ppt.done ? '<span class="tag ok">Reviewed</span>' : '<button class="btn btn-grad btn-sm" id="ppt-' + mid + '" ' + (OPENED_PPT[m.id] ? '' : 'disabled title="Open the presentation first"') + ' onclick="markItem(\'' + mid + '\',\'ppt\',this)">I\'ve reviewed the presentation</button>') + '</div></div></div>';
+  } else if (m.hasContent) h += '<div class="blk na"><span class="l">A</span><div><h5>Presentation</h5><div class="ph-box">The presentation link will be added here soon.</div></div></div>';
+  if (m.notes) {
+    h += '<div class="blk ' + (m.notes.done ? 'ok' : '') + '"><span class="l">' + (m.notes.done ? '✓' : 'B') + '</span><div><h5>Reading notes ' + share('notes') + '</h5>' +
+         (m.notes.text ? '<p class="d">' + linkify(m.notes.text).replace(/\n/g, '<br>') + '</p>' : '') +
+         (m.resources && m.resources.length ? '<ul class="res">' + m.resources.map(function (r) { return '<li>📎 <a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.label) + '</a></li>'; }).join('') + '</ul>' : '') +
+         '<div class="acts">' + (m.notes.url ? '<a class="btn btn-soft btn-sm" href="' + esc(m.notes.url) + '" target="_blank" rel="noopener">Open reading notes ' + ICON_EXT + '</a>' : '') +
+         (m.notes.done ? '<span class="tag ok">Read</span>' : '<button class="btn btn-grad btn-sm" onclick="markItem(\'' + mid + '\',\'notes\',this)">I\'ve read the notes</button>') + '</div></div></div>';
+  } else if (m.hasContent) h += '<div class="blk na"><span class="l">B</span><div><h5>Reading notes</h5><div class="ph-box">Reading notes will be added here soon.</div></div></div>';
+  if (m.exercises && m.exercises.length) {
+    var doneN = m.exercises.filter(function (e) { return e.done; }).length, all = doneN === m.exercises.length;
+    h += '<div class="blk ' + (all ? 'ok' : '') + '"><span class="l">' + (all ? '✓' : 'C') + '</span><div><h5>Exercises & activities ' + share('exercises') + '</h5><p class="d">' + doneN + ' of ' + m.exercises.length + ' submitted. Write your answer or paste a link to your work (Google Doc, Sheet, Drive folder…).</p>';
+    m.exercises.forEach(function (e) {
+      var k = (m.id + '-' + e.id).replace(/\W/g, '_'), eid = esc(e.id);
+      h += '<div class="ex ' + (e.done ? 'ok' : '') + '"><h6><span>Exercise ' + eid + ': ' + esc(e.title) + '</span>' + (e.done ? '<span class="tag ok">Submitted</span>' : '<span class="tag todo">To do</span>') + '</h6><p>' + linkify(e.instructions) + '</p>';
+      if (e.done) h += '<div class="sub">' + linkify(e.submission) + '</div><details><summary style="font-size:13px;color:var(--mut);cursor:pointer">Update my submission</summary><div style="margin-top:10px"><textarea id="ta-' + k + '">' + esc(e.submission) + '</textarea><div class="acts" style="margin-top:10px"><button class="btn btn-soft btn-sm" onclick="submitEx(\'' + mid + '\',\'' + eid + '\',\'' + k + '\',this)">Save update</button></div><div class="err-inline" id="er-' + k + '"></div></div></details>';
+      else h += '<textarea id="ta-' + k + '" placeholder="Your answer, or a link to your work…"></textarea><div class="acts" style="margin-top:10px"><button class="btn btn-grad btn-sm" onclick="submitEx(\'' + mid + '\',\'' + eid + '\',\'' + k + '\',this)">Submit exercise</button></div><div class="err-inline" id="er-' + k + '"></div>';
+      h += '</div>';
+    });
+    h += '</div></div>';
+  } else if (m.hasContent) h += '<div class="blk na"><span class="l">C</span><div><h5>Exercises & activities</h5><div class="ph-box">Exercises will be added here soon.</div></div></div>';
+  if (m.quiz) {
+    var q = m.quiz, left = q.max_attempts ? Math.max(0, q.max_attempts - q.attempts) : null;
+    h += '<div class="blk ' + (q.passed ? 'ok' : '') + '"><span class="l">' + (q.passed ? '✓' : 'D') + '</span><div><h5>Revision quiz ' + share('quiz') + '</h5><p class="d">' + q.questions + ' questions to revise this module. Pass mark: ' + q.pass_mark + '%.</p>' +
+         '<div class="qstats"><span class="qstat">Attempts: <strong>' + q.attempts + (q.max_attempts ? ' / ' + q.max_attempts : '') + '</strong></span><span class="qstat">Best score: <strong>' + (q.attempts ? q.best + '%' : '–') + '</strong></span><span class="qstat">Status: <strong>' + (q.passed ? 'Passed ✓' : q.attempts ? 'Not passed yet' : 'Not started') + '</strong></span></div>' +
+         '<div class="acts">' + (left === 0 && !q.passed ? '<span class="tag todo">No attempts left: contact your trainer</span>' : '<a class="btn ' + (q.passed ? 'btn-soft' : 'btn-grad') + ' btn-sm" href="' + esc(q.url) + '">' + (q.passed ? 'Retake the quiz' : q.attempts ? 'Try again' : 'Start the quiz') + ' →</a>') + '</div></div></div>';
+  } else if (m.hasContent) h += '<div class="blk na"><span class="l">D</span><div><h5>Revision quiz</h5><div class="ph-box">The revision quiz will be added here soon.</div></div></div>';
+  return h + '</div></div>';
 }
 
-function renderDone(){
-  app.innerHTML=`<div class="progress"><i style="width:100%"></i></div><div class="badge">${L().badge}</div><h1>${L().doneTitle}</h1><p class="lead">${L().doneLead(esc((ans.name||"").split(" ")[0]))}</p><p class="lead">${L().doneNext}</p>`+resultCard();
+/* ---------------- interactions ---------------- */
+function togglePhase(n) {
+  var p = D.phases.filter(function (x) { return x.phase === n; })[0], key = D.course.id + ':p' + n;
+  var cur = OPEN[key] !== undefined ? OPEN[key] : (p.unlocked && n === D.currentPhase);
+  OPEN[key] = !cur; saveOpen(); rerenderPhase(n);
 }
-function resultCard(){
-  const r=learningType(), t=L().types[r.type];
-  const sub = r.second ? `<p class="lt-sub">${L().resMix(t.name, L().types[r.second].name)}</p>` : "";
-  return `<div class="rec"><span class="tag">${L().resTitle}</span><h2>${t.name}</h2>${sub}<p class="lead" style="margin:10px 0 6px">${t.lead}</p><div class="lt-bars">${["V","R","S","H"].map(k=>`<div class="lt-bar"><span>${L().types[k].name}</span><i><b style="width:${r.pct[k]}%"></b></i></div>`).join("")}</div><h3 class="lt-h">${L().tipsTitle}</h3><ul>${t.tips.map(x=>`<li>${x}</li>`).join("")}</ul><p class="note">${L().basis}</p></div>`;
+function toggleModule(id) { var key = D.course.id + ':' + id; OPEN[key] = !OPEN[key]; saveOpen(); rerenderPhase(phaseOf(id).phase); }
+function phaseOf(id) { return D.phases.filter(function (p) { return p.modules.some(function (m) { return m.id === id; }); })[0]; }
+function rerenderPhase(n) {
+  var p = D.phases.filter(function (x) { return x.phase === n; })[0], el = document.getElementById('phase-' + n);
+  var tmp = document.createElement('div'); tmp.innerHTML = phaseHTML(p); el.replaceWith(tmp.firstChild);
+}
+function goPhase(n) { OPEN[D.course.id + ':p' + n] = true; saveOpen(); rerenderPhase(n); document.getElementById('phase-' + n).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function goModule(n, id) { OPEN[D.course.id + ':p' + n] = true; OPEN[D.course.id + ':' + id] = true; saveOpen(); rerenderPhase(n); setTimeout(function () { document.getElementById('mod-' + id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 30); }
+function pptOpened(id) { OPENED_PPT[id] = true; var b = document.getElementById('ppt-' + id); if (b) { b.disabled = false; b.removeAttribute('title'); } }
+function afterUpdate(r, okMsg) {
+  if (!r.ok) { if (r.authError) { handleErr(r); return false; } toast(r.error); return false; }
+  setData(r.data); try { sessionStorage.removeItem('dmm_my'); } catch (e) {} renderDashboard(); toast(okMsg); return true;
+}
+function markItem(id, item, btn) {
+  btn.disabled = true; btn.textContent = 'Saving…';
+  DMM.api('complete', { module: id, item: item }).then(function (r) { if (!afterUpdate(r, 'Progress saved ✓')) { btn.disabled = false; btn.textContent = 'Try again'; } });
+}
+function submitEx(id, exId, key, btn) {
+  var t = document.getElementById('ta-' + key).value.trim(), er = document.getElementById('er-' + key);
+  er.textContent = '';
+  if (t.length < 10) { er.textContent = 'Please write your answer or paste a link to your work (at least 10 characters).'; return; }
+  btn.disabled = true; var l = btn.textContent; btn.textContent = 'Submitting…';
+  DMM.api('complete', { module: id, item: 'ex:' + exId, text: t }).then(function (r) {
+    if (!afterUpdate(r, 'Exercise submitted ✓')) { btn.disabled = false; btn.textContent = l; var e2 = document.getElementById('er-' + key); if (e2 && r.error) e2.textContent = r.error; }
+  });
 }
 
-setLang(lang);
+/* ---------------- trainer: students' progress ---------------- */
+function loadOverview(id) {
+  loading('Loading students\' progress…');
+  var dash = D && D.course.id === id ? Promise.resolve({ ok: true, data: D }) : DMM.api('dashboard', { course: id });
+  dash.then(function (d) {
+    if (!d.ok) return handleErr(d, function () { loadOverview(id); });
+    setData(d.data);
+    return DMM.api('overview', { course: id }).then(function (r) {
+      if (CUR_ID !== id || CUR_SUB !== 'students') return;
+      if (!r.ok) return handleErr(r, function () { loadOverview(id); });
+      renderOverview(r);
+    });
+  });
+}
+function fmtDate(iso) { if (!iso) return '–'; var d = new Date(iso); return isNaN(d) ? '–' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
+function renderOverview(r) {
+  var h = '<div class="wrap dash">' + crumbs() + '<div class="page-h"><div><h1>' + esc(r.course.title) + '</h1><p>' + r.students.length + ' enrolled student' + (r.students.length === 1 ? '' : 's') + '. Exercise answers and quiz answers are in the Google Sheet (Submissions and QuizAttempts tabs).</p></div></div>' + trainerTabs('students');
+  if (!r.students.length) h += '<div class="card empty" style="margin-top:20px">No students enrolled yet. Add rows in the Enrolments tab of the Google Sheet.</div>';
+  else {
+    h += '<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Student</th><th>Pre-assessment</th><th>Overall</th>' + r.phases.map(function (p) { return '<th>Phase ' + p.phase + '</th>'; }).join('') + '<th>Exercises</th><th>Last active</th><th>Login</th></tr></thead><tbody>';
+    r.students.forEach(function (s) {
+      h += '<tr><td><strong style="color:var(--ink)">' + esc(s.name) + '</strong><br><span class="muted" style="font-size:12px">' + esc(s.email) + '</span></td>' +
+           '<td>' + (s.preassessment_done ? '<span class="tag ok">Done</span>' : '<span class="tag todo">To do</span>') + '</td>' +
+           '<td><strong>' + s.overall + '%</strong>' + bar(s.overall, s.overall >= 100) + '</td>' +
+           s.phases.map(function (v) { return '<td>' + (v === null ? '<span class="muted">🔒</span>' : v + '%' + bar(v, v >= 100)) + '</td>'; }).join('') +
+           '<td>' + s.submissions + '</td><td>' + fmtDate(s.lastActive) + '</td><td>' + (s.hasPassword ? '<span class="tag ok">Active</span>' : '<span class="tag todo">Not yet</span>') + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+  }
+  app.innerHTML = h + '</div>';
+}
+
+/* ---------------- start ---------------- */
+route();
 </script>
 </body>
 </html>
