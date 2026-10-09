@@ -53,8 +53,10 @@ button{font:inherit;cursor:pointer}
 .fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px;min-width:120px}
 .fact strong{display:block;color:var(--ink);font-size:20px;line-height:1.2}
 .fact span{font-size:13px;color:var(--mut)}
-.photo{border-radius:24px;overflow:hidden;background:var(--lav);aspect-ratio:16/10;position:relative;box-shadow:var(--shadow)}
-.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo{border-radius:24px;overflow:hidden;background:var(--lav);aspect-ratio:21/9;position:relative;box-shadow:var(--shadow);margin-top:8px}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
+.photo figcaption{position:absolute;left:18px;bottom:16px;background:rgba(255,255,255,.92);color:var(--ink);font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(27,33,64,.12)}
+.photo figcaption i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grad);margin-right:7px;vertical-align:1px}
 .photo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;border:2px dashed #c9c5f0;border-radius:24px;color:var(--b2);padding:20px}
 .photo-ph strong{font-size:15px}.photo-ph span{font-size:13px;color:var(--mut)}
 .login{background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow);position:sticky;top:96px}
@@ -201,6 +203,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .pgrid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:720px){
+  .photo{aspect-ratio:4/3}
   .wrap{padding:0 16px}
   .hero{padding:36px 0 24px}
   .hero h1{font-size:34px}
@@ -248,7 +251,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <script src="/platform.js"></script>
 <script>
 /* ---------------- settings ---------------- */
-var PHOTO_URL = '';   /* training photo path, e.g. '/img/training.jpg' */
+var PHOTO_URL = '/img/training-session.jpg';   /* training photo path, e.g. '/img/training.jpg' */
 var PUBLIC_PHASES = [
   ['01', 'Digital Foundations', 'Weeks 1–4', 'Ecosystem, Analytics, SEO, Content Strategy'],
   ['02', 'Core Channels & Paid Media', 'Weeks 5–10', 'Social Media, Google Ads, Meta Ads, Display, Email'],
@@ -290,7 +293,7 @@ var loginMode = 'login';   /* or 'create' */
 function renderWelcome(info) {
   setWho();
   var photo = PHOTO_URL
-    ? '<div class="photo"><img src="' + esc(PHOTO_URL) + '" alt="Avinesh Bundhoo delivering a digital marketing training session"></div>'
+    ? '<figure class="photo"><img src="' + esc(PHOTO_URL) + '" alt="Avinesh Bundhoo delivering a digital marketing training session to a group of students at Oreegami Mauritius"><figcaption><i></i>Live training session · Oreegami Mauritius</figcaption></figure>'
     : '<div class="photo"><div class="photo-ph"><strong>Training photo goes here</strong><span>Your photo of a real training session will be placed here.</span></div></div>';
   var phases = PUBLIC_PHASES.map(function (p) {
     return '<div class="pcard"><div class="num">' + p[0] + '</div><h4>' + esc(p[1]) + '</h4><div class="wk">' + esc(p[2]) + '</div><p>' + esc(p[3]) + '</p></div>';
@@ -302,7 +305,6 @@ function renderWelcome(info) {
         '<h1>Welcome to the <span>Digital Marketing & AI Bootcamp</span></h1>' +
         '<p class="lead">A practical, hands-on programme that takes you from the foundations of the digital ecosystem to running paid campaigns, using AI and building a real marketing strategy. Each module gives you a presentation, reading notes, exercises and a revision quiz, and you can follow your progress every step of the way.</p>' +
         '<div class="facts"><div class="fact"><strong>20</strong><span>weeks</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
-        photo +
       '</div>' +
       '<div><form class="login" id="loginForm" novalidate>' +
         '<h2 id="lgTitle">Student login</h2>' +
@@ -315,7 +317,7 @@ function renderWelcome(info) {
         '<button class="btn btn-grad" id="lgBtn" type="submit">Login to Access Your Training</button>' +
         '<p class="alt">First time here? Enter your email and press the button: you\'ll be asked to create your password.<br>New student? <a href="/pre-assessment">Take the pre-assessment</a>.</p>' +
       '</form></div>' +
-    '</div></section>' +
+    '</div><div class="wrap">' + photo + '</div></section>' +
     '<section class="section"><div class="wrap"><h3>Your learning journey</h3><p class="intro">Four phases, unlocked one after the other as you complete each one.</p><div class="pgrid">' + phases + '</div></div></section>';
   loginMode = 'login';
   document.getElementById('loginForm').onsubmit = doLogin;
