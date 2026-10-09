@@ -1,7 +1,7 @@
 /* Shared login + API helper for the DMM learning platform.
    Set API_URL to the Apps Script web app URL (ends with /exec). */
 (function () {
-  var API_URL = window.DMM_API_OVERRIDE || 'PASTE_APPS_SCRIPT_URL_HERE';
+  var API_URL = window.DMM_API_OVERRIDE || 'https://script.google.com/macros/s/AKfycbwakBcTUzGsWmvGec8ROtwbkeHQTPGj7FzKDnEVkJQd8ykbyB12-d6EmjYx_9Y2_A4PVA/exec';
   var KEY = 'dmm_session';
   var mem = null;
 
