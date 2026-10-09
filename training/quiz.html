@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Revision Quiz | Digital Marketing Training</title>
+<title>Revision Quiz | Oreegami Mauritius</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{--b1:#667eea;--b2:#764ba2;--grad:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--ink:#1b2140;--text:#3d4466;--mut:#6b7392;--line:#e8eaf4;--bg:#f8f9fd;--lav:#f3f2fc;--lav2:#ebe9fb;--green:#16a34a;--greenbg:#eaf8ef;--red:#dc2626;--redbg:#fdeeee;--shadow:0 1px 2px rgba(27,33,64,.04),0 8px 24px rgba(27,33,64,.06)}
@@ -14,7 +14,7 @@ button{font:inherit;cursor:pointer}
 .top{background:#fff;border-bottom:1px solid var(--line)}
 .top .in{max-width:860px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;text-decoration:none}
-.mark{width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.logo{height:44px;width:auto;display:block}.bsep{width:1px;height:26px;background:#d9dbe8;flex:none}.mark{width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
 .back{font-size:14px;font-weight:600;text-decoration:none}
 .wrap{max-width:860px;margin:0 auto;padding:32px 24px 72px}
 .card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
@@ -67,7 +67,7 @@ textarea:focus{outline:none;border-color:var(--b1)}
 </style>
 </head>
 <body>
-<header class="top"><div class="in"><a class="brand" href="/"><span class="mark">DM</span>Digital Marketing Training</a><a class="back" id="backLink" href="/">← Back to my course</a></div></header>
+<header class="top"><div class="in"><a class="brand" href="/"><img class="logo" src="/img/oreegami-logo.png" alt="Oreegami Mauritius" width="103" height="44"><span class="bsep" aria-hidden="true"></span><span>Digital Marketing &amp; AI</span></a><a class="back" id="backLink" href="/">← Back to my course</a></div></header>
 <main class="wrap" id="app"><div class="spin"></div><p class="mut" style="text-align:center">Loading your quiz…</p></main>
 
 <script src="/platform.js"></script>
@@ -91,7 +91,7 @@ function start() {
     if (!r.ok) { if (r.authError) { location.replace('/?next=' + encodeURIComponent('/quiz?m=' + MID)); return; } return fail(r.error); }
     Q = r.questions; MOD = r.module; ATT = r.attempts; load();
     document.getElementById('backLink').href = courseLink();
-    document.title = 'Quiz: ' + MOD.title + ' | Digital Marketing Training';
+    document.title = 'Quiz: ' + MOD.title + ' | Oreegami Mauritius';
     intro();
   });
 }
