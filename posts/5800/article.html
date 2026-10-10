@@ -1,0 +1,251 @@
+<!-- wp:paragraph -->
+<p>You've probably heard that "the cookie is dead". Here's the twist: in Chrome, it isn't.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In July 2024, Google <a href="https://privacysandbox.google.com/blog/privacy-sandbox-update" target="_blank" rel="noopener">dropped its plan to deprecate third-party cookies</a>. By October 2025, it had <a href="https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies" target="_blank" rel="noopener">retired most of its Privacy Sandbox technologies</a> too.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>So why should you care about zero-party data in 2026? Because your customers still expect personal experiences, and the data you buy or infer is getting weaker every year. <a href="https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-value-of-getting-personalization-right-or-wrong-is-multiplying" target="_blank" rel="noopener">McKinsey found</a> that <strong>71% of consumers expect personalised interactions, and 76% get frustrated when they don't get them.</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In this guide, I'll clear up the cookie confusion, explain the data hierarchy, and show you how to build a zero-party data engine step by step.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"key-takeaways"} -->
+<div class="wp-block-group key-takeaways" style="background:#f5f6ff;border:1px solid #e1e4fb;border-radius:16px;padding:24px 28px;margin:28px 0"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Key takeaways</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li>Google did <strong>not</strong> remove third-party cookies from Chrome. Safari and Firefox already block them by default.</li><li><strong>Zero-party data</strong> is information a customer intentionally and proactively shares with you, a term coined by Forrester.</li><li><strong>71%</strong> of consumers expect personalisation, so declared preferences are a growth asset, not just a compliance fix.</li><li>Quizzes, preference centres, loyalty programmes and AI chat are the most practical ways to collect it.</li></ul>
+<!-- /wp:list --></div>
+<!-- /wp:group -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The cookie reality check for 2026</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Many articles (including an earlier version of this one) said Google finished killing third-party cookies in 2024. That is not what happened.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here is the real timeline:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><strong>March 2020:</strong> Safari became <a href="https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/" target="_blank" rel="noopener">the first mainstream browser to fully block third-party cookies by default</a>.</li><li><strong>June 2022:</strong> Firefox made <a href="https://9to5mac.com/2022/06/14/firefox-total-cookie-protection/" target="_blank" rel="noopener">Total Cookie Protection the default</a> for all desktop users.</li><li><strong>July 2024:</strong> Google said that "instead of deprecating third-party cookies" it would offer users a choice in Chrome.</li><li><strong>April 2025:</strong> Google confirmed it <a href="https://privacysandbox.google.com/blog/privacy-sandbox-next-steps" target="_blank" rel="noopener">would not roll out a standalone cookie prompt</a> and would keep its current approach.</li><li><strong>October 2025:</strong> Google retired Privacy Sandbox APIs including Topics, Protected Audience and Attribution Reporting, citing low adoption.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:image {"sizeSlug":"large","align":"center"} -->
+<figure class="wp-block-image aligncenter size-large">%%INFO_1%%<figcaption class="wp-element-caption">What really happened to third-party cookies. Sources: WebKit, Mozilla, Google Privacy Sandbox.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>So the cookie survived in Chrome. But signal loss is still real.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>A large share of your audience browses on Safari and Firefox. Consent banners, ad blockers and privacy laws, including Mauritius's <a href="https://www.dlapiperdataprotection.com/index.html?c=MU&amp;t=law" target="_blank" rel="noopener">Data Protection Act 2017</a> (aligned with GDPR), all reduce what you can track. Any strategy built only on cookies is built on sand.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Understanding the data hierarchy</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Not all customer data is equal. Here is how the four types compare.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Third-party data</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Collected by someone else, then bought or licensed. Broad reach, but low accuracy and increasingly restricted.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Second-party data</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Another company's first-party data, shared through a partnership. Useful, but limited and dependent on your partner's consent practices.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">First-party data</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>What you observe directly: website behaviour, purchases, email engagement. I cover this in depth in <a href="/how-first-party-data-helps-marketers/">how first-party data helps marketers</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Zero-party data</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Forrester defines it as data <a href="https://www.salesforce.com/marketing/personalization/zero-party-data/" target="_blank" rel="noopener">"that a customer intentionally and proactively shares with a brand"</a>. Think preferences, budgets, goals and purchase timelines.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The difference is simple. First-party data tells you what someone did. Zero-party data tells you what they want and why. No guessing, no modelling.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"sizeSlug":"large","align":"center"} -->
+<figure class="wp-block-image aligncenter size-large">%%INFO_2%%<figcaption class="wp-element-caption">The data hierarchy: from data you buy to data customers give you.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to build a zero-party data engine: 5 steps</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The golden rule: people only share when they get something useful back. Every step below is a value exchange.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Step 1: Upgrade your sign-up and preference centre</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Ask two or three questions at sign-up: what they care about, how often they want to hear from you, and what they are shopping for right now. Let them update it any time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Step 2: Create interactive content</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Quizzes, assessments, product finders and calculators give the user an instant result. In return, you learn their needs in their own words.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Step 3: Use loyalty programmes for progressive profiling</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Don't ask for everything on day one. Ask one new question with each reward, birthday or milestone, and make the benefit of answering obvious.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Step 4: Let AI chat ask the right questions</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A well-designed AI assistant asks about budget, goals and timing before it recommends anything. That conversation is zero-party data. I explain why this matters in <a href="/ai-chatbots-talking-shoppers-out-of-buying/">how AI chatbots are talking shoppers out of buying</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Step 5: Store it with clear consent</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Save every answer in your CRM against the customer record, with the consent and purpose recorded. Under GDPR and Mauritius's Data Protection Act, consent must be freely given, specific and informed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to activate zero-party data</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Collecting data is pointless if it sits in a spreadsheet. Here is where I put it to work for clients:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><strong>Email and WhatsApp:</strong> segment by declared interest and buying timeline, not just past clicks.</li><li><strong>Paid media:</strong> upload consented customer lists to Google Customer Match and Meta Custom Audiences to build high-intent segments.</li><li><strong>Website personalisation:</strong> tailor landing pages and product recommendations to stated preferences, no third-party cookie required.</li><li><strong>Product and offers:</strong> use what customers tell you to shape bundles, pricing and new services.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Want to scale this with AI? My guide to <a href="/hyper-personalisation-scale-ai-marketing-2026/">hyper-personalisation at scale</a> shows how.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why the advantage compounds</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Your competitors can copy your ads, your prices and your website. They can't buy, borrow or scrape what your customers told you directly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every consented answer makes your targeting sharper and your messages more relevant. Start small, prove the value, then expand.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is zero-party data?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Zero-party data is information a customer intentionally and proactively shares with a brand, such as preferences, goals, budget or purchase timeline. The term was coined by Forrester.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Has Google removed third-party cookies from Chrome?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No. In July 2024 Google dropped its plan to deprecate third-party cookies, in April 2025 it confirmed it would keep its current approach, and in October 2025 it retired most Privacy Sandbox technologies. Safari and Firefox still block third-party cookies by default.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is the difference between zero-party and first-party data?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>First-party data is what you observe directly, such as website visits and purchases. Zero-party data is what customers tell you on purpose, such as their preferences and intentions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How can a small business start collecting zero-party data?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add two or three preference questions to your sign-up form, launch a simple quiz or product finder, and record every answer with consent in your CRM so you can personalise emails and offers.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Conclusion</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The cookie didn't die in Chrome. But relying on it was always a shortcut around building real customer relationships.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Zero-party data is that relationship, turned into something you can use. It is accurate, consented and impossible for competitors to copy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>So here's my question for you: <strong>what is one question you could ask your customers this week that would change how you market to them?</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group -->
+<div class="wp-block-group" style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:18px;padding:28px 30px;margin:32px 0;color:#fff"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading" style="color:#fff;margin-top:0">Ready to build your own customer data engine?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p style="color:#fff">I set up tracking, first-party and zero-party data collection, CRM integrations and automations that turn customer answers into better campaigns. <a href="/contact/" style="color:#fff;font-weight:700;text-decoration:underline">Tell me about your project</a> and I'll come back to you within 24 hours.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Sources</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><a href="https://privacysandbox.google.com/blog/privacy-sandbox-update" target="_blank" rel="noopener">Google Privacy Sandbox: A new path for Privacy Sandbox on the web</a>, 22 July 2024</li><li><a href="https://privacysandbox.google.com/blog/privacy-sandbox-next-steps" target="_blank" rel="noopener">Google Privacy Sandbox: Next steps for Privacy Sandbox and tracking protections in Chrome</a>, 22 April 2025</li><li><a href="https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies" target="_blank" rel="noopener">Google Privacy Sandbox: Update on plans for Privacy Sandbox technologies</a>, 17 October 2025</li><li><a href="https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/" target="_blank" rel="noopener">WebKit: Full third-party cookie blocking and more</a>, March 2020</li><li><a href="https://9to5mac.com/2022/06/14/firefox-total-cookie-protection/" target="_blank" rel="noopener">9to5Mac: Firefox makes Total Cookie Protection the default</a>, June 2022</li><li><a href="https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-value-of-getting-personalization-right-or-wrong-is-multiplying" target="_blank" rel="noopener">McKinsey: The value of getting personalization right, or wrong, is multiplying</a>, November 2021</li><li><a href="https://www.salesforce.com/marketing/personalization/zero-party-data/" target="_blank" rel="noopener">Salesforce: What is zero-party data?</a> (Forrester definition)</li><li><a href="https://www.dlapiperdataprotection.com/index.html?c=MU&amp;t=law" target="_blank" rel="noopener">DLA Piper: Data protection laws in Mauritius</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:html -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is zero-party data?","acceptedAnswer":{"@type":"Answer","text":"Zero-party data is information a customer intentionally and proactively shares with a brand, such as preferences, goals, budget or purchase timeline. The term was coined by Forrester."}},{"@type":"Question","name":"Has Google removed third-party cookies from Chrome?","acceptedAnswer":{"@type":"Answer","text":"No. In July 2024 Google dropped its plan to deprecate third-party cookies, in April 2025 it confirmed it would keep its current approach, and in October 2025 it retired most Privacy Sandbox technologies. Safari and Firefox still block third-party cookies by default."}},{"@type":"Question","name":"What is the difference between zero-party and first-party data?","acceptedAnswer":{"@type":"Answer","text":"First-party data is what you observe directly, such as website visits and purchases. Zero-party data is what customers tell you on purpose, such as their preferences and intentions."}},{"@type":"Question","name":"How can a small business start collecting zero-party data?","acceptedAnswer":{"@type":"Answer","text":"Add two or three preference questions to your sign-up form, launch a simple quiz or product finder, and record every answer with consent in your CRM so you can personalise emails and offers."}}]}</script>
+<!-- /wp:html -->
