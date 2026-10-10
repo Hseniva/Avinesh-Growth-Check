@@ -66,6 +66,7 @@ function route_(req) {
     case 'dashboard':         return { ok: true, data: dashboard_(auth_(req), req.course) };
     case 'preassessmentDone': return preassessmentDone_(auth_(req), req.course);
     case 'complete':          return complete_(auth_(req), req);
+    case 'uploadExercise':    return uploadExercise_(auth_(req), req);
     case 'quiz':              return quizLegacy_(auth_(req), req);
     case 'quizQuestions':     return quizQuestions_(auth_(req), req);
     case 'quizSubmit':        return quizSubmit_(auth_(req), req);
@@ -251,8 +252,10 @@ function loadCourse_(courseId) {
   var modules = table_('Modules').rows.filter(function (m) { return str_(m.course_id) === courseId && str_(m.module_id); }).map(function (m) {
     var id = str_(m.module_id);
     var exercises = lines_(m.exercises).map(function (l) {
-      var p = l.split('|');
-      return { id: str_(p[0]), title: str_(p[1]), instructions: p.slice(2).join('|').trim() };
+      var p = l.split('|'), file = '';
+      // Optional last field "file:URL" = downloadable template + the student uploads a file instead of text.
+      if (p.length > 3 && /^\s*file:/i.test(p[p.length - 1])) file = str_(p.pop()).replace(/^file:/i, '').trim();
+      return { id: str_(p[0]), title: str_(p[1]), instructions: p.slice(2).join('|').trim(), file: file };
     }).filter(function (x) { return x.id; });
     var built = quizRows_(id).length;
     var quizUrl = str_(m.quiz_url) || (built ? '/quiz?m=' + encodeURIComponent(id) : '');
@@ -387,7 +390,7 @@ function dashboard_(student, courseId) {
       b.notes = (m.notes_url || str_(m.notes_text)) ? { url: m.notes_url, text: m.notes_text, done: !!st.done[m.id + '::notes'] } : null;
       b.resources = m.resources;
       b.exercises = m.exercises.map(function (ex) {
-        return { id: ex.id, title: ex.title, instructions: ex.instructions, done: !!st.done[m.id + '::ex:' + ex.id], submission: st.subs[m.id + '::' + ex.id] || '' };
+        return { id: ex.id, title: ex.title, instructions: ex.instructions, file: ex.file || '', done: !!st.done[m.id + '::ex:' + ex.id], submission: st.subs[m.id + '::' + ex.id] || '' };
       });
       b.quiz = m.quiz_url ? { url: m.quiz_url, pass_mark: m.pass_mark, max_attempts: m.max_attempts, attempts: a.count, best: a.best, passed: a.passed, questions: m.builtQuiz || 20 } : null;
       b.weights = m.comps;
@@ -438,6 +441,39 @@ function complete_(student, req) {
     append_('Submissions', { email: norm_(student.email), module_id: m.id, exercise_id: exId, text: text.slice(0, 5000), submitted_at: now_() });
   } else throw new Error('Unknown item.');
   upsert_(student.email, m.id, item);
+  return { ok: true, data: dashboard_(findStudent_(student.email), m.course) };
+}
+
+/* ---------- file uploads for exercises (e.g. Excel workbooks) ---------- */
+var UPLOAD_MAX_BYTES = 10 * 1024 * 1024;
+var UPLOAD_EXT = /\.(xlsx|xlsm|xls|ods|csv)$/i;
+
+function submissionsFolder_() {
+  var props = PropertiesService.getScriptProperties(), id = props.getProperty('SUBMISSIONS_FOLDER_ID');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (e) {} }
+  var f = DriveApp.createFolder('DMM Learning Platform - Exercise uploads');
+  props.setProperty('SUBMISSIONS_FOLDER_ID', f.getId());
+  return f;
+}
+
+function uploadExercise_(student, req) {
+  var m = moduleFor_(student, req.module), exId = str_(req.exercise);
+  var ex = m.exercises.filter(function (x) { return x.id === exId; })[0];
+  if (!ex) throw new Error('Exercise not found.');
+  if (!ex.file) throw new Error('This exercise does not accept file uploads.');
+  var name = str_(req.filename).replace(/[\\\/:*?"<>|]+/g, '_').slice(0, 120);
+  if (!UPLOAD_EXT.test(name)) throw new Error('Please upload your completed Excel file (.xlsx).');
+  var bytes;
+  try { bytes = Utilities.base64Decode(String(req.data || '')); } catch (e) { throw new Error('The file could not be read. Please try again.'); }
+  if (!bytes || !bytes.length) throw new Error('The file is empty.');
+  if (bytes.length > UPLOAD_MAX_BYTES) throw new Error('The file is too large (maximum 10 MB).');
+  var email = norm_(student.email), tz = 'Indian/Mauritius';
+  var stored = m.id + '_' + exId + '_' + email + '_' + Utilities.formatDate(now_(), tz, 'yyyy-MM-dd_HHmm') + '_' + name;
+  var file = submissionsFolder_().createFile(Utilities.newBlob(bytes, str_(req.mime) || 'application/octet-stream', stored));
+  file.setDescription('Module ' + m.id + ', exercise ' + exId + ', uploaded by ' + str_(student.name) + ' <' + email + '>');
+  var text = 'Uploaded file: ' + name + ' (' + Utilities.formatDate(now_(), tz, 'd MMM yyyy, HH:mm') + ')\n' + file.getUrl();
+  append_('Submissions', { email: email, module_id: m.id, exercise_id: exId, text: text, submitted_at: now_() });
+  upsert_(student.email, m.id, 'ex:' + exId);
   return { ok: true, data: dashboard_(findStudent_(student.email), m.course) };
 }
 
@@ -773,3 +809,6 @@ function resetPassword() {
   if (!s) throw new Error('No student with email ' + email);
   update_('Students', s._row, { password_hash: '', salt: '' });
 }
+
+/** Run once from the editor to authorise Drive and create the uploads folder. */
+function setupExerciseUploads() { var f = submissionsFolder_(); Logger.log('Uploads folder: ' + f.getUrl()); return f.getUrl(); }
