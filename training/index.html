@@ -181,6 +181,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .ex.ok{border-color:#c7ecd4;background:#fbfefc}
 .ex h6{font-size:15px;color:var(--ink);display:flex;justify-content:space-between;gap:10px;align-items:center}
 .ex p{font-size:14px;color:var(--text);margin:6px 0 12px}
+.ex .fileup{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}.ex .fileup input[type=file]{font:inherit;font-size:14px;max-width:100%}.ex .dl{display:inline-flex;align-items:center;gap:8px;margin:6px 0 4px;padding:9px 14px;border-radius:10px;background:var(--lav);color:var(--b2);font-weight:700;font-size:14px;text-decoration:none}.ex .fnote{font-size:13px;color:var(--mut);margin-top:6px}
 .ex textarea{width:100%;min-height:96px;padding:12px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:14px;resize:vertical}
 .ex textarea:focus{outline:none;border-color:var(--b1);box-shadow:0 0 0 4px rgba(102,126,234,.12)}
 .sub{font-size:14px;background:var(--greenbg);border-radius:10px;padding:10px 12px;color:#14532d;white-space:pre-wrap;word-break:break-word;margin-bottom:10px}
@@ -623,6 +624,14 @@ function moduleHTML(p, m) {
     m.exercises.forEach(function (e) {
       var k = (m.id + '-' + e.id).replace(/\W/g, '_'), eid = esc(e.id);
       h += '<div class="ex ' + (e.done ? 'ok' : '') + '"><h6><span>Exercise ' + eid + ': ' + esc(e.title) + '</span>' + (e.done ? '<span class="tag ok">Submitted</span>' : '<span class="tag todo">To do</span>') + '</h6><p>' + linkify(e.instructions) + '</p>';
+      if (e.file) {
+        h += '<a class="dl" href="' + esc(e.file) + '" download>⬇ Download the exercise file</a>';
+        var up = '<div class="fileup"><input type="file" id="fi-' + k + '" accept=".xlsx,.xlsm,.xls,.ods,.csv"><button class="btn btn-grad btn-sm" onclick="uploadEx(\'' + mid + '\',\'' + eid + '\',\'' + k + '\',this)">' + (e.done ? 'Upload new version' : 'Upload my completed file') + '</button></div><div class="fnote">Excel file, maximum 10 MB. Your trainer reviews it and you receive feedback by email.</div><div class="err-inline" id="er-' + k + '"></div>';
+        if (e.done) h += '<div class="sub">' + esc(String(e.submission).split('\n')[0]) + '</div><details><summary style="font-size:13px;color:var(--mut);cursor:pointer">Upload a new version</summary><div style="margin-top:10px">' + up + '</div></details>';
+        else h += up;
+        h += '</div>';
+        return;
+      }
       if (e.done) h += '<div class="sub">' + linkify(e.submission) + '</div><details><summary style="font-size:13px;color:var(--mut);cursor:pointer">Update my submission</summary><div style="margin-top:10px"><textarea id="ta-' + k + '">' + esc(e.submission) + '</textarea><div class="acts" style="margin-top:10px"><button class="btn btn-soft btn-sm" onclick="submitEx(\'' + mid + '\',\'' + eid + '\',\'' + k + '\',this)">Save update</button></div><div class="err-inline" id="er-' + k + '"></div></div></details>';
       else h += '<textarea id="ta-' + k + '" placeholder="Your answer, or a link to your work…"></textarea><div class="acts" style="margin-top:10px"><button class="btn btn-grad btn-sm" onclick="submitEx(\'' + mid + '\',\'' + eid + '\',\'' + k + '\',this)">Submit exercise</button></div><div class="err-inline" id="er-' + k + '"></div>';
       h += '</div>';
@@ -669,6 +678,25 @@ function submitEx(id, exId, key, btn) {
   DMM.api('complete', { module: id, item: 'ex:' + exId, text: t }).then(function (r) {
     if (!afterUpdate(r, 'Exercise submitted ✓')) { btn.disabled = false; btn.textContent = l; var e2 = document.getElementById('er-' + key); if (e2 && r.error) e2.textContent = r.error; }
   });
+}
+
+function uploadEx(id, exId, key, btn) {
+  var inp = document.getElementById('fi-' + key), er = document.getElementById('er-' + key);
+  er.textContent = '';
+  var f = inp && inp.files && inp.files[0];
+  if (!f) { er.textContent = 'Please choose your completed Excel file first.'; return; }
+  if (!/\.(xlsx|xlsm|xls|ods|csv)$/i.test(f.name)) { er.textContent = 'Please upload an Excel file (.xlsx).'; return; }
+  if (f.size > 10 * 1024 * 1024) { er.textContent = 'This file is too large (maximum 10 MB).'; return; }
+  btn.disabled = true; var l = btn.textContent; btn.textContent = 'Uploading…';
+  var rd = new FileReader();
+  rd.onload = function () {
+    var data = String(rd.result).split(',')[1] || '';
+    DMM.api('uploadExercise', { module: id, exercise: exId, filename: f.name, mime: f.type, data: data }).then(function (r) {
+      if (!afterUpdate(r, 'File uploaded ✓ You will receive feedback by email.')) { btn.disabled = false; btn.textContent = l; var e2 = document.getElementById('er-' + key); if (e2 && r.error) e2.textContent = r.error; }
+    });
+  };
+  rd.onerror = function () { btn.disabled = false; btn.textContent = l; er.textContent = 'The file could not be read. Please try again.'; };
+  rd.readAsDataURL(f);
 }
 
 /* ---------------- trainer: students' progress ---------------- */
