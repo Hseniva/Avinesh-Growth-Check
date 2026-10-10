@@ -114,7 +114,8 @@
   // abTrack("event_name", {params}, "MetaStandardEvent")
   window.abTrack = function(name, params, metaEvent){
     try { gtag("event", name, params || {}); } catch (e) {}
-    try { if (metaEvent && window.fbq) fbq("track", metaEvent, params || {}); } catch (e) {}
+    try { if (metaEvent && window.fbq) fbq("track", metaEvent, Object.assign({ content_name: "Growth Check lead" }, params || {})); } catch (e) {}
+    try { if (metaEvent === "Lead" && window.fbq) fbq("trackCustom", "GrowthCheckLead", params || {}); } catch (e) {}
   };
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-F395M1E55T"></script>
