@@ -93,6 +93,31 @@
   .tlink{display:inline-block;margin-top:10px;color:var(--blue-text);font-weight:600;font-size:14px;text-decoration:none}
   .tlink:hover{color:var(--blue)}
 </style>
+<!-- Tracking: GA4 + Meta Pixel, Google Consent Mode v2 (denied until the visitor accepts) -->
+<script>
+  var AB_GA4 = "G-F395M1E55T";
+  var AB_PIXEL = "";            // Meta Pixel ID goes here, e.g. "123456789012345"
+  var AB_CONSENT_KEY = "ab_gc_consent";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  function abConsent(){ try { return localStorage.getItem(AB_CONSENT_KEY); } catch (e) { return null; } }
+  gtag("consent", "default", { ad_storage: "denied", analytics_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", wait_for_update: 500 });
+  if (abConsent() === "granted") gtag("consent", "update", { ad_storage: "granted", analytics_storage: "granted", ad_user_data: "granted", ad_personalization: "granted" });
+  gtag("js", new Date());
+  gtag("config", AB_GA4);
+  function abLoadPixel(){
+    if (!AB_PIXEL || window.fbq || abConsent() !== "granted") return;
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+    fbq("init", AB_PIXEL); fbq("track", "PageView");
+  }
+  abLoadPixel();
+  // abTrack("event_name", {params}, "MetaStandardEvent")
+  window.abTrack = function(name, params, metaEvent){
+    try { gtag("event", name, params || {}); } catch (e) {}
+    try { if (metaEvent && window.fbq) fbq("track", metaEvent, params || {}); } catch (e) {}
+  };
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F395M1E55T"></script>
 </head>
 <body>
 <header><div class="bar">
@@ -103,7 +128,7 @@
   </div>
 </div></header>
 <main><div class="card" id="app"></div></main>
-<footer><div class="ft"><span id="tagline"></span><span class="ft-sep">·</span><span id="tagsub"></span></div><div class="links"><a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a><span>·</span><a href="https://hsenivamedia.com/" target="_blank" rel="noopener">hsenivamedia.com</a></div></footer>
+<footer><div class="ft"><span id="tagline"></span><span class="ft-sep">·</span><span id="tagsub"></span></div><div class="links"><a href="https://avineshbundhoo.com/" target="_blank" rel="noopener">avineshbundhoo.com</a><span>·</span><a href="https://hsenivamedia.com/" target="_blank" rel="noopener">hsenivamedia.com</a><span>·</span><a href="privacy/">Privacy</a><span>·</span><a href="#" id="ck-open">Cookies</a></div></footer>
 
 <script>
 /* ===== CONFIG ===== */
@@ -307,7 +332,7 @@ function go(){
 
 function renderIntro(){
   app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><div class="promise">🎁 ${L().promise}</div><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn" id="start">${L().start} →</button></div>`;
-  document.getElementById("start").onclick=()=>{i=0;render();};
+  document.getElementById("start").onclick=()=>{i=0;render();abTrack("growth_check_start",{language:lang});};
 }
 
 /* ===== RECOMMENDATION ENGINE ===== */
@@ -366,7 +391,7 @@ async function submit(){
     try{ await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}); }
     catch(e){ ok=false; }
   }
-  try{ window.dataLayer=window.dataLayer||[]; dataLayer.push({event:"generate_lead",lead_segment:payload.segment,lead_recommendation:payload.recommendation}); }catch(e){}
+  abTrack("generate_lead",{lead_segment:payload.segment,lead_recommendation:payload.recommendation,language:lang},"Lead");
   i="result"; ans._ok=ok; render(); window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -389,6 +414,37 @@ function renderResult(){
 }
 
 setLang(lang);
+</script>
+<div id="ck" role="dialog" aria-live="polite" aria-label="Cookie consent" hidden>
+  <p id="ck-t"></p>
+  <div class="ck-b"><button type="button" id="ck-no"></button><button type="button" id="ck-yes"></button></div>
+</div>
+<style>
+  #ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:50;max-width:420px;margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px rgba(27,33,64,.14);padding:18px 18px 16px;font-size:14px;line-height:1.55;color:var(--text)}
+  #ck[hidden]{display:none}
+  #ck p{margin:0 0 14px} #ck a{color:var(--blue)}
+  #ck .ck-b{display:flex;gap:10px;justify-content:flex-end}
+  #ck button{font:600 14px Inter,sans-serif;border-radius:10px;padding:10px 16px;cursor:pointer;border:1px solid var(--line2);background:#fff;color:var(--white)}
+  #ck #ck-yes{border:0;background:var(--g);color:#fff}
+</style>
+<script>
+(function(){
+  var box=document.getElementById("ck");
+  var TX={en:{t:'I use cookies to measure my ads and improve this page. <a href="privacy/">Privacy policy</a>',y:"Accept",n:"Reject"},
+          fr:{t:"J\u2019utilise des cookies pour mesurer mes publicités et améliorer cette page. <a href=\"privacy/\">Politique de confidentialité</a>",y:"Accepter",n:"Refuser"}};
+  function show(){var l=(document.documentElement.lang||"en").slice(0,2);var x=TX[l]||TX.en;
+    document.getElementById("ck-t").innerHTML=x.t;document.getElementById("ck-yes").textContent=x.y;document.getElementById("ck-no").textContent=x.n;box.hidden=false;}
+  function save(v){try{localStorage.setItem(AB_CONSENT_KEY,v)}catch(e){}
+    var g=v==="granted"?"granted":"denied";
+    gtag("consent","update",{ad_storage:g,analytics_storage:g,ad_user_data:g,ad_personalization:g});
+    if(v==="granted"){abLoadPixel();} else if(window.fbq){try{fbq("consent","revoke")}catch(e){}}
+    box.hidden=true;}
+  document.getElementById("ck-yes").onclick=function(){save("granted")};
+  document.getElementById("ck-no").onclick=function(){save("denied")};
+  document.getElementById("ck-open").onclick=function(e){e.preventDefault();show()};
+  if(!abConsent()) show();
+  document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){if(!box.hidden)setTimeout(show,0)})});
+})();
 </script>
 </body>
 </html>
