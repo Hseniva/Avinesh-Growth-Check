@@ -19,7 +19,7 @@
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
   body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 85% -10%,rgba(102,126,234,.14),transparent 60%),radial-gradient(700px 400px at -10% 30%,rgba(118,75,162,.06),transparent 60%),var(--bg)}
-  header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:5}
+  header{border-bottom:1px solid var(--line);background:#fff}
   .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:780px;margin:0 auto}
   .brand{font-weight:800;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-.3px}
   .brand b{color:#667eea}
@@ -135,7 +135,7 @@ const T = {
   badge:"Digital Marketing Mastery",
   introTitle:"Your learning profile <span class=\"grad\">starts here</span>",
   introLead:"This is not a marketing test, and you don't need any experience. It helps me understand how you think and how you learn best, so I can adapt the bootcamp to you.",
-  introList:["No marketing knowledge needed","About 40 minutes, in 6 short parts","Your progress is saved on this device if you pause","Answer in your own words. There are no wrong answers","Discover your learning type at the end"],
+  introList:["No marketing knowledge needed","About 15 to 20 minutes, in 6 short parts","Your progress is saved on this device if you pause","Mostly multiple choice: just pick the answer that feels right","Discover your learning type at the end"],
   persT:"Not all students learn the same",
   persL:"That's why we personalise your learning with us. Your answers here shape how the bootcamp works for you.",
   pers:[["Your learning type","Videos, guides, discussion or hands-on: we teach the way you learn best."],["Your pace","Extra support where you need it, faster where you're already strong."],["Your feedback","Coaching and feedback in the style that helps you improve."],["Your goal","A personal learning plan built around what you want to achieve."]],
@@ -148,21 +148,23 @@ const T = {
   s:{
    profile:{t:"About you",h:"So I know who I'm working with.",
      name:"Your name", email:"Email", phone:"WhatsApp / phone (optional)",
-     why:"Why did you join this bootcamp?"},
-   strategy:{t:"Strategic thinking",h:"Read the scenario carefully, then answer.",
+     why:{t:"Why did you join this bootcamp?",o:{A:"To change career into digital marketing",B:"To grow my own business",C:"To get better at my current job",D:"To start freelancing or earn extra income",E:"I'm curious about digital marketing and AI"}},
+     exp:{t:"How much digital marketing experience do you have?",o:{A:"None, I'm starting from zero",B:"A little: I post on social media for myself or a business",C:"Some: I've boosted posts or run a few ads",D:"Quite a lot: I manage campaigns or accounts at work"}}},
+   strategy:{t:"Strategic thinking",h:"Read the scenario carefully, then choose the best answer.",
      box:"<b>Scenario: café business growth</b><br>You manage Instagram for a local café in Port Louis, Mauritius.<ul><li>Today: 400 followers, 15–30 likes per post</li><li>Goal: attract 50 new customers within 30 days</li><li>Budget: Rs 250 per week for ads</li></ul>",
-     q1:"Before spending any money on ads, what 3 key things MUST you know about your potential customers?",
-     q2:"How would you split your Rs 250/week budget across the month?",
-     q2r:"What's your reasoning behind this approach?"},
-   analytics:{t:"Analytics & calculations",h:"First a short lesson, then two questions.",
+     s1q1:{t:"Before spending any money on ads, what is the MOST important thing to know first?",o:{A:"Who your ideal customers are: age, area, habits and what they care about",B:"Which Instagram filter looks best on coffee photos",C:"How many followers your competitors have",D:"The exact best minute of the day to post"}},
+     s1q2:{t:"How would you use your Rs 250 per week across the month?",o:{A:"Spend everything on one ad in week 1 to make a big splash",B:"Save it all for the last week, when people have more money",C:"Test 2 or 3 small ads first, then put more budget on the one that works best",D:"Run exactly the same ad every week without changing anything"}},
+     s1q2r:{t:"After two weeks, your posts get lots of likes but almost no new customers. What would you check first?",o:{A:"Post more often, likes will turn into customers eventually",B:"Whether the ads give people a clear reason and way to visit: an offer, the location, a call to action",C:"Change the café's logo",D:"Buy more followers to look more popular"}}},
+   analytics:{t:"Analytics & calculations",h:"First a short lesson, then three questions.",
      box:"<b>Concept: Click-Through Rate (CTR)</b><br>CTR tells you what percentage of the people who <b>saw</b> your ad actually <b>clicked</b> it.<div class=\"formula\">CTR = (Clicks ÷ Impressions) × 100</div><b>Example</b><br>Your ad was shown to 1,000 people (impressions) and 25 people clicked.<br>CTR = (25 ÷ 1,000) × 100 = <b>2.5%</b><br>So 2.5% of the people who saw your ad took action.",
-     q1:"Your ad reached 5,000 people and 75 people clicked on it. What is your CTR? Show your math step by step.",
-     q2:"A CTR of 1.5% is considered good in digital marketing. Is your CTR good, or does it need improvement? Why?"},
+     s2q1:{t:"Your ad reached 5,000 people and 75 people clicked on it. What is your CTR?",o:{A:"0.15%",B:"1.5%",C:"15%",D:"7.5%"}},
+     s2q2:{t:"A CTR of about 1.5% is considered good. How would you describe your result?",o:{A:"Very poor, far below average",B:"Excellent, there is nothing to improve",C:"Good: right at the benchmark, with room to improve",D:"Impossible to say without knowing the ad colour"}},
+     s2q3:{t:"Ad A: 2,000 impressions and 40 clicks. Ad B: 4,000 impressions and 60 clicks. Which ad has the better CTR?",o:{A:"Ad A (2%)",B:"Ad B, because it got more clicks",C:"They are exactly the same",D:"Ad B (3%)"}}},
    creative:{t:"Creativity & copywriting",h:"Same product, different audiences, different messages.",
      box:"<b>Scenario: selling local artisan coffee</b><br>You're promoting a Mauritian coffee brand to two different audiences.",
-     a:"<b>Audience A: busy professionals</b> (office workers, 9 to 5). They want quality coffee to get through a busy day. Write a catchy headline for them:",
-     b:"<b>Audience B: university students</b> (tight budget). They want affordable coffee to stay focused while studying. Write a catchy headline for them:",
-     q2:"Why did you write different headlines for the two audiences? What's the link between their needs and your headlines?"},
+     s3a:{t:"<b>Audience A: busy professionals</b> (office workers, 9 to 5) who want quality coffee to get through a busy day. Which headline fits them best?",o:{A:"Cheapest coffee in town, buy 10 get 1 free",B:"Coffee.",C:"Study all night with our coffee",D:"Your 7am power-up: rich Mauritian coffee, ready in 2 minutes"}},
+     s3b:{t:"<b>Audience B: university students</b> on a tight budget who want affordable coffee to stay focused. Which headline fits them best?",o:{A:"A premium luxury roast for executives",B:"Stay sharp for less: Rs 50 a cup with your student card",C:"The coffee chosen by busy CEOs",D:"Our coffee is made from coffee beans"}},
+     s3q2:{t:"Why should the two audiences get different headlines?",o:{A:"To test different fonts",B:"There's no real reason, it just adds variety",C:"Each audience has different needs and motivations, so the message should speak to what matters to them",D:"Because one audience speaks French"}}},
    ltype:{t:"Your learning type",h:"How much do you agree with each statement? Go with your first instinct.",
      scale:["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"],
      q:{
@@ -182,8 +184,9 @@ const T = {
    style:{t:"How you learn",h:"No right or wrong answers here. Just be honest!",
      l1:{t:"When learning something new, you prefer:",o:{A:"Visual explanations (diagrams, videos, screenshots)",B:"Step-by-step written instructions",C:"Discussion and asking questions",D:"Hands-on practice straight away"}},
      l2:{t:"When you make a mistake, you prefer:",o:{A:"Detailed feedback on what went wrong",B:"A quick fix so you can try again",C:"Understanding WHY it happened",D:"Examples of how others made similar mistakes"}},
-     l3:"What's your biggest concern about this bootcamp? (For example: speed of learning, technical skills, time commitment, feeling lost…)",
-     l4:"What's ONE thing you want to achieve in the first 30 days of the bootcamp?"}
+     l3:{t:"What's your biggest concern about this bootcamp?",o:{A:"Keeping up with the speed",B:"Technical skills and tools",C:"Finding enough time",D:"Feeling lost or not knowing where to start",E:"Applying it to real work"}},
+     l4:{t:"What do you most want to achieve in your first 30 days?",o:{A:"Understand the basics and the key terms",B:"Launch my first ad campaign",C:"Build a content plan for social media",D:"Read and understand analytics and reports",E:"Use AI tools to save time"}},
+     extra:"Anything else I should know about you or how you learn? (optional)"}
   },
   resTitle:"Your learning type",
   resMix:(a,b)=>`Second strength: ${b}`,
@@ -206,7 +209,7 @@ const T = {
   badge:"Digital Marketing Mastery",
   introTitle:"Votre profil d'apprentissage <span class=\"grad\">commence ici</span>",
   introLead:"Ce n'est pas un test de marketing, et aucune expérience n'est nécessaire. Il m'aide à comprendre comment vous réfléchissez et comment vous apprenez le mieux, pour adapter le bootcamp à vous.",
-  introList:["Aucune connaissance en marketing requise","Environ 40 minutes, en 6 courtes parties","Votre progression est enregistrée sur cet appareil si vous faites une pause","Répondez avec vos propres mots. Il n'y a pas de mauvaise réponse","Découvrez votre profil d'apprentissage à la fin"],
+  introList:["Aucune connaissance en marketing requise","Environ 15 à 20 minutes, en 6 courtes parties","Votre progression est enregistrée sur cet appareil si vous faites une pause","Surtout des questions à choix multiples : choisissez simplement la réponse qui vous semble juste","Découvrez votre profil d'apprentissage à la fin"],
   persT:"Chaque élève apprend différemment",
   persL:"C'est pourquoi nous personnalisons votre apprentissage avec nous. Vos réponses ici façonnent le bootcamp pour vous.",
   pers:[["Votre profil d'apprentissage","Vidéos, guides, échanges ou pratique : nous enseignons comme vous apprenez le mieux."],["Votre rythme","Plus d'accompagnement là où vous en avez besoin, plus vite là où vous êtes déjà à l'aise."],["Votre feedback","Un coaching et des retours adaptés à votre façon de progresser."],["Votre objectif","Un plan d'apprentissage personnel construit autour de ce que vous voulez accomplir."]],
@@ -219,21 +222,23 @@ const T = {
   s:{
    profile:{t:"À propos de vous",h:"Pour savoir avec qui je travaille.",
      name:"Votre nom", email:"Email", phone:"WhatsApp / téléphone (facultatif)",
-     why:"Pourquoi avez-vous rejoint ce bootcamp ?"},
-   strategy:{t:"Réflexion stratégique",h:"Lisez bien le scénario, puis répondez.",
+     why:{t:"Pourquoi avez-vous rejoint ce bootcamp ?",o:{A:"Pour me reconvertir dans le marketing digital",B:"Pour développer ma propre entreprise",C:"Pour progresser dans mon poste actuel",D:"Pour devenir freelance ou avoir un revenu en plus",E:"Par curiosité pour le marketing digital et l'IA"}},
+     exp:{t:"Quelle est votre expérience en marketing digital ?",o:{A:"Aucune, je pars de zéro",B:"Un peu : je publie sur les réseaux sociaux pour moi ou une entreprise",C:"Quelques bases : j'ai déjà boosté des posts ou lancé quelques publicités",D:"Pas mal : je gère des campagnes ou des comptes au travail"}}},
+   strategy:{t:"Réflexion stratégique",h:"Lisez bien le scénario, puis choisissez la meilleure réponse.",
      box:"<b>Scénario : développer un café</b><br>Vous gérez l'Instagram d'un café à Port-Louis, à Maurice.<ul><li>Aujourd'hui : 400 abonnés, 15 à 30 likes par publication</li><li>Objectif : attirer 50 nouveaux clients en 30 jours</li><li>Budget : Rs 250 par semaine pour la publicité</li></ul>",
-     q1:"Avant de dépenser quoi que ce soit en publicité, quelles sont les 3 choses que vous DEVEZ savoir sur vos clients potentiels ?",
-     q2:"Comment répartiriez-vous votre budget de Rs 250 par semaine sur le mois ?",
-     q2r:"Pourquoi cette approche ?"},
-   analytics:{t:"Analyse & calculs",h:"D'abord une courte leçon, puis deux questions.",
+     s1q1:{t:"Avant de dépenser quoi que ce soit en publicité, quelle est la chose la PLUS importante à savoir ?",o:{A:"Qui sont vos clients idéaux : âge, quartier, habitudes et ce qui compte pour eux",B:"Quel filtre Instagram rend le mieux sur les photos de café",C:"Combien d'abonnés ont vos concurrents",D:"La minute exacte où il faut publier"}},
+     s1q2:{t:"Comment utiliseriez-vous vos Rs 250 par semaine sur le mois ?",o:{A:"Tout dépenser sur une seule publicité la première semaine",B:"Tout garder pour la dernière semaine, quand les gens ont plus d'argent",C:"Tester 2 ou 3 petites publicités, puis mettre plus de budget sur celle qui marche le mieux",D:"Diffuser exactement la même publicité chaque semaine sans rien changer"}},
+     s1q2r:{t:"Après deux semaines, vos publications ont beaucoup de likes mais presque aucun nouveau client. Que vérifiez-vous en premier ?",o:{A:"Publier plus souvent, les likes finiront par devenir des clients",B:"Si les publicités donnent une vraie raison et un moyen de venir : une offre, l'adresse, un appel à l'action",C:"Changer le logo du café",D:"Acheter des abonnés pour paraître plus populaire"}}},
+   analytics:{t:"Analyse & calculs",h:"D'abord une courte leçon, puis trois questions.",
      box:"<b>Notion : le taux de clic (CTR)</b><br>Le CTR indique quel pourcentage des personnes qui ont <b>vu</b> votre publicité ont <b>cliqué</b> dessus.<div class=\"formula\">CTR = (Clics ÷ Impressions) × 100</div><b>Exemple</b><br>Votre publicité a été vue par 1 000 personnes (impressions) et 25 ont cliqué.<br>CTR = (25 ÷ 1 000) × 100 = <b>2,5 %</b><br>Donc 2,5 % des personnes qui ont vu votre publicité ont agi.",
-     q1:"Votre publicité a touché 5 000 personnes et 75 ont cliqué. Quel est votre CTR ? Montrez votre calcul étape par étape.",
-     q2:"Un CTR de 1,5 % est considéré comme bon en marketing digital. Votre CTR est-il bon, ou faut-il l'améliorer ? Pourquoi ?"},
+     s2q1:{t:"Votre publicité a touché 5 000 personnes et 75 ont cliqué. Quel est votre CTR ?",o:{A:"0,15 %",B:"1,5 %",C:"15 %",D:"7,5 %"}},
+     s2q2:{t:"Un CTR d'environ 1,5 % est considéré comme bon. Comment décririez-vous votre résultat ?",o:{A:"Très mauvais, bien en dessous de la moyenne",B:"Excellent, il n'y a rien à améliorer",C:"Bon : au niveau de la référence, avec une marge de progression",D:"Impossible à dire sans connaître la couleur de la publicité"}},
+     s2q3:{t:"Publicité A : 2 000 impressions et 40 clics. Publicité B : 4 000 impressions et 60 clics. Laquelle a le meilleur CTR ?",o:{A:"La publicité A (2 %)",B:"La publicité B, car elle a plus de clics",C:"Elles sont exactement pareilles",D:"La publicité B (3 %)"}}},
    creative:{t:"Créativité & rédaction",h:"Même produit, publics différents, messages différents.",
      box:"<b>Scénario : vendre un café artisanal local</b><br>Vous faites la promotion d'une marque de café mauricienne auprès de deux publics différents.",
-     a:"<b>Public A : professionnels pressés</b> (employés de bureau, 9 h – 17 h). Ils veulent un café de qualité pour tenir une journée chargée. Écrivez un titre accrocheur pour eux :",
-     b:"<b>Public B : étudiants</b> (petit budget). Ils veulent un café abordable pour rester concentrés pendant leurs révisions. Écrivez un titre accrocheur pour eux :",
-     q2:"Pourquoi avez-vous écrit des titres différents pour ces deux publics ? Quel est le lien entre leurs besoins et vos titres ?"},
+     s3a:{t:"<b>Public A : professionnels pressés</b> (employés de bureau, 9 h à 17 h) qui veulent un café de qualité pour tenir la journée. Quel titre leur convient le mieux ?",o:{A:"Le café le moins cher de la ville, 10 achetés 1 offert",B:"Café.",C:"Révisez toute la nuit avec notre café",D:"Votre coup de boost de 7 h : un café mauricien intense, prêt en 2 minutes"}},
+     s3b:{t:"<b>Public B : étudiants</b> au budget serré qui veulent un café abordable pour rester concentrés. Quel titre leur convient le mieux ?",o:{A:"Une torréfaction de luxe pour cadres dirigeants",B:"Restez concentré pour moins cher : Rs 50 la tasse avec votre carte étudiant",C:"Le café choisi par les PDG pressés",D:"Notre café est fait avec des grains de café"}},
+     s3q2:{t:"Pourquoi les deux publics doivent-ils avoir des titres différents ?",o:{A:"Pour tester différentes polices",B:"Pas de vraie raison, c'est juste pour varier",C:"Chaque public a des besoins et des motivations différents, le message doit parler de ce qui compte pour lui",D:"Parce qu'un des publics parle français"}}},
    ltype:{t:"Votre profil d'apprentissage",h:"Êtes-vous d'accord avec chaque affirmation ? Suivez votre première impression.",
      scale:["Pas du tout d'accord","Pas d'accord","Neutre","D'accord","Tout à fait d'accord"],
      q:{
@@ -253,8 +258,9 @@ const T = {
    style:{t:"Votre façon d'apprendre",h:"Pas de bonne ou de mauvaise réponse. Soyez simplement honnête !",
      l1:{t:"Pour apprendre quelque chose de nouveau, vous préférez :",o:{A:"Des explications visuelles (schémas, vidéos, captures d'écran)",B:"Des instructions écrites étape par étape",C:"Échanger et poser des questions",D:"Pratiquer tout de suite"}},
      l2:{t:"Quand vous faites une erreur, vous préférez :",o:{A:"Un retour détaillé sur ce qui n'a pas marché",B:"Une correction rapide pour réessayer",C:"Comprendre POURQUOI c'est arrivé",D:"Des exemples d'erreurs similaires faites par d'autres"}},
-     l3:"Quelle est votre plus grande inquiétude pour ce bootcamp ? (Par exemple : rythme d'apprentissage, compétences techniques, temps à y consacrer, peur d'être perdu…)",
-     l4:"Quelle est LA chose que vous voulez accomplir pendant les 30 premiers jours du bootcamp ?"}
+     l3:{t:"Quelle est votre plus grande inquiétude pour ce bootcamp ?",o:{A:"Suivre le rythme",B:"Les compétences techniques et les outils",C:"Trouver assez de temps",D:"Me sentir perdu ou ne pas savoir par où commencer",E:"L'appliquer à un vrai travail"}},
+     l4:{t:"Que voulez-vous surtout accomplir pendant vos 30 premiers jours ?",o:{A:"Comprendre les bases et le vocabulaire clé",B:"Lancer ma première campagne publicitaire",C:"Construire un plan de contenu pour les réseaux sociaux",D:"Lire et comprendre les analyses et rapports",E:"Utiliser des outils d'IA pour gagner du temps"}},
+     extra:"Autre chose que je devrais savoir sur vous ou votre façon d'apprendre ? (facultatif)"}
   },
   resTitle:"Votre profil d'apprentissage",
   resMix:(a,b)=>`Second point fort : ${b}`,
@@ -277,13 +283,17 @@ const T = {
 /* ===== FLOW ===== */
 const LIKERT = ["v1","r1","s1","h1","v2","r2","s2","h2","v3","r3","s3","h3"];
 const PARTS = [
- {id:"profile",  min:2,  fields:[["name","input","name"],["email","email","email"],["phone","tel","tel",true],["why","area"]]},
- {id:"strategy", min:8,  box:true, fields:[["s1q1","area","q1"],["s1q2","area","q2"],["s1q2r","area","q2r"]]},
- {id:"analytics",min:10, box:true, fields:[["s2q1","area","q1"],["s2q2","area","q2"]]},
- {id:"creative", min:8,  box:true, fields:[["s3a","input","a"],["s3b","input","b"],["s3q2","area","q2"]]},
- {id:"ltype",    min:4,  fields:[["lk","likert"]]},
- {id:"style",    min:5,  fields:[["l1","choice"],["l2","choice"],["l3","area"],["l4","area"]]}
+ {id:"profile",  min:2, fields:[["name","input","name"],["email","email","email"],["phone","tel","tel",true],["why","choice"],["exp","choice"]]},
+ {id:"strategy", min:3, box:true, fields:[["s1q1","choice"],["s1q2","choice"],["s1q2r","choice"]]},
+ {id:"analytics",min:4, box:true, fields:[["s2q1","choice"],["s2q2","choice"],["s2q3","choice"]]},
+ {id:"creative", min:3, box:true, fields:[["s3a","choice"],["s3b","choice"],["s3q2","choice"]]},
+ {id:"ltype",    min:4, fields:[["lk","likert"]]},
+ {id:"style",    min:3, fields:[["l1","choice"],["l2","choice"],["l3","choice"],["l4","choice"],["extra","area","extra",true]]}
 ];
+const KEY = {s1q1:"A",s1q2:"C",s1q2r:"B",s2q1:"B",s2q2:"C",s2q3:"A",s3a:"D",s3b:"B",s3q2:"C"};
+const CHOICES = ["why","exp","s1q1","s1q2","s1q2r","s2q1","s2q2","s2q3","s3a","s3b","s3q2","l1","l2","l3","l4"];
+function optText(k){ const v=ans[k]; if(!v) return ""; for(const sec of Object.values(T.en.s)){ if(sec[k]&&sec[k].o) return v+") "+String(sec[k].o[v]).replace(/<[^>]+>/g,""); } return v; }
+function mcqScore(){ let c=0; for(const k in KEY) if(ans[k]===KEY[k]) c++; return c+"/"+Object.keys(KEY).length; }
 
 let lang = (navigator.language||"en").toLowerCase().startsWith("fr") ? "fr" : "en";
 try{ const s=localStorage.getItem("ab_lang"); if(s) lang=s; }catch(e){}
@@ -334,7 +344,7 @@ function render(){
       h+=`</div></div>`;
       continue;
     }
-    const lab = p.id==="profile" ? s[key] : s[f[2]||key];
+    const lab = p.id==="profile" ? s[key] : s[f[2]||key];  // text/area labels
     if(type==="area") h+=`<div class="qblock"><label class="qlabel" for="${key}">${lab}</label><textarea class="t" id="${key}" rows="4" placeholder="${L().answerPh}">${esc(ans[key])}</textarea></div>`;
     else { const it = type==="input"?"text":type; h+=`<div class="qblock"><label class="qlabel" for="${key}">${lab}</label><input class="t" id="${key}" type="${it}" autocomplete="${key==="name"?"name":type==="email"?"email":type==="tel"?"tel":"off"}" value="${esc(ans[key])}" ${p.id!=="profile"?`placeholder="${L().answerPh}"`:""}></div>`; }
   }
@@ -443,11 +453,12 @@ async function submit(){
   const mins=s=>(Math.round(s/6)/10)+" min";
   const payload={
     ts:new Date().toISOString(), lang,
-    name:ans.name, email:ans.email, phone:ans.phone||"", why:ans.why,
-    s1q1:ans.s1q1, s1q2:ans.s1q2, s1q2r:ans.s1q2r,
-    s2q1:ans.s2q1, s2q2:ans.s2q2,
-    s3a:ans.s3a, s3b:ans.s3b, s3q2:ans.s3q2,
-    l1:ans.l1+") "+en.l1.o[ans.l1], l2:ans.l2+") "+en.l2.o[ans.l2], l3:ans.l3, l4:ans.l4,
+    name:ans.name, email:ans.email, phone:ans.phone||"", why:optText("why"), experience:optText("exp"),
+    s1q1:optText("s1q1"), s1q2:optText("s1q2"), s1q2r:optText("s1q2r"),
+    s2q1:optText("s2q1"), s2q2:optText("s2q2"), s2q3:optText("s2q3"),
+    s3a:optText("s3a"), s3b:optText("s3b"), s3q2:optText("s3q2"),
+    l1:optText("l1"), l2:optText("l2"), l3:optText("l3"), l4:optText("l4"), extra:ans.extra||"",
+    mcq_score:mcqScore(),
     learning_type: (()=>{ const r=learningType(); return T.en.types[r.type].name+(r.second?" + "+T.en.types[r.second].name:""); })(),
     lt_visual: learningType().pct.V+"%", lt_structured: learningType().pct.R+"%", lt_social: learningType().pct.S+"%", lt_handson: learningType().pct.H+"%",
     lt_signals: learningType().signals,
