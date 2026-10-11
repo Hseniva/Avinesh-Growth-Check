@@ -43,7 +43,7 @@ button{font:inherit;cursor:pointer}
 
 /* ===== welcome ===== */
 .hero{position:relative;padding:72px 0 80px;min-height:calc(100vh - 68px);display:flex;align-items:center;background-color:#eef0fb;background-position:center 58%;background-size:cover;background-repeat:no-repeat}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(248,249,253,.97) 0%,rgba(248,249,253,.9) 38%,rgba(248,249,253,.45) 68%,rgba(248,249,253,.12) 100%)}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(248,249,253,.98) 0%,rgba(248,249,253,.96) 46%,rgba(248,249,253,.72) 60%,rgba(248,249,253,.18) 100%)}
 .hero>.wrap{position:relative;z-index:1;width:100%}
 .hero-cap{position:absolute;right:24px;bottom:20px;z-index:1;background:rgba(255,255,255,.92);color:var(--ink);font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(27,33,64,.12)}
 .hero-cap i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grad);margin-right:7px;vertical-align:1px}
@@ -63,8 +63,8 @@ button{font:inherit;cursor:pointer}
 .photo figcaption i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grad);margin-right:7px;vertical-align:1px}
 .photo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;border:2px dashed #c9c5f0;border-radius:24px;color:var(--b2);padding:20px}
 .photo-ph strong{font-size:15px}.photo-ph span{font-size:13px;color:var(--mut)}
-.login{background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow);position:sticky;top:96px}
-.login::before{content:'';display:block;height:5px;margin:-32px -32px 26px;border-radius:24px 24px 0 0;background:var(--grad)}
+.login{background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow);position:sticky;top:96px;overflow:hidden}
+.login::before{content:'';display:block;height:5px;margin:-32px -32px 26px;background:var(--grad)}
 .login h2{color:var(--ink);font-size:22px;letter-spacing:-.01em}
 .login p.lsub{color:var(--mut);font-size:14px;margin:4px 0 22px}
 .field{margin-bottom:16px}
@@ -243,7 +243,7 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 }
 @media(max-width:720px){
   .hero{min-height:0;flex-direction:column;align-items:stretch;background-position:72% center}
-  .hero::before{background:linear-gradient(180deg,rgba(248,249,253,.8) 0%,rgba(248,249,253,.88) 45%,rgba(248,249,253,.95) 100%)}
+  .hero::before{background:linear-gradient(180deg,rgba(248,249,253,.93) 0%,rgba(248,249,253,.95) 45%,rgba(248,249,253,.97) 100%)}
   .hero-cap{position:relative;right:auto;bottom:auto;align-self:flex-start;margin:20px 16px 0;font-size:12px}
   .wrap{padding:0 16px}
   .hero{padding:36px 0 24px}
