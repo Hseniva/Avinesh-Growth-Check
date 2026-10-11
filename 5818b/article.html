@@ -1,0 +1,393 @@
+<!-- wp:paragraph -->
+<p>Here's an uncomfortable truth about bank advertising on Facebook and Instagram.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Most of the people who see your loan or credit card ad have no need for it right now. You're paying to reach them anyway.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Banking is one of the most expensive, highest-consideration categories on Meta. Nobody opens a current account or takes out a home loan on impulse. So when you target by age, location and a vague "finance" interest, you burn budget on people who were never going to apply.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The fix isn't a bigger budget. It's <strong>Meta Custom Audiences</strong>: targeting people based on what they've actually done, like starting an application, using your loan calculator or already banking with you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In this guide, I'll show you the exact audience setup I recommend for banks, the five use cases that deliver the lowest cost per approved application, the compliance rules you can't skip, and a checklist you can use before you go live.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"key-takeaways"} -->
+<div class="wp-block-group key-takeaways" style="background:#f5f6ff;border:1px solid #e1e4fb;border-radius:16px;padding:24px 28px;margin:28px 0">
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Key takeaways</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li>Broad demographic targeting is expensive for banks because it <strong>ignores intent</strong>. Custom Audiences let you pay for people who already showed interest.</li><li>Meta offers <strong>three Custom Audience sources</strong>: customer lists, website and app activity, and engagement.</li><li><strong>Abandoned application retargeting</strong> is usually the cheapest conversion a bank can buy on Meta.</li><li>Ads for loans, cards, accounts, insurance and investments fall under the <strong>Financial Products and Services</strong> special ad category, which removes age, gender, postcode and lookalike targeting where it applies.</li><li>The <strong>Conversions API</strong> is the tracking baseline, not an optional upgrade. Without it, Meta optimises toward the wrong signal.</li></ul>
+<!-- /wp:list --></div>
+<!-- /wp:group -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why generic targeting fails banks</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Think about two people who both see your personal loan ad.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The first is 34, lives in the right city and once liked a personal finance Page. That's all you know.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The second started a loan application on your website yesterday and stopped at the identity check.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Which one would you rather pay to reach?</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Demographic targeting treats them the same. Custom Audiences don't. They let you build campaigns around the difference in intent, instead of guessing at it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>And on a product where the real goal is an <em>approved</em> application, not a click, that difference shows up directly in your cost per customer.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="wp-block-image aligncenter size-large">%%INFO_1%%<figcaption class="wp-element-caption">Demographic targeting guesses at intent. Custom Audiences are built from it.</figcaption></figure>
+<!-- /wp:html -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The 3 Custom Audience building blocks</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every strategy in this guide is built from three source types. Get these right first, and everything else gets easier.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">1. Customer lists</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You upload customer data from your CRM, such as emails and phone numbers. Meta hashes it and matches it against its users. Raw data is never shown on the platform.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here's what most banks miss: <strong>data quality beats list size</strong>. A list of 10,000 recently verified emails will usually outperform 50,000 outdated records, because more of it matches.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>So treat your CRM hygiene as a media performance asset, not just an operations task.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">2. Website and app activity</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These audiences come from the Meta Pixel and, more reliably, the Conversions API. You can target people who visited specific pages, like the loan calculator, or who reached specific steps, like "application started" or "KYC reached".</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The more precisely you tag each step of your application flow, the more precisely you can retarget. Tag only page views and you get one big, vague pool. Tag each step and you can speak to the exact reason someone stopped.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">3. Engagement</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>People who watched your video past a set point, opened a lead form, or engaged with your Facebook Page or Instagram profile.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Someone who watched half of your mortgage explainer has shown far more interest than someone who scrolled past a banner. Segment by engagement depth and you can move people step by step toward an application.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="wp-block-image aligncenter size-large">%%INFO_2%%<figcaption class="wp-element-caption">The three Custom Audience sources every bank strategy is built from.</figcaption></figure>
+<!-- /wp:html -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5 high-impact Custom Audiences for banks</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These are the use cases I'd prioritise, in this order. The first two alone can cut your cost per acquisition before you build anything more advanced.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">1. Abandoned application retargeting</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Anyone who started an account opening or loan application but didn't submit it. This is the highest-intent audience you will ever have on Meta.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>They already decided to explore the product. Something stopped them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Retarget them within seven days with creative that tackles the objection head on:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li>"Takes 3 minutes to finish"</li><li>"Check your eligibility with no commitment"</li><li>"Pick up where you left off"</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Keep the ad simple and send them straight back to where they stopped.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">2. KYC drop-off recovery</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These people filled in the first steps, then stopped at identity verification. That drop-off is almost always about anxiety: is my data safe, which documents do I need, how long will this take?</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>So lead with reassurance, not offers. Show your security and regulatory credentials, list exactly which documents are needed, and say how fast approval is.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">3. Pre-approved CRM offers</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Upload a hashed list of customers you've already pre-approved for a credit product, with their marketing consent.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The credit decision is already made, so this is often your cheapest conversion. The ad isn't really selling. It's telling someone they can access something right now. Make it feel like a personal message, not a generic product ad.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">4. Cross-sell to existing customers</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Target current account holders who don't yet have a credit card or personal loan, with an existing-customer offer that's different from your acquisition creative.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>One caution: an existing relationship doesn't exempt you from the special ad category rules. The product you're promoting decides that. Check with your compliance team before you launch.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">5. Lookalikes of your best customers (where allowed)</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Seed a 1% to 3% lookalike from your highest-value customers, not your whole base. Customers who have banked with you for years, hold two or more products and use your app will produce a very different lookalike than "everyone registered".</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>But here's the catch: <strong>lookalikes aren't available in campaigns under a special ad category</strong>. For credit, loan, account and insurance campaigns where those rules apply, use Advantage+ audience instead and let your Custom Audiences do the heavy lifting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Map every audience to a funnel stage</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Before any audience goes live, give it two things: a funnel stage and a KPI.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Skip this and you'll make the classic mistake of judging a cold audience by conversion rate, or a retargeting audience by reach. You'll draw the wrong conclusions from both.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="wp-block-image aligncenter size-large">%%INFO_3%%<figcaption class="wp-element-caption">Each funnel stage gets its own audience, campaign, creative and KPI.</figcaption></figure>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>One rule I always follow: <strong>never mix funnel stages in the same ad set</strong>. Each stage needs its own campaign, creative and success metric.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Compliance: the part banks can't skip</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Financial services face tighter rules on Meta than almost any other advertiser. Get this wrong and you risk rejected ads, restricted accounts and, in regulated markets, fines.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Treat everything below as a go-live gate, not something to fix after launch.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">1. Declare the special ad category</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Meta replaced its old Credit category with <a href="https://www.jonloomer.com/qvt/financial-products-and-services/" target="_blank" rel="noopener">Financial Products and Services</a>. It covers credit cards, loans, financing, bank accounts, insurance, investments and payment services, and became mandatory for these ads targeting the US from early 2025.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Where it applies, declaring it removes age and gender targeting, postcode targeting and lookalike audiences, and requires a minimum location radius of 15 miles.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You must declare it when you create the campaign. You can't fix it afterwards without rebuilding the campaign from scratch. And because Meta has been widening where these rules apply, check the requirement for every market you target.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="wp-block-image aligncenter size-large">%%INFO_4%%<figcaption class="wp-element-caption">Under the Financial Products and Services category, intent-based audiences become even more valuable.</figcaption></figure>
+<!-- /wp:html -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">2. Hash your data, ideally server-side</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Never upload plain-text customer data. Use Meta's built-in hashing for list uploads, or better, send events server-side through the Conversions API with SHA-256 hashing applied before transmission.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>That gives you better match quality, fewer blocked events and a documented server-to-server transfer record, which matters under GDPR, the Mauritius Data Protection Act and similar laws.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">3. Respect consent and keep a live suppression list</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Only use customer data for Meta advertising where customers have consented under your privacy policy and local law. That's a legal obligation, not a Meta setting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Keep a suppression list of everyone who opted out, and sync it every time you refresh an audience. A customer who unsubscribes this month and sees your loan ad next month is a compliance failure and a trust problem.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">4. Set a refresh cadence</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Refresh uploaded lists every 30 to 90 days, depending on the product and your consent framework. Stale lists mean people who withdrew consent may still see ads, and people who already converted stay in your acquisition retargeting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Automate this wherever you can. Manual refreshes are where most consent mistakes happen.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why the Conversions API is non-negotiable</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Browser-only Pixel tracking misses a meaningful share of conversions since iOS 14.5 and browser privacy changes. Ad blockers and tracking prevention add to the gap.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For a bank, that's a bigger problem than bad reporting. Meta's algorithm learns from the events you send. If it only sees landing page clicks, it finds more people who click. If it sees approved applications, it finds more people who get approved.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>That's why I set up the <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/" target="_blank" rel="noopener">Conversions API</a> alongside the Pixel, with deduplication, for every financial client. Then I feed offline outcomes, like approved loans and activated accounts, back into Meta so it optimises toward real business results.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Your go-live checklist</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Use this before you launch, or to audit an existing setup. Every unticked box either pushes your CPA up, puts your account at risk, or both.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list"><li>Install the Pixel and Conversions API on every account opening, loan and card application flow.</li><li>Tag key events: application started, KYC reached, application submitted, application approved.</li><li>Exclude existing customers from acquisition campaigns wherever the rules allow.</li><li>Build an abandoned application retargeting campaign with objection-handling creative and a 7-day window.</li><li>Declare the Financial Products and Services category on every campaign it applies to, before building ad sets.</li><li>Seed lookalikes from your highest-value customers only, and only in campaigns where they're allowed.</li><li>Set a 30 to 90 day refresh cadence linked to your consent and suppression list.</li><li>Send offline conversions (approved loans, activated accounts) back to Meta.</li><li>Document data transfers and consent records so you're ready for an audit.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can banks legally use customer data for Meta Custom Audiences?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, as long as customers have consented to marketing use under your privacy policy and local data protection law, the data is hashed before upload, and you keep an opt-out suppression list in sync. Confirm the consent wording in your customer agreements with your legal or compliance team first.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How big does a Custom Audience need to be?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Meta needs at least 100 matched people for an audience to be usable, but in practice anything under about 1,000 tends to deliver unevenly and struggle to exit the learning phase. For lookalike seeds, Meta recommends 1,000 to 50,000 people. Quality matters more than size.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does the special ad category hurt performance?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It limits cold prospecting most, because lookalikes, age, gender and postcode targeting are removed. Banks that rely on intent-based Custom Audiences and strong conversion data feel it far less, which is why those audiences become even more valuable under the category.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How often should a bank refresh its Custom Audiences?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Website and app audiences update automatically based on the lookback window you choose. Customer lists need re-uploading or an automated sync. A 30-day cycle is a sensible baseline, with faster updates for abandoned application audiences and the suppression list.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the difference between the Meta Pixel and the Conversions API?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Pixel is a browser tag, so ad blockers, iOS privacy settings and browser restrictions can stop it firing. The Conversions API sends events from your server directly to Meta. Running both, with deduplication, gives Meta the most complete picture and better optimisation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The bottom line</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Custom Audiences won't replace your brand campaigns. They make the performance layer underneath them far more efficient.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The banks that win on Meta won't be the ones with the biggest budgets. They'll be the ones with the cleanest event data, the most disciplined audience setup and the compliance foundations to scale it safely.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The decisions you make in your first 90 days set your cost structure for years. Get the foundations right before you scale the spend.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {} -->
+<div class="wp-block-group" style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:18px;padding:28px 30px;margin:32px 0;color:#fff">
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading" style="color:#fff;margin-top:0">Building or auditing your bank's Meta Ads setup?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p style="color:#fff">I help banks and financial brands set up Custom Audiences, Conversions API tracking and compliant campaigns that lower cost per approved application. <a href="/contact/" style="color:#fff;font-weight:700;text-decoration:underline">Tell me about your project</a> and I'll come back to you within 24 hours.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Sources</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><a href="https://www.jonloomer.com/qvt/financial-products-and-services/" target="_blank" rel="noopener">Jon Loomer: Financial Products and Services special ad category</a></li><li><a href="https://developers.facebook.com/docs/marketing-api/conversions-api/" target="_blank" rel="noopener">Meta for Developers: Conversions API</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:html -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can banks legally use customer data for Meta Custom Audiences?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, as long as customers have consented to marketing use under your privacy policy and local data protection law, the data is hashed before upload, and you keep an opt-out suppression list in sync. Confirm the consent wording in your customer agreements with your legal or compliance team first."}}, {"@type": "Question", "name": "How big does a Custom Audience need to be?", "acceptedAnswer": {"@type": "Answer", "text": "Meta needs at least 100 matched people for an audience to be usable, but in practice anything under about 1,000 tends to deliver unevenly and struggle to exit the learning phase. For lookalike seeds, Meta recommends 1,000 to 50,000 people. Quality matters more than size."}}, {"@type": "Question", "name": "Does the special ad category hurt performance?", "acceptedAnswer": {"@type": "Answer", "text": "It limits cold prospecting most, because lookalikes, age, gender and postcode targeting are removed. Banks that rely on intent-based Custom Audiences and strong conversion data feel it far less, which is why those audiences become even more valuable under the category."}}, {"@type": "Question", "name": "How often should a bank refresh its Custom Audiences?", "acceptedAnswer": {"@type": "Answer", "text": "Website and app audiences update automatically based on the lookback window you choose. Customer lists need re-uploading or an automated sync. A 30-day cycle is a sensible baseline, with faster updates for abandoned application audiences and the suppression list."}}, {"@type": "Question", "name": "What's the difference between the Meta Pixel and the Conversions API?", "acceptedAnswer": {"@type": "Answer", "text": "The Pixel is a browser tag, so ad blockers, iOS privacy settings and browser restrictions can stop it firing. The Conversions API sends events from your server directly to Meta. Running both, with deduplication, gives Meta the most complete picture and better optimisation."}}]}</script>
+<!-- /wp:html -->
