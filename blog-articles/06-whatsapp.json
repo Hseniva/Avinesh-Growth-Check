@@ -1,0 +1,28 @@
+{
+  "title": "WhatsApp Business Marketing: Turn Chats into Sales",
+  "slug": "whatsapp-business-marketing",
+  "excerpt": "Your customers already buy on WhatsApp. Here's how to set it up, run ads that open chats, message within the rules and track every sale.",
+  "seo_title": "WhatsApp Business Marketing: Turn Chats into Sales",
+  "metadesc": "A practical guide to WhatsApp Business marketing: app vs Platform, catalogue, labels, click-to-WhatsApp ads, opt-in rules and tracking sales from chats.",
+  "focuskw": "whatsapp business marketing",
+  "category_id": 72,
+  "info_alt": "WhatsApp Business marketing setup: profile, catalogue, greeting and away messages, quick replies and labels",
+  "infographic_brief": "Title: Set Up WhatsApp Business to Sell. Items: 1. Complete your business profile. 2. Build a shoppable catalogue. 3. Automate greeting and away messages. 4. Save quick replies for common questions. 5. Use labels as your sales pipeline.",
+  "featured_concept": "A small Mauritian shop owner at a colourful market stall smiling at a smartphone while wrapped parcels sit ready for delivery beside her, warm natural light, no text and no logos.",
+  "featured_headline": "Turn Chats into Sales",
+  "linkedin": "Most Mauritian businesses close their sales on WhatsApp. Very few measure them.\n\nIn my last article I called our online market a digitalised bazaar: sellers take buyers from a TikTok live straight into WhatsApp and close the deal by hand. It works, but it is chaos. Missed messages, forgotten follow ups and no idea which ad brought in the sale.\n\nSo I wrote the follow up: how to run WhatsApp Business properly.\n\nI cover when the free app is enough and when you need the WhatsApp Business Platform, how to turn labels into a simple sales pipeline, why ads that click to WhatsApp only work if someone answers fast, and what Meta's rules say about opt in before you send a single promotion.\n\nThe part most people skip is measurement. If you cannot connect a chat to a sale, you cannot tell which marketing pays. Even a simple log beats guessing.\n\nYour customers already want to buy on WhatsApp. The question is whether you run it like a stall or like a business.\n\nFull article: [link]",
+  "sources_checked": [
+    "https://whatsappbusiness.com/?p=103",
+    "https://whatsappbusiness.com/products/business-app-features/?lang=en_US",
+    "https://whatsappbusiness.com/resources/resource-library/personalized-customer-interactions-notes-catalog-whatsapp/",
+    "https://whatsappbusiness.com/policy/",
+    "https://developers.facebook.com/docs/whatsapp/overview/getting-opt-in",
+    "https://developers.facebook.com/docs/whatsapp/pricing",
+    "https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates",
+    "https://developers.facebook.com/docs/marketing-api/ad-creative/messaging-ads/click-to-whatsapp",
+    "https://developers.facebook.com/docs/marketing-api/conversions-api/business-messaging",
+    "https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-business-app-users",
+    "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+    "https://developers.facebook.com/docs/whatsapp/overview"
+  ]
+}

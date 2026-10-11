@@ -1,0 +1,25 @@
+{
+  "title": "Meta Conversions API Explained: Setup Guide and Pixel vs CAPI",
+  "slug": "meta-conversions-api-setup-guide",
+  "excerpt": "What the Meta Conversions API is, how it compares to the Pixel, the four ways to set it up, and how to deduplicate and test your events.",
+  "seo_title": "Meta Conversions API: Setup Guide and Pixel vs CAPI",
+  "metadesc": "Learn what the Meta Conversions API is, how it differs from the Pixel, how to set it up, deduplicate events and test them in Events Manager.",
+  "focuskw": "meta conversions api",
+  "category_id": 71,
+  "info_alt": "Five steps to a reliable Meta Conversions API setup",
+  "infographic_brief": "Title: 5 steps to a reliable Meta Conversions API setup. Items: 1. Pick your setup method. 2. Use the same Pixel ID. 3. Match event_id and event_name. 4. Send hashed customer details. 5. Test in Events Manager.",
+  "featured_concept": "Two glowing data streams, one flowing from a laptop browser and one from a server rack, merging into a single clean line that feeds a rising performance chart, in soft blue and purple tones.",
+  "featured_headline": "Stop losing conversions",
+  "linkedin": "Your Meta Ads dashboard and your order list probably don't agree.\n\nThat isn't a glitch. If you rely only on the Meta Pixel, you're relying on the browser, and ad blockers, privacy settings and simple loading errors all get in the way.\n\nThe Meta Conversions API sends your conversions from your server instead. Meta recommends running it alongside the Pixel, sending the same events through both.\n\nIn my new guide I cover:\n\nWhat CAPI actually is, in plain English.\nPixel vs CAPI, and why it isn't either or.\nFour setup routes: platform integrations, the Conversions API Gateway, server side Google Tag Manager and a direct API connection.\nHow event_id and event_name stop Meta counting the same sale twice.\nWhy hashed customer details lift your Event Match Quality.\nHow to test everything in Events Manager before you trust a number.\n\nIf you spend seriously on Meta Ads, your algorithm is only as smart as the data you feed it. Missing conversions means it learns from half the story.\n\nFull article: [link]",
+  "sources_checked": [
+    "https://developers.facebook.com/docs/marketing-api/conversions-api",
+    "https://developers.facebook.com/docs/marketing-api/conversions-api/best-practices",
+    "https://developers.facebook.com/docs/marketing-api/conversions-api/get-started",
+    "https://developers.facebook.com/documentation/ads-commerce/conversions-api/using-the-api",
+    "https://developers.facebook.com/documentation/ads-commerce/conversions-api/deduplicate-pixel-and-server-events",
+    "https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters",
+    "https://developers.facebook.com/documentation/ads-commerce/conversions-api/verifying-setup",
+    "https://developers.facebook.com/documentation/ads-commerce/gateway-products/conversions-api-gateway",
+    "https://developers.facebook.com/documentation/ads-commerce/conversions-api/guides/gtm-server-side"
+  ]
+}

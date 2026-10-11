@@ -1,0 +1,293 @@
+<!-- wp:paragraph -->
+<p>Your Meta Ads dashboard shows a handful of purchases last week. Your shop's order list shows a lot more.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>That gap isn't a glitch. It's what happens when you rely only on the Meta Pixel, a piece of code that runs in your visitor's browser and can only report what that browser lets it see.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The fix Meta offers is the <strong>Meta Conversions API</strong>, often shortened to CAPI. It sends your conversion data straight from your server to Meta, so far fewer sales slip through the cracks.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>I set up tracking for businesses in Mauritius and beyond, and CAPI is the single change I recommend most often to anyone spending seriously on Meta Ads.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In this guide, I'll explain what it is, how it compares to the Pixel, the main ways to set it up, and the mistakes that quietly break it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"key-takeaways"} -->
+<div class="wp-block-group key-takeaways" style="background:#f5f6ff;border:1px solid #e1e4fb;border-radius:16px;padding:24px 28px;margin:28px 0">
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Key takeaways</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li>The <strong>Meta Conversions API</strong> sends conversion events from your server to Meta, instead of relying only on the browser.</li><li>Meta recommends running it <strong>alongside the Pixel</strong>, sending the same events through both.</li><li>You can set it up through a <strong>platform integration</strong>, the <strong>Conversions API Gateway</strong>, <strong>server-side Google Tag Manager</strong> or a <strong>direct API</strong> connection.</li><li>Matching <strong>event_id</strong> and <strong>event_name</strong> on both sides stops Meta counting the same sale twice.</li><li>Always check your setup in <strong>Test Events</strong> and keep an eye on <strong>Event Match Quality</strong> in Events Manager.</li></ul>
+<!-- /wp:list --></div>
+<!-- /wp:group -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What is the Meta Conversions API?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Meta Conversions API is a connection between your marketing data and Meta. According to <a href="https://developers.facebook.com/docs/marketing-api/conversions-api" target="_blank" rel="noopener">Meta's developer documentation</a>, it lets you send events from your server, website, app or CRM so Meta can optimise ad targeting, lower your cost per result and measure outcomes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Think of it this way. The Pixel is a reporter standing in your visitor's browser. CAPI is a reporter sitting in your back office, reading the order book.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Both describe the same purchases and leads. They just take different roads.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why browser-only Pixel tracking misses conversions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Pixel depends on the browser doing its job. Increasingly, browsers don't.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><strong>Ad blockers</strong> can stop the Pixel script from loading at all.</li><li><strong>Browser privacy features</strong> can limit cookies and tracking scripts, so some sessions are never linked to an ad click.</li><li><strong>iOS privacy changes</strong> give people more control over tracking, which reduces what browser-side signals can capture.</li><li><strong>Technical hiccups</strong> happen too. Meta's <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/best-practices" target="_blank" rel="noopener">best practices guide</a> notes that server events can recover conversions the Pixel misses because of network issues or page loading errors.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Every missed conversion hurts twice. Your reporting looks worse than reality, and Meta's algorithm has less data to learn who your best customers are.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>That second part is the one most people underestimate. If you're investing in <a href="/how-first-party-data-helps-marketers/">first-party data</a>, CAPI is how that data actually reaches your ad campaigns.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Conversions API vs Pixel: what's the difference?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This is the question I get asked most. The short answer: it's not either/or.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><strong>Where it runs:</strong> the Pixel runs in the visitor's browser. CAPI runs on your server or a cloud server you control.</li><li><strong>What it can see:</strong> the Pixel sees on-page behaviour. CAPI can also send offline or delayed events, such as a sale confirmed later in your CRM.</li><li><strong>Exposure to blockers:</strong> the Pixel is affected by ad blockers and browser restrictions. CAPI isn't loaded in the browser, so those tools don't block it in the same way.</li><li><strong>Setup effort:</strong> the Pixel is a snippet of code. CAPI needs a server-side connection, though no-code options exist.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Meta's <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/best-practices" target="_blank" rel="noopener">best practices</a> recommend a "redundant" setup: use CAPI alongside the Pixel and send the same events through both. Meta's <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started" target="_blank" rel="noopener">getting started guide</a> also says to use the same Pixel ID for browser and server events.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Meta Conversions API setup: your four main options</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The best option depends on your platform, budget and technical resources.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">1. Partner integrations (WordPress, WooCommerce, Shopify)</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If your site runs on a popular platform, start here. Meta works with partner platforms that offer built-in Conversions API connections, and the major e-commerce platforms and WordPress plugins provide ways to switch it on from their settings.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It's the fastest route for most small and medium businesses. The trade-off is less control over exactly which data is sent.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">2. Conversions API Gateway</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <a href="https://developers.facebook.com/documentation/ads-commerce/gateway-products/conversions-api-gateway" target="_blank" rel="noopener">Conversions API Gateway</a> is a self-serve option in Events Manager aimed at marketers with some technical skill but no dedicated developers. Meta says no coding is required.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You host it in a cloud account you own, on AWS or Google Cloud, and pay only for those cloud resources or partner fees. It supports multiple domains and Pixels, and it generates the event_id deduplication key for you automatically.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">3. Server-side Google Tag Manager</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you already use Google Tag Manager, Meta publishes a <a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/guides/gtm-server-side" target="_blank" rel="noopener">Conversions API Tag</a> for server containers, available in the GTM Template Gallery.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This route needs GA4, a web container, a server container and a tagging server. It's more work, but it gives you fine control and fits neatly into an existing analytics stack.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">4. Direct API integration</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Here your developers connect your own server straight to Meta's endpoint. You generate an access token in Events Manager, as described in Meta's <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started" target="_blank" rel="noopener">getting started guide</a>, and send events in code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It's the most flexible option and the right choice for custom platforms or CRMs. A few rules from Meta's <a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/using-the-api" target="_blank" rel="noopener">API documentation</a> are worth knowing: you can send up to 1,000 events per request, an event_time can be no more than 7 days old, and one invalid event causes the whole batch to be rejected.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Event deduplication: event_id and event_name</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Here's the catch with a redundant setup. If the Pixel and CAPI both report the same purchase, Meta could count it twice.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Deduplication prevents that. According to <a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/deduplicate-pixel-and-server-events" target="_blank" rel="noopener">Meta's deduplication guide</a>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li>The Pixel's <strong>eventID</strong> must match the server's <strong>event_id</strong>.</li><li>The Pixel's event name must match the server's <strong>event_name</strong>, for example Purchase on both sides.</li><li>Matching events are deduplicated when they arrive within <strong>48 hours</strong> of the first event with that event_id.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Meta also describes an alternative using fbp or external_id, but notes it generally only works when the browser event arrives first. That's why I always use a unique event_id per event, generated once and passed to both the Pixel and the server.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Event match quality and customer information parameters</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Sending an event isn't enough. Meta needs to match it to a real account before it can use it for targeting and attribution.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Meta's <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/best-practices" target="_blank" rel="noopener">best practices</a> explain that each server event gets an <strong>Event Match Quality</strong> score out of 10 in Events Manager, and only matched events can be used for attribution and delivery optimisation. Meta's <a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/verifying-setup" target="_blank" rel="noopener">verification guide</a> says it generally recommends a score of 6.0 or higher.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You improve the score with <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters" target="_blank" rel="noopener">customer information parameters</a>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><strong>Hash these with SHA256:</strong> email, phone, first name, last name, date of birth, gender, city, state, postcode and country.</li><li><strong>Don't hash these:</strong> client IP address, client user agent, fbc and fbp.</li><li><strong>Normalise before hashing:</strong> for example, trim and lowercase emails, and include the country code in phone numbers.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Meta lists email, IP address, first and last name, and phone as high-quality parameters. It also asks you to send the same customer information on the browser and server sides.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This is exactly where good data habits pay off. Businesses with rich, consented customer records, such as banks, are well placed here, a topic I cover in my article on <a href="/how-banks-should-use-meta-custom-audiences-to-power-smarter-facebook-ads/">how banks should use Meta Custom Audiences</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to test with Test Events in Events Manager</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Never assume it works. Test it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list"><li><strong>Get a test code.</strong> In Events Manager, open your Pixel and go to Test Events to generate a test_event_code, as described in Meta's <a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/using-the-api" target="_blank" rel="noopener">API documentation</a>.</li><li><strong>Send test events.</strong> Add the code to your server requests, or set it in your partner integration, then complete a test purchase or lead.</li><li><strong>Check both channels.</strong> Confirm the event appears from both the browser and the server, with matching names.</li><li><strong>Remove the code.</strong> Meta says to take the test code out of production payloads once you're done.</li><li><strong>Review the Overview.</strong> Meta's <a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/verifying-setup" target="_blank" rel="noopener">verification guide</a> says events should appear within 20 minutes. Check the Event Deduplication tab and your match quality score.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:html -->
+<figure class="wp-block-image aligncenter size-large">%%IMG_INFO%%<figcaption class="wp-element-caption">Five steps to a reliable Meta Conversions API setup.</figcaption></figure>
+<!-- /wp:html -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common Meta Conversions API mistakes</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These are the problems I see most often when I audit tracking:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><strong>No deduplication.</strong> Pixel and CAPI both fire, but without a shared event_id. Results look too good to be true, because they are.</li><li><strong>Mismatched event names.</strong> "Purchase" on one side and "purchase_complete" on the other won't deduplicate.</li><li><strong>Unhashed or badly formatted data.</strong> Meta's <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters" target="_blank" rel="noopener">parameter documentation</a> says unhashed contact information isn't accepted, and messy formatting lowers your match rate.</li><li><strong>Sending events late.</strong> Meta's <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/best-practices" target="_blank" rel="noopener">best practices</a> recommend sending events in real time or close to it, and requests with events older than 7 days are rejected.</li><li><strong>Leaving the test code live.</strong> Remove test_event_code after launch.</li><li><strong>Ignoring consent.</strong> Server-side tracking still needs to respect your privacy policy and local data protection law. An <a href="/ai-usage-policy-for-businesses/">internal data and AI policy</a> helps keep everyone aligned.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is the Meta Conversions API?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Meta Conversions API is a server-side connection that sends conversion events, such as purchases and leads, from your server, website, app or CRM directly to Meta. It helps Meta measure results and optimise ad delivery, even when browser tracking is limited.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does the Conversions API replace the Meta Pixel?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No. Meta recommends using both together and sending the same events through each, with matching event_id and event_name values so duplicates are removed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is the Conversions API Gateway?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It's a no-code option in Events Manager that you host in your own AWS or Google Cloud account. It sends web events through both the Pixel and the Conversions API and creates the deduplication key automatically.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is a good Event Match Quality score?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Meta scores Event Match Quality out of 10 and generally recommends 6.0 or higher. Sending more hashed customer details, such as email and phone, usually improves it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do I need a developer to set up CAPI?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Not always. Partner integrations and the Conversions API Gateway need little or no code. Server-side Google Tag Manager and direct API integrations usually need technical help.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The bottom line</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Pixel shows you part of the story. The Meta Conversions API fills in the rest.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Run both, deduplicate properly, send clean hashed customer data and test before you trust a single number. Get those basics right and your ads finally learn from what really happened, not just what the browser saw.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {} -->
+<div class="wp-block-group" style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:18px;padding:28px 30px;margin:32px 0;color:#fff">
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading" style="color:#fff;margin-top:0">Want tracking you can trust?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p style="color:#fff">I set up and audit Meta Pixel and Conversions API tracking for businesses that want accurate data behind every ad decision. <a href="/contact/" style="color:#fff;font-weight:700;text-decoration:underline">Tell me about your project</a> and let's find the conversions you're missing.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Sources</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><li><a href="https://developers.facebook.com/docs/marketing-api/conversions-api" target="_blank" rel="noopener">Meta for Developers: Conversions API</a></li><li><a href="https://developers.facebook.com/docs/marketing-api/conversions-api/best-practices" target="_blank" rel="noopener">Meta for Developers: Conversions API best practices</a></li><li><a href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started" target="_blank" rel="noopener">Meta for Developers: Get started with the Conversions API</a></li><li><a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/using-the-api" target="_blank" rel="noopener">Meta for Developers: Using the Conversions API</a></li><li><a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/deduplicate-pixel-and-server-events" target="_blank" rel="noopener">Meta for Developers: Deduplicate Pixel and server events</a></li><li><a href="https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters" target="_blank" rel="noopener">Meta for Developers: Customer information parameters</a></li><li><a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/verifying-setup" target="_blank" rel="noopener">Meta for Developers: Verifying your setup</a></li><li><a href="https://developers.facebook.com/documentation/ads-commerce/gateway-products/conversions-api-gateway" target="_blank" rel="noopener">Meta for Developers: Conversions API Gateway</a></li><li><a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/guides/gtm-server-side" target="_blank" rel="noopener">Meta for Developers: Conversions API with server-side Google Tag Manager</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:html -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the Meta Conversions API?", "acceptedAnswer": {"@type": "Answer", "text": "The Meta Conversions API is a server-side connection that sends conversion events, such as purchases and leads, from your server, website, app or CRM directly to Meta. It helps Meta measure results and optimise ad delivery, even when browser tracking is limited."}}, {"@type": "Question", "name": "Does the Conversions API replace the Meta Pixel?", "acceptedAnswer": {"@type": "Answer", "text": "No. Meta recommends using both together and sending the same events through each, with matching event_id and event_name values so duplicates are removed."}}, {"@type": "Question", "name": "What is the Conversions API Gateway?", "acceptedAnswer": {"@type": "Answer", "text": "It's a no-code option in Events Manager that you host in your own AWS or Google Cloud account. It sends web events through both the Pixel and the Conversions API and creates the deduplication key automatically."}}, {"@type": "Question", "name": "What is a good Event Match Quality score?", "acceptedAnswer": {"@type": "Answer", "text": "Meta scores Event Match Quality out of 10 and generally recommends 6.0 or higher. Sending more hashed customer details, such as email and phone, usually improves it."}}, {"@type": "Question", "name": "Do I need a developer to set up CAPI?", "acceptedAnswer": {"@type": "Answer", "text": "Not always. Partner integrations and the Conversions API Gateway need little or no code. Server-side Google Tag Manager and direct API integrations usually need technical help."}}]}</script>
+<!-- /wp:html -->
