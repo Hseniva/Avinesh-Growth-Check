@@ -12,28 +12,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#080B10; --card:#0D1220; --panel2:#111829; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
-    --text:#E2E8F0; --white:#fff; --muted:#6B7A99; --blue:#4F7CFF; --blue-soft:rgba(79,124,255,.1); --blue-line:rgba(79,124,255,.25); --blue-text:#7B9FFF;
-    --gold:#E8A045; --warn:#E8A045; --radius:20px;
+    --bg:#f8f9fd; --card:#fff; --panel2:#f5f6ff; --line:#e8eaf4; --line2:#dfe2ef;
+    --text:#3d4466; --white:#1b2140; --muted:#6b7194; --blue:#667eea; --blue-soft:rgba(102,126,234,.08); --blue-line:rgba(102,126,234,.32); --blue-text:#5a67d8;
+    --gold:#764ba2; --warn:#d6455d; --radius:18px; --grad:linear-gradient(135deg,#667eea,#764ba2);
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
-  body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 85% -10%,rgba(79,124,255,.12),transparent 60%),var(--bg)}
-  header{border-bottom:1px solid var(--line)}
+  body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 85% -10%,rgba(102,126,234,.14),transparent 60%),radial-gradient(700px 400px at -10% 30%,rgba(118,75,162,.06),transparent 60%),var(--bg)}
+  header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:5}
   .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:780px;margin:0 auto}
   .brand{font-weight:800;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-.3px}
-  .brand b{color:var(--blue)}
+  .brand b{color:#667eea}
   .lang{display:flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden}
   .lang button{background:none;border:0;color:var(--muted);padding:7px 12px;font:600 13px Inter,sans-serif;cursor:pointer}
-  .lang button.on{background:var(--blue);color:#fff}
+  .lang button.on{background:var(--grad);color:#fff}
   main{flex:1;width:100%;max-width:780px;margin:0 auto;padding:28px 16px 48px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:36px 32px;box-shadow:0 18px 50px rgba(27,33,64,.07)}
   @media (max-width:560px){.card{padding:24px 18px}}
   .badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);border:1px solid var(--blue-line);color:var(--blue-text);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:500;margin-bottom:18px}
   .badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue)}
-  .grad{background:linear-gradient(90deg,#4F7CFF,#E8A045);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .grad{background:linear-gradient(90deg,#667eea,#764ba2);-webkit-background-clip:text;background-clip:text;color:transparent}
   .progress{height:4px;background:var(--panel2);border-radius:99px;overflow:hidden;margin:0 0 22px}
-  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4F7CFF,#E8A045);transition:width .3s}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#667eea,#764ba2);transition:width .3s}
   .step-n{color:var(--blue-text);font-size:13px;font-weight:600;margin-bottom:8px}
   h1{font-size:40px;line-height:1.08;font-weight:900;letter-spacing:-1.2px;color:var(--white);margin:0 0 14px}
   @media (max-width:560px){h1{font-size:31px;letter-spacing:-.8px}}
@@ -46,14 +46,15 @@
   .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:15px 16px;font:500 15px Inter,sans-serif;cursor:pointer;transition:border-color .15s,background .15s}
   .opt:hover{border-color:var(--blue-line)}
   .opt.on{border-color:var(--blue);background:var(--blue-soft)}
-  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #34405a;margin-top:1px}
+  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #c5cae0;margin-top:1px}
   .opt.multi .dot{border-radius:5px}
   .opt.on .dot{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px var(--card)}
   label.f{display:block;font-size:14px;color:var(--muted);margin:14px 0 6px}
   input.t{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--white);border-radius:10px;padding:13px 14px;font:15px Inter,sans-serif}
   input.t:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
   .nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:10px}
-  .btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:13px 22px;font:600 15px Inter,sans-serif;cursor:pointer;transition:filter .15s}
+  .btn{background:var(--grad);color:#fff;border:0;border-radius:11px;padding:13px 24px;font:600 15px Inter,sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(102,126,234,.28);transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(102,126,234,.34)}
   .btn:hover{filter:brightness(1.1)}
   .btn[disabled]{opacity:.5;cursor:not-allowed}
   .ghost{background:none;border:0;color:var(--muted);font:500 14px Inter,sans-serif;cursor:pointer;padding:10px 4px}
@@ -61,14 +62,14 @@
   .err{color:var(--warn);font-size:14px;margin-top:10px;min-height:18px}
   .intro ul{list-style:none;margin:0 0 26px;padding:0;color:var(--text);line-height:2}
   .intro li:before{content:"✓";color:var(--blue);font-weight:700;margin-right:10px}
-  .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(79,124,255,.09),rgba(13,18,32,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
+  .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(102,126,234,.08),rgba(255,255,255,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
   .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--blue-text);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:100px;padding:4px 12px;margin-bottom:12px}
   .price{font-size:30px;font-weight:900;letter-spacing:-.6px;color:var(--white);margin:8px 0 2px}
   .price small{font-size:14px;color:var(--muted);font-weight:500;letter-spacing:0}
   .rec ul{margin:12px 0 0;padding-left:18px;line-height:1.8}
   .extra{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:12px}
   .extra h3{margin:0 0 4px;font-size:16px;color:var(--white)}
-  .extra .p{color:var(--gold);font-weight:700;font-size:14px;margin-top:6px}
+  .extra .p{color:#764ba2;font-weight:700;font-size:14px;margin-top:6px}
   .note{color:var(--muted);font-size:13.5px;line-height:1.6;margin-top:16px}
   footer{color:var(--muted);font-size:13px;text-align:center;padding:22px;border-top:1px solid var(--line)}
   footer .links{display:flex;gap:10px;justify-content:center;margin-top:8px}
@@ -91,14 +92,23 @@
   .lk-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:360px}
   .lk-btn{height:44px;border-radius:10px;border:1px solid var(--line2);background:var(--panel2);color:var(--text);font:600 15px Inter,sans-serif;cursor:pointer;transition:all .15s}
   .lk-btn:hover{border-color:var(--blue-line)}
-  .lk-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+  .lk-btn.on{background:var(--grad);border-color:#667eea;color:#fff}
   .lt-sub{color:var(--gold);font-weight:600;margin:4px 0 0}
   .lt-bars{display:grid;gap:8px;margin:16px 0 6px}
   .lt-bar{display:grid;grid-template-columns:170px 1fr;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
   .lt-bar i{display:block;height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}
-  .lt-bar b{display:block;height:100%;background:linear-gradient(90deg,#4F7CFF,#E8A045);border-radius:99px}
+  .lt-bar b{display:block;height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:99px}
   .lt-h{font-size:16px;color:var(--white);margin:18px 0 0}
   @media (max-width:560px){.lt-bar{grid-template-columns:130px 1fr}}
+  .pers{margin:6px 0 26px;padding:24px;border-radius:16px;background:linear-gradient(135deg,rgba(102,126,234,.07),rgba(118,75,162,.07));border:1px solid var(--line)}
+  .pers h3{margin:0 0 6px;font-size:19px;font-weight:800;color:var(--white);letter-spacing:-.3px}
+  .pers>p{margin:0 0 16px;color:var(--muted);line-height:1.6;font-size:15px}
+  .pers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .pers-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:12px;align-items:flex-start}
+  .pers-ic{flex:none;width:38px;height:38px;border-radius:11px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center}
+  .pers-item b{display:block;color:var(--white);font-size:14.5px;margin-bottom:2px}
+  .pers-item span{color:var(--muted);font-size:13.5px;line-height:1.5}
+  @media (max-width:560px){.pers-grid{grid-template-columns:1fr}.pers{padding:18px}}
 </style>
 </head>
 <body>
@@ -122,10 +132,13 @@ const DRAFT_KEY = "dmm_onboarding_draft_v1";
 const T = {
  en:{
   tagline:"International performance marketing consultant",
-  badge:"Digital Marketing Mastery · Cohort 2",
+  badge:"Digital Marketing Mastery",
   introTitle:"Your learning profile <span class=\"grad\">starts here</span>",
   introLead:"This is not a marketing test, and you don't need any experience. It helps me understand how you think and how you learn best, so I can adapt the bootcamp to you.",
   introList:["No marketing knowledge needed","About 40 minutes, in 6 short parts","Your progress is saved on this device if you pause","Answer in your own words. There are no wrong answers","Discover your learning type at the end"],
+  persT:"Not all students learn the same",
+  persL:"That's why we personalise your learning with us. Your answers here shape how the bootcamp works for you.",
+  pers:[["Your learning type","Videos, guides, discussion or hands-on: we teach the way you learn best."],["Your pace","Extra support where you need it, faster where you're already strong."],["Your feedback","Coaching and feedback in the style that helps you improve."],["Your goal","A personal learning plan built around what you want to achieve."]],
   start:"Start", resume:"Continue where I left off", restart:"Start again",
   next:"Continue", back:"Back", send:"Send my answers", sending:"Sending…",
   partOf:(a,b,t)=>`Part ${a} of ${b} · about ${t} min`,
@@ -190,10 +203,13 @@ const T = {
  },
  fr:{
   tagline:"Consultant international en marketing de performance",
-  badge:"Digital Marketing Mastery · Cohorte 2",
+  badge:"Digital Marketing Mastery",
   introTitle:"Votre profil d'apprentissage <span class=\"grad\">commence ici</span>",
   introLead:"Ce n'est pas un test de marketing, et aucune expérience n'est nécessaire. Il m'aide à comprendre comment vous réfléchissez et comment vous apprenez le mieux, pour adapter le bootcamp à vous.",
   introList:["Aucune connaissance en marketing requise","Environ 40 minutes, en 6 courtes parties","Votre progression est enregistrée sur cet appareil si vous faites une pause","Répondez avec vos propres mots. Il n'y a pas de mauvaise réponse","Découvrez votre profil d'apprentissage à la fin"],
+  persT:"Chaque élève apprend différemment",
+  persL:"C'est pourquoi nous personnalisons votre apprentissage avec nous. Vos réponses ici façonnent le bootcamp pour vous.",
+  pers:[["Votre profil d'apprentissage","Vidéos, guides, échanges ou pratique : nous enseignons comme vous apprenez le mieux."],["Votre rythme","Plus d'accompagnement là où vous en avez besoin, plus vite là où vous êtes déjà à l'aise."],["Votre feedback","Un coaching et des retours adaptés à votre façon de progresser."],["Votre objectif","Un plan d'apprentissage personnel construit autour de ce que vous voulez accomplir."]],
   start:"Commencer", resume:"Reprendre où je me suis arrêté", restart:"Recommencer",
   next:"Continuer", back:"Retour", send:"Envoyer mes réponses", sending:"Envoi…",
   partOf:(a,b,t)=>`Partie ${a} sur ${b} · environ ${t} min`,
@@ -353,9 +369,13 @@ function go(){
   i++; enteredAt=Date.now(); saveDraft(); render(); window.scrollTo({top:0,behavior:"smooth"});
 }
 
+const PICONS=['<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>','<path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/>','<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>','<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>'];
+function persBlock(){
+  return `<div class="pers"><h3>${L().persT}</h3><p>${L().persL}</p><div class="pers-grid">${L().pers.map((x,n)=>`<div class="pers-item"><div class="pers-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${PICONS[n]}</svg></div><div><b>${x[0]}</b><span>${x[1]}</span></div></div>`).join("")}</div></div>`;
+}
 function renderIntro(){
   const d=hasDraft();
-  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul>`+
+  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p>${persBlock()}<ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul>`+
     (d?`<button class="btn" id="resume">${L().resume} →</button> <button class="ghost" id="restart">${L().restart}</button>`:`<button class="btn" id="start">${L().start} →</button>`)+`</div>`;
   const begin=(n)=>{ i=n; enteredAt=Date.now(); render(); };
   if(d){
