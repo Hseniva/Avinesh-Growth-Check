@@ -61,7 +61,8 @@
   .ghost:hover{color:var(--text)}
   .err{color:var(--warn);font-size:14px;margin-top:10px;min-height:18px}
   .intro ul{list-style:none;margin:0 0 26px;padding:0;color:var(--text);line-height:2}
-  .intro li:before{content:"✓";color:var(--blue);font-weight:700;margin-right:10px}
+  .intro li{padding-left:24px;text-indent:-24px}
+  .intro li:before{content:"✓";color:var(--blue);font-weight:700;display:inline-block;width:24px;text-indent:0}
   .rec{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(102,126,234,.08),rgba(255,255,255,0) 70%),var(--card);border-radius:16px;padding:24px;margin:18px 0}
   .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--blue-text);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:100px;padding:4px 12px;margin-bottom:12px}
   .price{font-size:30px;font-weight:900;letter-spacing:-.6px;color:var(--white);margin:8px 0 2px}
@@ -109,6 +110,19 @@
   .pers-item b{display:block;color:var(--white);font-size:14.5px;margin-bottom:2px}
   .pers-item span{color:var(--muted);font-size:13.5px;line-height:1.5}
   @media (max-width:560px){.pers-grid{grid-template-columns:1fr}.pers{padding:18px}}
+  body.is-intro main{max-width:1120px}
+  .intro-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .intro-main{display:flex;flex-direction:column;align-items:flex-start}
+  .intro-main .badge{order:0}.intro-main h1{order:1}.intro-main p.lead{order:2}.intro-main ul{order:3}.intro-main .go{order:4}
+  .intro-side .pers{margin:0}
+  .intro-side .pers-grid{grid-template-columns:1fr}
+  .intro .go{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  @media (max-width:900px){
+    .intro-grid{grid-template-columns:1fr;gap:24px}
+    .intro-main ul{order:4;margin:18px 0 0}.intro-main .go{order:3}
+    .intro-side .pers-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){.intro-side .pers-grid{grid-template-columns:1fr}.intro ul{line-height:1.8;font-size:15px}}
 </style>
 </head>
 <body>
@@ -318,6 +332,7 @@ function setLang(l){
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 
 function render(){
+  document.body.classList.remove("is-intro");
   if(i===-1) return renderIntro();
   if(i==="done") return renderDone();
   const p=PARTS[i], s=L().s[p.id];
@@ -385,8 +400,9 @@ function persBlock(){
 }
 function renderIntro(){
   const d=hasDraft();
-  app.innerHTML=`<div class="intro"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p>${persBlock()}<ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul>`+
-    (d?`<button class="btn" id="resume">${L().resume} →</button> <button class="ghost" id="restart">${L().restart}</button>`:`<button class="btn" id="start">${L().start} →</button>`)+`</div>`;
+  document.body.classList.add("is-intro");
+  app.innerHTML=`<div class="intro"><div class="intro-grid"><div class="intro-main"><div class="badge">${L().badge}</div><h1>${L().introTitle}</h1><p class="lead">${L().introLead}</p><ul>${L().introList.map(x=>`<li>${x}</li>`).join("")}</ul><div class="go">`+
+    (d?`<button class="btn" id="resume">${L().resume} →</button><button class="ghost" id="restart">${L().restart}</button>`:`<button class="btn" id="start">${L().start} →</button>`)+`</div></div><div class="intro-side">${persBlock()}</div></div></div>`;
   const begin=(n)=>{ i=n; enteredAt=Date.now(); render(); };
   if(d){
     document.getElementById("resume").onclick=()=>{ let n=0; try{ n=JSON.parse(localStorage.getItem(DRAFT_KEY)).i||0; }catch(e){} begin(typeof n==="number"&&n>=0&&n<PARTS.length?n:0); };
