@@ -233,6 +233,18 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 .tbl td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
 .tbl td .bar{width:110px;margin-top:4px}
 .tbl tr:last-child td{border-bottom:0}
+.mx th,.mx td{text-align:center;padding:10px 8px}
+.mx th:first-child,.mx td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1;box-shadow:1px 0 0 var(--line)}
+.mx th{cursor:help}
+.sc{display:inline-block;min-width:46px;font-weight:800;font-size:13px;padding:4px 8px;border-radius:8px}
+.sc.pass{background:var(--greenbg);color:var(--green)}
+.sc.fail{background:#fdecec;color:var(--red)}
+.sc.none{color:var(--grey);font-weight:600}
+.sc-sub{display:block;font-size:11px;color:var(--mut);margin-top:3px;font-weight:600}
+.ovtabs{display:flex;gap:8px;margin:26px 0 0;flex-wrap:wrap}
+.ovtabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:13px;color:var(--mut);cursor:pointer}
+.ovtabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.legend{font-size:12px;color:var(--mut);margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .muted{color:var(--mut)}
 .empty{padding:40px;text-align:center;color:var(--mut)}
 
@@ -715,7 +727,7 @@ function loadOverview(id) {
 }
 function fmtDate(iso) { if (!iso) return '–'; var d = new Date(iso); return isNaN(d) ? '–' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
 function renderOverview(r) {
-  var h = '<div class="wrap dash">' + crumbs() + '<div class="page-h"><div><h1>' + esc(r.course.title) + '</h1><p>' + r.students.length + ' enrolled student' + (r.students.length === 1 ? '' : 's') + '. Exercise answers and quiz answers are in the Google Sheet (Submissions and QuizAttempts tabs).</p></div></div>' + trainerTabs('students');
+  var h = '<div class="wrap dash">' + crumbs() + '<div class="page-h"><div><h1>' + esc(r.course.title) + '</h1><p>' + r.students.length + ' enrolled student' + (r.students.length === 1 ? '' : 's') + '. Quiz scores by module are below the summary. Exercise and quiz answers are in the Google Sheet (Submissions and QuizAttempts tabs).</p></div></div>' + trainerTabs('students');
   if (!r.students.length) h += '<div class="card empty" style="margin-top:20px">No students enrolled yet. Add rows in the Enrolments tab of the Google Sheet.</div>';
   else {
     h += '<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Student</th><th>Pre-assessment</th><th>Overall</th>' + r.phases.map(function (p) { return '<th>Phase ' + p.phase + '</th>'; }).join('') + '<th>Exercises</th><th>Last active</th><th>Login</th></tr></thead><tbody>';
@@ -727,8 +739,49 @@ function renderOverview(r) {
            '<td>' + s.submissions + '</td><td>' + fmtDate(s.lastActive) + '</td><td>' + (s.hasPassword ? '<span class="tag ok">Active</span>' : '<span class="tag todo">Not yet</span>') + '</td></tr>';
     });
     h += '</tbody></table></div>';
+    h += '<div class="ovtabs"><button id="ovq" class="on" onclick="ovShow(\'q\')">Quiz scores by module</button><button id="ovp" onclick="ovShow(\'p\')">Module progress</button></div>';
+    h += '<div id="ovQuiz">' + quizMatrix(r) + '</div><div id="ovProg" style="display:none">' + progMatrix(r) + '</div>';
   }
   app.innerHTML = h + '</div>';
+}
+function ovShow(k) {
+  document.getElementById('ovQuiz').style.display = k === 'q' ? '' : 'none';
+  document.getElementById('ovProg').style.display = k === 'p' ? '' : 'none';
+  document.getElementById('ovq').className = k === 'q' ? 'on' : ''; document.getElementById('ovp').className = k === 'p' ? 'on' : '';
+}
+function modHead(m) { return '<th title="' + esc((m.week ? m.week + ': ' : '') + m.title) + '">' + esc(m.id) + '</th>'; }
+function quizMatrix(r) {
+  var mods = (r.modules || []).filter(function (m) { return m.hasQuiz; });
+  if (!mods.length) return '<div class="card empty" style="margin-top:14px">No quizzes in this course yet.</div>';
+  var h = '<div class="card tbl-wrap" style="margin-top:14px"><table class="tbl mx"><thead><tr><th>Student</th>' + mods.map(modHead).join('') + '<th>Passed</th></tr></thead><tbody>';
+  r.students.forEach(function (s) {
+    var byId = {}; (s.modules || []).forEach(function (x) { byId[x.id] = x; });
+    var passed = 0;
+    h += '<tr><td><strong style="color:var(--ink)">' + esc(s.name) + '</strong></td>';
+    mods.forEach(function (m) {
+      var x = byId[m.id];
+      if (!x || !x.attempts) { h += '<td><span class="sc none">–</span></td>'; return; }
+      if (x.passed) passed++;
+      var tip = m.id + ' ' + m.title + '\nBest: ' + x.quizBest + '% (pass mark ' + m.pass_mark + '%)\nAttempts: ' + x.attempts +
+        (x.lastAt ? '\nLast attempt: ' + (x.lastPct !== null ? x.lastPct + '% on ' : '') + fmtDate(x.lastAt) : '') + (x.nextAllowed ? '\nCan retry from: ' + fmtDate(x.nextAllowed) : '');
+      h += '<td title="' + esc(tip) + '"><span class="sc ' + (x.passed ? 'pass' : 'fail') + '">' + x.quizBest + '%</span><span class="sc-sub">' + x.attempts + ' attempt' + (x.attempts === 1 ? '' : 's') + (x.nextAllowed ? ' · ⏳' : '') + '</span></td>';
+    });
+    h += '<td><strong>' + passed + '</strong> / ' + mods.length + '</td></tr>';
+  });
+  h += '</tbody></table></div><div class="legend"><span><span class="sc pass">70%</span> best score, passed</span><span><span class="sc fail">55%</span> best score, not passed yet</span><span>⏳ waiting 24 h before the next try</span><span>– not attempted</span><span>Hover a cell for the details, or a module code for its title.</span></div>';
+  return h;
+}
+function progMatrix(r) {
+  var mods = r.modules || [];
+  var h = '<div class="card tbl-wrap" style="margin-top:14px"><table class="tbl mx"><thead><tr><th>Student</th>' + mods.map(modHead).join('') + '</tr></thead><tbody>';
+  r.students.forEach(function (s) {
+    var byId = {}; (s.modules || []).forEach(function (x) { byId[x.id] = x; });
+    h += '<tr><td><strong style="color:var(--ink)">' + esc(s.name) + '</strong></td>' + mods.map(function (m) {
+      var x = byId[m.id], v = x ? x.pct : 0;
+      return '<td title="' + esc(m.id + ' ' + m.title + ': ' + v + '% complete') + '"><span class="sc ' + (v >= 100 ? 'pass' : (v ? '' : 'none')) + '">' + (v ? v + '%' : '–') + '</span></td>';
+    }).join('') + '</tr>';
+  });
+  return h + '</tbody></table></div><div class="legend"><span>Module completion: slides opened, guide read, exercises submitted and quiz passed.</span></div>';
 }
 
 /* ---------------- start ---------------- */
