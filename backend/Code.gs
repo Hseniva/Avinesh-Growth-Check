@@ -314,8 +314,10 @@ function state_(email) {
   table_('Submissions').rows.forEach(function (r) { if (norm_(r.email) === email) { subs[r.module_id + '::' + r.exercise_id] = String(r.text); seen(r.submitted_at); } });
   table_('QuizAttempts').rows.forEach(function (r) {
     if (norm_(r.email) !== email) return;
-    var a = attempts[r.module_id] || (attempts[r.module_id] = { count: 0, best: 0, passed: false });
+    var a = attempts[r.module_id] || (attempts[r.module_id] = { count: 0, best: 0, passed: false, lastAt: null });
     a.count++; a.best = Math.max(a.best, num_(r.pct, 0)); if (truthy_(r.passed)) a.passed = true; seen(r.attempted_at);
+    var at = r.attempted_at ? new Date(r.attempted_at) : null;
+    if (at && !isNaN(at) && (!a.lastAt || at > a.lastAt)) a.lastAt = at;
   });
   return { done: done, subs: subs, attempts: attempts, last: last };
 }
@@ -477,16 +479,62 @@ function uploadExercise_(student, req) {
   return { ok: true, data: dashboard_(findStudent_(student.email), m.course) };
 }
 
+/* A student who has not passed must wait RETRY_HOURS after the last attempt before retaking the quiz. */
+var RETRY_HOURS = 24;
+var TZ = 'Indian/Mauritius';
+
+function nextAllowed_(student, a) {
+  if (!a || a.passed || !a.lastAt || isTrainer_(student)) return null;
+  var t = new Date(a.lastAt.getTime() + RETRY_HOURS * 3600 * 1000);
+  return t > now_() ? t : null;
+}
+
 function checkAttempts_(student, m) {
   var a = state_(student.email).attempts[m.id] || { count: 0, passed: false };
   if (m.max_attempts && a.count >= m.max_attempts && !a.passed) throw new Error('You have used all ' + m.max_attempts + ' attempts. Please contact your trainer.');
+  var next = nextAllowed_(student, a);
+  if (next) throw new Error('You did not reach the ' + m.pass_mark + '% pass mark on your last attempt. You can retake this quiz from ' + Utilities.formatDate(next, TZ, 'EEEE d MMMM, HH:mm') + ' (Mauritius time). Use the time to review the module and the explanations.');
   return a;
 }
 
+/* Email the admin and trainers every time a student submits a quiz. */
+function notifyQuiz_(student, m, r, attemptNo) {
+  if (isTrainer_(student)) return;
+  try {
+    var to = table_('Students').rows.filter(function (s) { return isTrainer_(s) && blankOrTrue_(s.active) && str_(s.email); })
+      .map(function (s) { return norm_(s.email); });
+    if (!to.length) return;
+    var name = str_(student.name) || norm_(student.email), when = Utilities.formatDate(now_(), TZ, 'd MMM yyyy, HH:mm');
+    var status = r.passed ? 'PASSED' : 'NOT PASSED';
+    var subject = 'Quiz ' + (r.passed ? 'passed' : 'not passed') + ': ' + name + ', ' + m.id + ' ' + str_(m.title) + ' (' + r.pct + '%)';
+    var lines = [
+      'Student: ' + name + ' <' + norm_(student.email) + '>',
+      'Module: ' + m.id + ' ' + str_(m.title) + (m.week ? ' (' + str_(m.week) + ')' : ''),
+      'Score: ' + r.pct + '%' + (r.total ? ' (' + r.score + ' of ' + r.total + ' correct)' : '') + ', pass mark ' + m.pass_mark + '%',
+      'Result: ' + status,
+      'Attempt: ' + attemptNo,
+      'Submitted: ' + when + ' (Mauritius time)'
+    ];
+    if (!r.passed && r.next_allowed) lines.push('Next attempt allowed from: ' + Utilities.formatDate(new Date(r.next_allowed), TZ, 'd MMM yyyy, HH:mm'));
+    lines.push('', 'Answers are in the QuizAttempts tab of the platform Google Sheet.');
+    var html = '<div style="font-family:Arial,sans-serif;font-size:14px;color:#1b2140"><p style="font-size:16px"><strong>' + name + '</strong> ' + (r.passed ? 'passed' : 'did not pass') + ' the <strong>' + m.id + ' ' + str_(m.title) + '</strong> quiz.</p>' +
+      '<table cellpadding="6" style="border-collapse:collapse">' + lines.slice(0, lines.indexOf('')).map(function (l) { var i = l.indexOf(': '); return '<tr><td style="color:#6b7392">' + l.slice(0, i) + '</td><td><strong>' + l.slice(i + 2).replace(/</g, '&lt;') + '</strong></td></tr>'; }).join('') + '</table>' +
+      '<p style="color:#6b7392;font-size:12px">Answers are in the QuizAttempts tab of the platform Google Sheet. Sent automatically by the DMM learning platform.</p></div>';
+    MailApp.sendEmail({ to: to.join(','), subject: subject, body: lines.join('\n'), htmlBody: html, name: 'DMM Learning Platform', replyTo: norm_(student.email) });
+  } catch (e) { console.error('Quiz email failed: ' + e); }
+}
+
+/** Run once from the editor to authorise sending emails. */
+function setupQuizEmails() { Logger.log('Emails left today: ' + MailApp.getRemainingDailyQuota()); }
+
 function recordAttempt_(student, m, score, total, answers) {
+  var before = state_(student.email).attempts[m.id] || { count: 0, passed: false };
   var pct = total ? Math.round(score / total * 100) : 100, passed = pct >= m.pass_mark;
   append_('QuizAttempts', { email: norm_(student.email), module_id: m.id, score: score, total: total, pct: pct, passed: passed, answers: String(answers || '').slice(0, 45000), attempted_at: now_() });
-  return { pct: pct, passed: passed, pass_mark: m.pass_mark };
+  var r = { pct: pct, passed: passed, pass_mark: m.pass_mark, score: score, total: total };
+  if (!passed && !before.passed && !isTrainer_(student)) r.next_allowed = new Date(now_().getTime() + RETRY_HOURS * 3600 * 1000).toISOString();
+  notifyQuiz_(student, m, r, before.count + 1);
+  return r;
 }
 
 /* Custom quiz pages (e.g. Module 1's illustrated quiz) score in the browser and send the score. */
@@ -515,6 +563,8 @@ function quizQuestions_(student, req) {
   var m = moduleFor_(student, req.module), qs = parseQuiz_(m);
   if (!qs.length) throw new Error('This quiz has no questions yet.');
   var a = state_(student.email).attempts[m.id] || { count: 0, best: 0, passed: false };
+  var next = nextAllowed_(student, a);
+  a = { count: a.count, best: a.best, passed: a.passed, next_allowed: next ? next.toISOString() : '' };
   return {
     ok: true, module: { id: m.id, title: m.title, week: m.week, course: m.course, pass_mark: m.pass_mark, max_attempts: m.max_attempts },
     attempts: a, questions: qs.map(function (q) { return { n: q.n, type: q.type, question: q.question, image_url: q.image_url, options: q.options }; })
