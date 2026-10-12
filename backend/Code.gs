@@ -317,7 +317,7 @@ function state_(email) {
     var a = attempts[r.module_id] || (attempts[r.module_id] = { count: 0, best: 0, passed: false, lastAt: null });
     a.count++; a.best = Math.max(a.best, num_(r.pct, 0)); if (truthy_(r.passed)) a.passed = true; seen(r.attempted_at);
     var at = r.attempted_at ? new Date(r.attempted_at) : null;
-    if (at && !isNaN(at) && (!a.lastAt || at > a.lastAt)) a.lastAt = at;
+    if (at && !isNaN(at) && (!a.lastAt || at > a.lastAt)) { a.lastAt = at; a.lastPct = num_(r.pct, 0); }
   });
   return { done: done, subs: subs, attempts: attempts, last: last };
 }
@@ -623,13 +623,20 @@ function overview_(student, courseId) {
       name: str_(s.name), email: norm_(e.email), preassessment_done: acc.pre, overall: acc.overall, currentPhase: cur,
       phases: lc.phases.map(function (p) { return acc.open[p.phase] ? acc.pct[p.phase] : null; }),
       modules: lc.modules.filter(function (m) { return Object.keys(m.comps).length; }).map(function (m) {
-        var a = st.attempts[m.id];
-        return { id: m.id, pct: modulePct_(m, st), quizBest: a ? a.best : null };
+        var a = st.attempts[m.id], next = a ? nextAllowed_(s, a) : null;
+        return {
+          id: m.id, pct: modulePct_(m, st), quizBest: a ? a.best : null,
+          attempts: a ? a.count : 0, passed: a ? a.passed : false, lastPct: a && a.lastAt ? a.lastPct : null,
+          lastAt: a && a.lastAt ? a.lastAt.toISOString() : '', nextAllowed: next ? next.toISOString() : ''
+        };
       }),
       submissions: subs, lastActive: st.last ? st.last.toISOString() : '', hasPassword: !!str_(s.password_hash)
     });
   });
-  return { ok: true, course: { id: c.id, title: c.title }, phases: lc.phases.map(function (p) { return { phase: p.phase, title: p.title }; }), students: rows };
+  var mods = lc.modules.filter(function (m) { return Object.keys(m.comps).length; }).map(function (m) {
+    return { id: m.id, title: str_(m.title), week: str_(m.week), phase: m.phase, hasQuiz: !!m.quiz_url, pass_mark: m.pass_mark };
+  });
+  return { ok: true, course: { id: c.id, title: c.title }, phases: lc.phases.map(function (p) { return { phase: p.phase, title: p.title }; }), modules: mods, students: rows };
 }
 
 /* ================= Admin (trainer only) ================= */
