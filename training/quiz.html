@@ -104,12 +104,16 @@ function intro() {
     '<div class="stats"><span class="stat"><strong>' + Q.length + '</strong> questions</span>' + (mcq ? '<span class="stat"><strong>' + mcq + '</strong> multiple choice</span>' : '') + (open ? '<span class="stat"><strong>' + open + '</strong> open</span>' : '') +
     '<span class="stat">Pass mark <strong>' + MOD.pass_mark + '%</strong></span><span class="stat">Attempts <strong>' + ATT.count + (MOD.max_attempts ? ' / ' + MOD.max_attempts : '') + '</strong></span>' + (ATT.count ? '<span class="stat">Best <strong>' + ATT.best + '%</strong></span>' : '') + '</div>';
   if (left === 0 && !ATT.passed) h += '<div class="res no">You have used all your attempts. Please contact your trainer.</div>';
+  else if (waiting()) h += '<div class="res no"><strong>Your best score so far is ' + ATT.best + '%</strong> (pass mark ' + MOD.pass_mark + '%). You can retake this quiz from <strong>' + fmtWhen(ATT.next_allowed) + '</strong>. Use the time to review the module, the guide and the explanations from your last attempt.</div>' +
+    '<div class="nav" style="justify-content:flex-start"><a class="btn btn-grad" href="' + courseLink() + '">Back to my course →</a></div>';
   else {
     var n = Q.filter(function (q) { return answered(q.n); }).length;
     h += '<div class="nav" style="justify-content:flex-start"><button class="btn btn-grad" onclick="go(' + (n && n < Q.length ? firstOpen() : 0) + ')">' + (n ? 'Continue (' + n + '/' + Q.length + ' answered)' : (ATT.passed ? 'Retake the quiz' : 'Start the quiz')) + ' →</button></div>';
   }
   app.innerHTML = h + '</div></div>';
 }
+function fmtWhen(iso) { var d = new Date(iso); return d.toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }); }
+function waiting() { return ATT.next_allowed && !ATT.passed && new Date(ATT.next_allowed) > new Date(); }
 function firstOpen() { for (var i = 0; i < Q.length; i++) if (!answered(Q[i].n)) return i; return 0; }
 
 function go(i) {
@@ -144,7 +148,7 @@ function submit() {
   DMM.api('quizSubmit', { module: MID, answers: ans }).then(function (r) {
     if (!r.ok) { if (r.authError) { location.replace('/?next=' + encodeURIComponent('/quiz?m=' + MID)); return; } b.disabled = false; b.textContent = 'Try again'; document.getElementById('err').textContent = r.error; return; }
     try { Object.keys(sessionStorage).forEach(function (k) { if (k.indexOf('dmm_dash_') === 0 || k === 'dmm_my') sessionStorage.removeItem(k); }); sessionStorage.removeItem(KEY); } catch (e) {}
-    ATT.count++; if (r.result.passed) ATT.passed = true; ATT.best = Math.max(ATT.best, r.result.pct);
+    ATT.count++; if (r.result.passed) ATT.passed = true; ATT.best = Math.max(ATT.best, r.result.pct); ATT.next_allowed = r.result.next_allowed || '';
     results(r);
   });
 }
@@ -154,8 +158,8 @@ function results(r) {
   var h = '<div class="card"><div class="in2"><div class="k">' + esc(MOD.title) + '</div><h1>Your result</h1>' +
     (res.total ? '<div class="score">' + res.pct + '%</div><p class="mut">' + res.score + ' of ' + res.total + ' multiple-choice answers correct · pass mark ' + res.pass_mark + '%</p>' : '<p class="mut">Your answers have been submitted.</p>') +
     (res.passed ? '<div class="res ok"><strong>🎉 Passed!</strong> Your revision quiz is complete and your module progress has been updated.</div>'
-                : '<div class="res no"><strong>Not passed yet.</strong> Read the explanations below, review the module, then try again' + (left !== null ? ' (' + left + ' attempt' + (left === 1 ? '' : 's') + ' left)' : '') + '.</div>') +
-    '<div class="nav" style="justify-content:flex-start"><a class="btn btn-grad" href="' + courseLink() + '">Back to my course →</a>' + (!res.passed && left !== 0 ? '<button class="btn btn-ghost" onclick="retry()">Try again</button>' : '') + '</div>';
+                : '<div class="res no"><strong>Not passed yet.</strong> Read the explanations below and review the module' + (res.next_allowed ? '. You can retake the quiz from <strong>' + fmtWhen(res.next_allowed) + '</strong> (after 24 hours)' : ', then try again') + (left !== null ? ' (' + left + ' attempt' + (left === 1 ? '' : 's') + ' left)' : '') + '.</div>') +
+    '<div class="nav" style="justify-content:flex-start"><a class="btn btn-grad" href="' + courseLink() + '">Back to my course →</a>' + (!res.passed && left !== 0 && !res.next_allowed ? '<button class="btn btn-ghost" onclick="retry()">Try again</button>' : '') + '</div>';
   h += '<h2 style="font-size:18px;color:var(--ink);margin:30px 0 4px">Review your answers</h2>';
   r.review.forEach(function (v) {
     var q = Q.filter(function (x) { return x.n === v.n; })[0];
