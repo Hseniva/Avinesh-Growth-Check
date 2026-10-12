@@ -481,6 +481,7 @@ function uploadExercise_(student, req) {
 
 /* A student who has not passed must wait RETRY_HOURS after the last attempt before retaking the quiz. */
 var RETRY_HOURS = 24;
+var ADMIN_NOTIFY_EMAIL = 'admin@hseniva.com';
 var TZ = 'Indian/Mauritius';
 
 function nextAllowed_(student, a) {
@@ -501,8 +502,9 @@ function checkAttempts_(student, m) {
 function notifyQuiz_(student, m, r, attemptNo) {
   if (isTrainer_(student)) return;
   try {
-    var to = table_('Students').rows.filter(function (s) { return isTrainer_(s) && blankOrTrue_(s.active) && str_(s.email); })
-      .map(function (s) { return norm_(s.email); });
+    // Admin notifications go to ADMIN_NOTIFY_EMAIL; trainers get them at their login email.
+    var to = [ADMIN_NOTIFY_EMAIL].concat(table_('Students').rows.filter(function (s) { return isTrainer_(s) && !isAdmin_(s) && blankOrTrue_(s.active) && str_(s.email); })
+      .map(function (s) { return norm_(s.email); }));
     if (!to.length) return;
     var name = str_(student.name) || norm_(student.email), when = Utilities.formatDate(now_(), TZ, 'd MMM yyyy, HH:mm');
     var status = r.passed ? 'PASSED' : 'NOT PASSED';
