@@ -1,0 +1,31 @@
+{
+  "jobs": [
+    {
+      "id": "ecommerce-analyst",
+      "title": "E-commerce Analyst",
+      "team": "E-commerce",
+      "location": "Mauritius",
+      "type": "Full-time",
+      "summary": "Track and analyse marketplace and online sales performance, build weekly reports and turn the numbers into clear recommendations for the account teams.",
+      "requirements": ["1–3 years in digital marketing, e-commerce or analytics", "Good Excel skills (pivot tables, lookups)", "Clear written English; French is a plus"]
+    },
+    {
+      "id": "senior-ecommerce-analyst",
+      "title": "Senior E-commerce Analyst",
+      "team": "E-commerce",
+      "location": "Mauritius",
+      "type": "Full-time",
+      "summary": "Own the performance analysis for retail and marketplace accounts, guide optimisation decisions and support junior analysts.",
+      "requirements": ["3+ years in e-commerce, retail media or performance marketing", "Advanced Excel; dashboards and reporting", "Comfortable presenting to clients and stakeholders"]
+    },
+    {
+      "id": "ecommerce-catalog-manager",
+      "title": "E-commerce / Catalog Manager",
+      "team": "E-commerce",
+      "location": "Mauritius",
+      "type": "Full-time",
+      "summary": "Manage product listings and content across online retailers and marketplaces, keep catalogues accurate and improve how products show up in search.",
+      "requirements": ["Experience managing online catalogues or marketplace listings", "Strong attention to detail", "French and English"]
+    }
+  ]
+}
