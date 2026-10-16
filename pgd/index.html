@@ -68,6 +68,12 @@ textarea{min-height:100px;resize:vertical}
 .opt input{width:auto;margin-top:3px}
 .opt.sel{border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
 .mnav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+.lvl{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:99px;padding:8px 14px;font:600 14px Inter,sans-serif;cursor:pointer}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.team{margin-top:24px}
+.teamh{font-size:15px;color:var(--ink);margin:0 0 12px;text-transform:uppercase;letter-spacing:.06em}
 footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
 </style>
 </head>
@@ -80,7 +86,9 @@ footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
 
 <main><div class="wrap">
   <h2>Open roles</h2>
-  <div class="grid" id="jobs"><p>Loading roles…</p></div>
+  <p class="hint" style="margin:-8px 0 16px">Each role has a level: Level 1 · Junior, Level 2 · Intermediate, Level 3 · Senior, Level 4 · Strategist.</p>
+  <div class="filters" id="filters"></div>
+  <div id="jobs"><p>Loading roles…</p></div>
 
   <section id="apply">
     <h2>Apply</h2>
@@ -154,23 +162,31 @@ const esc = s => String(s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 let DATA = {jobs:[]}, CV = null, answers = [], qi = 0;
+const LEVEL_NAMES = {1: "Junior", 2: "Intermediate", 3: "Senior", 4: "Strategist"};
+const lvlLabel = j => `Level ${j.level} · ${j.levelName || LEVEL_NAMES[j.level]}`;
 const job = () => DATA.jobs.find(j => j.id === $("#role").value);
 const questions = () => ((job() || {}).questions || []).filter(q => q.type === "choice");
 
 fetch("jobs.json?v=" + Date.now()).then(r => r.json()).then(d => {
   DATA = d; const jobs = d.jobs || [];
-  $("#jobs").innerHTML = jobs.length ? jobs.map(j => `
+  const teams = [...new Set(jobs.map(j => j.team || "Other"))];
+  const card = j => `
     <article class="job">
+      ${j.level ? `<div class="lvl">${esc(lvlLabel(j))}</div>` : ""}
       <h3>${esc(j.title)}</h3>
-      <div class="tags">${[j.team, j.location, j.type].filter(Boolean).map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+      <div class="tags">${[j.location, j.type].filter(Boolean).map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
       <p>${esc(j.summary)}</p>
       ${j.requirements && j.requirements.length ? `<ul>${j.requirements.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
       <button class="btn" data-apply="${esc(j.id)}">Apply for this role</button>
-    </article>`).join("") : "<p>No open roles right now.</p>";
-  $("#role").innerHTML = `<option value="">Select a role…</option>` + jobs.map(j => `<option value="${esc(j.id)}">${esc(j.title)}</option>`).join("");
+    </article>`;
+  const sorted = t => jobs.filter(j => (j.team || "Other") === t).sort((a, b) => (a.level || 0) - (b.level || 0));
+  $("#filters").innerHTML = teams.length > 1 ? ["All", ...teams].map((t, i) => `<button type="button" class="chip${i ? "" : " on"}" data-team="${esc(t)}">${esc(t)}</button>`).join("") : "";
+  $("#jobs").outerHTML = `<div id="jobs">${jobs.length ? teams.map(t => `<section class="team" data-team="${esc(t)}"><h3 class="teamh">${esc(t)}</h3><div class="grid">${sorted(t).map(card).join("")}</div></section>`).join("") : "<p>No open roles right now.</p>"}</div>`;
+  $("#role").innerHTML = `<option value="">Select a role…</option>` + teams.map(t => `<optgroup label="${esc(t)}">${sorted(t).map(j => `<option value="${esc(j.id)}">${esc(j.title)}${j.level ? " – " + esc(lvlLabel(j)) : ""}</option>`).join("")}</optgroup>`).join("");
   const q = new URLSearchParams(location.search).get("role"); if (q) $("#role").value = q;
 }).catch(() => { $("#jobs").innerHTML = "<p>Roles could not be loaded. Please refresh.</p>"; });
 
+document.addEventListener("click", e => { const c = e.target.closest("[data-team].chip"); if (c) { document.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === c)); document.querySelectorAll("section.team").forEach(s => s.classList.toggle("hidden", c.dataset.team !== "All" && s.dataset.team !== c.dataset.team)); } });
 document.addEventListener("click", e => { const b = e.target.closest("[data-apply]"); if (b) { $("#role").value = b.dataset.apply; answers = []; $("#apply").scrollIntoView({behavior:"smooth"}); setTimeout(() => $("#name").focus(), 400); } });
 $("#role").addEventListener("change", () => { answers = []; });
 
@@ -274,7 +290,7 @@ async function submit(){
   try {
     const sel = $("#role"), qs = questions();
     const payload = {
-      role: sel.options[sel.selectedIndex].text, roleId: sel.value,
+      role: sel.options[sel.selectedIndex].text.replace(" · ", " – "), roleId: sel.value,
       name: $("#name").value.trim(), email: $("#email").value.trim(), phone: $("#phone").value.trim(),
       linkedin: $("#linkedin").value.trim(), title: $("#title").value.trim(), years: $("#years").value.trim(),
       skills: $("#skills").value.trim(), notice: $("#notice").value.trim(), salary: $("#salary").value.trim(),
@@ -286,7 +302,10 @@ async function submit(){
     const d = await r.json();
     if (!d.ok) throw new Error(d.error || "error");
     closeModal();
-    $("#form").outerHTML = '<div class="done">Thank you! Your application and assessment have been sent. We\'ll be in touch if your profile matches the role.</div>';
+    const lv = Number(d.level) || 0;
+    $("#form").outerHTML = '<div class="done"><p style="margin:0 0 8px">Thank you, your application and assessment have been sent.</p>' +
+      (lv ? '<p style="margin:0 0 8px">Based on your answers, you may qualify for <b>Level ' + lv + ' · ' + esc(d.levelName || LEVEL_NAMES[lv]) + '</b>.</p>' : '') +
+      '<p style="margin:0;font-weight:400">Our team will review your application internally and get back to you.</p></div>';
     $("#apply").scrollIntoView({behavior:"smooth"});
   } catch (err) {
     (questions().length ? qmsg : $("#msg")).className = "msg err";
