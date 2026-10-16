@@ -1,302 +1,219 @@
-{
-  "jobs": [
-    {
-      "id": "ecommerce-analyst",
-      "title": "E-commerce Analyst",
-      "team": "E-commerce",
-      "location": "Mauritius",
-      "type": "Full-time",
-      "summary": "Track and analyse marketplace and online sales performance, build weekly reports and turn the numbers into clear recommendations for the account teams.",
-      "requirements": [
-        "1–3 years in digital marketing, e-commerce or analytics",
-        "Good Excel skills (pivot tables, lookups)",
-        "Clear written English; French is a plus"
-      ],
-      "questions": [
-        {
-          "id": "q1",
-          "type": "choice",
-          "text": "A product page had 2,000 sessions and 50 orders last week. What is its conversion rate?",
-          "options": [
-            "0.4%",
-            "2.5%",
-            "4%",
-            "25%"
-          ]
-        },
-        {
-          "id": "q2",
-          "type": "choice",
-          "text": "A campaign spent Rs 10,000 and generated Rs 45,000 in sales. What is its ROAS?",
-          "options": [
-            "0.22",
-            "3.5",
-            "4.5",
-            "45%"
-          ]
-        },
-        {
-          "id": "q3",
-          "type": "choice",
-          "text": "An online shop made Rs 120,000 from 400 orders. What is the average order value (AOV)?",
-          "options": [
-            "Rs 30",
-            "Rs 300",
-            "Rs 480",
-            "Rs 3,000"
-          ]
-        },
-        {
-          "id": "q4",
-          "type": "choice",
-          "text": "An ad had 20,000 impressions and 300 clicks. What is its click-through rate (CTR)?",
-          "options": [
-            "0.15%",
-            "1.5%",
-            "6.7%",
-            "15%"
-          ]
-        },
-        {
-          "id": "q5",
-          "type": "choice",
-          "text": "On Amazon Ads, a campaign spent Rs 2,000 and generated Rs 10,000 in ad sales. What is its ACoS?",
-          "options": [
-            "5%",
-            "20%",
-            "50%",
-            "500%"
-          ]
-        },
-        {
-          "id": "q6",
-          "type": "choice",
-          "text": "Sales went from Rs 80,000 last week to Rs 100,000 this week. What is the growth?",
-          "options": [
-            "+20%",
-            "+25%",
-            "+80%",
-            "+125%"
-          ]
-        },
-        {
-          "id": "q7",
-          "type": "choice",
-          "text": "You need to bring each product's price from another sheet into your report, matching on the SKU. Which Excel function is best suited?",
-          "options": [
-            "SUMIF",
-            "XLOOKUP (or VLOOKUP)",
-            "COUNTIF",
-            "CONCATENATE"
-          ]
-        },
-        {
-          "id": "q8",
-          "type": "choice",
-          "text": "You want to quickly summarise sales by category and by month from a large export. Which Excel feature is best?",
-          "options": [
-            "Pivot table",
-            "Conditional formatting",
-            "Data validation",
-            "Freeze panes"
-          ]
-        },
-        {
-          "id": "q9",
-          "type": "choice",
-          "text": "Which metric best tells you whether visitors to a product page are buying?",
-          "options": [
-            "Impressions",
-            "Conversion rate",
-            "CPM",
-            "Reach"
-          ]
-        },
-        {
-          "id": "q10",
-          "type": "choice",
-          "text": "Sales of one best-selling product dropped 30% week on week while the rest of the account is stable. What do you check first?",
-          "options": [
-            "Increase the advertising budget",
-            "Stock availability and whether the listing is still active and in the Buy Box",
-            "Lower the price straight away",
-            "Wait another week before looking"
-          ]
-        },
-        {
-          "id": "q11",
-          "type": "choice",
-          "text": "On Amazon, what is the Buy Box?",
-          "options": [
-            "The section of the product page where most shoppers click 'Add to Cart'; the seller who wins it gets most of the sales",
-            "A paid banner at the top of search results",
-            "The box the product is shipped in",
-            "A discount code for Prime members"
-          ]
-        },
-        {
-          "id": "q12",
-          "type": "choice",
-          "text": "Your top product will be out of stock for 5 days. What should you do with the ads pointing to it?",
-          "options": [
-            "Increase the bids to keep visibility",
-            "Pause or reduce them so you don't pay for clicks that can't convert",
-            "Leave everything unchanged",
-            "Only change the ad image"
-          ]
-        },
-        {
-          "id": "q13",
-          "type": "choice",
-          "text": "Which of these is an Amazon advertising format?",
-          "options": [
-            "Sponsored Products",
-            "Google Shopping",
-            "Performance Max",
-            "Meta Advantage+"
-          ]
-        },
-        {
-          "id": "q14",
-          "type": "choice",
-          "text": "What should a weekly performance report for a brand manager start with?",
-          "options": [
-            "A full export of the raw data",
-            "Key results versus target, what changed and the recommended actions",
-            "Screenshots of every campaign",
-            "The definition of every metric"
-          ]
-        },
-        {
-          "id": "q15",
-          "type": "choice",
-          "text": "You compare this week's sales with last week's. Which comparison is fair?",
-          "options": [
-            "A promotion week against a normal week, without mentioning it",
-            "Two periods of the same length, noting any promotions or seasonality",
-            "This month against last week",
-            "Only total sales, without looking at products"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "senior-ecommerce-analyst",
-      "title": "Senior E-commerce Analyst",
-      "team": "E-commerce",
-      "location": "Mauritius",
-      "type": "Full-time",
-      "summary": "Own the performance analysis for retail and marketplace accounts, guide optimisation decisions and support junior analysts.",
-      "requirements": [
-        "3+ years in e-commerce, retail media or performance marketing",
-        "Advanced Excel; dashboards and reporting",
-        "Comfortable presenting to clients and stakeholders"
-      ],
-      "questions": [
-        {
-          "id": "q1",
-          "type": "choice",
-          "text": "An account made Rs 300,000 in revenue from 1,200 orders. What is the average order value?",
-          "options": [
-            "Rs 25",
-            "Rs 250",
-            "Rs 360",
-            "Rs 2,500"
-          ]
-        },
-        {
-          "id": "q2",
-          "type": "choice",
-          "text": "On Amazon Ads, a campaign spent Rs 2,000 and generated Rs 10,000 in ad sales. What is its ACoS?",
-          "options": [
-            "5%",
-            "20%",
-            "50%",
-            "500%"
-          ]
-        },
-        {
-          "id": "q3",
-          "type": "choice",
-          "text": "Budget and impression share are stable, clicks are stable, but ROAS has fallen for three weeks. What is the most likely explanation to investigate first?",
-          "options": [
-            "The ads are not being shown enough",
-            "Conversion rate has dropped (price, stock, reviews or product page content)",
-            "The budget is too high",
-            "Reporting is broken, so ignore it"
-          ]
-        },
-        {
-          "id": "q4",
-          "type": "choice",
-          "text": "A client asks how many of the sales were really caused by advertising. Which approach answers this best?",
-          "options": [
-            "Look at platform-reported ROAS",
-            "Compare this month with last month",
-            "Run a holdout or geo test with a control group",
-            "Count total orders"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ecommerce-catalog-manager",
-      "title": "E-commerce / Catalog Manager",
-      "team": "E-commerce",
-      "location": "Mauritius",
-      "type": "Full-time",
-      "summary": "Manage product listings and content across online retailers and marketplaces, keep catalogues accurate and improve how products show up in search.",
-      "requirements": [
-        "Experience managing online catalogues or marketplace listings",
-        "Strong attention to detail",
-        "French and English"
-      ],
-      "questions": [
-        {
-          "id": "q1",
-          "type": "choice",
-          "text": "What matters most for a product to show up in a marketplace's search results?",
-          "options": [
-            "Relevant keywords in the title and complete product attributes",
-            "A very long description only",
-            "As many images as possible",
-            "A price ending in .99"
-          ]
-        },
-        {
-          "id": "q2",
-          "type": "choice",
-          "text": "A cream is sold in 30 ml, 50 ml and 100 ml. How should it be set up on a marketplace?",
-          "options": [
-            "Three separate, unrelated listings",
-            "One parent listing with three size variations",
-            "One listing with all sizes in the description",
-            "Only list the most popular size"
-          ]
-        },
-        {
-          "id": "q3",
-          "type": "choice",
-          "text": "A listing suddenly shows as suppressed or inactive. What is the best first step?",
-          "options": [
-            "Delete it and create a new one",
-            "Check the listing quality report for missing or invalid required attributes or images",
-            "Lower the price",
-            "Wait for it to come back by itself"
-          ]
-        },
-        {
-          "id": "q4",
-          "type": "choice",
-          "text": "Which is a typical main-image requirement on major marketplaces?",
-          "options": [
-            "Lifestyle photo with text and logos",
-            "Pure white background with the product filling most of the frame",
-            "Any background as long as it is high resolution",
-            "A collage of several products"
-          ]
-        }
-      ]
-    }
-  ]
-}
+{"jobs":[
+{"id":"social-media-analyst-l1","title":"Junior Social Media Analyst","team":"Social Media","level":1,"levelName":"Junior","location":"Mauritius","type":"Full-time","summary":"Collect and report social media data for our clients' brands: engagement, reach, ad results and website traffic from social.","requirements":["0–1 year in social media, marketing or data (internships count)","Comfortable with Excel or Google Sheets","Curious about numbers and social platforms"],"questions":[
+{"id":"q1","type":"choice","text":"A post reached 8,000 people and got 400 engagements. What is its engagement rate by reach?","options":["5%","2%","0.5%","20%"]},
+{"id":"q2","type":"choice","text":"What is the difference between reach and impressions?","options":["Impressions are unique people; reach counts every view","They mean exactly the same thing","Reach is the number of clicks on the post","Reach is the number of unique people who saw the content; impressions count every time it was shown"]},
+{"id":"q3","type":"choice","text":"A post had 10,000 impressions and a reach of 5,000. What is the average frequency?","options":["2","0.5","5,000","50%"]},
+{"id":"q4","type":"choice","text":"Which of these is an engagement metric?","options":["Reach","Impressions","Comments","Follower count"]},
+{"id":"q5","type":"choice","text":"What are UTM parameters used for?","options":["Increasing the organic reach of a post","Shortening long links","Hiding links from competitors","Identifying in analytics which source and campaign website traffic came from"]},
+{"id":"q6","type":"choice","text":"An account grew from 2,000 to 2,300 followers in a month. What is the growth rate?","options":["3%","15%","30%","13%"]},
+{"id":"q7","type":"choice","text":"Which tool shows the organic performance of a brand's Facebook and Instagram accounts?","options":["Meta Business Suite (Insights)","Google Search Console","Google Tag Manager","Canva"]},
+{"id":"q8","type":"choice","text":"What does CPM mean?","options":["Cost per 1,000 impressions","Cost per click","Cost per message","Cost per member"]},
+{"id":"q9","type":"choice","text":"An ad spent Rs 5,000 and got 250 clicks. What is the cost per click?","options":["Rs 2","Rs 50","Rs 200","Rs 20"]},
+{"id":"q10","type":"choice","text":"Which metric is best for comparing posts that had very different reach?","options":["Total likes","Total comments","Caption length","Engagement rate"]},
+{"id":"q11","type":"choice","text":"What is most useful to include in a monthly report for a manager?","options":["A list of every comment received","The full caption of every post","Screenshots of the posting tool","Key metrics with the change versus the previous month"]},
+{"id":"q12","type":"choice","text":"Which video metric best shows that people watched a meaningful part of the video?","options":["Video plays (started, any duration)","Impressions of the video ad","Reach of the video post","ThruPlays (watched to completion or at least 15 seconds)"]},
+{"id":"q13","type":"choice","text":"Over 3 months, Reels got about 3 times the reach of static images. What is a reasonable recommendation?","options":["Test more Reels and keep measuring the results","Stop all image posts immediately","Post only once a month","Ignore it; reach does not matter"]},
+{"id":"q14","type":"choice","text":"How long does an Instagram Story stay visible on the profile, unless it is saved to Highlights?","options":["1 hour","7 days","24 hours","It never disappears"]},
+{"id":"q15","type":"choice","text":"An ad got 120 link clicks from 6,000 impressions. What is its link click-through rate?","options":["2%","0.2%","5%","20%"]}]},
+{"id":"social-media-analyst-l2","title":"Social Media Analyst","team":"Social Media","level":2,"levelName":"Intermediate","location":"Mauritius","type":"Full-time","summary":"Analyse organic and paid social performance, build dashboards and turn the data into clear recommendations for the content and ads teams.","requirements":["1–3 years analysing social media or digital marketing data","Meta Business Suite / Ads Manager, GA4 and Excel pivot tables","Clear reporting in English; French is a plus"],"questions":[
+{"id":"q1","type":"choice","text":"After a post was boosted, reach went up sharply but the engagement rate dropped. What is the most likely reason?","options":["The content definitely became worse","The account received an algorithm penalty","Tracking is broken","Paid reach brought in a broader, less engaged audience, which dilutes the rate"]},
+{"id":"q2","type":"choice","text":"In GA4, many visits from Instagram appear as Direct. What is the most likely cause?","options":["GA4 does not support Instagram traffic","The links have no UTM tags, and in-app browsers often don't pass the referrer","The account has too many followers","The posts were published at night"]},
+{"id":"q3","type":"choice","text":"Which GA4 dimension do you use to report website traffic by social platform and campaign (with UTMs)?","options":["Page title","Device category","City","Session source / medium (and session campaign)"]},
+{"id":"q4","type":"choice","text":"How should you analyse the best time to post?","options":["Look at the time of the single best post","Compare engagement rate by day and hour over several weeks, for the same content type","Copy a competitor's posting times","Always post at midnight"]},
+{"id":"q5","type":"choice","text":"What is share of voice in social media?","options":["The percentage of a brand's posts that are videos","The percentage of followers who are active","A brand's share of all mentions or conversation in its category, compared with competitors","The share of the budget spent on ads"]},
+{"id":"q6","type":"choice","text":"What is a social listening tool mainly used for?","options":["Scheduling posts","Tracking mentions, keywords and sentiment beyond the brand's own accounts","Editing videos","Buying ads"]},
+{"id":"q7","type":"choice","text":"A campaign drove 400 link clicks and 20 purchases. What is the conversion rate?","options":["0.5%","20%","2%","5%"]},
+{"id":"q8","type":"choice","text":"A Meta lead campaign spent Rs 30,000 and generated 60 leads. What is the cost per lead?","options":["Rs 50","Rs 2,000","Rs 500","Rs 1,800"]},
+{"id":"q9","type":"choice","text":"Over two weeks, an ad's frequency rose to 6 and its CTR kept falling. What does this suggest?","options":["The audience is too large","The budget is too low","Nothing; this is normal and can be ignored","Creative fatigue: refresh the creative or broaden the audience"]},
+{"id":"q10","type":"choice","text":"How do you compare Meta and TikTok ad performance fairly?","options":["Compare each platform's reported numbers as they are","Compare the number of likes","Use the same conversion definition and comparable attribution windows, and check against GA4 or backend sales","Compare follower counts"]},
+{"id":"q11","type":"choice","text":"Which click and view windows are included in Meta's default attribution setting?","options":["28-day click and 28-day view","1-day click only, no view","7-day click and 1-day view","30-day click and 7-day view"]},
+{"id":"q12","type":"choice","text":"What is the right way to run an A/B test on ad creative?","options":["Change everything at once to see a bigger difference","Change one variable at a time and split the audience so the versions run at the same time","Run version A in one month and version B the next month","Show each version to about 50 people"]},
+{"id":"q13","type":"choice","text":"Negative mentions of the brand suddenly spike. What is the first thing to do?","options":["Delete all negative comments","Find the source and topic of the mentions and alert the team","Ignore it until it stops","Increase the ad budget"]},
+{"id":"q14","type":"choice","text":"You want engagement by content pillar from a monthly export. Which approach is best?","options":["A pivot table with pillar as rows and the sum of engagements and impressions as values","A VLOOKUP on the post date","Sorting the sheet by date","Conditional formatting"]},
+{"id":"q15","type":"choice","text":"Which tool can build a dashboard that pulls data from GA4 and other sources?","options":["Notepad","Looker Studio","Google Forms","Canva"]}]},
+{"id":"social-media-analyst-l3","title":"Senior Social Media Analyst","team":"Social Media","level":3,"levelName":"Senior","location":"Mauritius","type":"Full-time","summary":"Own social performance analysis for key accounts: attribution, testing, competitor benchmarks and reporting to clients.","requirements":["3–5 years in social or digital analytics","Attribution, A/B testing, Conversions API and dashboarding (e.g. Looker Studio)","Presents results to clients with confidence"],"questions":[
+{"id":"q1","type":"choice","text":"Since iOS 14.5, Meta-reported purchases have fallen while backend sales are stable. What is the best explanation?","options":["Signal loss from Apple's tracking opt-out reduces tracked conversions; strengthen Conversions API and compare with backend data","Sales actually fell and the backend is wrong","Meta has stopped working on iPhones","The pixel is double counting"]},
+{"id":"q2","type":"choice","text":"What does Meta's Conversions API do?","options":["Creates lookalike audiences automatically","Replaces GA4","Schedules organic posts","Sends events from the server to Meta, improving matching when browser signals are lost"]},
+{"id":"q3","type":"choice","text":"Meta reports 300 purchases for a campaign; GA4 (last click) reports 120. What is the best interpretation?","options":["Meta is inflating the numbers, so ignore it","GA4 is broken","Take the average: 210","They use different attribution models and windows (including view-through); reconcile with backend data and test incrementality"]},
+{"id":"q4","type":"choice","text":"Which method best measures whether a campaign caused additional sales?","options":["A conversion lift or holdout test with a control group","Comparing ROAS with last month","Comparing with last week's sales","Counting likes on the ads"]},
+{"id":"q5","type":"choice","text":"What does a brand lift study measure?","options":["Sales from the campaign","The change in ad recall or awareness between an exposed group and a control group","Follower growth","Click-through rate"]},
+{"id":"q6","type":"choice","text":"Creative A had a 2.1% CTR and creative B 2.3%, each on 500 impressions. What should you conclude?","options":["The sample is too small to conclude; keep testing","B is the winner","A is the winner","CTR does not matter"]},
+{"id":"q7","type":"choice","text":"You benchmark engagement against competitors whose reach you can't see. Which engagement rate should you use?","options":["Engagement per reach","Engagement per follower, because it uses public data","Engagement per impression","CPM"]},
+{"id":"q8","type":"choice","text":"Cost per result rose 40% month on month while CPM stayed flat. Where should you look first?","options":["CPM","Audience size only","CTR and conversion rate, i.e. what happens after the impression","Posting times"]},
+{"id":"q9","type":"choice","text":"How do you assess December social sales fairly?","options":["Compare only with November","Compare with July","Don't compare; seasonality cannot be measured","Compare with December last year and account for budget differences"]},
+{"id":"q10","type":"choice","text":"Several ad sets in one account target heavily overlapping audiences. What is the main risk?","options":["They bid against each other in every auction, so CPMs always double for both ad sets","Meta merges them into one ad set automatically, so reporting is lost for each","The account is flagged for duplicate targeting and ads are rejected until it is fixed","Meta enters only one of them per auction, so some under-deliver and learning is split; consolidate or exclude audiences"]},
+{"id":"q11","type":"choice","text":"How do you keep UTM tagging clean across a team and several agencies?","options":["One shared naming convention and builder template (e.g. all lowercase, fixed source and medium values)","Let each agency use its own convention and map the values in GA4 afterwards","Tag only paid campaigns, since organic social is reported natively by each platform","Use the platform's auto-tagging only, since manual UTMs override it and break attribution"]},
+{"id":"q12","type":"choice","text":"What is cohort analysis useful for in social reporting?","options":["Counting followers","Scheduling posts","Seeing how customers acquired in a given month behave over time (repeat purchases, retention)","Calculating CPM"]},
+{"id":"q13","type":"choice","text":"An influencer campaign reports 2 million impressions. What is the best way to measure its business impact?","options":["Impressions","The influencer's follower count","Likes on the posts","Unique codes or UTM links tied to sales, plus an incrementality check where possible"]},
+{"id":"q14","type":"choice","text":"Sales rose the same week a post went viral. What do you need before saying the post caused the sales?","options":["A strong correlation between post engagement and daily sales over the same week","Confirmation that sales came from the same city as most of the post's engagement","Evidence that the post's reach was higher than any post in the previous quarter","Rule out other drivers (promotions, seasonality, other channels) or compare with a holdout or matched period"]},
+{"id":"q15","type":"choice","text":"Daily reach suddenly drops 70% on one day. What do you check first?","options":["Data issues: the connector or API, removed posts, or account restrictions, before drawing conclusions","Competitors' activity that day, since they may have outbid you for the same audience","Posting time, since the algorithm penalises posts published outside peak hours","The content of that day's post, since a weak post lowers the account's reach score"]}]},
+{"id":"social-media-analyst-l4","title":"Social Media Analytics Strategist","team":"Social Media","level":4,"levelName":"Strategist","location":"Mauritius","type":"Full-time","summary":"Define how social media is measured across our accounts: measurement frameworks, incrementality, mix modelling and budget recommendations.","requirements":["5+ years in marketing analytics or measurement","Experience with lift tests, mix modelling or measurement frameworks","Advises senior stakeholders on budget and strategy"],"questions":[
+{"id":"q1","type":"choice","text":"Leadership asks how much revenue social media really drives. What is the best approach?","options":["Use GA4 last click only","Triangulate: media mix modelling for the long term, lift tests to calibrate, and platform or GA4 data for day-to-day","Use the numbers reported by each platform","Use follower growth"]},
+{"id":"q2","type":"choice","text":"What is marketing (media) mix modelling?","options":["User-level tracking of every click","An A/B test of two creatives","A social listening method","A statistical model that estimates each channel's contribution from aggregated time-series data, including effects that can't be tracked"]},
+{"id":"q3","type":"choice","text":"Which KPIs suit an awareness campaign?","options":["Purchases only","Likes","Reach in the target audience, frequency, ad recall lift and cost per reach","Follower count only"]},
+{"id":"q4","type":"choice","text":"When should budget move from one channel to another?","options":["When a channel's average ROAS is high","Never; split budgets equally","Every week at random","When the marginal cost per acquisition in one channel exceeds target while another channel still has headroom"]},
+{"id":"q5","type":"choice","text":"What is the right order for building a measurement framework?","options":["Choose the tools, then decide what to measure","Build the dashboard first","Business objective, then KPIs, then metrics, then data sources and targets","Start with the metrics that look best"]},
+{"id":"q6","type":"choice","text":"What makes a good geo holdout test?","options":["Comparable regions matched on history, random assignment, and enough time and volume","Run the campaign in your best region and compare","Run it for one week only","Compare cities of very different sizes"]},
+{"id":"q7","type":"choice","text":"Which is the best North Star metric for a social team supporting e-commerce?","options":["Likes","Incremental revenue or new customers from social, at target cost","Posts per week","Followers"]},
+{"id":"q8","type":"choice","text":"Platforms increasingly automate targeting (e.g. Advantage+). What should the analyst focus on?","options":["Feeding quality conversion signals (CAPI, values), creative diversity and incrementality testing","Micromanaging detailed targeting","Turning automation off everywhere","Nothing; automation removes the need for analysis"]},
+{"id":"q9","type":"choice","text":"How should you present social results to the C-level?","options":["Lead with business impact and one clear recommendation; keep the metric detail in an appendix","Walk through each platform's KPIs in order so the full funnel is visible before conclusions","Lead with engagement and reach trends, since these are the leading indicators of revenue","Show the platform dashboards live so executives can explore the numbers themselves"]},
+{"id":"q10","type":"choice","text":"Tracking is getting harder (consent, cookies). What is the best long-term response?","options":["First-party data, consent mode, server-side tracking and modelled conversions","Buy third-party data lists","Ignore it","Stop measuring conversions"]},
+{"id":"q11","type":"choice","text":"What can you NOT reliably get from the Meta Ad Library for a normal commercial advertiser in Mauritius?","options":["Their ad creatives","When their ads started running","Their spend and results","Whether their ads are active"]},
+{"id":"q12","type":"choice","text":"The media mix model shows social ROI of 1.2 while the platform reports ROAS of 4. What do you do?","options":["Cut social budget immediately","Treat the model as closer to incremental, calibrate with a lift test, then decide on budget","Trust the platform and ignore the model","Average the two figures"]},
+{"id":"q13","type":"choice","text":"How do you prioritise a test-and-learn roadmap with limited budget?","options":["Run the tests with the largest expected sample size first, whatever their business impact","Start with creative tests, since creative always explains most of the performance variance","Score each idea on expected impact, confidence and effort (e.g. ICE), then run the best first","Run all tests at once on smaller budgets so the roadmap finishes faster"]},
+{"id":"q14","type":"choice","text":"Different teams report different numbers for the same KPI. What is the fix?","options":["Agree metric definitions with one owner, document them and feed reports from one automated pipeline","Let each team keep its definition but footnote the differences in every report","Use the platform-reported figure everywhere, since it is the original source of the data","Report the range between the lowest and highest figure so nobody's number is wrong"]},
+{"id":"q15","type":"choice","text":"Why is optimising only for lower-funnel conversions risky over time?","options":["It neglects demand creation, so the pool of ready-to-buy people shrinks and performance declines","Lower-funnel campaigns have higher CPMs, so the cost per sale always rises after a few months","Retargeting audiences get flagged by platforms when used too often, which limits delivery","Conversion campaigns stop learning after 50 conversions a week, so results plateau"]}]},
+{"id":"social-media-executive-l1","title":"Junior Social Media Executive","team":"Social Media","level":1,"levelName":"Junior","location":"Mauritius","type":"Full-time","summary":"Help plan, create and publish content for our clients' social accounts, and answer the community day to day.","requirements":["0–1 year in social media or content (personal projects count)","Good eye for visuals; Canva or similar","Good written English and French"],"questions":[
+{"id":"q1","type":"choice","text":"What is the best aspect ratio for Instagram Reels and Stories?","options":["16:9","4:3","9:16 (vertical)","Only 1:1"]},
+{"id":"q2","type":"choice","text":"What is a content calendar?","options":["A list of followers","An ad invoice","A plan of what to post, when and on which platform","An analytics report"]},
+{"id":"q3","type":"choice","text":"A customer complains publicly in the comments. What do you do first?","options":["Reply politely, acknowledge the issue and move the conversation to a private message to resolve it","Delete the comment","Argue to defend the brand","Ignore it"]},
+{"id":"q4","type":"choice","text":"What are hashtags mainly for?","options":["Increasing the ad budget","Tagging people","Categorising content and helping people discover it","Hiding a post"]},
+{"id":"q5","type":"choice","text":"You find a nice photo on Google. Can you post it on the brand's page?","options":["Yes, if you credit the photographer","Yes, always","Yes, if you edit it a little","Only with permission or a licence from the owner"]},
+{"id":"q6","type":"choice","text":"What should you check before publishing a post?","options":["Nothing; you can edit later","Only the follower count","What a competitor posted","Spelling, links, tags, brand guidelines and that you're on the right account"]},
+{"id":"q7","type":"choice","text":"What is alt text for?","options":["Adding hashtags","Adding a watermark","Increasing ad reach","Describing the image for people who use screen readers"]},
+{"id":"q8","type":"choice","text":"Why add captions or subtitles to videos?","options":["The algorithm requires them","They make the file smaller","They are legally required on every post","Many people watch without sound, and it makes videos accessible"]},
+{"id":"q9","type":"choice","text":"A paid influencer post must:","options":["Clearly disclose the partnership (e.g. 'Paid partnership' label or #ad)","Hide that it is paid","Mention it only in DMs","Only be posted as a Story"]},
+{"id":"q10","type":"choice","text":"Which platform suits B2B professional content best?","options":["TikTok","Snapchat","LinkedIn","Pinterest"]},
+{"id":"q11","type":"choice","text":"Which tool can you use to schedule Facebook and Instagram posts?","options":["GA4","Google Search Console","Meta Business Suite","Google Tag Manager"]},
+{"id":"q12","type":"choice","text":"What is a brand's tone of voice?","options":["The consistent personality and style of the brand's communication","The logo colours","The posting times","The font size"]},
+{"id":"q13","type":"choice","text":"How quickly should you answer customer messages?","options":["Once a week","Only when it's positive","Within the agreed response time, during business hours","Never; DMs are not important"]},
+{"id":"q14","type":"choice","text":"What is a carousel post?","options":["A Story","A live video","One post with several images or videos that people swipe through","An ad only"]},
+{"id":"q15","type":"choice","text":"Which of these is a call to action?","options":["Beautiful sunset today","#monday","Meet our team","Shop now via the link in bio"]}]},
+{"id":"social-media-executive-l2","title":"Social Media Executive","team":"Social Media","level":2,"levelName":"Intermediate","location":"Mauritius","type":"Full-time","summary":"Run social accounts end to end: content calendar, publishing, community management, boosted posts and monthly reports.","requirements":["1–3 years managing brand social accounts","Meta Business Suite, Ads Manager basics and scheduling tools","Strong copywriting in English and French"],"questions":[
+{"id":"q1","type":"choice","text":"What are content pillars?","options":["3 to 5 recurring themes, aligned with brand objectives, that guide the content","The hashtags used on every post","The ad budget per platform","Groups of followers"]},
+{"id":"q2","type":"choice","text":"Reels using a trending sound unrelated to the brand got few views. What is the lesson?","options":["Relevance and a strong hook in the first seconds matter more than the trend itself; keep testing","Trends never work","Stop making video","Buy views"]},
+{"id":"q3","type":"choice","text":"What is the job of the first 3 seconds of a video?","options":["Hook the viewer so they stop scrolling","Show a long logo animation","Show the credits","Stay silent to build suspense"]},
+{"id":"q4","type":"choice","text":"What should a brief for a designer include?","options":["Only the deadline","Objective, audience, key message, formats and sizes, call to action, deadline and brand assets","Only the colours","Only the caption"]},
+{"id":"q5","type":"choice","text":"You want to repost a customer's photo (UGC). What do you do?","options":["Repost it without asking","Ask the creator's permission and credit them","Screenshot it and remove their name","Edit it so it looks like yours"]},
+{"id":"q6","type":"choice","text":"Why use Ads Manager rather than the Boost button?","options":["Boosting has more options","They are exactly the same","Boosting is free","More objectives, targeting, placements and testing options"]},
+{"id":"q7","type":"choice","text":"A spam or hateful comment appears. What do you do?","options":["Reply angrily","Leave it","Hide or delete it in line with the moderation policy, and block or report if needed","Pin it"]},
+{"id":"q8","type":"choice","text":"How do you decide how often to post?","options":["Based on your capacity to keep quality high and on how the audience responds","As often as possible, whatever the quality","Once a month","Copy a competitor"]},
+{"id":"q9","type":"choice","text":"What should a monthly social report include?","options":["Screenshots of every post","Highlights, results against goals, top posts and learnings, and next steps","Only the follower count","Nothing; reports aren't needed"]},
+{"id":"q10","type":"choice","text":"How would you plan a product launch on Instagram and Facebook?","options":["One post on launch day","Ads only","Post the day after the launch","Teaser, launch and follow-up phases, using a mix of formats"]},
+{"id":"q11","type":"choice","text":"What is the main benefit of an approval workflow?","options":["It reduces errors and keeps content within brand and legal rules","It slows growth","It's unnecessary","It's only for ads"]},
+{"id":"q12","type":"choice","text":"What is an Instagram Collab post?","options":["A paid ad","One post that appears on both accounts' profiles, sharing the reach","A direct message","A Story only"]},
+{"id":"q13","type":"choice","text":"What does platform-native content mean?","options":["Adapting format, length and style to each platform instead of posting the same asset everywhere","Posting the identical asset everywhere","Posting only text","Using only one platform"]},
+{"id":"q14","type":"choice","text":"Engagement drops after a platform algorithm change. What do you do?","options":["Buy followers","Post 10 times a day","Stop posting","Review recent data, test formats, and focus on saves, shares and watch time"]},
+{"id":"q15","type":"choice","text":"Why use a naming convention for ad campaigns?","options":["The algorithm prefers it","It's required by law","It lowers CPM","It makes reporting and analysis easier"]}]},
+{"id":"social-media-executive-l3","title":"Senior Social Media Executive","team":"Social Media","level":3,"levelName":"Senior","location":"Mauritius","type":"Full-time","summary":"Lead social for key accounts: campaigns, influencer partnerships, creative testing, crisis handling and guiding junior team members.","requirements":["3–5 years in social media, including campaigns and influencers","Comfortable with crisis handling and client communication","Experience guiding junior team members"],"questions":[
+{"id":"q1","type":"choice","text":"A brand crisis is starting on social. What are the first steps?","options":["Keep the promotional posts running","Pause scheduled posts, agree a holding statement with stakeholders, monitor, and respond consistently","Delete all posts","Argue with critics"]},
+{"id":"q2","type":"choice","text":"Why pause scheduled content during a crisis?","options":["The algorithm penalises scheduled posts","To save budget","There's no need to pause","Upbeat or promotional posts can look tone-deaf and make the backlash worse"]},
+{"id":"q3","type":"choice","text":"How should you structure creative testing on Meta?","options":["Test only button colours","Test different concepts (angles, hooks, formats), not tiny tweaks","Run one creative only","Change the creative every day"]},
+{"id":"q4","type":"choice","text":"What matters most when selecting an influencer?","options":["Follower count only","Price only","How many brands they've worked with","Audience fit and authenticity, engagement quality and brand safety"]},
+{"id":"q5","type":"choice","text":"Which are signs of fake followers?","options":["High engagement","Sudden spikes, low engagement for the follower count, generic comments, audiences from unrelated countries","Steady growth","A mostly local audience"]},
+{"id":"q6","type":"choice","text":"What goes into a social strategy for a new market?","options":["Audience research, competitor audit, platform choice, objectives, content plan and KPIs","Copy the home market's plan","Posts only","Ads only"]},
+{"id":"q7","type":"choice","text":"How do you keep quality high when managing junior team members?","options":["Approve every post yourself so standards never slip, even if it slows publishing","A style guide, templates, an approval workflow and regular feedback","Give each junior their own account and review results at the monthly report","Let juniors publish freely and fix mistakes through quick follow-up comments"]},
+{"id":"q8","type":"choice","text":"What is the role of organic versus paid social?","options":["Organic builds community and brand; paid scales reach and conversions; they work together","Organic is dead","Paid is unnecessary","They do the same job"]},
+{"id":"q9","type":"choice","text":"You're running a giveaway on Instagram. What must you do?","options":["Ask entrants to tag themselves in photos they don't appear in to boost reach","Publish clear terms and conditions and follow Instagram's promotion rules and local law","Require entrants to follow at least three partner accounts to make the entry valid","Announce the winner by DM only, so other entrants' data stays private"]},
+{"id":"q10","type":"choice","text":"What are dark posts (unpublished ads)?","options":["Deleted posts","Posts by other users","Posts made at night","Ads that don't appear on the page's timeline, used for targeting and testing"]},
+{"id":"q11","type":"choice","text":"The video retention graph drops sharply at 2 seconds. What do you fix?","options":["Make the video longer","Make the music louder","The opening: make the hook stronger","Add more hashtags"]},
+{"id":"q12","type":"choice","text":"How should you plan paid social budget over the year?","options":["An always-on base plus bursts around key moments","Spend it all at once","The same amount every day, whatever happens","No budget; organic only"]},
+{"id":"q13","type":"choice","text":"Which KPIs suit a community-building objective?","options":["Comments, shares, saves, DM conversations and returning engagers","CPM","Impressions only","Ad spend"]},
+{"id":"q14","type":"choice","text":"A complex or sensitive complaint arrives on social. What do you do?","options":["Escalate to customer service through an agreed process and response time, and keep the customer updated","Answer it fully in public so other customers can see the brand is transparent","Reply with the standard FAQ answer first and escalate only if the customer replies again","Hide the comment and contact the customer by email from your own account"]},
+{"id":"q15","type":"choice","text":"How do you protect the brand where ads appear?","options":["Allow all placements","Turn off all ads","Use block lists and inventory filters to exclude unsuitable placements","Nothing can be done"]}]},
+{"id":"social-media-executive-l4","title":"Social Media Strategist","team":"Social Media","level":4,"levelName":"Strategist","location":"Mauritius","type":"Full-time","summary":"Set the social media strategy for our clients' brands: objectives, platform choice, budget split, creators and governance.","requirements":["5+ years in social or brand strategy","Builds annual strategies and budgets across platforms","Presents to senior client stakeholders"],"questions":[
+{"id":"q1","type":"choice","text":"Where should an annual social media strategy start?","options":["Last year's results and current platform benchmarks","The content pillars and the brand's tone of voice","Business objectives and audience insight","The budget available and the team's capacity"]},
+{"id":"q2","type":"choice","text":"How do you plan content across the funnel?","options":["Conversion content only","Awareness (reach video), consideration (education, UGC), conversion (offers, retargeting) and loyalty","Awareness content only","The same content at every stage"]},
+{"id":"q3","type":"choice","text":"How should budget be split between content production, paid media and influencers?","options":["Equal thirds","Based on objectives, past performance and evidence of incrementality","All paid media","Whatever is left over"]},
+{"id":"q4","type":"choice","text":"How do you decide whether the brand should be on TikTok?","options":["Everyone is there","Audience presence, capacity to produce native video, brand fit and competition","The CEO likes it","It's cheap"]},
+{"id":"q5","type":"choice","text":"How should brand building and performance marketing be balanced?","options":["100% performance","100% brand","Whatever gives the best ROAS this month","Both are needed: brand creates future demand, performance captures it; the balance depends on the category"]},
+{"id":"q6","type":"choice","text":"The CEO wants follower growth as the main KPI. What do you do?","options":["Align on business outcomes, show how followers relate to them, and propose KPIs that track those outcomes","Accept it, but set a follower target low enough that the team can still focus on content","Make followers the KPI, but report engagement rate alongside to show quality","Run a follower-growth campaign first, then switch KPIs once the account is large enough"]},
+{"id":"q7","type":"choice","text":"What is a key consideration before launching social commerce (selling through platform shops)?","options":["It's always free","No operations are needed","Only the product photos matter","Catalogue and stock sync, fulfilment, customer service, and whether the feature is available in the market"]},
+{"id":"q8","type":"choice","text":"What is the value of an employee advocacy programme?","options":["It extends reach and credibility through employees, with clear guidelines","It replaces advertising","It is always too risky","It is only for HR"]},
+{"id":"q9","type":"choice","text":"Agency or in-house for social content? What should decide it?","options":["Volume, speed, expertise, cost and the level of control the brand needs","In-house is always better for brand voice, so agencies only for paid media","Agencies are always better for creativity, so in-house only for community management","Whichever option has the lower monthly fee for the same number of posts"]},
+{"id":"q10","type":"choice","text":"Why are long-term creator partnerships often better than one-off posts?","options":["One-off posts are always better","They are cheaper per post in every case","Ongoing ambassadors build authenticity and stronger recall","There's no difference"]},
+{"id":"q11","type":"choice","text":"How can social data help measure brand health?","options":["Sentiment trends, share of voice, brand search lift and brand lift studies","Likes","Number of posts","Follower count only"]},
+{"id":"q12","type":"choice","text":"A competitor launches an aggressive campaign. What is the strategic response?","options":["Copy their campaign","Cut prices immediately","Attack them publicly","Analyse the impact on your KPIs and audience; respond only if it fits your positioning, don't just copy"]},
+{"id":"q13","type":"choice","text":"How do you govern social accounts across several countries?","options":["Global guidelines with local adaptation, a shared calendar and clear approval levels","One global team publishes everything, translated locally to keep the brand consistent","Each country runs independently, with a global review once a quarter","Local teams follow the global calendar exactly, with no local content allowed"]},
+{"id":"q14","type":"choice","text":"What should an AI-generated content policy include?","options":["Publish AI content without review","Disclosure where required, human review for accuracy and brand, and respect for copyright","Hide that AI was used","Ban all tools without discussion"]},
+{"id":"q15","type":"choice","text":"At the annual review, what defines success for social?","options":["Growth in followers and engagement versus the main competitors over the year","Delivering the planned number of posts and campaigns on time and on budget","Progress against the agreed business KPIs, with learnings feeding next year's plan","Improvement in every platform's metrics compared with the previous year"]}]},
+{"id":"paid-search-specialist-l1","title":"Junior Paid Search Specialist","team":"Paid Search","level":1,"levelName":"Junior","location":"Mauritius","type":"Full-time","summary":"Support the setup and day-to-day management of Google Ads campaigns: keywords, ads, negative keywords and reporting.","requirements":["0–1 year in digital marketing (Google Ads certification is a plus)","Comfortable with Excel or Google Sheets","Detail-oriented and keen to learn"],"questions":[
+{"id":"q1","type":"choice","text":"The keyword [running shoes] is in exact match. Which searches can it match?","options":["Any search containing the word 'running'","Searches with the same meaning or intent as 'running shoes'","Any search about sport","Only searches typed by people who already bought"]},
+{"id":"q2","type":"choice","text":"What is a negative keyword for?","options":["Increasing bids","Adding new keywords automatically","Lowering the Quality Score","Stopping ads from showing for irrelevant searches"]},
+{"id":"q3","type":"choice","text":"What are the components of Quality Score?","options":["Budget, bid and account age","Impressions, clicks and cost","Expected CTR, ad relevance and landing page experience","Number of keywords, ads and ad groups"]},
+{"id":"q4","type":"choice","text":"A campaign had 12,000 impressions and 360 clicks. What is the CTR?","options":["0.3%","30%","3%","33%"]},
+{"id":"q5","type":"choice","text":"A campaign spent Rs 9,000 for 300 clicks. What is the average CPC?","options":["Rs 3","Rs 300","Rs 30","Rs 2.70"]},
+{"id":"q6","type":"choice","text":"What is the maximum length of a responsive search ad headline?","options":["30 characters","15 characters","90 characters","120 characters"]},
+{"id":"q7","type":"choice","text":"What does the search terms report show?","options":["The actual searches that triggered your ads","Only the keywords you added","Your competitors' keywords","Google Trends data"]},
+{"id":"q8","type":"choice","text":"What is a conversion in Google Ads?","options":["A click","An impression","A valuable action you track, such as a purchase or a lead","A keyword"]},
+{"id":"q9","type":"choice","text":"What is the structure of a Google Ads account?","options":["Ad > Campaign > Account","Keyword > Account > Campaign","Campaign > Account > Ad group","Account > Campaign > Ad group > Keywords and ads"]},
+{"id":"q10","type":"choice","text":"A campaign got 40 conversions from 800 clicks. What is the conversion rate?","options":["5%","0.5%","20%","2%"]},
+{"id":"q11","type":"choice","text":"Which factors decide Ad Rank?","options":["Bid, ad quality, the expected impact of assets, and the search context","Bid only","Budget only","The age of the account"]},
+{"id":"q12","type":"choice","text":"Which search can the phrase-match keyword \"red dress\" match?","options":["buy red dress online","blue dress","red shoes","dress shop"]},
+{"id":"q13","type":"choice","text":"What are sitelinks?","options":["A separate campaign type","A list of landing pages to exclude","Keywords","Assets that add extra links below your ad"]},
+{"id":"q14","type":"choice","text":"A campaign has a daily budget of Rs 1,000. Roughly what is the most it can be charged in a month?","options":["Rs 1,000","Rs 60,000","There is no limit","About Rs 30,400 (the daily budget times 30.4)"]},
+{"id":"q15","type":"choice","text":"A campaign spent Rs 20,000 for 50 conversions. What is the cost per conversion?","options":["Rs 40","Rs 4,000","Rs 400","Rs 2,500"]}]},
+{"id":"paid-search-specialist-l2","title":"Paid Search Specialist","team":"Paid Search","level":2,"levelName":"Intermediate","location":"Mauritius","type":"Full-time","summary":"Manage Google Ads search and shopping campaigns end to end, optimise bids and budgets, and report results to clients.","requirements":["1–3 years managing Google Ads campaigns","Search terms analysis, match types, bidding strategies, GA4","Clear reporting in English; French is a plus"],"questions":[
+{"id":"q1","type":"choice","text":"A campaign shows 40% search impression share lost to budget. What does this mean?","options":["The ads missed 40% because of low Ad Rank","The ads missed about 40% of the impressions they were eligible for because the budget ran out","40% of the budget was wasted","40% of clicks were invalid"]},
+{"id":"q2","type":"choice","text":"Search impression share lost to rank is high. What do you work on?","options":["The budget only","Adding negative keywords","Adding more campaigns","Ad Rank: Quality Score (ad relevance, landing page) and bids"]},
+{"id":"q3","type":"choice","text":"A paid software brand sees many search terms containing 'free'. What do you do?","options":["Add 'free' as a negative keyword","Increase the bids on those terms","Pause the whole campaign","Switch everything to broad match"]},
+{"id":"q4","type":"choice","text":"What does a Target CPA bid strategy do?","options":["Lets you set every bid manually","Maximises clicks only","Sets bids automatically to get as many conversions as possible at the target cost per action","Fixes the CPC at the target"]},
+{"id":"q5","type":"choice","text":"A campaign generated Rs 200,000 in revenue from Rs 40,000 of spend. What is the ROAS?","options":["5 (500%)","0.2 (20%)","4 (400%)","Rs 160,000"]},
+{"id":"q6","type":"choice","text":"Why separate brand and non-brand keywords into different campaigns?","options":["Google requires it","They have very different CPCs, conversion rates and goals, so budget and report on them separately","It makes all clicks cheaper","It increases Quality Score automatically"]},
+{"id":"q7","type":"choice","text":"Conversions happen mostly 9am–6pm on weekdays and you use manual bidding. What could you do?","options":["Adjust bids or the ad schedule for those hours, after checking the data volume","Stop all ads outside those hours without checking","Increase the budget at night","Nothing; time of day can't be changed"]},
+{"id":"q8","type":"choice","text":"A campaign has a high CTR but very low conversion rate. Where do you look first?","options":["The landing page: relevance to the ad, speed, and the form or checkout","Increase bids","Lower the budget","Add more keywords"]},
+{"id":"q9","type":"choice","text":"Google Ads and GA4 show different conversion numbers. Why?","options":["Different attribution models, counting rules and dates (click date vs conversion date)","One of them is definitely broken","GA4 doesn't track Google Ads","Google Ads counts impressions as conversions"]},
+{"id":"q10","type":"choice","text":"The same keyword sits in several ad groups of one campaign. What is the problem?","options":["Google picks only one of them per search, so you lose control of which ad, bid and landing page are used","The ad groups bid against each other in the same auction, which raises your CPC","Google pauses the duplicates automatically after a few days","Quality Score is split between the ad groups, so each one scores lower"]},
+{"id":"q11","type":"choice","text":"Just after a big change to a Smart Bidding campaign, what should you expect?","options":["Immediately stable results","The campaign stops serving","Quality Score resets to 10","A learning period where performance fluctuates; avoid more big changes during it"]},
+{"id":"q12","type":"choice","text":"What happens if you pin too many headlines in a responsive search ad?","options":["The ad gets a better position","Fewer combinations can be tested, which can lower performance and ad strength","CTR always rises","Nothing"]},
+{"id":"q13","type":"choice","text":"What is RLSA (remarketing lists for search ads)?","options":["Display banner remarketing","Using lists of past visitors to adjust bids or target them on search","Email remarketing","A type of keyword match"]},
+{"id":"q14","type":"choice","text":"Yesterday's CPA looks very high in Google Ads. What might explain it?","options":["The account is broken","Conversion lag: conversions are reported back to the click date, so recent days are incomplete","Google doubled the prices","The budget was too high"]},
+{"id":"q15","type":"choice","text":"What does the auction insights report show?","options":["Competitors' budgets","How you compare with competitors: impression share, overlap rate, outranking share","Competitors' keyword lists","Competitors' conversion rates"]}]},
+{"id":"paid-search-specialist-l3","title":"Senior Paid Search Specialist","team":"Paid Search","level":3,"levelName":"Senior","location":"Mauritius","type":"Full-time","summary":"Own paid search performance for key accounts: Smart Bidding, Performance Max, conversion tracking and testing.","requirements":["3–5 years in paid search","Smart Bidding, Performance Max, enhanced conversions, offline conversions","Runs experiments and presents to clients"],"questions":[
+{"id":"q1","type":"choice","text":"You raised a Target ROAS from 400% to 600% and volume dropped sharply. Why?","options":["It's a bug","A higher target makes bidding stricter, so it enters fewer auctions; lower the target or accept less volume","Competitors stopped bidding","Quality Score dropped"]},
+{"id":"q2","type":"choice","text":"Performance Max seems to be taking brand search traffic. What do you do?","options":["Pause all search campaigns","Increase the PMax budget","Nothing can be done","Apply brand exclusions or account-level negative keywords, and check the search terms insights"]},
+{"id":"q3","type":"choice","text":"What do enhanced conversions do?","options":["Track more keywords","Increase the bids automatically","Create new ads","Send hashed first-party data (like email) to improve conversion measurement"]},
+{"id":"q4","type":"choice","text":"What does Consent Mode v2 do?","options":["Blocks all tracking in Europe","Collects consent for email marketing","Replaces the cookie banner","Adjusts how tags behave based on user consent and allows conversion modelling for users who decline"]},
+{"id":"q5","type":"choice","text":"How are offline sales from a CRM tied back to Google Ads clicks?","options":["With offline conversion import, using the GCLID (or enhanced conversions for leads)","With the search terms report","With auction insights","It's impossible"]},
+{"id":"q6","type":"choice","text":"Leads differ a lot in quality. How should you bid?","options":["Give every lead the same value","Assign values to lead stages or quality and use value-based bidding","Bid manually on every keyword","Optimise for clicks"]},
+{"id":"q7","type":"choice","text":"How do you test a new bid strategy properly?","options":["Switch strategies and compare before and after","Test on a campaign with 5 conversions a month","Change bids and budget at the same time","A Google Ads experiment with a 50/50 split, running long enough without other changes"]},
+{"id":"q8","type":"choice","text":"What does data-driven attribution do?","options":["Gives all credit to the last click","Gives all credit to the first click","Splits credit equally","Distributes credit across touchpoints based on your account's actual conversion paths"]},
+{"id":"q9","type":"choice","text":"When should you use a seasonality adjustment?","options":["For the whole year","To increase the budget","To change keywords","For a short event where you expect conversion rates to change a lot, like a flash sale"]},
+{"id":"q10","type":"choice","text":"What is a portfolio bid strategy?","options":["A strategy for one keyword","A report of your bids","One bid strategy shared across several campaigns, pooling their data","A budget split tool"]},
+{"id":"q11","type":"choice","text":"CPA rose 30% while CPC and CTR stayed flat. What changed?","options":["The CPC","The impression share","Nothing; it's normal noise","The conversion rate dropped: check the landing page, tracking and offer"]},
+{"id":"q12","type":"choice","text":"When does broad match work best?","options":["With manual CPC and no conversion tracking","In a brand-new account with no data","With Smart Bidding, reliable conversion data and good negative keywords","Always, in every situation"]},
+{"id":"q13","type":"choice","text":"What should you prioritise in a Shopping or PMax product feed?","options":["Long descriptions only","As many products as possible","Prices ending in .99","Titles with key attributes, accurate price and availability, GTINs and good images"]},
+{"id":"q14","type":"choice","text":"An account gets 20 conversions a month across 15 campaigns. What do you recommend?","options":["Consolidate campaigns so Smart Bidding has enough conversion data","Switch every campaign to Target CPA so each one learns its own CPA","Use a portfolio strategy but keep all 15 campaigns and budgets separate","Move to Maximise Clicks until each campaign reaches 30 conversions"]},
+{"id":"q15","type":"choice","text":"How do you check whether brand search ads bring additional sales?","options":["Run a geo or holdout test to see how many brand sales would happen without the ads","Look at brand campaign ROAS","Look at CTR","Compare with last year"]}]},
+{"id":"paid-search-specialist-l4","title":"Paid Search Strategist","team":"Paid Search","level":4,"levelName":"Strategist","location":"Mauritius","type":"Full-time","summary":"Set the paid search strategy across our accounts: budgets, targets based on unit economics, measurement and automation.","requirements":["5+ years in paid search or performance marketing","Budget and target setting based on margin and lifetime value","Advises senior stakeholders on cross-channel strategy"],"questions":[
+{"id":"q1","type":"choice","text":"How should budget be allocated across Search, Performance Max and Meta?","options":["By average ROAS","Using marginal ROAS or CPA by channel and evidence of incrementality","Equally","Based on last year's split"]},
+{"id":"q2","type":"choice","text":"How should a target CPA be set?","options":["Copy a competitor's CPA","Pick a random lower number","From unit economics: margin and customer lifetime value","Use last month's CPA forever"]},
+{"id":"q3","type":"choice","text":"A client sells products with very different margins. What should you optimise to?","options":["Revenue only","Clicks","Profit, using margin-based conversion values (POAS)","Conversion volume only"]},
+{"id":"q4","type":"choice","text":"How can you use lifetime value in bidding?","options":["Ignore it; bid the same for everyone","Only bid on returning customers","Bid more for new or high-value customers (e.g. new customer acquisition goal or values)","Lower bids for new customers"]},
+{"id":"q5","type":"choice","text":"A client wants to cut brand search to save money. What do you advise?","options":["Cut it immediately","Double the brand budget","Keep it without measuring","Measure incrementality with a holdout test first, and consider competitors bidding on the brand"]},
+{"id":"q6","type":"choice","text":"Which measurement approach suits a multi-channel advertiser?","options":["Last click only","Platform-reported numbers only","Click-through rate","Media mix modelling plus experiments, with platform attribution calibrated against them"]},
+{"id":"q7","type":"choice","text":"You're launching in Mauritius where search volume is small. What do you do?","options":["Use the same targets as in France","Only use exact match","Don't launch","Broaden keyword coverage, combine with other channels, and set realistic targets"]},
+{"id":"q8","type":"choice","text":"How should paid and organic search be managed together?","options":["Look at combined search share; reduce paid where organic is strong only if a test shows no loss","Always cut paid where you rank organically","Ignore organic","Always bid on everything regardless"]},
+{"id":"q9","type":"choice","text":"What should paid search reporting to senior stakeholders focus on?","options":["Efficiency metrics (CPC, CTR, Quality Score) to show account health","Business outcomes (revenue, profit, new customers) with clear recommendations","Impression share and rank versus competitors","Conversion volume and CPA by campaign and keyword"]},
+{"id":"q10","type":"choice","text":"What safeguards should a large account have?","options":["Daily manual checks of spend and conversions by an account manager","Scripts, rules and alerts for overspend, broken URLs and tracking drops","Shared budgets across campaigns so overspend is impossible","Smart Bidding everywhere, since it pauses bad traffic automatically"]},
+{"id":"q11","type":"choice","text":"Spend went from Rs 100,000 (200 conversions) to Rs 120,000 (210 conversions). What is the marginal CPA of the extra spend?","options":["Rs 571","Rs 2,000","Rs 500","Rs 100"]},
+{"id":"q12","type":"choice","text":"Which first-party data strategy strengthens paid search most?","options":["Similar audiences built from website visitors","Broad match on brand terms to capture more customers","Customer Match lists, enhanced conversions and CRM integration","Remarketing tags on every page with long membership durations"]},
+{"id":"q13","type":"choice","text":"A competitor bids on your brand name. What is the best response?","options":["Bid on their brand without a plan","Keep strong brand ads, monitor auction insights, and use a trademark complaint where it applies","Sue them immediately","Ignore it entirely"]},
+{"id":"q14","type":"choice","text":"How do you prepare for a big sales peak like Black Friday?","options":["Switch to Maximise Clicks for the week so you get as much traffic as possible","Raise the Target ROAS so the strategy stays efficient when competition rises","Launch new campaigns the day before so they're fresh for the peak","Plan budget ramps, seasonality adjustments, ready assets, an updated feed and pacing checks"]},
+{"id":"q15","type":"choice","text":"Performance Max or Search plus Standard Shopping: how do you decide?","options":["Always use Performance Max","Never use Performance Max","Based on control needs, data volume and brand cannibalisation, and test with an experiment","Whichever was released most recently"]}]},
+{"id":"ecommerce-analyst","title":"E-commerce Analyst","team":"E-commerce","location":"Mauritius","type":"Full-time","summary":"Track and analyse marketplace and online sales performance, build weekly reports and turn the numbers into clear recommendations for the account teams.","requirements":["1–3 years in digital marketing, e-commerce or analytics","Good Excel skills (pivot tables, lookups)","Clear written English; French is a plus"],"questions":[
+{"id":"q1","type":"choice","text":"A product page had 2,000 sessions and 50 orders last week. What is its conversion rate?","options":["0.4%","2.5%","4%","25%"]},
+{"id":"q2","type":"choice","text":"A campaign spent Rs 10,000 and generated Rs 45,000 in sales. What is its ROAS?","options":["0.22","3.5","4.5","45%"]},
+{"id":"q3","type":"choice","text":"An online shop made Rs 120,000 from 400 orders. What is the average order value (AOV)?","options":["Rs 30","Rs 300","Rs 480","Rs 3,000"]},
+{"id":"q4","type":"choice","text":"An ad had 20,000 impressions and 300 clicks. What is its click-through rate (CTR)?","options":["0.15%","1.5%","6.7%","15%"]},
+{"id":"q5","type":"choice","text":"On Amazon Ads, a campaign spent Rs 2,000 and generated Rs 10,000 in ad sales. What is its ACoS?","options":["5%","20%","50%","500%"]},
+{"id":"q6","type":"choice","text":"Sales went from Rs 80,000 last week to Rs 100,000 this week. What is the growth?","options":["+20%","+25%","+80%","+125%"]},
+{"id":"q7","type":"choice","text":"You need to bring each product's price from another sheet into your report, matching on the SKU. Which Excel function is best suited?","options":["SUMIF","XLOOKUP (or VLOOKUP)","COUNTIF","CONCATENATE"]},
+{"id":"q8","type":"choice","text":"You want to quickly summarise sales by category and by month from a large export. Which Excel feature is best?","options":["Pivot table","Conditional formatting","Data validation","Freeze panes"]},
+{"id":"q9","type":"choice","text":"Which metric best tells you whether visitors to a product page are buying?","options":["Impressions","Conversion rate","CPM","Reach"]},
+{"id":"q10","type":"choice","text":"Sales of one best-selling product dropped 30% week on week while the rest of the account is stable. What do you check first?","options":["Increase the advertising budget","Stock availability and whether the listing is still active and in the Buy Box","Lower the price straight away","Wait another week before looking"]},
+{"id":"q11","type":"choice","text":"On Amazon, what is the Buy Box?","options":["The section of the product page where most shoppers click 'Add to Cart'; the seller who wins it gets most of the sales","A paid banner at the top of search results","The box the product is shipped in","A discount code for Prime members"]},
+{"id":"q12","type":"choice","text":"Your top product will be out of stock for 5 days. What should you do with the ads pointing to it?","options":["Increase the bids to keep visibility","Pause or reduce them so you don't pay for clicks that can't convert","Leave everything unchanged","Only change the ad image"]},
+{"id":"q13","type":"choice","text":"Which of these is an Amazon advertising format?","options":["Sponsored Products","Google Shopping","Performance Max","Meta Advantage+"]},
+{"id":"q14","type":"choice","text":"What should a weekly performance report for a brand manager start with?","options":["A full export of the raw data","Key results versus target, what changed and the recommended actions","Screenshots of every campaign","The definition of every metric"]},
+{"id":"q15","type":"choice","text":"You compare this week's sales with last week's. Which comparison is fair?","options":["A promotion week against a normal week, without mentioning it","Two periods of the same length, noting any promotions or seasonality","This month against last week","Only total sales, without looking at products"]}],"level":2,"levelName":"Intermediate"},
+{"id":"senior-ecommerce-analyst","title":"Senior E-commerce Analyst","team":"E-commerce","location":"Mauritius","type":"Full-time","summary":"Own the performance analysis for retail and marketplace accounts, guide optimisation decisions and support junior analysts.","requirements":["3+ years in e-commerce, retail media or performance marketing","Advanced Excel; dashboards and reporting","Comfortable presenting to clients and stakeholders"],"questions":[
+{"id":"q1","type":"choice","text":"An account made Rs 300,000 in revenue from 1,200 orders. What is the average order value?","options":["Rs 25","Rs 250","Rs 360","Rs 2,500"]},
+{"id":"q2","type":"choice","text":"On Amazon Ads, a campaign spent Rs 2,000 and generated Rs 10,000 in ad sales. What is its ACoS?","options":["5%","20%","50%","500%"]},
+{"id":"q3","type":"choice","text":"Budget and impression share are stable, clicks are stable, but ROAS has fallen for three weeks. What is the most likely explanation to investigate first?","options":["The ads are not being shown enough","Conversion rate has dropped (price, stock, reviews or product page content)","The budget is too high","Reporting is broken, so ignore it"]},
+{"id":"q4","type":"choice","text":"A client asks how many of the sales were really caused by advertising. Which approach answers this best?","options":["Look at platform-reported ROAS","Compare this month with last month","Run a holdout or geo test with a control group","Count total orders"]}],"level":3,"levelName":"Senior"},
+{"id":"ecommerce-catalog-manager","title":"E-commerce / Catalog Manager","team":"E-commerce","location":"Mauritius","type":"Full-time","summary":"Manage product listings and content across online retailers and marketplaces, keep catalogues accurate and improve how products show up in search.","requirements":["Experience managing online catalogues or marketplace listings","Strong attention to detail","French and English"],"questions":[
+{"id":"q1","type":"choice","text":"What matters most for a product to show up in a marketplace's search results?","options":["Relevant keywords in the title and complete product attributes","A very long description only","As many images as possible","A price ending in .99"]},
+{"id":"q2","type":"choice","text":"A cream is sold in 30 ml, 50 ml and 100 ml. How should it be set up on a marketplace?","options":["Three separate, unrelated listings","One parent listing with three size variations","One listing with all sizes in the description","Only list the most popular size"]},
+{"id":"q3","type":"choice","text":"A listing suddenly shows as suppressed or inactive. What is the best first step?","options":["Delete it and create a new one","Check the listing quality report for missing or invalid required attributes or images","Lower the price","Wait for it to come back by itself"]},
+{"id":"q4","type":"choice","text":"Which is a typical main-image requirement on major marketplaces?","options":["Lifestyle photo with text and logos","Pure white background with the product filling most of the frame","Any background as long as it is high resolution","A collage of several products"]}],"level":2,"levelName":"Intermediate"}]}
