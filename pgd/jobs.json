@@ -7,7 +7,15 @@
       "location": "Mauritius",
       "type": "Full-time",
       "summary": "Track and analyse marketplace and online sales performance, build weekly reports and turn the numbers into clear recommendations for the account teams.",
-      "requirements": ["1–3 years in digital marketing, e-commerce or analytics", "Good Excel skills (pivot tables, lookups)", "Clear written English; French is a plus"]
+      "requirements": ["1–3 years in digital marketing, e-commerce or analytics", "Good Excel skills (pivot tables, lookups)", "Clear written English; French is a plus"],
+      "questions": [
+        {"id": "q1", "type": "choice", "text": "A product page had 2,000 sessions and 50 orders last week. What is its conversion rate?", "options": ["0.4%", "2.5%", "4%", "25%"]},
+        {"id": "q2", "type": "choice", "text": "A campaign spent Rs 10,000 and generated Rs 45,000 in sales. What is its ROAS?", "options": ["0.22", "3.5", "4.5", "45%"]},
+        {"id": "q3", "type": "choice", "text": "You need to bring each product's price from another sheet into your report, matching on the SKU. Which Excel function is best suited?", "options": ["SUMIF", "XLOOKUP (or VLOOKUP)", "COUNTIF", "CONCATENATE"]},
+        {"id": "q4", "type": "choice", "text": "Sales of one best-selling product dropped 30% week on week while the rest of the account is stable. What do you check first?", "options": ["Increase the advertising budget", "Stock availability and whether the listing is still active and in the Buy Box", "Lower the price straight away", "Wait another week before looking"]},
+        {"id": "q5", "type": "text", "text": "Which marketplaces or e-commerce platforms have you worked on (e.g. Amazon, Cdiscount, Shopify), and what exactly did you do on them?"},
+        {"id": "q6", "type": "text", "text": "Describe a report or dashboard you built: which metrics it showed, who used it, and what decision came out of it."}
+      ]
     },
     {
       "id": "senior-ecommerce-analyst",
@@ -16,7 +24,15 @@
       "location": "Mauritius",
       "type": "Full-time",
       "summary": "Own the performance analysis for retail and marketplace accounts, guide optimisation decisions and support junior analysts.",
-      "requirements": ["3+ years in e-commerce, retail media or performance marketing", "Advanced Excel; dashboards and reporting", "Comfortable presenting to clients and stakeholders"]
+      "requirements": ["3+ years in e-commerce, retail media or performance marketing", "Advanced Excel; dashboards and reporting", "Comfortable presenting to clients and stakeholders"],
+      "questions": [
+        {"id": "q1", "type": "choice", "text": "An account made Rs 300,000 in revenue from 1,200 orders. What is the average order value?", "options": ["Rs 25", "Rs 250", "Rs 360", "Rs 2,500"]},
+        {"id": "q2", "type": "choice", "text": "On Amazon Ads, a campaign spent Rs 2,000 and generated Rs 10,000 in ad sales. What is its ACoS?", "options": ["5%", "20%", "50%", "500%"]},
+        {"id": "q3", "type": "choice", "text": "Budget and impression share are stable, clicks are stable, but ROAS has fallen for three weeks. What is the most likely explanation to investigate first?", "options": ["The ads are not being shown enough", "Conversion rate has dropped (price, stock, reviews or product page content)", "The budget is too high", "Reporting is broken, so ignore it"]},
+        {"id": "q4", "type": "choice", "text": "A client asks how many of the sales were really caused by advertising. Which approach answers this best?", "options": ["Look at platform-reported ROAS", "Compare this month with last month", "Run a holdout or geo test with a control group", "Count total orders"]},
+        {"id": "q5", "type": "text", "text": "You manage the same brand on three marketplaces with one monthly budget. How would you split it at the start of the month, and what would make you move money mid-month?"},
+        {"id": "q6", "type": "text", "text": "Tell us about a time you coached a junior colleague or presented results to a client. What happened and what did you learn?"}
+      ]
     },
     {
       "id": "ecommerce-catalog-manager",
@@ -25,7 +41,21 @@
       "location": "Mauritius",
       "type": "Full-time",
       "summary": "Manage product listings and content across online retailers and marketplaces, keep catalogues accurate and improve how products show up in search.",
-      "requirements": ["Experience managing online catalogues or marketplace listings", "Strong attention to detail", "French and English"]
+      "requirements": ["Experience managing online catalogues or marketplace listings", "Strong attention to detail", "French and English"],
+      "questions": [
+        {"id": "q1", "type": "choice", "text": "What matters most for a product to show up in a marketplace's search results?", "options": ["Relevant keywords in the title and complete product attributes", "A very long description only", "As many images as possible", "A price ending in .99"]},
+        {"id": "q2", "type": "choice", "text": "A cream is sold in 30 ml, 50 ml and 100 ml. How should it be set up on a marketplace?", "options": ["Three separate, unrelated listings", "One parent listing with three size variations", "One listing with all sizes in the description", "Only list the most popular size"]},
+        {"id": "q3", "type": "choice", "text": "A listing suddenly shows as suppressed or inactive. What is the best first step?", "options": ["Delete it and create a new one", "Check the listing quality report for missing or invalid required attributes or images", "Lower the price", "Wait for it to come back by itself"]},
+        {"id": "q4", "type": "choice", "text": "Which is a typical main-image requirement on major marketplaces?", "options": ["Lifestyle photo with text and logos", "Pure white background with the product filling most of the frame", "Any background as long as it is high resolution", "A collage of several products"]},
+        {"id": "q5", "type": "text", "text": "How would you keep a catalogue of 1,000+ products accurate across several retailers? Describe your process and the tools you would use."},
+        {"id": "q6", "type": "text", "text": "Write a marketplace product title (in French or English) for: moisturising cream, 50 ml, brand \"Exemple\", for dry skin."}
+      ]
     }
-  ]
+  ],
+  "openApplication": {
+    "questions": [
+      {"id": "q1", "type": "text", "text": "What kind of role are you looking for, and in which area (e.g. media, e-commerce, data, creative)?"},
+      {"id": "q2", "type": "text", "text": "What are your two or three strongest skills? Give a concrete example for one of them."}
+    ]
+  }
 }
