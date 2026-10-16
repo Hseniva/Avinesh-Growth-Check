@@ -51,6 +51,12 @@ textarea{min-height:110px;resize:vertical}
 .hp{position:absolute;left:-9999px}
 .msg{margin-top:14px;font-size:15px;min-height:20px}
 .msg.ok{color:var(--ok);font-weight:600}.msg.err{color:var(--err)}
+.q{border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:12px;background:#fbfcff}
+.q p{margin:0 0 10px;font-weight:600;color:var(--ink);line-height:1.5}
+.q .opt{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin:6px 0;color:var(--text);cursor:pointer}
+.q .opt input{width:auto;margin-top:3px}
+.step{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:22px 0 4px}
+.hidden{display:none}
 footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
 </style>
 </head>
@@ -58,7 +64,7 @@ footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
 <header><div class="wrap">
   <div class="eyebrow">PGD Mauritius · Careers</div>
   <h1>Join our team in Mauritius</h1>
-  <p>Have a look at our open roles below and apply in a couple of minutes with your CV. Don't see the right role? Send us an open application.</p>
+  <p>Have a look at our open roles below and answer a short pre-assessment, then send your CV. Don't see the right role? Send us an open application.</p>
 </div></header>
 
 <main><div class="wrap">
@@ -74,6 +80,15 @@ footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
     <form id="form" novalidate>
       <label for="role">Role</label>
       <select id="role" name="role" required></select>
+      <div id="step1" class="hidden">
+        <div class="step">Step 1 of 2 · Pre-assessment</div>
+        <div class="hint" style="margin-top:0">Please answer every question. We review your answers before looking at your CV. It takes about 10 minutes.</div>
+        <div id="questions"></div>
+        <div style="margin-top:18px"><button class="btn" type="button" id="next">Continue to your details</button></div>
+        <div class="msg" id="msg1" role="status"></div>
+      </div>
+      <div id="step2" class="hidden">
+      <div class="step">Step 2 of 2 · Your details and CV</div>
       <div class="row">
         <div><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required></div>
         <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
@@ -95,6 +110,8 @@ footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
       <div class="consent"><input type="checkbox" id="consent" required><label for="consent" style="margin:0;font-weight:400;color:var(--text)">I agree that my application and CV are used to assess my candidacy for this and similar roles.</label></div>
       <div style="margin-top:20px"><button class="btn" type="submit" id="send">Send application</button></div>
       <div class="msg" id="msg" role="status"></div>
+      <button class="ghost btn" type="button" id="back" style="margin-top:6px">Back to the questions</button>
+      </div>
     </form>
   </section>
 </div></main>
@@ -107,10 +124,36 @@ const MAX = 5 * 1024 * 1024;
 const $ = s => document.querySelector(s);
 const esc = s => String(s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-function pick(id){ const sel = $("#role"); sel.value = id; $("#apply").scrollIntoView({behavior:"smooth"}); setTimeout(()=>$("#name").focus(), 400); }
+function pick(id){ const sel = $("#role"); sel.value = id; renderQuestions(); $("#apply").scrollIntoView({behavior:"smooth"}); }
+
+let DATA = {jobs:[]};
+function questionsFor(id){ if (id === "open") return (DATA.openApplication || {}).questions || []; const j = DATA.jobs.find(x => x.id === id); return j ? (j.questions || []) : []; }
+function renderQuestions(){
+  const id = $("#role").value, qs = questionsFor(id);
+  $("#step2").classList.add("hidden");
+  if (!id) { $("#step1").classList.add("hidden"); return; }
+  $("#step1").classList.remove("hidden"); $("#msg1").textContent = "";
+  $("#questions").innerHTML = qs.map((q, i) => `<div class="q" data-q="${esc(q.id)}"><p>${i+1}. ${esc(q.text)}</p>` +
+    (q.type === "choice" ? q.options.map((o, k) => `<label class="opt"><input type="radio" name="ans_${esc(q.id)}" value="${k}"> <span>${esc(o)}</span></label>`).join("")
+                         : `<textarea name="ans_${esc(q.id)}" placeholder="Your answer"></textarea>`) + `</div>`).join("");
+}
+function collectAnswers(){
+  const id = $("#role").value;
+  return questionsFor(id).map(q => {
+    if (q.type === "choice") { const c = document.querySelector(`input[name="ans_${q.id}"]:checked`); return {id:q.id, type:q.type, question:q.text, answerIndex: c ? Number(c.value) : null, answer: c ? q.options[Number(c.value)] : ""}; }
+    const t = document.querySelector(`textarea[name="ans_${q.id}"]`); return {id:q.id, type:q.type, question:q.text, answer: t ? t.value.trim() : ""};
+  });
+}
+$("#role").addEventListener("change", renderQuestions);
+$("#next").addEventListener("click", () => {
+  const a = collectAnswers();
+  if (a.some(x => x.type === "choice" ? x.answerIndex === null : x.answer.length < 3)) { $("#msg1").className = "msg err"; $("#msg1").textContent = "Please answer every question before continuing."; return; }
+  $("#msg1").textContent = ""; $("#step2").classList.remove("hidden"); $("#step2").scrollIntoView({behavior:"smooth"}); setTimeout(()=>$("#name").focus(), 400);
+});
+$("#back").addEventListener("click", () => { $("#step1").scrollIntoView({behavior:"smooth"}); });
 
 fetch("jobs.json?v=" + Date.now()).then(r => r.json()).then(d => {
-  const jobs = d.jobs || [];
+  DATA = d; const jobs = d.jobs || [];
   $("#jobs").innerHTML = jobs.length ? jobs.map(j => `
     <article class="job">
       <h3>${esc(j.title)}</h3>
@@ -123,7 +166,7 @@ fetch("jobs.json?v=" + Date.now()).then(r => r.json()).then(d => {
     jobs.map(j => `<option value="${esc(j.id)}">${esc(j.title)}</option>`).join("") +
     `<option value="open">Open application</option>`;
   const q = new URLSearchParams(location.search).get("role");
-  if (q) $("#role").value = q;
+  if (q) { $("#role").value = q; renderQuestions(); }
 }).catch(() => { $("#jobs").innerHTML = "<p>Roles could not be loaded. Please refresh.</p>"; });
 
 document.addEventListener("click", e => { const b = e.target.closest("[data-apply]"); if (b) pick(b.dataset.apply); });
@@ -134,6 +177,8 @@ $("#form").addEventListener("submit", async e => {
   e.preventDefault();
   const f = e.target.elements, msg = $("#msg"), btn = $("#send");
   msg.className = "msg"; msg.textContent = "";
+  const answers = collectAnswers();
+  if (answers.some(x => x.type === "choice" ? x.answerIndex === null : x.answer.length < 3)) { msg.className = "msg err"; msg.textContent = "Please answer every pre-assessment question first."; return; }
   const file = $("#cv").files[0];
   const need = ["role","name","email","phone"].filter(k => !f[k].value.trim());
   if (need.length || !file || !$("#consent").checked) { msg.className = "msg err"; msg.textContent = "Please fill in the role, your name, email, phone, attach your CV and tick the consent box."; return; }
@@ -147,17 +192,18 @@ $("#form").addEventListener("submit", async e => {
       role: sel.options[sel.selectedIndex].text, roleId: sel.value,
       name: f.name.value.trim(), email: f.email.value.trim(), phone: f.phone.value.trim(),
       linkedin: f.linkedin.value.trim(), notice: f.notice.value.trim(), salary: f.salary.value.trim(),
-      message: f.message.value.trim(), website: f.website.value,
+      message: f.message.value.trim(), website: f.website.value, answers,
       cvName: file.name, cvType: file.type || "application/octet-stream", cvData: await toB64(file)
     };
     const r = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
     const d = await r.json();
     if (!d.ok) throw new Error(d.error || "error");
-    e.target.reset();
-    msg.className = "msg ok"; msg.textContent = "Thank you! Your application has been sent. We'll be in touch if your profile matches the role.";
+    $("#form").outerHTML = '<p class="msg ok">Thank you! Your application has been sent. We\'ll be in touch if your profile matches the role.</p>';
+    $("#apply").scrollIntoView({behavior:"smooth"}); return;
   } catch (err) {
     msg.className = "msg err"; msg.textContent = "Sorry, something went wrong and your application was not sent. Please try again in a few minutes.";
-  } finally { btn.disabled = false; btn.textContent = "Send application"; }
+  }
+  btn.disabled = false; btn.textContent = "Send application";
 });
 </script>
 </body>
