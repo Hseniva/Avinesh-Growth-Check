@@ -35,8 +35,10 @@ main .wrap{padding:36px 16px 64px}
 .btn[disabled]{opacity:.55;cursor:not-allowed}
 .ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
 h2{font-size:22px;color:var(--ink);margin:0 0 16px}
-#apply{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
-@media(max-width:560px){#apply{padding:20px}}
+#apply{position:relative;max-width:720px}
+@media(max-width:560px){.modal{padding:20px}}
+.x{position:absolute;top:14px;right:14px;width:36px;height:36px;border:0;border-radius:99px;background:var(--bg);color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+.x:hover{background:var(--line)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:560px){.row{grid-template-columns:1fr}}
 label{display:block;font-size:14px;font-weight:600;color:var(--ink);margin:14px 0 6px}
@@ -90,11 +92,13 @@ footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
   <div class="filters" id="filters"></div>
   <div id="jobs"><p>Loading roles…</p></div>
 
-  <section id="apply">
-    <h2>Apply</h2>
+  <div class="overlay hidden" id="applyOverlay" role="dialog" aria-modal="true" aria-labelledby="applyTitle">
+   <div class="modal" id="apply">
+    <button type="button" class="x" id="closeApply" aria-label="Close">×</button>
+    <div class="lvl" id="applyLevel"></div>
+    <h3 id="applyTitle" style="padding-right:36px">Apply</h3>
     <form id="form" novalidate>
-      <label for="role">Role</label>
-      <select id="role" name="role" required></select>
+      <select id="role" name="role" class="hidden" aria-hidden="true" tabindex="-1"></select>
 
       <div class="step">Step 1 · Your name and CV</div>
       <label for="name">Full name</label>
@@ -129,7 +133,8 @@ footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
         <div class="msg" id="msg" role="status"></div>
       </div>
     </form>
-  </section>
+   </div>
+  </div>
 </div></main>
 <footer>PGD Mauritius · Careers</footer>
 
@@ -183,11 +188,24 @@ fetch("jobs.json?v=" + Date.now()).then(r => r.json()).then(d => {
   $("#filters").innerHTML = teams.length > 1 ? ["All", ...teams].map((t, i) => `<button type="button" class="chip${i ? "" : " on"}" data-team="${esc(t)}">${esc(t)}</button>`).join("") : "";
   $("#jobs").outerHTML = `<div id="jobs">${jobs.length ? teams.map(t => `<section class="team" data-team="${esc(t)}"><h3 class="teamh">${esc(t)}</h3><div class="grid">${sorted(t).map(card).join("")}</div></section>`).join("") : "<p>No open roles right now.</p>"}</div>`;
   $("#role").innerHTML = `<option value="">Select a role…</option>` + teams.map(t => `<optgroup label="${esc(t)}">${sorted(t).map(j => `<option value="${esc(j.id)}">${esc(j.title)}${j.level ? " – " + esc(lvlLabel(j)) : ""}</option>`).join("")}</optgroup>`).join("");
-  const q = new URLSearchParams(location.search).get("role"); if (q) $("#role").value = q;
+  const q = new URLSearchParams(location.search).get("role"); if (q && jobs.some(j => j.id === q)) openApply(q);
 }).catch(() => { $("#jobs").innerHTML = "<p>Roles could not be loaded. Please refresh.</p>"; });
 
 document.addEventListener("click", e => { const c = e.target.closest("[data-team].chip"); if (c) { document.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === c)); document.querySelectorAll("section.team").forEach(s => s.classList.toggle("hidden", c.dataset.team !== "All" && s.dataset.team !== c.dataset.team)); } });
-document.addEventListener("click", e => { const b = e.target.closest("[data-apply]"); if (b) { $("#role").value = b.dataset.apply; answers = []; $("#apply").scrollIntoView({behavior:"smooth"}); setTimeout(() => $("#name").focus(), 400); } });
+function openApply(id){
+  if ($("#role").value !== id) answers = [];
+  $("#role").value = id;
+  const j = job() || {};
+  $("#applyTitle").textContent = "Apply: " + (j.title || "");
+  $("#applyLevel").textContent = j.level ? lvlLabel(j) : "";
+  $("#applyOverlay").classList.remove("hidden"); document.body.style.overflow = "hidden";
+  setTimeout(() => { const n = $("#name"); if (n) n.focus(); }, 50);
+}
+function closeApply(){ $("#applyOverlay").classList.add("hidden"); document.body.style.overflow = ""; }
+document.addEventListener("click", e => { const b = e.target.closest("[data-apply]"); if (b) openApply(b.dataset.apply); });
+$("#closeApply").addEventListener("click", closeApply);
+$("#applyOverlay").addEventListener("click", e => { if (e.target.id === "applyOverlay") closeApply(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#applyOverlay").classList.contains("hidden")) closeApply(); });
 $("#role").addEventListener("change", () => { answers = []; });
 
 /* CV upload + auto-fill */
@@ -261,9 +279,10 @@ $("#start").addEventListener("click", () => {
   if (answers.length !== qs.length) answers = qs.map(() => null);
   $("#qcount").textContent = qs.length; $("#qrole").textContent = (job() || {}).title || "";
   $("#intro").classList.remove("hidden"); $("#quiz").classList.add("hidden");
+  $("#applyOverlay").classList.add("hidden");
   $("#overlay").classList.remove("hidden"); document.body.style.overflow = "hidden";
 });
-$("#later").addEventListener("click", closeModal);
+$("#later").addEventListener("click", () => { closeModal(); openApply($("#role").value); });
 function closeModal(){ $("#overlay").classList.add("hidden"); document.body.style.overflow = ""; }
 $("#go").addEventListener("click", () => { qi = answers.findIndex(a => a === null); if (qi < 0) qi = 0; $("#intro").classList.add("hidden"); $("#quiz").classList.remove("hidden"); showQ(); });
 function progress(){ $("#qbar").style.width = (100 * answers.filter(a => a !== null).length / questions().length) + "%"; }
@@ -306,7 +325,7 @@ async function submit(){
     $("#form").outerHTML = '<div class="done"><p style="margin:0 0 8px">Thank you, your application and assessment have been sent.</p>' +
       (lv ? '<p style="margin:0 0 8px">Based on your answers, you may qualify for <b>Level ' + lv + ' · ' + esc(d.levelName || LEVEL_NAMES[lv]) + '</b>.</p>' : '') +
       '<p style="margin:0;font-weight:400">Our team will review your application internally and get back to you.</p></div>';
-    $("#apply").scrollIntoView({behavior:"smooth"});
+    $("#applyOverlay").classList.remove("hidden"); document.body.style.overflow = "hidden";
   } catch (err) {
     (questions().length ? qmsg : $("#msg")).className = "msg err";
     (questions().length ? qmsg : $("#msg")).textContent = "Sorry, something went wrong and your application was not sent. Please try again.";
