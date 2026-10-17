@@ -123,10 +123,6 @@ footer{text-align:center;font-size:13px;color:var(--muted);padding:0 16px 32px}
         <input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/…">
         <label for="skills">What you can do (key skills and tools)</label>
         <textarea id="skills" name="skills" placeholder="e.g. Excel (pivot tables, XLOOKUP), Amazon Seller Central, Google Analytics, reporting…"></textarea>
-        <div class="row">
-          <div><label for="notice">Notice period / availability</label><input id="notice" name="notice" placeholder="e.g. 1 month"></div>
-          <div><label for="salary">Expected salary (optional)</label><input id="salary" name="salary" placeholder="e.g. Rs 45,000 / month"></div>
-        </div>
         <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="consent"><input type="checkbox" id="consent" required><label for="consent" style="margin:0;font-weight:400;color:var(--text)">I agree that my application and CV are used to assess my candidacy for this and similar roles.</label></div>
         <div style="margin-top:20px"><button class="btn" type="button" id="start">Continue to the assessment</button></div>
@@ -312,7 +308,7 @@ async function submit(){
       role: sel.options[sel.selectedIndex].text.replace(" · ", " – "), roleId: sel.value,
       name: $("#name").value.trim(), email: $("#email").value.trim(), phone: $("#phone").value.trim(),
       linkedin: $("#linkedin").value.trim(), title: $("#title").value.trim(), years: $("#years").value.trim(),
-      skills: $("#skills").value.trim(), notice: $("#notice").value.trim(), salary: $("#salary").value.trim(),
+      skills: $("#skills").value.trim(),
       website: document.querySelector('[name="website"]').value,
       answers: qs.map((q, i) => ({id: q.id, type: "choice", question: q.text, answerIndex: answers[i], answer: answers[i] === null ? "" : q.options[answers[i]]})),
       cvName: CV.name, cvType: CV.type || "application/octet-stream", cvData: await toB64(CV)
