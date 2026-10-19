@@ -168,7 +168,15 @@ const lvlLabel = j => `Level ${j.level} · ${j.levelName || LEVEL_NAMES[j.level]
 const job = () => DATA.jobs.find(j => j.id === $("#role").value);
 const questions = () => ((job() || {}).questions || []).filter(q => q.type === "choice");
 
+const FAMILIES = {"paid-search": "Paid Search", "paid-social": "Paid Social", "ecommerce": "E-commerce"};
+const FAMILY = FAMILIES[(location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase()] || "";
+if (FAMILY) {
+  document.title = FAMILY + " jobs in Mauritius – Media Careers";
+  $("header h1").textContent = FAMILY + " jobs in Mauritius";
+  $("main h2").textContent = "Open " + FAMILY + " roles";
+}
 fetch("jobs.json?v=" + Date.now()).then(r => r.json()).then(d => {
+  if (FAMILY) d.jobs = (d.jobs || []).filter(j => j.team === FAMILY);
   DATA = d; const jobs = d.jobs || [];
   const teams = [...new Set(jobs.map(j => j.team || "Other"))];
   const card = j => `
@@ -317,9 +325,7 @@ async function submit(){
     const d = await r.json();
     if (!d.ok) throw new Error(d.error || "error");
     closeModal();
-    const lv = Number(d.level) || 0;
     $("#form").outerHTML = '<div class="done"><p style="margin:0 0 8px">Thank you, your application and assessment have been sent.</p>' +
-      (lv ? '<p style="margin:0 0 8px">Based on your answers, you may qualify for <b>Level ' + lv + ' · ' + esc(d.levelName || LEVEL_NAMES[lv]) + '</b>.</p>' : '') +
       '<p style="margin:0;font-weight:400">Our team will review your application internally and get back to you.</p></div>';
     $("#applyOverlay").classList.remove("hidden"); document.body.style.overflow = "hidden";
   } catch (err) {
