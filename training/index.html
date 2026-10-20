@@ -57,6 +57,10 @@ button{font:inherit;cursor:pointer}
 .fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px;min-width:120px}
 .fact strong{display:block;color:var(--ink);font-size:20px;line-height:1.2}
 .fact span{font-size:13px;color:var(--mut)}
+.join{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:-8px 0 0}
+.btn-join{background:var(--ink);color:#fff;box-shadow:0 6px 18px rgba(27,33,64,.25)}
+.btn-join:hover{transform:translateY(-1px);background:#2b3260}
+.join span{font-size:14px;color:var(--mut);max-width:300px}
 .photo{border-radius:24px;overflow:hidden;background:var(--lav);aspect-ratio:21/9;position:relative;box-shadow:var(--shadow);margin-top:8px}
 .photo img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
 .photo figcaption{position:absolute;left:18px;bottom:16px;background:rgba(255,255,255,.92);color:var(--ink);font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(27,33,64,.12)}
@@ -297,7 +301,7 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 </main>
 
 <footer>
-  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span>Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
+  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span><a href="mailto:mauritius@oreegami.com?cc=digitalmarketer@hseniva.com&amp;subject=Join%20the%20next%20batch%20-%20Digital%20Marketing%20%26%20AI%20Bootcamp&amp;body=Hello%2C%0D%0A%0D%0AI%20would%20like%20to%20join%20the%20next%20batch%20of%20the%20Digital%20Marketing%20%26%20AI%20Bootcamp.%0D%0A%0D%0AName%3A%20%0D%0APhone%20%2F%20WhatsApp%3A%20%0D%0AJob%20or%20business%3A%20%0D%0A%0D%0AThank%20you">Join our next batch</a> · Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
 </footer>
 <div class="toast" id="toast"></div>
 
@@ -410,6 +414,7 @@ function renderWelcome(info) {
         '<h1>Welcome to the <span>Digital Marketing & AI Bootcamp</span></h1>' +
         '<p class="lead">A practical, hands-on programme that takes you from the foundations of the digital ecosystem to running paid campaigns, using AI and building a real marketing strategy. Each module gives you a presentation, reading notes, exercises and a revision quiz, and you can follow your progress every step of the way.</p>' +
         '<div class="facts"><div class="fact"><strong>20</strong><span>weeks</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
+        '<div class="join"><a class="btn btn-join" id="joinBtn" href="mailto:mauritius@oreegami.com?cc=digitalmarketer@hseniva.com&subject=Join%20the%20next%20batch%20-%20Digital%20Marketing%20%26%20AI%20Bootcamp&body=Hello%2C%0D%0A%0D%0AI%20would%20like%20to%20join%20the%20next%20batch%20of%20the%20Digital%20Marketing%20%26%20AI%20Bootcamp.%0D%0A%0D%0AName%3A%20%0D%0APhone%20%2F%20WhatsApp%3A%20%0D%0AJob%20or%20business%3A%20%0D%0A%0D%0AThank%20you">Join our next batch →</a><span>Interested? Send us your details and we will share the next start date and fees.</span></div>' +
       '</div>' +
       '<div id="login"><form class="login" id="loginForm" novalidate>' +
         '<h2 id="lgTitle">Student login</h2>' +
