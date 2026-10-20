@@ -33,7 +33,8 @@ var TABS = {
   Progress:     ['email', 'module_id', 'item', 'value', 'updated_at'],
   Submissions:  ['email', 'module_id', 'exercise_id', 'text', 'submitted_at'],
   QuizAttempts: ['email', 'module_id', 'score', 'total', 'pct', 'passed', 'answers', 'attempted_at'],
-  Sessions:     ['token', 'email', 'expires_at']
+  Sessions:     ['token', 'email', 'expires_at'],
+  Enquiries:    ['submitted_at', 'name', 'email', 'phone', 'address', 'profile', 'reason', 'heard_from', 'status']
 };
 
 /* ================= HTTP ================= */
@@ -59,6 +60,7 @@ function doPost(e) {
 function route_(req) {
   switch (req.action) {
     case 'catalog':           return { ok: true, courses: catalog_() };
+    case 'enquiry':           return enquiry_(req);
     case 'login':             return login_(req);
     case 'setPassword':       return setPassword_(req);
     case 'logout':            return logout_(req);
@@ -524,6 +526,50 @@ function notifyQuiz_(student, m, r, attemptNo) {
       '<p style="color:#6b7392;font-size:12px">Answers are in the QuizAttempts tab of the platform Google Sheet. Sent automatically by the DMM learning platform.</p></div>';
     MailApp.sendEmail({ to: to.join(','), subject: subject, body: lines.join('\n'), htmlBody: html, name: 'DMM Learning Platform', replyTo: norm_(student.email) });
   } catch (e) { console.error('Quiz email failed: ' + e); }
+}
+
+/* ================= "Join our next batch" enquiries (public form) ================= */
+
+var ENQUIRY_NOTIFY = ['admin@hseniva.com'];
+
+function enquiry_(req) {
+  if (str_(req.website)) return { ok: true };                    /* honeypot: bots fill hidden fields */
+  var clip = function (v, n) { return str_(v).replace(/[\r\n]+/g, ' ').slice(0, n); };
+  var d = {
+    name: clip(req.name, 120), email: norm_(req.email).slice(0, 160), phone: clip(req.phone, 40),
+    address: clip(req.address, 200), profile: clip(req.profile, 80),
+    heard_from: clip(req.heard_from, 80), reason: str_(req.reason).slice(0, 2000)
+  };
+  if (!d.name) throw new Error('Please enter your name.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) throw new Error('Please enter a valid email address.');
+  if (d.phone.replace(/\D/g, '').length < 7) throw new Error('Please enter a phone or WhatsApp number.');
+  if (!d.profile) throw new Error('Please tell us which best describes you.');
+  if (!d.reason) throw new Error('Please tell us why you want to join.');
+  var recent = table_('Enquiries').rows.some(function (r) {
+    return norm_(r.email) === d.email && r.submitted_at instanceof Date && now_() - r.submitted_at < 10 * 60 * 1000;
+  });
+  if (recent) return { ok: true, duplicate: true };
+  d.submitted_at = now_(); d.status = 'New';
+  append_('Enquiries', d);
+  try {
+    var rows = [['Name', d.name], ['Email', d.email], ['Phone / WhatsApp', d.phone], ['Address', d.address], ['I am', d.profile], ['Why I want to join', d.reason], ['Heard about us from', d.heard_from]]
+      .filter(function (r) { return r[1]; });
+    var esc = function (t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+    MailApp.sendEmail({
+      to: ENQUIRY_NOTIFY.join(','), replyTo: d.email, name: 'DMM Learning Platform',
+      subject: 'New enquiry for the next batch: ' + d.name,
+      body: rows.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n') + '\n\nAll enquiries are in the Enquiries tab of the platform Google Sheet.',
+      htmlBody: '<div style="font-family:Arial,sans-serif;font-size:14px;color:#1b2140"><p style="font-size:16px"><strong>' + esc(d.name) + '</strong> wants to join the next batch of the Digital Marketing &amp; AI Bootcamp.</p><table cellpadding="6" style="border-collapse:collapse">' +
+        rows.map(function (r) { return '<tr><td style="color:#6b7392;vertical-align:top">' + r[0] + '</td><td><strong>' + esc(r[1]) + '</strong></td></tr>'; }).join('') +
+        '</table><p style="color:#6b7392;font-size:12px">Reply to this email to answer them directly. All enquiries are in the Enquiries tab of the platform Google Sheet.</p></div>'
+    });
+    MailApp.sendEmail({
+      to: d.email, replyTo: 'admin@hseniva.com', name: 'Oreegami Mauritius · Digital Marketing & AI',
+      subject: 'Thank you for your interest in the Digital Marketing & AI Bootcamp',
+      body: 'Hello ' + d.name + ',\n\nThank you for your interest in the next batch of the Digital Marketing & AI Bootcamp with Oreegami Mauritius.\n\nWe have received your details and will contact you soon with the next start date, schedule and fees.\n\nKind regards,\nAvinesh Bundhoo\nDigital Marketing & AI'
+    });
+  } catch (e) { console.error('Enquiry email failed: ' + e); }
+  return { ok: true };
 }
 
 /** Run once from the editor to authorise sending emails. */
