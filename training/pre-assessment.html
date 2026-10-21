@@ -489,6 +489,7 @@ async function submit(){
     if(ENDPOINT!=="PREVIEW") await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
   }catch(e){ ok=false; }
   if(!ok){ btn.disabled=false; btn.textContent=L().send; document.getElementById("err").textContent=L().saveErr; return; }
+  try{ if(window.DMM&&DMM.configured()) DMM.api("preassessmentResult",{result:payload}).catch(function(){}); }catch(e){}
   try{ window.dataLayer=window.dataLayer||[]; dataLayer.push({event:"dmm_onboarding_submit"}); }catch(e){}
   clearDraft(); i="done"; render(); dmmLinkDone(); window.scrollTo({top:0,behavior:"smooth"});
 }

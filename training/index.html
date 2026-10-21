@@ -61,6 +61,26 @@ button{font:inherit;cursor:pointer}
 .btn-join{background:var(--ink);color:#fff;box-shadow:0 6px 18px rgba(27,33,64,.25)}
 .btn-join:hover{transform:translateY(-1px);background:#2b3260}
 .join span{font-size:14px;color:var(--mut);max-width:300px}
+.jm{position:fixed;inset:0;background:rgba(27,33,64,.55);display:none;align-items:flex-start;justify-content:center;z-index:60;overflow-y:auto;padding:32px 16px}
+.jm.open{display:flex}
+.jm-box{background:#fff;border-radius:20px;width:100%;max-width:560px;padding:28px;box-shadow:0 24px 60px rgba(27,33,64,.3);position:relative}
+.jm-box h2{margin:0 0 6px;font-size:24px;color:var(--ink)}
+.jm-box .lsub{margin:0 0 18px;color:var(--mut);font-size:14px}
+.jm-x{position:absolute;top:14px;right:14px;border:0;background:var(--lav);color:var(--b2);width:34px;height:34px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}
+.jm .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.jm .field select,.jm .field textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:15px;color:var(--ink);background:#fff}
+.jm .field textarea{min-height:96px;resize:vertical}
+.jm .field select:focus,.jm .field textarea:focus{outline:none;border-color:var(--b1);box-shadow:0 0 0 4px rgba(102,126,234,.15)}
+.jm .opt{font-weight:400;color:var(--mut)}
+.jm .chips{display:flex;flex-wrap:wrap;gap:8px}
+.jm .chips label{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500;cursor:pointer;margin:0}
+.jm .chips input{width:auto;margin:0;accent-color:var(--b1)}
+.jm .chips label:has(input:checked){border-color:var(--b1);background:var(--lav);color:var(--b2)}
+.jm .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.jm .btn{width:100%;padding:14px}
+.jm .done{text-align:center;padding:20px 0}
+.jm .done .ok{width:56px;height:56px;border-radius:50%;background:var(--grad);color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+@media (max-width:560px){.jm .row2{grid-template-columns:1fr}.jm-box{padding:22px}}
 .photo{border-radius:24px;overflow:hidden;background:var(--lav);aspect-ratio:21/9;position:relative;box-shadow:var(--shadow);margin-top:8px}
 .photo img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
 .photo figcaption{position:absolute;left:18px;bottom:16px;background:rgba(255,255,255,.92);color:var(--ink);font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(27,33,64,.12)}
@@ -301,9 +321,41 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 </main>
 
 <footer>
-  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span><a href="mailto:mauritius@oreegami.com?cc=digitalmarketer@hseniva.com&amp;subject=Join%20the%20next%20batch%20-%20Digital%20Marketing%20%26%20AI%20Bootcamp&amp;body=Hello%2C%0D%0A%0D%0AI%20would%20like%20to%20join%20the%20next%20batch%20of%20the%20Digital%20Marketing%20%26%20AI%20Bootcamp.%0D%0A%0D%0AName%3A%20%0D%0APhone%20%2F%20WhatsApp%3A%20%0D%0AJob%20or%20business%3A%20%0D%0A%0D%0AThank%20you">Join our next batch</a> · Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
+  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span><a href="#join" onclick="openJoin();return false">Join our next batch</a> · Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
 </footer>
 <div class="toast" id="toast"></div>
+<div class="jm" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="jmTitle" onclick="if(event.target===this)closeJoin()">
+  <div class="jm-box">
+    <button class="jm-x" type="button" aria-label="Close" onclick="closeJoin()">×</button>
+    <div id="jmForm">
+      <h2 id="jmTitle">Join our next batch</h2>
+      <p class="lsub">Digital Marketing &amp; AI Bootcamp · Oreegami Mauritius. Leave your details and we will contact you with the next start date and fees.</p>
+      <div class="msg err hidden" id="jmErr"></div>
+      <form id="joinForm" novalidate>
+        <div class="field"><label for="jmName">Full name</label><input id="jmName" autocomplete="name" required></div>
+        <div class="row2">
+          <div class="field"><label for="jmEmail">Email</label><input id="jmEmail" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+          <div class="field"><label for="jmPhone">Phone / WhatsApp</label><input id="jmPhone" type="tel" autocomplete="tel" required placeholder="+230 5xxx xxxx"></div>
+        </div>
+        <div class="field"><label for="jmAddress">Address <span class="opt">(town or area)</span></label><input id="jmAddress" autocomplete="street-address" placeholder="e.g. Quatre Bornes"></div>
+        <div class="field"><label>Which best describes you?</label><div class="chips" id="jmProfile">
+          <label><input type="radio" name="jmp" value="Student">Student</label>
+          <label><input type="radio" name="jmp" value="Career change">Career change</label>
+          <label><input type="radio" name="jmp" value="Business owner / entrepreneur">Business owner</label>
+          <label><input type="radio" name="jmp" value="Employed, want to upskill">Employed, want to upskill</label>
+          <label><input type="radio" name="jmp" value="Freelancer">Freelancer</label>
+          <label><input type="radio" name="jmp" value="Other">Other</label>
+        </div></div>
+        <div class="field"><label for="jmReason">Why do you want to join?</label><textarea id="jmReason" required placeholder="Tell us a little about your goals: a new job, growing your business, running your own ads…"></textarea></div>
+        <div class="field"><label for="jmHeard">How did you hear about us? <span class="opt">(optional)</span></label><select id="jmHeard"><option value="">Choose…</option><option>Facebook</option><option>Instagram</option><option>LinkedIn</option><option>Google</option><option>Friend or colleague</option><option>Oreegami</option><option>Webinar or event</option><option>Other</option></select></div>
+        <div class="hp" aria-hidden="true"><label for="jmWeb">Website</label><input id="jmWeb" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn-join" id="jmBtn" type="submit">Send my details</button>
+      </form>
+    </div>
+    <div class="done hidden" id="jmDone"><div class="ok">✓</div><h2>Thank you!</h2><p class="lsub">We have received your details and sent you a confirmation email. We will contact you soon about the next batch.</p><button class="btn btn-ghost" type="button" onclick="closeJoin()">Close</button></div>
+  </div>
+</div>
+
 
 <script src="/platform.js"></script>
 <script>
@@ -332,6 +384,37 @@ function cacheSet(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } 
 function cacheClear() { try { Object.keys(sessionStorage).forEach(function (k) { if (k.indexOf('dmm_') === 0 && k !== 'dmm_open') sessionStorage.removeItem(k); }); } catch (e) {} }
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 function linkify(s) { return esc(s).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'); }
+function openJoin() {
+  var m = document.getElementById('joinModal'); m.classList.add('open'); document.body.style.overflow = 'hidden';
+  document.getElementById('jmForm').classList.remove('hidden'); document.getElementById('jmDone').classList.add('hidden');
+  document.getElementById('joinForm').onsubmit = sendJoin;
+  setTimeout(function () { document.getElementById('jmName').focus(); }, 50);
+  if (location.hash !== '#join') history.replaceState(null, '', '#join');
+}
+function closeJoin() {
+  document.getElementById('joinModal').classList.remove('open'); document.body.style.overflow = '';
+  if (location.hash === '#join') history.replaceState(null, '', location.pathname + location.search);
+}
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.getElementById('joinModal').classList.contains('open')) closeJoin(); });
+function sendJoin(ev) {
+  ev.preventDefault();
+  var v = function (id) { return document.getElementById(id).value.trim(); };
+  var pr = document.querySelector('input[name="jmp"]:checked');
+  var d = { name: v('jmName'), email: v('jmEmail'), phone: v('jmPhone'), address: v('jmAddress'), profile: pr ? pr.value : '', reason: v('jmReason'), heard_from: v('jmHeard'), website: v('jmWeb') };
+  var err = !d.name ? 'Please enter your name.' : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email) ? 'Please enter a valid email address.' : d.phone.replace(/\D/g, '').length < 7 ? 'Please enter a phone or WhatsApp number.' : !d.profile ? 'Please tell us which best describes you.' : !d.reason ? 'Please tell us why you want to join.' : '';
+  var box = document.getElementById('jmErr');
+  if (err) { box.textContent = err; box.classList.remove('hidden'); return false; }
+  box.classList.add('hidden');
+  var b = document.getElementById('jmBtn'); b.disabled = true; b.textContent = 'Sending…';
+  DMM.api('enquiry', d).then(function (r) {
+    b.disabled = false; b.textContent = 'Send my details';
+    if (!r.ok) { box.textContent = r.error || 'Something went wrong. Please try again.'; box.classList.remove('hidden'); return; }
+    document.getElementById('joinForm').reset();
+    document.getElementById('jmForm').classList.add('hidden'); document.getElementById('jmDone').classList.remove('hidden');
+  }).catch(function () { b.disabled = false; b.textContent = 'Send my details'; box.textContent = 'Connection problem. Please try again.'; box.classList.remove('hidden'); });
+  return false;
+}
+if (location.hash === '#join') setTimeout(openJoin, 300);
 function toast(m) { var t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('show'); }, 2600); }
 function first(n) { return String(n || '').split(' ')[0]; }
 function safeNext() { var n = new URLSearchParams(location.search).get('next') || ''; return /^\/(?!\/)[A-Za-z0-9\-_/?=&.%]*$/.test(n) ? n : ''; }
@@ -414,7 +497,7 @@ function renderWelcome(info) {
         '<h1>Welcome to the <span>Digital Marketing & AI Bootcamp</span></h1>' +
         '<p class="lead">A practical, hands-on programme that takes you from the foundations of the digital ecosystem to running paid campaigns, using AI and building a real marketing strategy. Each module gives you a presentation, reading notes, exercises and a revision quiz, and you can follow your progress every step of the way.</p>' +
         '<div class="facts"><div class="fact"><strong>20</strong><span>weeks</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
-        '<div class="join"><a class="btn btn-join" id="joinBtn" href="mailto:mauritius@oreegami.com?cc=digitalmarketer@hseniva.com&subject=Join%20the%20next%20batch%20-%20Digital%20Marketing%20%26%20AI%20Bootcamp&body=Hello%2C%0D%0A%0D%0AI%20would%20like%20to%20join%20the%20next%20batch%20of%20the%20Digital%20Marketing%20%26%20AI%20Bootcamp.%0D%0A%0D%0AName%3A%20%0D%0APhone%20%2F%20WhatsApp%3A%20%0D%0AJob%20or%20business%3A%20%0D%0A%0D%0AThank%20you">Join our next batch →</a><span>Interested? Send us your details and we will share the next start date and fees.</span></div>' +
+        '<div class="join"><a class="btn btn-join" id="joinBtn" href="#join" onclick="openJoin();return false">Join our next batch →</a><span>Places are limited. Leave your details and we will send you the next start date and fees.</span></div>' +
       '</div>' +
       '<div id="login"><form class="login" id="loginForm" novalidate>' +
         '<h2 id="lgTitle">Student login</h2>' +
