@@ -61,6 +61,7 @@ function route_(req) {
   switch (req.action) {
     case 'catalog':           return { ok: true, courses: catalog_() };
     case 'enquiry':           return enquiry_(req);
+    case 'preassessmentResult': return preassessmentResult_(req);
     case 'login':             return login_(req);
     case 'setPassword':       return setPassword_(req);
     case 'logout':            return logout_(req);
@@ -569,6 +570,37 @@ function enquiry_(req) {
       body: 'Hello ' + d.name + ',\n\nThank you for your interest in the next batch of the Digital Marketing & AI Bootcamp with Oreegami Mauritius.\n\nWe have received your details and will contact you soon with the next start date, schedule and fees.\n\nKind regards,\nAvinesh Bundhoo\nDigital Marketing & AI'
     });
   } catch (e) { console.error('Enquiry email failed: ' + e); }
+  return { ok: true };
+}
+
+/* ================= Pre-assessment results: copy emailed to the admin ================= */
+
+var PREASSESSMENT_NOTIFY = ['admin@hseniva.com'];
+
+function preassessmentResult_(req) {
+  var p = req.result || {};
+  var name = str_(p.name).slice(0, 120), email = norm_(p.email).slice(0, 160);
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: 'Missing name or email.' };
+  var labels = [['name', 'Name'], ['email', 'Email'], ['phone', 'Phone'], ['why', 'Why they want to join'], ['experience', 'Experience'],
+    ['learning_type', 'Learning type'], ['lt_visual', 'Visual'], ['lt_structured', 'Structured'], ['lt_social', 'Social'], ['lt_handson', 'Hands-on'],
+    ['mcq_score', 'Knowledge check score'], ['t_total', 'Total time'], ['extra', 'Anything else'], ['lang', 'Language']];
+  var detail = ['s1q1', 's1q2', 's1q2r', 's2q1', 's2q2', 's2q3', 's3a', 's3b', 's3q2', 'l1', 'l2', 'l3', 'l4', 'likert',
+    't_ltype', 't_strategy', 't_analytics', 't_creative', 't_style', 'lt_signals'];
+  var val = function (k) { return str_(p[k]).slice(0, 1500); };
+  var rows = labels.map(function (l) { return [l[1], val(l[0])]; }).filter(function (r) { return r[1]; });
+  var more = detail.map(function (k) { return [k, val(k)]; }).filter(function (r) { return r[1]; });
+  var esc = function (t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var tr = function (r) { return '<tr><td style="color:#6b7392;vertical-align:top">' + esc(r[0]) + '</td><td><strong>' + esc(r[1]) + '</strong></td></tr>'; };
+  try {
+    MailApp.sendEmail({
+      to: PREASSESSMENT_NOTIFY.join(','), replyTo: email, name: 'DMM Learning Platform',
+      subject: 'New pre-assessment: ' + name + (val('t_total') ? ' (' + val('t_total') + ')' : ''),
+      body: rows.concat([['', ''], ['All answers', '']]).concat(more).map(function (r) { return r[0] ? r[0] + ': ' + r[1] : ''; }).join('\n'),
+      htmlBody: '<div style="font-family:Arial,sans-serif;font-size:14px;color:#1b2140"><p style="font-size:16px"><strong>' + esc(name) + '</strong> completed the pre-bootcamp assessment.</p><table cellpadding="6" style="border-collapse:collapse">' +
+        rows.map(tr).join('') + '</table><p style="margin-top:18px"><strong>All answers</strong></p><table cellpadding="4" style="border-collapse:collapse;font-size:13px">' + more.map(tr).join('') +
+        '</table><p style="color:#6b7392;font-size:12px">Sent automatically by the DMM learning platform.</p></div>'
+    });
+  } catch (e) { console.error('Pre-assessment email failed: ' + e); return { ok: false, error: 'Email failed.' }; }
   return { ok: true };
 }
 
