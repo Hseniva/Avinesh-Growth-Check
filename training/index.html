@@ -321,7 +321,7 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 </main>
 
 <footer>
-  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span><a href="#join" onclick="openJoin();return false">Join our next batch</a> · Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
+  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span><a href="#enrol" onclick="goEnrol();return false">Enrol</a> · Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
 </footer>
 <div class="toast" id="toast"></div>
 <div class="jm" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="jmTitle" onclick="if(event.target===this)closeJoin()">
@@ -414,7 +414,7 @@ function sendJoin(ev) {
   }).catch(function () { b.disabled = false; b.textContent = 'Send my details'; box.textContent = 'Connection problem. Please try again.'; box.classList.remove('hidden'); });
   return false;
 }
-if (location.hash === '#join') setTimeout(openJoin, 300);
+if (location.hash === '#join' || location.hash === '#enrol') setTimeout(goEnrol, 300);
 function toast(m) { var t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('show'); }, 2600); }
 function first(n) { return String(n || '').split(' ')[0]; }
 function safeNext() { var n = new URLSearchParams(location.search).get('next') || ''; return /^\/(?!\/)[A-Za-z0-9\-_/?=&.%]*$/.test(n) ? n : ''; }
@@ -474,7 +474,7 @@ function journeyHTML(c) {
   if (!c || !c.phases || !c.phases.length) return '';
   return '<div class="journey"><h4>' + esc(c.title) + ': learning journey</h4><div class="pgrid">' + c.phases.map(function (p) {
     return '<div class="pcard"><div class="num">' + ('0' + p.phase).slice(-2) + '</div><h4>' + esc(p.title) + '</h4><div class="wk">' + esc(p.weeks) + '</div><p>' + esc(p.focus) + '</p></div>';
-  }).join('') + '</div><p class="muted" style="margin-top:14px;font-size:14px">Phases unlock one after the other as you complete them. <a href="#login" onclick="document.getElementById(\'lgEmail\').focus()">Log in to access this course →</a></p></div>';
+  }).join('') + '</div><p class="muted" style="margin-top:14px;font-size:14px">Phases unlock one after the other as you complete them. <a href="#enrol" onclick="goEnrol();return false">Enrol to access this course →</a></p></div>';
 }
 function renderCatalog() {
   var el = document.getElementById('catalog');
@@ -496,29 +496,55 @@ function renderWelcome(info) {
         '<span class="eyebrow"><i></i>Oreegami Mauritius</span>' +
         '<h1>Welcome to the <span>Digital Marketing & AI Bootcamp</span></h1>' +
         '<p class="lead">A practical, hands-on programme that takes you from the foundations of the digital ecosystem to running paid campaigns, using AI and building a real marketing strategy. Each module gives you a presentation, reading notes, exercises and a revision quiz, and you can follow your progress every step of the way.</p>' +
-        '<div class="facts"><div class="fact"><strong>20</strong><span>weeks</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
-        '<div class="join"><a class="btn btn-join" id="joinBtn" href="#join" onclick="openJoin();return false">Join our next batch →</a><span>Places are limited. Leave your details and we will send you the next start date and fees.</span></div>' +
+        '<div class="facts"><div class="fact"><strong>120</strong><span>hours</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
       '</div>' +
       '<div id="login"><form class="login" id="loginForm" novalidate>' +
-        '<h2 id="lgTitle">Student login</h2>' +
-        '<p class="lsub" id="lgSub">Use the email you enrolled with.</p>' +
+        '<h2 id="lgTitle">Enrol</h2>' +
+        '<p class="lsub" id="lgSub">Create your student account to access your courses, materials, exercises and quizzes.</p>' +
         (info ? '<div class="msg info">' + esc(info) + '</div>' : '') +
         '<div class="msg err hidden" id="lgErr"></div>' +
+        '<div class="field" id="rgNameWrap"><label for="rgName">Full name</label><input id="rgName" type="text" autocomplete="name" placeholder="Your full name"></div>' +
         '<div class="field"><label for="lgEmail">Email</label><input id="lgEmail" type="email" autocomplete="username" required placeholder="you@example.com"></div>' +
-        '<div class="field"><label for="lgPw" id="lgPwLabel">Password</label><input id="lgPw" type="password" autocomplete="current-password" placeholder="Your password"></div>' +
-        '<div class="field hidden" id="lgPw2Wrap"><label for="lgPw2">Confirm password</label><input id="lgPw2" type="password" autocomplete="new-password" placeholder="Type it again"></div>' +
-        '<button class="btn btn-grad" id="lgBtn" type="submit">Login to Access Your Training</button>' +
-        '<p class="alt">First time here? Enter your email and press the button: you\'ll be asked to create your password.<br>New student? <a href="/pre-assessment">Take the pre-assessment</a>.</p>' +
+        '<div class="field" id="rgPhoneWrap"><label for="rgPhone">Phone or WhatsApp (optional)</label><input id="rgPhone" type="tel" autocomplete="tel" placeholder="+230 5xxx xxxx"></div>' +
+        '<div class="field"><label for="lgPw" id="lgPwLabel">Password</label><input id="lgPw" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div>' +
+        '<div class="field" id="lgPw2Wrap"><label for="lgPw2">Confirm password</label><input id="lgPw2" type="password" autocomplete="new-password" placeholder="Type it again"></div>' +
+        '<input type="text" id="rgWeb" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">' +
+        '<button class="btn btn-grad" id="lgBtn" type="submit">Enrol</button>' +
+        '<p class="alt" id="lgAlt"></p>' +
       '</form></div>' +
     '</div>' + heroCap + '</section>' +
     '<section class="section"><div class="wrap"><h3>Our courses</h3><p class="intro">Every programme follows the same structure: phases, modules, exercises and revision quizzes, with your progress tracked from 0% to 100%.</p><div id="catalog"></div></div></section>';
-  loginMode = 'login';
   document.getElementById('loginForm').onsubmit = doLogin;
+  setMode(info ? 'login' : 'enrol');
   renderCatalog();
   if (!DMM.configured()) { showErr('The student platform is being set up. Please check back shortly.'); return; }
   if (!CATALOG) DMM.api('catalog').then(function (r) { if (r.ok && r.courses && r.courses.length) { CATALOG = r.courses; renderCatalog(); } });
 }
 function showErr(m) { var e = document.getElementById('lgErr'); if (!e) return; e.textContent = m; e.classList.toggle('hidden', !m); }
+function setMode(mode) {
+  loginMode = mode;
+  var enrol = mode === 'enrol', $ = function (id) { return document.getElementById(id); };
+  if (!$('loginForm')) return;
+  showErr('');
+  $('lgTitle').textContent = enrol ? 'Enrol' : 'Student login';
+  $('lgSub').textContent = enrol ? 'Create your student account to access your courses, materials, exercises and quizzes.' : 'Use the email you enrolled with.';
+  $('rgNameWrap').classList.toggle('hidden', !enrol);
+  $('rgPhoneWrap').classList.toggle('hidden', !enrol);
+  $('lgPw2Wrap').classList.toggle('hidden', !enrol);
+  $('lgPwLabel').textContent = 'Password';
+  $('lgPw').setAttribute('autocomplete', enrol ? 'new-password' : 'current-password');
+  $('lgPw').placeholder = enrol ? 'At least 8 characters' : 'Your password';
+  $('lgEmail').readOnly = false;
+  $('lgBtn').textContent = enrol ? 'Enrol' : 'Log in';
+  $('lgAlt').innerHTML = enrol ? 'Already enrolled? <a href="#login" onclick="setMode(\'login\');return false">Log in</a>' : 'New here? <a href="#enrol" onclick="setMode(\'enrol\');return false">Enrol</a>';
+}
+function goEnrol() {
+  if (DMM.session()) { location.hash = '#/courses'; return; }
+  var f = document.getElementById('loginForm');
+  if (!f) { history.replaceState(null, '', '/'); renderWelcome(); f = document.getElementById('loginForm'); }
+  setMode('enrol'); f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function () { var n = document.getElementById('rgName'); if (n) n.focus(); }, 300);
+}
 function setCreateMode(name) {
   loginMode = 'create';
   document.getElementById('lgTitle').textContent = name ? 'Welcome, ' + first(name) + '!' : 'Create your password';
@@ -528,6 +554,7 @@ function setCreateMode(name) {
   document.getElementById('lgPw').placeholder = 'At least 8 characters';
   document.getElementById('lgPw2Wrap').classList.remove('hidden');
   document.getElementById('lgBtn').textContent = 'Create password & continue';
+  document.getElementById('lgAlt').innerHTML = '';
   document.getElementById('lgEmail').readOnly = true;
   document.getElementById('lgPw').focus();
 }
@@ -535,13 +562,23 @@ function doLogin(ev) {
   ev.preventDefault(); showErr('');
   var email = document.getElementById('lgEmail').value.trim(), pw = document.getElementById('lgPw').value, btn = document.getElementById('lgBtn');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr('Please enter a valid email address.');
+  if (loginMode === 'enrol') {
+    var nm = document.getElementById('rgName').value.trim();
+    if (!nm) return showErr('Please enter your full name.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr('Please enter a valid email address.');
+    if (pw.length < 8) return showErr('Please choose a password of at least 8 characters.');
+    if (pw !== document.getElementById('lgPw2').value) return showErr('The two passwords don\'t match.');
+  }
   if (loginMode === 'create') {
     if (pw.length < 8) return showErr('Please choose a password of at least 8 characters.');
     if (pw !== document.getElementById('lgPw2').value) return showErr('The two passwords don\'t match.');
   }
   var label = btn.textContent; btn.disabled = true; btn.textContent = 'Checking…';
-  (loginMode === 'create' ? DMM.api('setPassword', { email: email, password: pw }) : DMM.api('login', { email: email, password: pw })).then(function (r) {
+  var call = loginMode === 'enrol' ? DMM.api('register', { name: document.getElementById('rgName').value.trim(), email: email, phone: document.getElementById('rgPhone').value.trim(), password: pw, website: document.getElementById('rgWeb').value })
+    : loginMode === 'create' ? DMM.api('setPassword', { email: email, password: pw }) : DMM.api('login', { email: email, password: pw });
+  call.then(function (r) {
     btn.disabled = false; btn.textContent = label;
+    if (!r.ok && r.exists) { setMode('login'); document.getElementById('lgEmail').value = email; document.getElementById('lgPw').value = ''; return showErr(r.error); }
     if (!r.ok) return showErr(r.error || 'Something went wrong. Please try again.');
     if (r.needPassword) return setCreateMode(r.name);
     if (!r.token) return showErr('Please enter your password.');
@@ -570,7 +607,7 @@ function renderMyCourses(fromCache) {
   var isTrainer = MY.role === 'trainer';
   if (!isTrainer && MY.courses.length === 1) { location.replace('#/c/' + encodeURIComponent(MY.courses[0].id)); return; }
   var h = '<div class="wrap dash"><div class="page-h"><div><h1>' + (isTrainer ? 'Courses' : 'My courses') + '</h1><p>' + (isTrainer ? 'Open a course to see the learning view or your students\' progress.' : 'Welcome back, ' + esc(first(MY.name)) + '. Choose a course to continue.') + '</p></div>' + (isTrainer ? '<a class="btn btn-grad" href="/admin">' + (isAdminUser() ? 'Admin: add material &amp; students' : 'Trainer area: add material &amp; students') + '</a>' : '') + '</div>';
-  if (!MY.courses.length) h += '<div class="card empty">You are not enrolled in a course yet. Please contact your trainer at <a href="mailto:digitalmarketer@hseniva.com">digitalmarketer@hseniva.com</a>.</div>';
+  if (!MY.courses.length) h += '<div class="card empty">Welcome! Your account is ready. Your courses will appear here as soon as your enrolment is confirmed. Questions? Email <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a>.</div>';
   else h += '<div class="cgrid">' + MY.courses.map(function (c) { return courseCard(c, { progress: true, onclick: 'location.hash=\'#/c/' + encodeURIComponent(c.id) + '\'' }); }).join('') + '</div>';
   app.innerHTML = h + '</div>';
 }
