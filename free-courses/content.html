@@ -1,0 +1,179 @@
+<!-- FREE COURSES -->
+<style>
+.fc-wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.fc-hero{background:linear-gradient(180deg,#f4f5ff 0%,#fbfbff 100%);padding:120px 0 64px;border-bottom:1px solid #eceef6}
+.fc-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5a67d8;background:#eef0ff;border:1px solid #d9ddff;border-radius:999px;padding:7px 14px}
+.fc-hero h1{font-size:clamp(34px,5vw,54px);line-height:1.08;letter-spacing:-1px;color:#1b2140;margin:20px 0 16px;font-weight:800;max-width:760px}
+.fc-hero h1 span{background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fc-hero p.fc-sub{font-size:18px;line-height:1.6;color:#6b7392;max-width:640px;margin:0 0 28px}
+.fc-stats{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px}
+.fc-stat{background:#fff;border:1px solid #e6e8f1;border-radius:12px;padding:12px 18px;font-size:14px;color:#6b7392}
+.fc-stat b{display:block;font-size:20px;color:#1b2140}
+.fc-btn{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff!important;font-weight:700;font-size:15px;padding:14px 24px;border-radius:12px;text-decoration:none;border:0;cursor:pointer;box-shadow:0 8px 22px rgba(102,126,234,.3)}
+.fc-btn.fc-ghost{background:#fff;color:#1b2140!important;border:1px solid #dfe2ef;box-shadow:none;margin-left:10px}
+.fc-list{padding:56px 0 24px}
+.fc-course{display:grid;grid-template-columns:340px 1fr;gap:32px;background:#fff;border:1px solid #e6e8f1;border-radius:20px;padding:24px;margin-bottom:28px;box-shadow:0 6px 24px rgba(27,33,64,.05);scroll-margin-top:90px}
+.fc-cover{border-radius:14px;overflow:hidden;aspect-ratio:16/8;align-self:start}
+.fc-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.fc-meta{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0f9f6e;margin:2px 0 8px}
+.fc-course h2{font-size:24px;line-height:1.25;color:#1b2140;margin:0 0 10px;font-weight:800}
+.fc-desc{color:#6b7392;font-size:15px;line-height:1.6;margin:0 0 14px}
+.fc-next{font-size:14px;color:#6b7392;margin:0 0 18px}
+.fc-next a{color:#5a67d8;font-weight:700;text-decoration:none}
+.fc-lessons{grid-column:1/-1;border-top:1px solid #eceef6;padding-top:8px}
+.fc-lesson{border-bottom:1px solid #f0f1f7}
+.fc-lesson:last-child{border-bottom:0}
+.fc-lhead{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;padding:16px 4px;cursor:pointer;text-align:left;font:inherit}
+.fc-num{flex:0 0 32px;height:32px;border-radius:50%;background:#eef0ff;color:#5a67d8;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.fc-ltitle{flex:1;font-weight:700;color:#1b2140;font-size:15px}
+.fc-tag{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:4px 10px;white-space:nowrap}
+.fc-tag.fc-free{background:#e7f8f0;color:#0f9f6e}
+.fc-tag.fc-lock{background:#f3f0fb;color:#764ba2}
+.fc-mins{font-size:13px;color:#9aa0b8;white-space:nowrap}
+.fc-chev{color:#9aa0b8;transition:transform .2s}
+.fc-lesson.open .fc-chev{transform:rotate(180deg)}
+.fc-body{display:none;padding:0 4px 20px 50px}
+.fc-lesson.open .fc-body{display:block}
+.fc-video{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#11152b}
+.fc-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.fc-play{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;background:#11152b}
+.fc-play img{width:100%;height:100%;object-fit:cover;opacity:.85}
+.fc-play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.fc-play span:after{content:"";border-left:22px solid #fff;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:6px}
+.fc-soon{aspect-ratio:16/9;border-radius:14px;border:2px dashed #cfd4f3;background:#f7f8ff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#6b7392;font-size:15px;text-align:center;padding:20px}
+.fc-soon b{color:#1b2140;font-size:17px}
+.fc-locked{aspect-ratio:16/9;border-radius:14px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#fff;text-align:center;padding:24px}
+.fc-locked b{font-size:18px}
+.fc-locked p{margin:0;opacity:.9;font-size:14px;max-width:360px}
+.fc-locked .fc-btn{background:#fff;color:#764ba2!important;box-shadow:none}
+.fc-note{font-size:14px;color:#6b7392;margin:12px 0 0}
+.fc-cta{padding:24px 0 80px}
+.fc-cta-box{background:linear-gradient(135deg,#667eea,#764ba2);border-radius:22px;padding:44px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.fc-cta-box h3{font-size:28px;margin:0 0 8px;color:#fff}
+.fc-cta-box p{margin:0;opacity:.9;max-width:560px;line-height:1.6}
+.fc-cta-box .fc-btn{background:#fff;color:#764ba2!important;box-shadow:none}
+.fc-modal{position:fixed;inset:0;background:rgba(17,21,43,.6);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
+.fc-modal.show{display:flex}
+.fc-dialog{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:30px;position:relative}
+.fc-dialog h3{margin:0 0 6px;color:#1b2140;font-size:22px}
+.fc-dialog p{margin:0 0 18px;color:#6b7392;font-size:14px;line-height:1.55}
+.fc-dialog label{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b7392;margin:12px 0 6px}
+.fc-dialog input[type=text],.fc-dialog input[type=email]{width:100%;box-sizing:border-box;border:1px solid #dfe2ef;border-radius:10px;padding:12px 14px;font:inherit;font-size:15px}
+.fc-consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#6b7392;margin:14px 0 18px;line-height:1.5}
+.fc-consent input{margin-top:3px}
+.fc-x{position:absolute;right:14px;top:10px;background:none;border:0;font-size:26px;color:#9aa0b8;cursor:pointer}
+.fc-err{color:#c53030;font-size:13px;min-height:18px;margin-top:8px}
+@media (max-width:860px){.fc-course{grid-template-columns:1fr;gap:18px;padding:18px}.fc-body{padding-left:4px}.fc-mins{display:none}.fc-hero{padding:100px 0 44px}.fc-btn.fc-ghost{margin:10px 0 0}.fc-cta-box{padding:30px}}
+</style>
+
+<section class="fc-hero">
+  <div class="fc-wrap">
+    <span class="fc-eyebrow">Free courses · Oreegami Mauritius</span>
+    <h1>Learn digital marketing and AI, <span>free</span></h1>
+    <p class="fc-sub">Short video lessons on AI, Google Ads, GA4, SEO, Meta Ads and Excel. Practical, built for Mauritian businesses, and taught by practitioners who run campaigns every day.</p>
+    <div class="fc-stats">
+      <div class="fc-stat"><b>6</b>free courses</div>
+      <div class="fc-stat"><b>21</b>short videos</div>
+      <div class="fc-stat"><b>5 to 10 min</b>per lesson</div>
+    </div>
+    <a class="fc-btn" href="#fc-courses">Browse the courses</a><a class="fc-btn fc-ghost" href="/digital-marketing-training">See the full programmes</a>
+  </div>
+</section>
+
+<section class="fc-list" id="fc-courses">
+  <div class="fc-wrap" id="fc-root"></div>
+</section>
+
+<section class="fc-cta">
+  <div class="fc-wrap">
+    <div class="fc-cta-box">
+      <div>
+        <h3>Ready to go further?</h3>
+        <p>Every free course leads into a full programme with hands-on exercises, live projects and a certificate. HRDC refundable and MQA approved.</p>
+      </div>
+      <a class="fc-btn" href="/digital-marketing-training">Explore the programmes →</a>
+    </div>
+  </div>
+</section>
+
+<div class="fc-modal" id="fc-modal" role="dialog" aria-modal="true" aria-labelledby="fc-mtitle">
+  <div class="fc-dialog">
+    <button class="fc-x" type="button" aria-label="Close" data-fc-close>×</button>
+    <h3 id="fc-mtitle">Unlock all free lessons</h3>
+    <p>Enter your name and email to watch every lesson in all six courses. It's free.</p>
+    <form id="fc-form" novalidate>
+      <label for="fc-name">Your name</label>
+      <input type="text" id="fc-name" name="name" autocomplete="name" required>
+      <label for="fc-email">Email</label>
+      <input type="email" id="fc-email" name="email" autocomplete="email" required>
+      <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      <div class="fc-consent"><input type="checkbox" id="fc-ok" required><label for="fc-ok" style="all:unset">I agree to receive emails about free lessons and training. I can unsubscribe at any time.</label></div>
+      <button class="fc-btn" type="submit" style="width:100%">Unlock the lessons</button>
+      <div class="fc-err" id="fc-err"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+/* ===== ADD VIDEOS HERE: paste the YouTube video ID (the part after watch?v= ) into yt:"" ===== */
+var IMG='/wp-content/uploads/2026/10/';
+var COURSES=[
+ {id:'ai',title:'AI for Marketers: Your First Hour',img:IMG+'course-gtd.jpg',desc:'Use ChatGPT, Gemini and Claude for real marketing work: the prompt formula that works, three tasks to hand over this week, and how to use AI safely.',next:['AI masterclasses','/digital-marketing-training'],
+  lessons:[{t:'Why marketers who use AI get more done',m:6,yt:''},{t:'The prompt formula that works every time',m:8,yt:''},{t:'Three tasks to hand over this week',m:9,yt:''},{t:'Using AI safely at work',m:6,yt:''}]},
+ {id:'google-ads',title:'Your First Google Search Campaign',img:IMG+'course-ads.jpg',desc:'How the Google Ads auction works, how to pick keywords people really search, how to write ads that get clicks, and what to do in the first week.',next:['Search Advertising with Google Ads','/digital-marketing-training'],
+  lessons:[{t:'How Google Ads actually works',m:7,yt:''},{t:'Choosing keywords people really search',m:9,yt:''},{t:'Writing ads people click',m:8,yt:''},{t:'Budget, launch and the first week',m:8,yt:''}]},
+ {id:'ga4',title:'GA4 in 30 Minutes: Track Your Website Leads',img:IMG+'course-analytics.jpg',desc:'Install GA4, track the WhatsApp clicks and forms that bring you money, and learn the three reports to check every Monday.',next:['Analytics for Marketers','/digital-marketing-training'],
+  lessons:[{t:'What GA4 tells you that your gut can’t',m:7,yt:''},{t:'Track the clicks that bring you money',m:10,yt:''},{t:'The three reports to check every Monday',m:8,yt:''}]},
+ {id:'seo-geo',title:'Get Found on Google and in AI Answers',img:IMG+'course-seo.jpg',desc:'Set up your Google Business Profile, fix the on-page basics, and make it easy for AI assistants to recommend your business.',next:['SEO Fundamentals and the GEO masterclass','/digital-marketing-training'],
+  lessons:[{t:'How people find businesses now',m:6,yt:''},{t:'Your Google Business Profile in 15 minutes',m:9,yt:''},{t:'On-page basics for every important page',m:9,yt:''},{t:'Getting mentioned by AI assistants',m:8,yt:''}]},
+ {id:'meta-ads',title:'Stop Boosting Posts: Meta Ads Basics',img:IMG+'course-meta.jpg',desc:'Why the Boost button wastes money, how to build your first WhatsApp or Messenger campaign, and the four numbers that matter.',next:['Meta Ads for Business Owners','/digital-marketing-training'],
+  lessons:[{t:'Why the Boost button wastes your money',m:6,yt:''},{t:'Your first WhatsApp or Messenger campaign',m:10,yt:''},{t:'Reading your results without getting lost',m:7,yt:''}]},
+ {id:'excel',title:'Excel Quick Wins for Marketers',img:IMG+'course-excel.jpg',desc:'Calculate CPA, ROAS and conversion rate, clean a messy export in minutes, and build your first pivot table and chart.',next:['Excel for Digital Marketers','/digital-marketing-training'],
+  lessons:[{t:'Three formulas every marketer needs',m:7,yt:''},{t:'Clean an export in five minutes',m:8,yt:''},{t:'Your first pivot table and chart',m:8,yt:''}]}
+];
+var KEY='ab_free_courses_v1';
+function unlocked(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
+function setUnlocked(){try{localStorage.setItem(KEY,'1')}catch(e){} window.__fcOpen=true;}
+function isOpen(){return unlocked()||window.__fcOpen}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function videoHtml(l,i,c){
+  if(i>0&&!isOpen()) return '<div class="fc-locked"><b>Free lesson, sign up to watch</b><p>Enter your name and email once to unlock every lesson in all six courses.</p><button type="button" class="fc-btn" data-fc-unlock>Unlock for free</button></div>';
+  if(!l.yt) return '<div class="fc-soon"><b>Video coming soon</b>This lesson is being recorded. Check back shortly.</div>';
+  return '<div class="fc-video"><button type="button" class="fc-play" data-yt="'+esc(l.yt)+'" aria-label="Play: '+esc(l.t)+'"><img src="https://i.ytimg.com/vi/'+esc(l.yt)+'/hqdefault.jpg" alt="" loading="lazy"><span></span></button></div>';
+}
+function render(){
+  var root=document.getElementById('fc-root'); if(!root) return;
+  var openIds=[].map.call(root.querySelectorAll('.fc-lesson.open'),function(x){return x.id});
+  root.innerHTML=COURSES.map(function(c){
+    var mins=c.lessons.reduce(function(a,l){return a+l.m},0);
+    return '<article class="fc-course" id="'+c.id+'"><div class="fc-cover"><img src="'+c.img+'" alt="'+esc(c.title)+'" loading="lazy"></div><div>'+
+      '<div class="fc-meta">Free course · '+c.lessons.length+' videos · about '+mins+' min</div><h2>'+esc(c.title)+'</h2><p class="fc-desc">'+esc(c.desc)+'</p>'+
+      '<p class="fc-next">Next step: <a href="'+c.next[1]+'">'+esc(c.next[0])+' →</a></p></div>'+
+      '<div class="fc-lessons">'+c.lessons.map(function(l,i){
+        var lid=c.id+'-'+(i+1), tag=i===0?'<span class="fc-tag fc-free">Free preview</span>':(isOpen()?'<span class="fc-tag fc-free">Unlocked</span>':'<span class="fc-tag fc-lock">Free with sign-up</span>');
+        return '<div class="fc-lesson'+(openIds.indexOf(lid)>-1?' open':'')+'" id="'+lid+'"><button type="button" class="fc-lhead" aria-expanded="false"><span class="fc-num">'+(i+1)+'</span><span class="fc-ltitle">'+esc(l.t)+'</span>'+tag+'<span class="fc-mins">'+l.m+' min</span><span class="fc-chev">▾</span></button><div class="fc-body">'+videoHtml(l,i,c)+'</div></div>';
+      }).join('')+'</div></article>';
+  }).join('');
+}
+render();
+document.addEventListener('click',function(e){
+  var h=e.target.closest('.fc-lhead'); if(h){var L=h.parentNode;L.classList.toggle('open');h.setAttribute('aria-expanded',L.classList.contains('open'));return;}
+  var p=e.target.closest('.fc-play'); if(p){var id=p.getAttribute('data-yt');p.parentNode.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?autoplay=1&rel=0" title="Lesson video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';if(window.gtag)gtag('event','free_course_play',{video_id:id});return;}
+  if(e.target.closest('[data-fc-unlock]')){document.getElementById('fc-modal').classList.add('show');setTimeout(function(){document.getElementById('fc-name').focus()},50);return;}
+  if(e.target.closest('[data-fc-close]')||e.target.id==='fc-modal'){document.getElementById('fc-modal').classList.remove('show');}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('fc-modal').classList.remove('show')});
+document.getElementById('fc-form').addEventListener('submit',function(e){
+  e.preventDefault();var f=e.target,err=document.getElementById('fc-err');err.textContent='';
+  var name=f.name.value.trim(),email=f.email.value.trim();
+  if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Please enter your name and a valid email.';return;}
+  if(!document.getElementById('fc-ok').checked){err.textContent='Please tick the box to continue.';return;}
+  var btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Unlocking…';
+  var done=function(){setUnlocked();document.getElementById('fc-modal').classList.remove('show');render();if(window.gtag)gtag('event','free_course_signup');};
+  if(window.FC_PREVIEW){done();return;}
+  var body=new URLSearchParams({action:'ab_free_courses_signup',name:name,email:email,website:f.website.value,page:location.pathname});
+  fetch('/wp-admin/admin-ajax.php',{method:'POST',body:body}).then(function(r){return r.json()}).then(function(j){if(j&&j.success){done()}else{throw 0}}).catch(function(){btn.disabled=false;btn.textContent='Unlock the lessons';err.textContent='Sorry, something went wrong. Please try again.';});
+});
+})();
+</script>
