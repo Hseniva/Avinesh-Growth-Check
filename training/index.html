@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Marketing & AI Bootcamp | Oreegami Mauritius</title>
-<meta name="description" content="Digital Marketing & AI Bootcamp by Avinesh Bundhoo. Student learning platform.">
+<title>Student Learning Portal | Oreegami Mauritius</title>
+<meta name="description" content="The Oreegami Mauritius learning portal: log in to follow your Digital Marketing & AI courses, materials, exercises and quizzes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
@@ -474,7 +474,7 @@ function journeyHTML(c) {
   if (!c || !c.phases || !c.phases.length) return '';
   return '<div class="journey"><h4>' + esc(c.title) + ': learning journey</h4><div class="pgrid">' + c.phases.map(function (p) {
     return '<div class="pcard"><div class="num">' + ('0' + p.phase).slice(-2) + '</div><h4>' + esc(p.title) + '</h4><div class="wk">' + esc(p.weeks) + '</div><p>' + esc(p.focus) + '</p></div>';
-  }).join('') + '</div><p class="muted" style="margin-top:14px;font-size:14px">Phases unlock one after the other as you complete them. <a href="#enrol" onclick="goEnrol();return false">Enrol to access this course →</a></p></div>';
+  }).join('') + '</div><p class="muted" style="margin-top:14px;font-size:14px">Phases unlock one after the other as you complete them. <a href="#login" onclick="goEnrol(\'login\');return false">Log in to access this course →</a></p></div>';
 }
 function renderCatalog() {
   var el = document.getElementById('catalog');
@@ -493,10 +493,10 @@ function renderWelcome(info) {
   app.innerHTML =
     '<section class="hero"' + heroBg + '><div class="wrap hero-grid">' +
       '<div>' +
-        '<span class="eyebrow"><i></i>Oreegami Mauritius</span>' +
-        '<h1>Welcome to the <span>Digital Marketing & AI Bootcamp</span></h1>' +
-        '<p class="lead">A practical, hands-on programme that takes you from the foundations of the digital ecosystem to running paid campaigns, using AI and building a real marketing strategy. Each module gives you a presentation, reading notes, exercises and a revision quiz, and you can follow your progress every step of the way.</p>' +
-        '<div class="facts"><div class="fact"><strong>120</strong><span>hours</span></div><div class="fact"><strong>4</strong><span>learning phases</span></div><div class="fact"><strong>20</strong><span>modules</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
+        '<span class="eyebrow"><i></i>Oreegami Mauritius · Learning portal</span>' +
+        '<h1>Welcome to your <span>learning portal</span></h1>' +
+        '<p class="lead">This is where you follow your Digital Marketing &amp; AI courses with Oreegami Mauritius. Log in with the email and password you enrolled with to open your courses: presentations, reading notes, exercises and revision quizzes, with your progress tracked every step of the way.</p>' +
+        '<div class="facts"><div class="fact"><strong>24/7</strong><span>course access</span></div><div class="fact"><strong>100%</strong><span>progress tracked</span></div><div class="fact"><strong>Quizzes</strong><span>&amp; exercises</span></div><div class="fact"><strong>1:1</strong><span>trainer feedback</span></div></div>' +
       '</div>' +
       '<div id="login"><form class="login" id="loginForm" novalidate>' +
         '<h2 id="lgTitle">Enrol</h2>' +
@@ -513,9 +513,9 @@ function renderWelcome(info) {
         '<p class="alt" id="lgAlt"></p>' +
       '</form></div>' +
     '</div>' + heroCap + '</section>' +
-    '<section class="section"><div class="wrap"><h3>Our courses</h3><p class="intro">Every programme follows the same structure: phases, modules, exercises and revision quizzes, with your progress tracked from 0% to 100%.</p><div id="catalog"></div></div></section>';
+    '<section class="section"><div class="wrap"><h3>Courses on the portal</h3><p class="intro">Every course follows the same structure: phases, modules, exercises and revision quizzes, with your progress tracked from 0% to 100%. Once you log in, you see the courses you are enrolled in.</p><div id="catalog"></div></div></section>';
   document.getElementById('loginForm').onsubmit = doLogin;
-  setMode(info ? 'login' : 'enrol');
+  setMode('login');
   renderCatalog();
   if (!DMM.configured()) { showErr('The student platform is being set up. Please check back shortly.'); return; }
   if (!CATALOG) DMM.api('catalog').then(function (r) { if (r.ok && r.courses && r.courses.length) { CATALOG = r.courses; renderCatalog(); } });
@@ -527,7 +527,7 @@ function setMode(mode) {
   if (!$('loginForm')) return;
   showErr('');
   $('lgTitle').textContent = enrol ? 'Enrol' : 'Student login';
-  $('lgSub').textContent = enrol ? 'Create your student account to access your courses, materials, exercises and quizzes.' : 'Use the email you enrolled with.';
+  $('lgSub').textContent = enrol ? 'Create your student account to access your courses, materials, exercises and quizzes.' : 'Already a student? Enter the email and password you enrolled with to go to your courses.';
   $('rgNameWrap').classList.toggle('hidden', !enrol);
   $('rgPhoneWrap').classList.toggle('hidden', !enrol);
   $('lgPw2Wrap').classList.toggle('hidden', !enrol);
@@ -535,15 +535,15 @@ function setMode(mode) {
   $('lgPw').setAttribute('autocomplete', enrol ? 'new-password' : 'current-password');
   $('lgPw').placeholder = enrol ? 'At least 8 characters' : 'Your password';
   $('lgEmail').readOnly = false;
-  $('lgBtn').textContent = enrol ? 'Enrol' : 'Log in';
-  $('lgAlt').innerHTML = enrol ? 'Already enrolled? <a href="#login" onclick="setMode(\'login\');return false">Log in</a>' : 'New here? <a href="#enrol" onclick="setMode(\'enrol\');return false">Enrol</a>';
+  $('lgBtn').textContent = enrol ? 'Enrol' : 'Log in to my courses';
+  $('lgAlt').innerHTML = enrol ? 'Already a student? <a href="#login" onclick="setMode(\'login\');return false">Log in</a>' : 'First time logging in? Enter your email and press the button to create your password.<br>Not enrolled yet? <a href="#enrol" onclick="setMode(\'enrol\');return false">Enrol here</a>';
 }
-function goEnrol() {
+function goEnrol(mode) {
   if (DMM.session()) { location.hash = '#/courses'; return; }
   var f = document.getElementById('loginForm');
   if (!f) { history.replaceState(null, '', '/'); renderWelcome(); f = document.getElementById('loginForm'); }
-  setMode('enrol'); f.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  setTimeout(function () { var n = document.getElementById('rgName'); if (n) n.focus(); }, 300);
+  setMode(mode || 'enrol'); f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function () { var n = document.getElementById(mode === 'login' ? 'lgEmail' : 'rgName'); if (n) n.focus(); }, 300);
 }
 function setCreateMode(name) {
   loginMode = 'create';
