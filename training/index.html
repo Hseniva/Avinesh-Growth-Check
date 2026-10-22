@@ -321,7 +321,7 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 </main>
 
 <footer>
-  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span><a href="#enrol" onclick="goEnrol();return false">Enrol</a> · Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
+  <div class="wrap"><span>© Oreegami Mauritius · Digital Marketing &amp; AI</span><span><a href="https://avineshbundhoo.com/digital-marketing-training">Enrol in a course</a> · Questions? <a href="mailto:mauritius@oreegami.com">mauritius@oreegami.com</a></span></div>
 </footer>
 <div class="toast" id="toast"></div>
 <div class="jm" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="jmTitle" onclick="if(event.target===this)closeJoin()">
@@ -536,7 +536,7 @@ function setMode(mode) {
   $('lgPw').placeholder = enrol ? 'At least 8 characters' : 'Your password';
   $('lgEmail').readOnly = false;
   $('lgBtn').textContent = enrol ? 'Enrol' : 'Log in to my courses';
-  $('lgAlt').innerHTML = enrol ? 'Already a student? <a href="#login" onclick="setMode(\'login\');return false">Log in</a>' : 'First time logging in? Enter your email and press the button to create your password.<br>Not enrolled yet? <a href="#enrol" onclick="setMode(\'enrol\');return false">Enrol here</a>';
+  $('lgAlt').innerHTML = enrol ? 'Already a student? <a href="#login" onclick="setMode(\'login\');return false">Log in</a>' : 'First time logging in? Enter your email and press the button to create your password.<br>Not enrolled yet? <a href="https://avineshbundhoo.com/digital-marketing-training">Choose a course and enrol here</a>';
 }
 function goEnrol(mode) {
   if (DMM.session()) { location.hash = '#/courses'; return; }
