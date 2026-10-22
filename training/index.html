@@ -278,11 +278,11 @@ table.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
   .pgrid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:720px){
-  .hero{min-height:0;flex-direction:column;align-items:stretch;background-position:72% center}
-  .hero::before{background:linear-gradient(180deg,rgba(248,249,253,.93) 0%,rgba(248,249,253,.95) 45%,rgba(248,249,253,.97) 100%)}
+  .hero{min-height:0;flex-direction:column;align-items:stretch;background-size:100% auto;background-position:center top;background-color:#f8f9fd}
+  .hero::before{background:linear-gradient(180deg,rgba(248,249,253,0) 0,rgba(248,249,253,0) 190px,rgba(248,249,253,.96) 290px,rgba(248,249,253,1) 100%)}
   .hero-cap{position:relative;right:auto;bottom:auto;align-self:flex-start;margin:20px 16px 0;font-size:12px}
   .wrap{padding:0 16px}
-  .hero{padding:36px 0 24px}
+  .hero{padding:230px 0 24px}
   .hero h1{font-size:34px}
   .lead{font-size:16px}
   .pgrid{grid-template-columns:1fr}
