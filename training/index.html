@@ -513,12 +513,12 @@ function renderWelcome(info) {
         '<p class="alt" id="lgAlt"></p>' +
       '</form></div>' +
     '</div>' + heroCap + '</section>' +
-    '<section class="section"><div class="wrap"><h3>Courses on the portal</h3><p class="intro">Every course follows the same structure: phases, modules, exercises and revision quizzes, with your progress tracked from 0% to 100%. Once you log in, you see the courses you are enrolled in.</p><div id="catalog"></div></div></section>';
+    '';
   document.getElementById('loginForm').onsubmit = doLogin;
   setMode('login');
   renderCatalog();
   if (!DMM.configured()) { showErr('The student platform is being set up. Please check back shortly.'); return; }
-  if (!CATALOG) DMM.api('catalog').then(function (r) { if (r.ok && r.courses && r.courses.length) { CATALOG = r.courses; renderCatalog(); } });
+
 }
 function showErr(m) { var e = document.getElementById('lgErr'); if (!e) return; e.textContent = m; e.classList.toggle('hidden', !m); }
 function setMode(mode) {
