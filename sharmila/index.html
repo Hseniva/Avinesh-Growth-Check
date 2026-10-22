@@ -70,9 +70,30 @@ main{padding:44px 0 70px}
 .lockedlist{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .lockedlist span{font-size:13px;background:var(--soft);border-radius:8px;padding:6px 10px;color:var(--grey)}
 .viewer{position:fixed;inset:0;background:rgba(0,30,34,.9);z-index:50;display:flex;flex-direction:column}
-.viewer .bar{display:flex;justify-content:space-between;align-items:center;color:#fff;padding:12px 16px;gap:10px}
+.viewer .bar{background:var(--teal);display:flex;justify-content:space-between;align-items:center;color:#fff;padding:12px 16px;gap:10px;flex-wrap:wrap}
 .viewer .bar b{font-size:15px}
-.viewer iframe{flex:1;border:0;background:#000;width:100%}
+.viewer iframe{flex:1;border:0;background:#000;min-width:0;min-height:0}
+.vbody{flex:1;display:flex;min-height:0}
+.quiz{width:400px;flex:none;background:var(--soft);overflow-y:auto;padding:20px;border-left:4px solid var(--gold)}
+.quiz h3{margin:0 0 4px;color:var(--blue);font-size:18px}
+.quiz .qsub{color:var(--grey);font-size:13px;margin:0 0 16px;line-height:1.5}
+.qq{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.qq p{margin:0 0 6px;font-weight:700;font-size:14px;line-height:1.45;color:var(--txt)}
+.qq p small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.qo{display:flex;gap:8px;width:100%;text-align:left;font:inherit;font-size:13.5px;line-height:1.4;padding:9px 11px;margin-top:6px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;color:var(--txt)}
+.qo i{font-style:normal;font-weight:800;color:var(--blue)}
+.qo:hover:not([disabled]){border-color:var(--blue)}
+.qo[disabled]{cursor:default}
+.qo.right{background:#e3f1ee;border-color:var(--teal);color:var(--teal);font-weight:700}
+.qo.wrong{background:#fbeaea;border-color:#b42318;color:#b42318}
+.qfb{font-size:13px;margin-top:8px;font-weight:700;color:var(--teal)}
+.qfb.no{color:#b42318}
+.qscore{background:var(--blue);color:#fff;border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.qscore b{font-size:16px}
+.qscore .btn{background:#fff;color:var(--blue)}
+.qbadge{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;background:var(--soft);color:var(--blue);border-radius:6px;padding:3px 7px;letter-spacing:.04em}
+.quiztab{display:none}
+@media(max-width:900px){.vbody{flex-direction:column}.quiz{width:auto;flex:1;border-left:0;border-top:4px solid var(--gold)}.viewer.q-on iframe{display:none}.viewer:not(.q-on) .quiz{display:none}.quiztab{display:inline-flex}}
 footer{background:var(--teal);color:#cfe3e3;font-size:13px;padding:22px 0}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .side{position:relative;display:grid;grid-template-columns:1fr;gap:0}
@@ -129,8 +150,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </div></main>
 
 <div class="viewer hidden" id="viewer" role="dialog" aria-modal="true" aria-label="Module slides">
-  <div class="bar"><b id="viewerTitle"></b><span><a class="btn btn-ghost" id="viewerOpen" href="#" target="_blank" rel="noopener">Open in new tab</a> <button class="btn btn-ghost" id="viewerClose" type="button">Close</button></span></div>
-  <iframe id="viewerFrame" title="Module slides" allow="fullscreen"></iframe>
+  <div class="bar"><b id="viewerTitle"></b><span><button class="btn btn-ghost quiztab" id="quizToggle" type="button">Quiz</button> <a class="btn btn-ghost" id="viewerOpen" href="#" target="_blank" rel="noopener">Open in new tab</a> <button class="btn btn-ghost" id="viewerClose" type="button">Close</button></span></div>
+  <div class="vbody"><iframe id="viewerFrame" title="Module slides" allow="fullscreen"></iframe><aside class="quiz" id="quizBox" aria-label="Module quiz"></aside></div>
 </div>
 
 <footer><div class="wrap"><span>© Sharmila Kalachand · Strategic Marketing, Sales &amp; Pitching Excellence</span><span>HRDC refundable · MQA approved</span></div></footer>
@@ -146,7 +167,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function load() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return MEM || []; } }
-  var MEM = [];
+  var MEM = [], QZ = {}, CUR = 0, ANS = {}, SC = {};
+  try { SC = JSON.parse(localStorage.getItem('sk_quiz_scores') || '{}'); } catch (e) {}
+  function badge(n) { var s = SC[n]; return s ? 'Quiz ' + s[0] + '/' + s[1] : ''; }
   function save(a) { MEM = a; try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) {} }
   function client() { try { var c = localStorage.getItem('sk_client'); if (!c) { c = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('sk_client', c); } return c; } catch (e) { return 'anon'; } }
   function api(codes) {
@@ -161,13 +184,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     $('whoDay').textContent = 'Day ' + r.maxDay + ' unlocked';
     $('portalSub').textContent = r.maxDay >= 3 ? 'All three days are open. Well done on reaching the final day.' : 'With Sharmila Kalachand. Days unlock one by one as you receive each day\'s code.';
     if (r.guide) { $('guideBtn').href = r.guide; $('guideBtn').classList.remove('hidden'); }
+    r.modules.forEach(function (m) { QZ[m.n] = m.quiz || []; });
     var h = '';
     [1, 2, 3].forEach(function (d) {
       h += '<section class="day"><div class="dayhead"><span class="daytag">Day ' + d + '</span><h3>' + esc(DAYS[d]) + '</h3></div>';
       if (d <= r.maxDay) {
         h += '<div class="grid">' + r.modules.filter(function (m) { return m.day === d; }).map(function (m) {
-          return '<article class="mod"><span class="num">Module ' + m.n + '</span><h4>' + esc(m.title) + '</h4><div class="acts">' +
-            '<button class="btn btn-gold" type="button" data-view="' + esc(m.view) + '" data-open="' + esc(m.open) + '" data-title="Module ' + m.n + ': ' + esc(m.title) + '">View slides</button>' +
+          var da = ' data-n="' + m.n + '" data-view="' + esc(m.view) + '" data-open="' + esc(m.open) + '" data-title="Module ' + m.n + ': ' + esc(m.title) + '"';
+          return '<article class="mod"><span class="num">Module ' + m.n + '<span class="qbadge' + (SC[m.n] ? '' : ' hidden') + '" id="qb' + m.n + '">' + badge(m.n) + '</span></span><h4>' + esc(m.title) + '</h4><div class="acts">' +
+            '<button class="btn btn-gold" type="button"' + da + '>View slides</button>' +
+            ((m.quiz && m.quiz.length) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">Take quiz</button>' : '') +
             '<a class="btn btn-line" href="' + esc(m.open) + '" target="_blank" rel="noopener">Open</a></div></article>';
         }).join('') + '</div>';
       } else {
@@ -217,7 +243,40 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     $('viewerTitle').textContent = b.getAttribute('data-title');
     $('viewerOpen').href = b.getAttribute('data-open');
     $('viewerFrame').src = b.getAttribute('data-view');
+    CUR = Number(b.getAttribute('data-n')) || 0; ANS = {}; drawQuiz();
+    setQ(!!b.getAttribute('data-quizfirst'));
     $('viewer').classList.remove('hidden'); document.body.style.overflow = 'hidden';
+  });
+  function setQ(on) { $('viewer').classList.toggle('q-on', on); $('quizToggle').textContent = on ? 'Slides' : 'Quiz'; }
+  $('quizToggle').addEventListener('click', function () { setQ(!$('viewer').classList.contains('q-on')); });
+  function drawQuiz() {
+    var qs = QZ[CUR] || [], L = 'abcd';
+    if (!qs.length) { $('quizBox').innerHTML = '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">There is no quiz for this module.</p>'; return; }
+    var done = 0, right = 0;
+    var h = '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">Check your understanding while you go through the slides. Pick one answer for each question.</p>';
+    qs.forEach(function (q, i) {
+      var a = ANS[i];
+      if (a !== undefined) { done++; if (a === q.a) right++; }
+      h += '<div class="qq"><p><small>Question ' + (i + 1) + ' of ' + qs.length + '</small>' + esc(q.q) + '</p>' + q.o.map(function (o, j) {
+        var c = a === undefined ? '' : (j === q.a ? ' right' : (j === a ? ' wrong' : ''));
+        return '<button type="button" class="qo' + c + '" data-qi="' + i + '" data-oi="' + j + '"' + (a !== undefined ? ' disabled' : '') + '><i>' + L.charAt(j) + '</i><span>' + esc(o) + '</span></button>';
+      }).join('') + (a === undefined ? '' : (a === q.a ? '<div class="qfb">Correct.</div>' : '<div class="qfb no">Not quite. The correct answer is ' + L.charAt(q.a) + '.</div>')) + '</div>';
+    });
+    if (done === qs.length) h += '<div class="qscore"><b>You scored ' + right + ' out of ' + qs.length + '</b><button class="btn" type="button" id="quizAgain">Try again</button></div>';
+    else h += '<p class="qsub">' + done + ' of ' + qs.length + ' answered</p>';
+    $('quizBox').innerHTML = h;
+    if (done === qs.length) {
+      var best = SC[CUR] && SC[CUR][0] > right ? SC[CUR] : [right, qs.length];
+      SC[CUR] = best; try { localStorage.setItem('sk_quiz_scores', JSON.stringify(SC)); } catch (e) {}
+      var bd = $('qb' + CUR); if (bd) { bd.textContent = badge(CUR); bd.classList.remove('hidden'); }
+    }
+  }
+  $('quizBox').addEventListener('click', function (e) {
+    if (e.target.closest('#quizAgain')) { ANS = {}; drawQuiz(); $('quizBox').scrollTop = 0; return; }
+    var b = e.target.closest('.qo'); if (!b || b.disabled) return;
+    var top = $('quizBox').scrollTop;
+    ANS[Number(b.getAttribute('data-qi'))] = Number(b.getAttribute('data-oi')); drawQuiz();
+    $('quizBox').scrollTop = top;
   });
   function closeViewer() { $('viewer').classList.add('hidden'); $('viewerFrame').src = 'about:blank'; document.body.style.overflow = ''; }
   $('viewerClose').addEventListener('click', closeViewer);
