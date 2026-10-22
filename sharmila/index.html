@@ -26,7 +26,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;heigh
 .btn-dark{background:var(--ink);color:#fff}
 .btn-ghost{background:transparent;border:1px solid #3a3b42;color:#e9e9ee;padding:8px 14px;font-size:13px;border-radius:10px}
 .btn-line{background:#fff;border:1px solid var(--line);color:var(--txt);padding:10px 14px;font-size:14px;border-radius:10px}
-.hero{background:radial-gradient(1200px 500px at 85% -10%,rgba(242,183,5,.18),transparent 60%),var(--ink);color:#fff;padding:64px 0 72px}
+.hero{background:radial-gradient(1200px 500px at 85% -10%,rgba(242,183,5,.18),transparent 60%),var(--ink);color:#fff;padding:44px 0 56px}
 .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
 .eyebrow{display:inline-flex;gap:8px;flex-wrap:wrap}
 .pill{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:7px 12px;border-radius:999px;border:1px solid #3a3b42;color:#e7e7ea}
@@ -77,6 +77,20 @@ footer{background:var(--ink);color:#9a9ca5;font-size:13px;padding:22px 0}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}h1{font-size:36px}}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.days{grid-template-columns:1fr}.hero{padding:40px 0 48px}h1{font-size:31px}.card{padding:22px}.brand small{display:none}}
+
+.side{position:relative;display:grid;grid-template-columns:1fr;gap:0}
+.photo{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/5;max-height:430px;box-shadow:0 30px 70px rgba(0,0,0,.45);border:1px solid #2f3036}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
+.photo .cap{position:absolute;left:16px;top:16px;background:rgba(17,18,20,.82);color:#fff;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.35;backdrop-filter:blur(4px)}
+.photo .cap b{display:block;color:var(--gold);font-size:14px}
+.side .card{position:relative;margin:-110px 24px 0 -40px;z-index:2}
+.trainer{display:flex;align-items:center;gap:12px;margin-top:24px}
+.trainer img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.trainer span{font-size:14px;color:#c9cbd2}.trainer b{display:block;color:#fff}
+.tb-trainer{display:flex;align-items:center;gap:12px}
+.tb-trainer img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+@media(max-width:900px){.side .card{margin:-90px 14px 0 14px}.photo{aspect-ratio:4/3;max-height:none}.photo img{object-position:center 18%}}
+@media(max-width:600px){.photo{aspect-ratio:1/1}}
 </style>
 </head>
 <body>
@@ -96,6 +110,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <div class="dayfact"><b>Day 3</b><span>Modules 7 to 10: influence, negotiation and pitching</span></div>
     </div>
   </div>
+  <div class="side">
+  <div class="photo"><img src="img/sharmila-kalachand.jpg" alt="Sharmila Kalachand, programme trainer" width="900" height="1127"><div class="cap"><b>Sharmila Kalachand</b>Your programme trainer</div></div>
   <div class="card" id="codeCard">
     <h2>Enter your access code</h2>
     <p class="sub">No account needed. Your trainer gives you a new code each day, and each code opens that day and the days before it.</p>
@@ -107,11 +123,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </form>
     <p class="hint">Lost your code? Ask your trainer during the session.</p>
   </div>
+  </div>
 </div></section>
 
 <main class="hidden" id="portal"><div class="wrap">
   <div class="toolbar">
-    <div><h2>Your modules</h2><p id="portalSub"></p></div>
+    <div class="tb-trainer"><img src="img/sharmila-avatar.jpg" alt="Sharmila Kalachand" width="56" height="56"><div><h2>Your modules</h2><p id="portalSub"></p></div></div>
     <a class="btn btn-dark hidden" id="guideBtn" href="#" target="_blank" rel="noopener">Participant guide (PDF)</a>
   </div>
   <div id="daysOut"></div>
@@ -148,7 +165,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   function render(r) {
     $('hero').classList.add('hidden'); $('portal').classList.remove('hidden'); $('who').classList.remove('hidden');
     $('whoDay').textContent = 'Day ' + r.maxDay + ' unlocked';
-    $('portalSub').textContent = r.maxDay >= 3 ? 'All three days are open. Well done on reaching the final day.' : 'Days unlock one by one as you receive each day\'s code.';
+    $('portalSub').textContent = r.maxDay >= 3 ? 'All three days are open. Well done on reaching the final day.' : 'With Sharmila Kalachand. Days unlock one by one as you receive each day\'s code.';
     if (r.guide) { $('guideBtn').href = r.guide; $('guideBtn').classList.remove('hidden'); }
     var h = '';
     [1, 2, 3].forEach(function (d) {
