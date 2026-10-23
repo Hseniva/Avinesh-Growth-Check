@@ -18,6 +18,8 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;heigh
 .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.05em;font-size:15px;text-transform:uppercase;color:var(--blue)}
 .brand i{display:inline-block;width:28px;height:3px;background:var(--gold);border-radius:2px}
 .brand small{display:block;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mut);font-size:12px;margin-top:2px}
+.tb-acts{display:flex;gap:8px;flex-wrap:wrap}
+.who .btn,.tb-acts .btn{white-space:nowrap}
 .who{font-size:13px;color:var(--grey);display:flex;gap:10px;align-items:center}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:15px;border-radius:10px;padding:14px 22px;text-decoration:none;transition:transform .15s,background .15s}
 .btn-gold{background:var(--blue);color:#fff}
@@ -111,7 +113,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <body>
 <header><div class="wrap">
   <div class="brand"><i></i><div>Sharmila Kalachand<small>Strategic Marketing, Sales &amp; Pitching Excellence</small></div></div>
-  <div class="who hidden" id="who"><span id="whoDay"></span><button class="btn btn-ghost" id="resetBtn" type="button">Use another code</button></div>
+  <div class="who hidden" id="who"><span id="whoDay"></span><button class="btn btn-line" id="resetBtn" type="button">Log out</button></div>
 </div></header>
 
 <section class="hero" id="hero"><div class="wrap hero-grid">
@@ -144,7 +146,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <main class="hidden" id="portal"><div class="wrap">
   <div class="toolbar">
     <div class="tb-trainer"><img src="img/sharmila-avatar.jpg" alt="Sharmila Kalachand" width="56" height="56"><div><h2>Your modules</h2><p id="portalSub"></p></div></div>
-    <a class="btn btn-dark hidden" id="guideBtn" href="#" target="_blank" rel="noopener">Participant guide (PDF)</a>
+    <span class="tb-acts"><button class="btn btn-line" id="logoutBtn" type="button">Log out</button> <a class="btn btn-dark hidden" id="guideBtn" href="#" target="_blank" rel="noopener">Participant guide (PDF)</a></span>
   </div>
   <div id="daysOut"></div>
 </div></main>
@@ -281,7 +283,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   function closeViewer() { $('viewer').classList.add('hidden'); $('viewerFrame').src = 'about:blank'; document.body.style.overflow = ''; }
   $('viewerClose').addEventListener('click', closeViewer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
-  $('resetBtn').addEventListener('click', function () { save([]); location.reload(); });
+  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); } catch (e) {} location.href = location.pathname; }
+  $('resetBtn').addEventListener('click', logout);
+  $('logoutBtn').addEventListener('click', logout);
 
   var saved = load();
   if (saved.length) tryCodes(saved, $('codeErr'), null);
