@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programme Admin | Sharmila Kalachand</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1E35A5;--teal:#004146;--teal2:#0B6E73;--gold:#E8B84A;--soft:#F4F5F8;--txt:#1F2430;--grey:#3D4450;--mut:#6B7280;--line:#E2E4EC;--ok:#0B6E73;--bad:#B42318}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Helvetica Neue",Helvetica,Inter,Arial,sans-serif;color:var(--txt);background:var(--soft);-webkit-font-smoothing:antialiased;font-size:15px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:#fff;border-top:5px solid var(--blue);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.05em;font-size:14px;text-transform:uppercase;color:var(--blue)}
+.brand i{width:28px;height:3px;background:var(--gold);border-radius:2px;display:inline-block}
+.brand small{display:block;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mut);font-size:12px;margin-top:2px}
+.btn{font:inherit;font-weight:700;font-size:14px;border:0;border-radius:10px;padding:10px 16px;cursor:pointer;background:var(--blue);color:#fff;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.6;cursor:default}
+.btn.line{background:#fff;color:var(--blue);border:1px solid var(--line)}
+.btn.teal{background:var(--teal)}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn.danger{background:#fff;color:var(--bad);border:1px solid #f1c9c5}
+input,select,textarea{font:inherit;color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;width:100%}
+textarea{resize:vertical;min-height:60px}
+label{display:block;font-size:13px;font-weight:700;color:var(--grey);margin:12px 0 6px}
+.hidden{display:none!important}
+.login{max-width:420px;margin:70px auto;background:#fff;border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:14px;padding:28px}
+.login h1{margin:0 0 6px;font-size:24px;color:var(--blue)}
+.login p{margin:0 0 6px;color:var(--mut);font-size:14px;line-height:1.5}
+.login .btn{width:100%;justify-content:center;margin-top:18px}
+.msg{font-size:13px;font-weight:700;margin-top:10px}
+.msg.err{color:var(--bad)} .msg.ok{color:var(--ok)}
+nav.tabs{display:flex;gap:4px;margin:22px 0 18px;border-bottom:1px solid var(--line);overflow-x:auto}
+nav.tabs button{font:inherit;font-weight:700;font-size:14px;background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;color:var(--mut);cursor:pointer;white-space:nowrap}
+nav.tabs button.on{color:var(--blue);border-bottom-color:var(--gold)}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:18px;color:var(--teal)}
+.card .sub{margin:0 0 12px;color:var(--mut);font-size:13px;line-height:1.5}
+.row{display:grid;grid-template-columns:2fr 1fr 2fr auto;gap:10px;align-items:end}
+.row label{margin-top:0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tscroll{overflow-x:auto}
+.code{font-weight:800;letter-spacing:.08em;color:var(--blue)}
+.pill{display:inline-block;font-size:12px;font-weight:800;border-radius:6px;padding:3px 8px}
+.pill.on{background:#e3f1ee;color:var(--teal)} .pill.off{background:#f3f4f6;color:var(--mut)}
+.sc{font-weight:700;text-align:center} .sc.none{color:#c4c8d2;font-weight:400}
+.cohort-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.cohort-head h3{margin:0;font-size:16px;color:var(--blue)}
+.cohort-head small{color:var(--mut);font-weight:500}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+header .tools{flex-wrap:nowrap}
+.tools select{width:auto}
+.qcard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--soft)}
+.qcard .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.qcard .qtop b{color:var(--teal);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.opt{display:flex;gap:8px;align-items:center;margin-top:6px}
+.opt input[type=radio]{width:18px;height:18px;flex:none;accent-color:var(--teal)}
+.opt .x{flex:none}
+.content-row{display:grid;grid-template-columns:2.2fr 1fr 2.4fr;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.content-row:last-child{border-bottom:0}
+.content-row b{color:var(--txt)} .content-row small{display:block;color:var(--mut)}
+.up{display:flex;gap:6px;flex-wrap:wrap}
+.up input[type=file]{width:auto;max-width:210px;padding:6px;font-size:13px}
+.up input[type=text]{flex:1;min-width:150px;padding:7px 10px;font-size:13px}
+.newcodes{margin-top:12px;padding:12px;border-radius:10px;background:#e3f1ee;color:var(--teal);font-weight:700}
+.empty{color:var(--mut);font-size:14px;padding:6px 0}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.stat{background:var(--soft);border-radius:10px;padding:10px 14px}
+.stat b{display:block;font-size:20px;color:var(--blue)} .stat span{font-size:12px;color:var(--mut)}
+@media(max-width:760px){.row{grid-template-columns:1fr}.content-row{grid-template-columns:1fr}.brand small{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><i></i><div>Programme admin<small>Strategic Marketing, Sales &amp; Pitching Excellence</small></div></div>
+  <div class="tools"><a class="btn line sm" href="../" target="_blank" rel="noopener">Open portal</a><button class="btn line sm hidden" id="outBtn" type="button">Log out</button></div>
+</div></header>
+
+<section class="login hidden" id="loginBox">
+  <h1>Admin login</h1>
+  <p>For Sharmila Kalachand only.</p>
+  <form id="loginForm" novalidate>
+    <label for="pw">Password</label>
+    <input id="pw" type="password" autocomplete="current-password">
+    <button class="btn" type="submit" id="loginBtn">Log in</button>
+    <div class="msg err hidden" id="loginErr"></div>
+  </form>
+</section>
+
+<section class="login hidden" id="setupBox">
+  <h1>Set up your admin password</h1>
+  <p>Enter the one-time setup key you were given, then choose your password. You only do this once.</p>
+  <form id="setupForm" novalidate>
+    <label for="sk">Setup key</label>
+    <input id="sk" autocomplete="off" spellcheck="false">
+    <label for="np1">New password (at least 8 characters)</label>
+    <input id="np1" type="password" autocomplete="new-password">
+    <label for="np2">Repeat new password</label>
+    <input id="np2" type="password" autocomplete="new-password">
+    <button class="btn" type="submit" id="setupBtn">Save password and continue</button>
+    <div class="msg err hidden" id="setupErr"></div>
+  </form>
+</section>
+
+<main class="wrap hidden" id="app">
+  <nav class="tabs" role="tablist">
+    <button class="on" data-tab="codes" type="button">Cohorts &amp; codes</button>
+    <button data-tab="people" type="button">Participants &amp; scores</button>
+    <button data-tab="quiz" type="button">Quiz</button>
+    <button data-tab="content" type="button">Slides &amp; guide</button>
+    <button data-tab="settings" type="button">Password</button>
+  </nav>
+
+  <section data-panel="codes">
+    <div class="card">
+      <h2>Create a cohort</h2>
+      <p class="sub">A cohort is one group of participants. Creating it generates its Day 1, Day 2 and Day 3 codes.</p>
+      <form class="row" id="cohortForm" novalidate>
+        <div><label for="cName">Cohort name</label><input id="cName" placeholder="e.g. Envision November 2026" maxlength="60"></div>
+        <div><label for="cStart">Start date</label><input id="cStart" type="date"></div>
+        <div><label for="cNotes">Notes (optional)</label><input id="cNotes" placeholder="e.g. Client, venue" maxlength="200"></div>
+        <button class="btn" type="submit" id="cBtn">Create cohort</button>
+      </form>
+      <div class="msg err hidden" id="cErr"></div>
+      <div class="newcodes hidden" id="cNew"></div>
+    </div>
+    <div id="cohortsOut"></div>
+  </section>
+
+  <section data-panel="people" class="hidden">
+    <div class="card">
+      <div class="cohort-head"><div><h2>Participants &amp; quiz scores</h2><p class="sub">Best score per module. A participant appears here the first time they open the portal with their name and code.</p></div>
+        <div class="tools"><select id="pCohort" aria-label="Filter by cohort"></select><button class="btn line sm" id="csvBtn" type="button">Download CSV</button></div></div>
+      <div class="stats" id="pStats"></div>
+      <div class="tscroll"><table id="pTable"></table></div>
+    </div>
+  </section>
+
+  <section data-panel="quiz" class="hidden">
+    <div class="card">
+      <div class="cohort-head"><div><h2>Edit quiz questions</h2><p class="sub">Each module's quiz appears beside its slides. Tick the correct answer for every question, then save.</p></div>
+        <div class="tools"><select id="qModule" aria-label="Module"></select></div></div>
+      <div id="qOut"></div>
+      <div class="tools"><button class="btn line" id="qAdd" type="button">Add question</button><button class="btn" id="qSave" type="button">Save quiz</button><span class="msg hidden" id="qMsg"></span></div>
+    </div>
+  </section>
+
+  <section data-panel="content" class="hidden">
+    <div class="card">
+      <h2>Slides &amp; participant guide</h2>
+      <p class="sub">Replace a module's slides with a PowerPoint (.pptx) or PDF, or paste a Google Drive link. Participants see the new file straight away.</p>
+      <div id="contentOut"></div>
+      <div class="msg hidden" id="upMsg"></div>
+    </div>
+  </section>
+
+  <section data-panel="settings" class="hidden">
+    <div class="card" style="max-width:460px">
+      <h2>Change password</h2>
+      <form id="pwForm" novalidate>
+        <label for="op">Current password</label><input id="op" type="password" autocomplete="current-password">
+        <label for="p1">New password (at least 8 characters)</label><input id="p1" type="password" autocomplete="new-password">
+        <label for="p2">Repeat new password</label><input id="p2" type="password" autocomplete="new-password">
+        <button class="btn" type="submit" style="margin-top:16px">Change password</button>
+        <div class="msg hidden" id="pwMsg"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var API = window.SK_API || 'https://script.google.com/macros/s/AKfycbzJl7rX8PRFCaFsPruEnyJbaq9dXaBH2H6hdn8EpUdEi8GZmuIZyhG2hSzYlnO9NZ1IZg/exec';
+  var $ = function (id) { return document.getElementById(id); };
+  var S = null, TOKEN = '', QEDIT = [];
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function store(k, v) { try { if (v == null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) {} }
+  function read(k) { try { return sessionStorage.getItem(k) || ''; } catch (e) { return ''; } }
+  function msg(el, t, ok) { el.textContent = t || ''; el.className = 'msg ' + (ok ? 'ok' : 'err') + (t ? '' : ' hidden'); }
+  function call(action, data) {
+    var body = Object.assign({ action: action, token: TOKEN }, data || {});
+    return fetch(API, { method: 'POST', body: JSON.stringify(body) }).then(function (r) { return r.json(); })
+      .catch(function () { return { ok: false, error: 'Connection problem. Please try again.' }; })
+      .then(function (r) { if (r && r.auth) { logoutLocal(); } return r; });
+  }
+  function busy(btn, on, label) { if (!btn) return; if (on) { btn.dataset.l = btn.textContent; btn.textContent = label || 'Working…'; btn.disabled = true; } else { btn.textContent = btn.dataset.l || btn.textContent; btn.disabled = false; } }
+  function show(view) { ['loginBox', 'setupBox', 'app'].forEach(function (v) { $(v).classList.toggle('hidden', v !== view); }); $('outBtn').classList.toggle('hidden', view !== 'app'); }
+  function logoutLocal() { TOKEN = ''; store('sk_admin', null); start(); }
+
+  function start() {
+    TOKEN = read('sk_admin');
+    if (TOKEN) return load();
+    call('adminStatus').then(function (r) { show(r && r.setup ? 'setupBox' : 'loginBox'); });
+  }
+  function load() {
+    return call('adminState').then(function (r) {
+      if (!r.ok) { if (!TOKEN) return; msg($('loginErr'), r.error); show('loginBox'); return; }
+      S = r; show('app'); renderAll();
+    });
+  }
+
+  $('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault(); msg($('loginErr'), '');
+    var b = $('loginBtn'); busy(b, true, 'Checking…');
+    call('adminLogin', { password: $('pw').value }).then(function (r) {
+      busy(b, false);
+      if (r.setup) return show('setupBox');
+      if (!r.ok) return msg($('loginErr'), r.error);
+      TOKEN = r.token; store('sk_admin', TOKEN); $('pw').value = ''; load();
+    });
+  });
+  $('setupForm').addEventListener('submit', function (e) {
+    e.preventDefault(); msg($('setupErr'), '');
+    if ($('np1').value.length < 8) return msg($('setupErr'), 'Please choose a password of at least 8 characters.');
+    if ($('np1').value !== $('np2').value) return msg($('setupErr'), 'The two passwords do not match.');
+    var b = $('setupBtn'); busy(b, true, 'Saving…');
+    call('adminSetup', { key: $('sk').value, password: $('np1').value }).then(function (r) {
+      busy(b, false);
+      if (!r.ok) return msg($('setupErr'), r.error);
+      TOKEN = r.token; store('sk_admin', TOKEN); $('np1').value = $('np2').value = ''; load();
+    });
+  });
+  $('outBtn').addEventListener('click', function () { call('adminLogout'); logoutLocal(); });
+
+  document.querySelector('nav.tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-tab]'); if (!b) return;
+    document.querySelectorAll('nav.tabs button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    document.querySelectorAll('[data-panel]').forEach(function (p) { p.classList.toggle('hidden', p.getAttribute('data-panel') !== b.getAttribute('data-tab')); });
+  });
+
+  function renderAll() { renderCohorts(); renderPeople(); renderQuizSelect(); renderContent(); }
+
+  /* ---------- cohorts & codes ---------- */
+  function renderCohorts() {
+    var groups = {}, order = [];
+    S.cohorts.forEach(function (c) { groups[c[0]] = { name: c[0], start: c[1], notes: c[2], codes: [] }; order.push(c[0]); });
+    S.codes.forEach(function (k) {
+      var g = k.cohort || 'No cohort';
+      if (!groups[g]) { groups[g] = { name: g, start: '', notes: '', codes: [] }; order.push(g); }
+      groups[g].codes.push(k);
+    });
+    order.reverse();
+    var h = order.map(function (g) {
+      var G = groups[g];
+      var rows = G.codes.sort(function (a, b) { return a.day - b.day; }).map(function (k) {
+        return '<tr><td class="code">' + esc(k.code) + '</td><td>Day ' + k.day + '</td><td><span class="pill ' + (k.active ? 'on">Active' : 'off">Switched off') + '</span></td><td style="text-align:right"><button class="btn sm ' + (k.active ? 'danger' : 'line') + '" type="button" data-code="' + esc(k.code) + '" data-act="' + (k.active ? '0' : '1') + '">' + (k.active ? 'Switch off' : 'Switch on') + '</button></td></tr>';
+      }).join('');
+      return '<div class="card"><div class="cohort-head"><h3>' + esc(G.name) + ' <small>' + esc([G.start ? 'Starts ' + G.start : '', G.notes].filter(Boolean).join(' · ')) + '</small></h3>' +
+        '<div class="tools"><select aria-label="Day for extra code" data-addday="' + esc(G.name === 'No cohort' ? '' : G.name) + '"><option value="1">Day 1</option><option value="2">Day 2</option><option value="3">Day 3</option></select><button class="btn line sm" type="button" data-addcode="' + esc(G.name === 'No cohort' ? '' : G.name) + '">Add extra code</button></div></div>' +
+        (rows ? '<div class="tscroll"><table><tr><th>Code</th><th>Day</th><th>Status</th><th></th></tr>' + rows + '</table></div>' : '<p class="empty">No codes yet.</p>') + '</div>';
+    }).join('');
+    $('cohortsOut').innerHTML = h || '<p class="empty">No cohorts yet.</p>';
+  }
+  $('cohortForm').addEventListener('submit', function (e) {
+    e.preventDefault(); msg($('cErr'), ''); $('cNew').classList.add('hidden');
+    var name = $('cName').value.trim(); if (!name) return msg($('cErr'), 'Please give the cohort a name.');
+    var b = $('cBtn'); busy(b, true, 'Creating…');
+    call('adminCreateCohort', { name: name, start: $('cStart').value, notes: $('cNotes').value }).then(function (r) {
+      busy(b, false);
+      if (!r.ok) return msg($('cErr'), r.error);
+      $('cNew').innerHTML = 'Cohort created. Day 1: ' + esc(r.codes[0]) + ' · Day 2: ' + esc(r.codes[1]) + ' · Day 3: ' + esc(r.codes[2]);
+      $('cNew').classList.remove('hidden');
+      $('cName').value = $('cStart').value = $('cNotes').value = '';
+      load();
+    });
+  });
+  $('cohortsOut').addEventListener('click', function (e) {
+    var t = e.target.closest('[data-code]');
+    if (t) { busy(t, true, '…'); call('adminSetCode', { code: t.getAttribute('data-code'), active: t.getAttribute('data-act') === '1' }).then(function (r) { if (!r.ok) alertBox(r.error); load(); }); return; }
+    var a = e.target.closest('[data-addcode]');
+    if (a) {
+      var sel = a.parentNode.querySelector('select'); busy(a, true, 'Adding…');
+      call('adminAddCode', { cohort: a.getAttribute('data-addcode'), day: Number(sel.value) }).then(function (r) { if (!r.ok) alertBox(r.error); load(); });
+    }
+  });
+  function alertBox(t) { var d = document.createElement('div'); d.className = 'msg err'; d.textContent = t; $('cohortsOut').prepend(d); setTimeout(function () { d.remove(); }, 6000); }
+
+  /* ---------- participants & scores ---------- */
+  function peopleRows() {
+    var f = $('pCohort').value, best = {};
+    S.scores.forEach(function (s) { (best[s[0]] = best[s[0]] || {})[s[2]] = s[3] + '/' + s[4]; });
+    return S.participants.filter(function (p) { return !f || p[2] === f; }).map(function (p) {
+      return { name: p[1], cohort: p[2], day: p[3], first: p[4], last: p[5], sc: best[p[0]] || {} };
+    }).sort(function (a, b) { return a.name.localeCompare(b.name); });
+  }
+  function renderPeople() {
+    var names = {}; S.participants.forEach(function (p) { if (p[2]) names[p[2]] = 1; });
+    var cur = $('pCohort').value;
+    $('pCohort').innerHTML = '<option value="">All cohorts</option>' + Object.keys(names).sort().map(function (n) { return '<option' + (n === cur ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('');
+    drawPeople();
+  }
+  function drawPeople() {
+    var rows = peopleRows(), mods = S.modules.map(function (m) { return m.n; });
+    var done = 0, tot = 0; rows.forEach(function (r) { Object.keys(r.sc).forEach(function () { done++; }); tot += mods.length; });
+    $('pStats').innerHTML = '<div class="stat"><b>' + rows.length + '</b><span>participants</span></div><div class="stat"><b>' + done + '</b><span>quizzes completed</span></div>';
+    if (!rows.length) { $('pTable').innerHTML = '<tr><td class="empty">No participants yet.</td></tr>'; return; }
+    $('pTable').innerHTML = '<tr><th>Name</th><th>Cohort</th><th>Days opened</th>' + mods.map(function (n) { return '<th class="sc">M' + n + '</th>'; }).join('') + '<th>Last seen</th></tr>' +
+      rows.map(function (r) {
+        return '<tr><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.cohort) + '</td><td>Day ' + esc(r.day) + '</td>' +
+          mods.map(function (n) { return r.sc[n] ? '<td class="sc">' + esc(r.sc[n]) + '</td>' : '<td class="sc none">·</td>'; }).join('') + '<td>' + esc(r.last) + '</td></tr>';
+      }).join('');
+  }
+  $('pCohort').addEventListener('change', drawPeople);
+  $('csvBtn').addEventListener('click', function () {
+    var mods = S.modules.map(function (m) { return m.n; });
+    var lines = [['Name', 'Cohort', 'Days opened', 'First seen', 'Last seen'].concat(mods.map(function (n) { return 'Module ' + n; }))];
+    peopleRows().forEach(function (r) { lines.push([r.name, r.cohort, r.day, r.first, r.last].concat(mods.map(function (n) { return r.sc[n] || ''; }))); });
+    var csv = lines.map(function (l) { return l.map(function (v) { v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(','); }).join('\n');
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' }));
+    a.download = 'participants-scores.csv'; document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  /* ---------- quiz editor ---------- */
+  function renderQuizSelect() {
+    var cur = $('qModule').value || '1';
+    $('qModule').innerHTML = S.modules.map(function (m) { return '<option value="' + m.n + '"' + (String(m.n) === cur ? ' selected' : '') + '>Module ' + m.n + ': ' + esc(m.title) + '</option>'; }).join('');
+    loadQuiz();
+  }
+  function loadQuiz() { var m = S.modules.filter(function (x) { return String(x.n) === $('qModule').value; })[0]; QEDIT = JSON.parse(JSON.stringify((m && m.quiz) || [])); drawQuiz(); msg($('qMsg'), ''); }
+  function drawQuiz() {
+    $('qOut').innerHTML = QEDIT.map(function (q, i) {
+      return '<div class="qcard" data-qi="' + i + '"><div class="qtop"><b>Question ' + (i + 1) + '</b><button class="btn danger sm" type="button" data-delq="' + i + '">Remove question</button></div>' +
+        '<textarea data-f="q" aria-label="Question ' + (i + 1) + '">' + esc(q.q) + '</textarea>' +
+        q.o.map(function (o, j) {
+          return '<div class="opt"><input type="radio" name="a' + i + '" value="' + j + '"' + (q.a === j ? ' checked' : '') + ' aria-label="Correct answer"><input type="text" data-f="o" data-oi="' + j + '" value="' + esc(o) + '" aria-label="Option ' + (j + 1) + '">' +
+            (q.o.length > 2 ? '<button class="btn line sm x" type="button" data-delo="' + j + '" aria-label="Remove option">✕</button>' : '') + '</div>';
+        }).join('') +
+        (q.o.length < 6 ? '<button class="btn line sm" type="button" data-addo style="margin-top:8px">Add option</button>' : '') + '</div>';
+    }).join('') || '<p class="empty">No questions yet. Add one below.</p>';
+  }
+  $('qModule').addEventListener('change', loadQuiz);
+  $('qOut').addEventListener('input', function (e) {
+    var c = e.target.closest('.qcard'); if (!c) return; var q = QEDIT[Number(c.getAttribute('data-qi'))];
+    if (e.target.getAttribute('data-f') === 'q') q.q = e.target.value;
+    if (e.target.getAttribute('data-f') === 'o') q.o[Number(e.target.getAttribute('data-oi'))] = e.target.value;
+  });
+  $('qOut').addEventListener('change', function (e) {
+    if (e.target.type !== 'radio') return; var c = e.target.closest('.qcard'); QEDIT[Number(c.getAttribute('data-qi'))].a = Number(e.target.value);
+  });
+  $('qOut').addEventListener('click', function (e) {
+    var c = e.target.closest('.qcard'); if (!c) return; var i = Number(c.getAttribute('data-qi')), q = QEDIT[i];
+    if (e.target.closest('[data-delq]')) { QEDIT.splice(i, 1); drawQuiz(); }
+    else if (e.target.closest('[data-addo]')) { q.o.push(''); drawQuiz(); }
+    else if (e.target.closest('[data-delo]')) { var j = Number(e.target.closest('[data-delo]').getAttribute('data-delo')); q.o.splice(j, 1); if (q.a === j) q.a = -1; else if (q.a > j) q.a--; drawQuiz(); }
+  });
+  $('qAdd').addEventListener('click', function () { QEDIT.push({ q: '', o: ['', '', '', ''], a: -1 }); drawQuiz(); });
+  $('qSave').addEventListener('click', function () {
+    var b = $('qSave'), n = Number($('qModule').value); busy(b, true, 'Saving…'); msg($('qMsg'), '');
+    call('adminSaveQuiz', { n: n, quiz: QEDIT }).then(function (r) {
+      busy(b, false);
+      if (!r.ok) return msg($('qMsg'), r.error);
+      S.modules.forEach(function (m) { if (m.n === n) m.quiz = r.quiz; });
+      msg($('qMsg'), 'Saved. Participants see the new quiz the next time they open the portal.', true);
+    });
+  });
+
+  /* ---------- slides & guide ---------- */
+  function renderContent() {
+    var rows = S.modules.map(function (m) {
+      return '<div class="content-row"><div><b>Module ' + m.n + ': ' + esc(m.title) + '</b><small>Day ' + m.day + '</small></div><div><a class="btn line sm" href="' + esc(m.open) + '" target="_blank" rel="noopener">View current</a></div>' + upForm('deck', m.n) + '</div>';
+    }).join('');
+    rows += '<div class="content-row"><div><b>Participant guide (PDF)</b><small>Linked from the portal</small></div><div>' + (S.guide ? '<a class="btn line sm" href="' + esc(S.guide) + '" target="_blank" rel="noopener">View current</a>' : '') + '</div>' + upForm('guide', 0) + '</div>';
+    $('contentOut').innerHTML = rows;
+  }
+  function upForm(kind, n) {
+    return '<div class="up" data-kind="' + kind + '" data-n="' + n + '"><input type="file" accept="' + (kind === 'guide' ? '.pdf,application/pdf' : '.pptx,.pdf') + '" aria-label="Choose file"><input type="text" placeholder="or paste a Google Drive link" aria-label="Google Drive link"><button class="btn sm" type="button" data-up>Replace</button></div>';
+  }
+  $('contentOut').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-up]'); if (!b) return;
+    var box = b.closest('.up'), kind = box.getAttribute('data-kind'), n = Number(box.getAttribute('data-n'));
+    var file = box.querySelector('input[type=file]').files[0], link = box.querySelector('input[type=text]').value.trim();
+    msg($('upMsg'), '');
+    if (!file && !link) return msg($('upMsg'), 'Choose a file or paste a Google Drive link first.');
+    busy(b, true, 'Uploading…');
+    var done = function (r) { busy(b, false); if (!r.ok) return msg($('upMsg'), r.error); msg($('upMsg'), (kind === 'guide' ? 'Guide' : 'Module ' + n + ' slides') + ' replaced.', true); load(); };
+    if (link && !file) return call('adminSetLink', { kind: kind, n: n, url: link }).then(done);
+    if (file.size > 40 * 1024 * 1024) { busy(b, false); return msg($('upMsg'), 'That file is larger than 40 MB.'); }
+    var rd = new FileReader();
+    rd.onload = function () {
+      var data = String(rd.result).split(',')[1] || '';
+      var mime = file.type || (/\.pptx$/i.test(file.name) ? 'application/vnd.openxmlformats-officedocument.presentationml.presentation' : 'application/pdf');
+      call('adminUpload', { kind: kind, n: n, filename: file.name, mime: mime, data: data }).then(done);
+    };
+    rd.onerror = function () { busy(b, false); msg($('upMsg'), 'Could not read that file.'); };
+    rd.readAsDataURL(file);
+  });
+
+  /* ---------- password ---------- */
+  $('pwForm').addEventListener('submit', function (e) {
+    e.preventDefault(); msg($('pwMsg'), '');
+    if ($('p1').value.length < 8) return msg($('pwMsg'), 'Please choose a password of at least 8 characters.');
+    if ($('p1').value !== $('p2').value) return msg($('pwMsg'), 'The two new passwords do not match.');
+    call('adminPassword', { old: $('op').value, password: $('p1').value }).then(function (r) {
+      if (!r.ok) return msg($('pwMsg'), r.error);
+      $('op').value = $('p1').value = $('p2').value = ''; msg($('pwMsg'), 'Password changed.', true);
+    });
+  });
+
+  start();
+})();
+</script>
+</body>
+</html>

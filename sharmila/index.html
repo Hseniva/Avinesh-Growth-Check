@@ -18,6 +18,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;heigh
 .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.05em;font-size:15px;text-transform:uppercase;color:var(--blue)}
 .brand i{display:inline-block;width:28px;height:3px;background:var(--gold);border-radius:2px}
 .brand small{display:block;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mut);font-size:12px;margin-top:2px}
+input.nm{text-transform:none;letter-spacing:normal;font-weight:600}
 .tb-acts{display:flex;gap:8px;flex-wrap:wrap}
 .who .btn,.tb-acts .btn{white-space:nowrap}
 .who{font-size:13px;color:var(--grey);display:flex;gap:10px;align-items:center}
@@ -130,9 +131,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <div class="side">
   <div class="photo"><img src="img/sharmila-kalachand.jpg" alt="Sharmila Kalachand, programme trainer" width="900" height="1127"><div class="cap"><b>Sharmila Kalachand</b>Your programme trainer</div></div>
   <div class="card" id="codeCard">
-    <h2>Enter your access code</h2>
-    <p class="sub">No account needed. Your trainer gives you a new code each day, and each code opens that day and the days before it.</p>
+    <h2>Enter your name and code</h2>
+    <p class="sub">No account needed. Your trainer gives you a new code each day, and each code opens that day and the days before it. Your name lets your trainer follow your progress.</p>
     <form id="codeForm" novalidate>
+      <label for="nameIn">Your full name</label>
+      <input class="code nm" id="nameIn" autocomplete="name" spellcheck="false" placeholder="e.g. Priya Ramdin" maxlength="80">
       <label for="codeIn">Access code</label>
       <input class="code" id="codeIn" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="e.g. SK1-XXXXX" maxlength="20">
       <button class="btn btn-gold" id="codeBtn" type="submit">Open my modules</button>
@@ -172,10 +175,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   var MEM = [], QZ = {}, CUR = 0, ANS = {}, SC = {};
   try { SC = JSON.parse(localStorage.getItem('sk_quiz_scores') || '{}'); } catch (e) {}
   function badge(n) { var s = SC[n]; return s ? 'Quiz ' + s[0] + '/' + s[1] : ''; }
+  function getName() { try { return localStorage.getItem('sk_name') || NAME; } catch (e) { return NAME; } }
+  var NAME = '';
+  function setName(n) { NAME = n; try { localStorage.setItem('sk_name', n); } catch (e) {} }
   function save(a) { MEM = a; try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) {} }
   function client() { try { var c = localStorage.getItem('sk_client'); if (!c) { c = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('sk_client', c); } return c; } catch (e) { return 'anon'; } }
   function api(codes) {
-    return fetch(API, { method: 'POST', body: JSON.stringify({ action: 'unlock', codes: codes, client: client() }) })
+    return fetch(API, { method: 'POST', body: JSON.stringify({ action: 'unlock', codes: codes, client: client(), name: getName() }) })
       .then(function (r) { return r.json(); })
       .catch(function () { return { ok: false, error: 'Connection problem. Please check your internet and try again.' }; });
   }
@@ -183,7 +189,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   function render(r) {
     $('hero').classList.add('hidden'); $('portal').classList.remove('hidden'); $('who').classList.remove('hidden');
-    $('whoDay').textContent = 'Day ' + r.maxDay + ' unlocked';
+    $('whoDay').textContent = (getName() ? getName().split(' ')[0] + ' · ' : '') + 'Day ' + r.maxDay + ' unlocked';
     $('portalSub').textContent = r.maxDay >= 3 ? 'All three days are open. Well done on reaching the final day.' : 'With Sharmila Kalachand. Days unlock one by one as you receive each day\'s code.';
     if (r.guide) { $('guideBtn').href = r.guide; $('guideBtn').classList.remove('hidden'); }
     r.modules.forEach(function (m) { QZ[m.n] = m.quiz || []; });
@@ -224,8 +230,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   $('codeForm').addEventListener('submit', function (e) {
     e.preventDefault(); showErr($('codeErr'), '');
-    var c = $('codeIn').value.trim().toUpperCase();
+    var nm = $('nameIn').value.replace(/\s+/g, ' ').trim(), c = $('codeIn').value.trim().toUpperCase();
+    if (nm.length < 2) return showErr($('codeErr'), 'Please enter your full name.');
     if (c.length < 4) return showErr($('codeErr'), 'Please enter the code your trainer gave you.');
+    setName(nm);
     tryCodes(load().concat([c]), $('codeErr'), $('codeBtn'));
   });
   document.addEventListener('submit', function (e) {
@@ -267,6 +275,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     if (done === qs.length) h += '<div class="qscore"><b>You scored ' + right + ' out of ' + qs.length + '</b><button class="btn" type="button" id="quizAgain">Try again</button></div>';
     else h += '<p class="qsub">' + done + ' of ' + qs.length + ' answered</p>';
     $('quizBox').innerHTML = h;
+    if (done === qs.length && !ANS.sent) {
+      ANS.sent = 1;
+      try { fetch(API, { method: 'POST', body: JSON.stringify({ action: 'score', client: client(), name: getName(), n: CUR, score: right, total: qs.length }) }); } catch (e) {}
+    }
     if (done === qs.length) {
       var best = SC[CUR] && SC[CUR][0] > right ? SC[CUR] : [right, qs.length];
       SC[CUR] = best; try { localStorage.setItem('sk_quiz_scores', JSON.stringify(SC)); } catch (e) {}
@@ -283,12 +295,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   function closeViewer() { $('viewer').classList.add('hidden'); $('viewerFrame').src = 'about:blank'; document.body.style.overflow = ''; }
   $('viewerClose').addEventListener('click', closeViewer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
-  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); } catch (e) {} location.href = location.pathname; }
+  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
   $('resetBtn').addEventListener('click', logout);
   $('logoutBtn').addEventListener('click', logout);
 
   var saved = load();
-  if (saved.length) tryCodes(saved, $('codeErr'), null);
+  if (saved.length && getName()) tryCodes(saved, $('codeErr'), null);
 })();
 </script>
 </body>
