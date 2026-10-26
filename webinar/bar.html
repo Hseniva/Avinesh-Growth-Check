@@ -1,0 +1,36 @@
+<!-- AB-WEBINAR-START -->
+<!-- Free webinar alert bar: avineshbundhoo.com (all pages). Hides itself at midnight on 6 Nov (Mauritius). -->
+<div id="abWebinar" class="abw" role="region" aria-label="Free webinar" hidden>
+  <div class="abw-in">
+    <span class="abw-tag">Free webinar</span>
+    <span class="abw-txt"><b>Social Media Ads for Small Business</b><span class="abw-sub">: learn to run your own Meta ads</span> <span class="abw-when">Thu 5 Nov, 6pm (Mauritius) · <span id="abwLeft"></span></span></span>
+    <a class="abw-btn" id="abwCta" href="https://forms.gle/aSXBDLxJZ4KzAY6y6" target="_blank" rel="noopener">Save my free seat</a>
+    <button class="abw-x" id="abwX" type="button" aria-label="Close">&#215;</button>
+  </div>
+</div>
+<style>
+.abw{position:relative;z-index:9999;background:linear-gradient(90deg,#0d1424,#101a33);border-bottom:1px solid rgba(79,124,255,.35);color:#e6e9f2;font:500 14px/1.4 Inter,"Helvetica Neue",Arial,sans-serif}
+.abw-in{max-width:1200px;margin:0 auto;padding:9px 48px 9px 16px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center}
+.abw-tag{background:#E8A045;color:#080B10;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 10px;white-space:nowrap}
+.abw-txt b{color:#fff}
+.abw-when{color:#9fb3ff;white-space:nowrap}
+.abw-btn{background:#4F7CFF;color:#fff;text-decoration:none;font-weight:700;border-radius:8px;padding:7px 14px;white-space:nowrap}
+.abw-btn:hover{background:#6b91ff}
+.abw-x{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;color:#9aa3b8;font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}
+.abw-x:hover{color:#fff}
+@media(max-width:640px){.abw{font-size:13px}.abw-in{gap:8px;padding:10px 40px 10px 12px}.abw-when{display:block;width:100%}.abw-sub{display:none}.abw-tag{padding:3px 8px}.abw-btn{padding:6px 12px}}
+</style>
+<script>
+(function () {
+  var START = new Date('2026-11-05T18:00:00+04:00'), END = new Date('2026-11-06T00:00:00+04:00'), LIVE_END = new Date('2026-11-05T19:00:00+04:00'), KEY = 'ab_webinar_nov5_closed';
+  var bar = document.getElementById('abWebinar'), now = new Date();
+  if (!bar || now > END) return;
+  try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
+  var days = Math.ceil((START - now) / 86400000);
+  document.getElementById('abwLeft').textContent = (now >= START && now < LIVE_END) ? 'live now' : now >= START ? 'today' : days <= 1 ? (START.toDateString() === now.toDateString() ? 'today' : 'tomorrow') : 'in ' + days + ' days';
+  bar.hidden = false;
+  document.getElementById('abwX').addEventListener('click', function () { bar.hidden = true; try { sessionStorage.setItem(KEY, '1'); } catch (e) {} });
+  document.getElementById('abwCta').addEventListener('click', function () { try { if (window.gtag) gtag('event', 'cta_click', { cta: 'webinar_bar' }); } catch (e) {} });
+})();
+</script>
+<!-- AB-WEBINAR-END -->
