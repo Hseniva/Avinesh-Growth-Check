@@ -9,7 +9,7 @@
   </div>
 </div>
 <style>
-.abw{position:relative;z-index:9999;background:linear-gradient(90deg,#0d1424,#101a33);border-bottom:1px solid rgba(79,124,255,.35);color:#e6e9f2;font:500 14px/1.4 Inter,"Helvetica Neue",Arial,sans-serif}
+.abw{position:fixed;top:0;left:0;right:0;z-index:100001;box-shadow:0 2px 12px rgba(0,0,0,.35);background:linear-gradient(90deg,#0d1424,#101a33);border-bottom:1px solid rgba(79,124,255,.35);color:#e6e9f2;font:500 14px/1.4 Inter,"Helvetica Neue",Arial,sans-serif}
 .abw-in{max-width:1200px;margin:0 auto;padding:9px 48px 9px 16px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center}
 .abw-tag{background:#E8A045;color:#080B10;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 10px;white-space:nowrap}
 .abw-txt b{color:#fff}
@@ -29,7 +29,22 @@
   var days = Math.ceil((START - now) / 86400000);
   document.getElementById('abwLeft').textContent = (now >= START && now < LIVE_END) ? 'live now' : now >= START ? 'today' : days <= 1 ? (START.toDateString() === now.toDateString() ? 'today' : 'tomorrow') : 'in ' + days + ' days';
   bar.hidden = false;
-  document.getElementById('abwX').addEventListener('click', function () { bar.hidden = true; try { sessionStorage.setItem(KEY, '1'); } catch (e) {} });
+  var moved = [], basePad = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
+  function fixedTops() {
+    return Array.prototype.filter.call(document.querySelectorAll('body *'), function (e) {
+      if (e === bar || bar.contains(e)) return false;
+      var st = getComputedStyle(e);
+      return (st.position === 'fixed' || st.position === 'sticky') && (parseFloat(st.top) || 0) < 5 && e.getBoundingClientRect().top < 5 && e.offsetHeight > 0 && e.offsetHeight < 240 && e.offsetWidth > window.innerWidth * 0.5;
+    });
+  }
+  function place() {
+    var h = bar.hidden ? 0 : bar.offsetHeight;
+    if (!moved.length) moved = fixedTops();
+    moved.forEach(function (e) { e.style.top = h + 'px'; });
+    document.body.style.paddingTop = (basePad + h) + 'px';
+  }
+  place(); window.addEventListener('resize', place); window.addEventListener('load', place);
+  document.getElementById('abwX').addEventListener('click', function () { bar.hidden = true; place(); try { sessionStorage.setItem(KEY, '1'); } catch (e) {} });
   document.getElementById('abwCta').addEventListener('click', function () { try { if (window.gtag) gtag('event', 'cta_click', { cta: 'webinar_bar' }); } catch (e) {} });
 })();
 </script>
