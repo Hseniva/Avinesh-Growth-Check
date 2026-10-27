@@ -5,29 +5,24 @@
     <span class="abw-tag">Free webinar</span>
     <span class="abw-txt"><b>Social Media Ads for Small Business</b><span class="abw-sub">: learn to run your own Meta ads</span> <span class="abw-when">Thu 5 Nov, 6pm (Mauritius)</span> <span class="abw-cd" id="abwLeft" aria-live="off"></span></span>
     <a class="abw-btn" id="abwCta" href="https://forms.gle/aSXBDLxJZ4KzAY6y6" target="_blank" rel="noopener">Save my free seat</a>
-    <button class="abw-x" id="abwX" type="button" aria-label="Close">&#215;</button>
   </div>
 </div>
 <style>
 .abw{position:fixed;top:0;left:0;right:0;z-index:100001;box-shadow:0 2px 12px rgba(0,0,0,.35);background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#f3f1ff;font:500 14px/1.4 Inter,"Helvetica Neue",Arial,sans-serif}
-.abw-in{max-width:1200px;margin:0 auto;padding:9px 48px 9px 16px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center}
+.abw-in{max-width:1200px;margin:0 auto;padding:9px 16px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center}
 .abw-tag{background:#E8A045;color:#1f1640;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 10px;white-space:nowrap}
 .abw-txt b{color:#fff}
 .abw-when{color:#e7e2ff;white-space:nowrap}
 .abw-cd{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}.abw-cd b{display:inline-block;min-width:34px;background:rgba(255,255,255,.18);border-radius:6px;padding:3px 5px;color:#fff;font-weight:800;text-align:center}.abw-cd i{font-style:normal;font-size:11px;opacity:.85;margin-right:4px}.abw-cd.live b{background:#E8A045;color:#1f1640}
 .abw-btn{background:#fff;color:#5b4bb3;text-decoration:none;font-weight:700;border-radius:8px;padding:7px 14px;white-space:nowrap}
 .abw-btn:hover{background:#f1eeff}
-.abw-x{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;color:rgba(255,255,255,.8);font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}
-.abw-x:hover{color:#fff}
-@media(max-width:640px){.abw-cd b{min-width:28px;padding:2px 4px}.abw{font-size:13px}.abw-in{gap:8px;padding:10px 40px 10px 12px}.abw-when{display:block;width:100%}.abw-sub{display:none}.abw-tag{padding:3px 8px}.abw-cd{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}.abw-cd b{display:inline-block;min-width:34px;background:rgba(255,255,255,.18);border-radius:6px;padding:3px 5px;color:#fff;font-weight:800;text-align:center}.abw-cd i{font-style:normal;font-size:11px;opacity:.85;margin-right:4px}.abw-cd.live b{background:#E8A045;color:#1f1640}
-.abw-btn{padding:6px 12px}}
+@media(max-width:640px){.abw{font-size:13px}.abw-in{gap:8px;padding:10px 12px}.abw-when{display:block;width:100%}.abw-sub{display:none}.abw-tag{padding:3px 8px}.abw-cd b{min-width:28px;padding:2px 4px}.abw-btn{padding:6px 12px}}
 </style>
 <script>
 (function () {
-  var START = new Date('2026-11-05T18:00:00+04:00'), END = new Date('2026-11-06T00:00:00+04:00'), LIVE_END = new Date('2026-11-05T19:00:00+04:00'), KEY = 'ab_webinar_nov5_closed';
+  var START = new Date('2026-11-05T18:00:00+04:00'), END = new Date('2026-11-06T00:00:00+04:00'), LIVE_END = new Date('2026-11-05T19:00:00+04:00');
   var bar = document.getElementById('abWebinar'), now = new Date();
   if (!bar || now > END) return;
-  try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
   var cd = document.getElementById('abwLeft');
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function tick() {
@@ -54,7 +49,6 @@
     document.body.style.paddingTop = (basePad + h) + 'px';
   }
   tick(); place(); window.addEventListener('resize', place); window.addEventListener('load', place);
-  document.getElementById('abwX').addEventListener('click', function () { bar.hidden = true; place(); try { sessionStorage.setItem(KEY, '1'); } catch (e) {} });
   document.getElementById('abwCta').addEventListener('click', function () { try { if (window.gtag) gtag('event', 'cta_click', { cta: 'webinar_bar' }); } catch (e) {} });
 })();
 </script>
