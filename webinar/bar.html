@@ -3,7 +3,7 @@
 <div id="abWebinar" class="abw" role="region" aria-label="Free webinar" hidden>
   <div class="abw-in">
     <span class="abw-tag">Free webinar</span>
-    <span class="abw-txt"><b>Social Media Ads for Small Business</b><span class="abw-sub">: learn to run your own Meta ads</span> <span class="abw-when">Thu 5 Nov, 6pm (Mauritius) · <span id="abwLeft"></span></span></span>
+    <span class="abw-txt"><b>Social Media Ads for Small Business</b><span class="abw-sub">: learn to run your own Meta ads</span> <span class="abw-when">Thu 5 Nov, 6pm (Mauritius)</span> <span class="abw-cd" id="abwLeft" aria-live="off"></span></span>
     <a class="abw-btn" id="abwCta" href="https://forms.gle/aSXBDLxJZ4KzAY6y6" target="_blank" rel="noopener">Save my free seat</a>
     <button class="abw-x" id="abwX" type="button" aria-label="Close">&#215;</button>
   </div>
@@ -14,11 +14,13 @@
 .abw-tag{background:#E8A045;color:#1f1640;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 10px;white-space:nowrap}
 .abw-txt b{color:#fff}
 .abw-when{color:#e7e2ff;white-space:nowrap}
+.abw-cd{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}.abw-cd b{display:inline-block;min-width:34px;background:rgba(255,255,255,.18);border-radius:6px;padding:3px 5px;color:#fff;font-weight:800;text-align:center}.abw-cd i{font-style:normal;font-size:11px;opacity:.85;margin-right:4px}.abw-cd.live b{background:#E8A045;color:#1f1640}
 .abw-btn{background:#fff;color:#5b4bb3;text-decoration:none;font-weight:700;border-radius:8px;padding:7px 14px;white-space:nowrap}
 .abw-btn:hover{background:#f1eeff}
 .abw-x{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;color:rgba(255,255,255,.8);font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}
 .abw-x:hover{color:#fff}
-@media(max-width:640px){.abw{font-size:13px}.abw-in{gap:8px;padding:10px 40px 10px 12px}.abw-when{display:block;width:100%}.abw-sub{display:none}.abw-tag{padding:3px 8px}.abw-btn{padding:6px 12px}}
+@media(max-width:640px){.abw-cd b{min-width:28px;padding:2px 4px}.abw{font-size:13px}.abw-in{gap:8px;padding:10px 40px 10px 12px}.abw-when{display:block;width:100%}.abw-sub{display:none}.abw-tag{padding:3px 8px}.abw-cd{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}.abw-cd b{display:inline-block;min-width:34px;background:rgba(255,255,255,.18);border-radius:6px;padding:3px 5px;color:#fff;font-weight:800;text-align:center}.abw-cd i{font-style:normal;font-size:11px;opacity:.85;margin-right:4px}.abw-cd.live b{background:#E8A045;color:#1f1640}
+.abw-btn{padding:6px 12px}}
 </style>
 <script>
 (function () {
@@ -26,8 +28,16 @@
   var bar = document.getElementById('abWebinar'), now = new Date();
   if (!bar || now > END) return;
   try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
-  var days = Math.ceil((START - now) / 86400000);
-  document.getElementById('abwLeft').textContent = (now >= START && now < LIVE_END) ? 'live now' : now >= START ? 'today' : days <= 1 ? (START.toDateString() === now.toDateString() ? 'today' : 'tomorrow') : 'in ' + days + ' days';
+  var cd = document.getElementById('abwLeft');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    var t = new Date();
+    if (t > END) { bar.hidden = true; place(); clearInterval(timer); return; }
+    if (t >= START) { cd.className = 'abw-cd live'; cd.innerHTML = t < LIVE_END ? '<b>LIVE NOW</b>' : '<b>Today</b>'; return; }
+    var s = Math.floor((START - t) / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+    cd.innerHTML = (d ? '<b>' + d + '</b><i>d</i>' : '') + '<b>' + pad(h) + '</b><i>h</i><b>' + pad(m) + '</b><i>m</i><b>' + pad(sec) + '</b><i>s</i>';
+  }
+  var timer = setInterval(tick, 1000);
   bar.hidden = false;
   var moved = [], basePad = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
   function fixedTops() {
@@ -43,7 +53,7 @@
     moved.forEach(function (e) { e.style.top = h + 'px'; });
     document.body.style.paddingTop = (basePad + h) + 'px';
   }
-  place(); window.addEventListener('resize', place); window.addEventListener('load', place);
+  tick(); place(); window.addEventListener('resize', place); window.addEventListener('load', place);
   document.getElementById('abwX').addEventListener('click', function () { bar.hidden = true; place(); try { sessionStorage.setItem(KEY, '1'); } catch (e) {} });
   document.getElementById('abwCta').addEventListener('click', function () { try { if (window.gtag) gtag('event', 'cta_click', { cta: 'webinar_bar' }); } catch (e) {} });
 })();
