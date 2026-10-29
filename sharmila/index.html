@@ -94,6 +94,17 @@ main{padding:44px 0 70px}
 .qscore{background:var(--blue);color:#fff;border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .qscore b{font-size:16px}
 .qscore .btn{background:#fff;color:var(--blue)}
+.scen{margin-top:18px;padding-top:16px;border-top:2px dashed var(--line)}
+.scen h3 small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:2px}
+.scen .stxt{background:#fff;border-left:4px solid var(--teal);border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.55;color:var(--txt);margin-bottom:12px}
+.scen .stxt p{margin:0 0 8px}.scen .stxt p:last-child{margin:0}
+.scen textarea{width:100%;min-height:110px;box-sizing:border-box;font:inherit;font-size:13.5px;line-height:1.45;padding:9px 11px;border:1px solid var(--line);border-radius:8px;resize:vertical;margin-top:6px;color:var(--txt);background:#fff}
+.scen textarea:focus{outline:2px solid var(--blue);outline-offset:1px}
+.scen textarea[readonly]{background:var(--soft)}
+.scen .model{margin-top:10px;background:#e3f1ee;border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.5;color:#0b3d40}
+.scen .model b{display:block;color:var(--teal);margin-bottom:3px}
+.scen .sact{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.scen .slock{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:14px;font-size:13.5px;color:var(--grey)}
 .qbadge{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;background:var(--soft);color:var(--blue);border-radius:6px;padding:3px 7px;letter-spacing:.04em}
 .quiztab{display:none}
 @media(max-width:900px){.vbody{flex-direction:column}.quiz{width:auto;flex:1;border-left:0;border-top:4px solid var(--gold)}.viewer.q-on iframe{display:none}.viewer:not(.q-on) .quiz{display:none}.quiztab{display:inline-flex}}
@@ -172,7 +183,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function load() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return MEM || []; } }
-  var MEM = [], QZ = {}, CUR = 0, ANS = {}, SC = {};
+  var MEM = [], QZ = {}, SN = {}, CUR = 0, ANS = {}, SC = {}, SA = {};
+  try { SA = JSON.parse(localStorage.getItem('sk_scen') || '{}'); } catch (e) {}
+  function saveSA() { try { localStorage.setItem('sk_scen', JSON.stringify(SA)); } catch (e) {} }
   try { SC = JSON.parse(localStorage.getItem('sk_quiz_scores') || '{}'); } catch (e) {}
   function badge(n) { var s = SC[n]; return s ? 'Quiz ' + s[0] + '/' + s[1] : ''; }
   function getName() { try { return localStorage.getItem('sk_name') || NAME; } catch (e) { return NAME; } }
@@ -192,7 +205,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     $('whoDay').textContent = (getName() ? getName().split(' ')[0] + ' · ' : '') + 'Day ' + r.maxDay + ' unlocked';
     $('portalSub').textContent = r.maxDay >= 3 ? 'All three days are open. Well done on reaching the final day.' : 'With Sharmila Kalachand. Days unlock one by one as you receive each day\'s code.';
     if (r.guide) { $('guideBtn').href = r.guide; $('guideBtn').classList.remove('hidden'); }
-    r.modules.forEach(function (m) { QZ[m.n] = m.quiz || []; });
+    r.modules.forEach(function (m) { QZ[m.n] = m.quiz || []; SN[m.n] = m.scen || null; });
     var h = '';
     [1, 2, 3].forEach(function (d) {
       h += '<section class="day"><div class="dayhead"><span class="daytag">Day ' + d + '</span><h3>' + esc(DAYS[d]) + '</h3></div>';
@@ -201,7 +214,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
           var da = ' data-n="' + m.n + '" data-view="' + esc(m.view) + '" data-open="' + esc(m.open) + '" data-title="Module ' + m.n + ': ' + esc(m.title) + '"';
           return '<article class="mod"><span class="num">Module ' + m.n + '<span class="qbadge' + (SC[m.n] ? '' : ' hidden') + '" id="qb' + m.n + '">' + badge(m.n) + '</span></span><h4>' + esc(m.title) + '</h4><div class="acts">' +
             '<button class="btn btn-gold" type="button"' + da + '>View slides</button>' +
-            ((m.quiz && m.quiz.length) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">Take quiz</button>' : '') +
+            (((m.quiz && m.quiz.length) || m.scen) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">Take quiz</button>' : '') +
             '<a class="btn btn-line" href="' + esc(m.open) + '" target="_blank" rel="noopener">Open</a></div></article>';
         }).join('') + '</div>';
       } else {
@@ -261,7 +274,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   $('quizToggle').addEventListener('click', function () { setQ(!$('viewer').classList.contains('q-on')); });
   function drawQuiz() {
     var qs = QZ[CUR] || [], L = 'abcd';
-    if (!qs.length) { $('quizBox').innerHTML = '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">There is no quiz for this module.</p>'; return; }
+    if (!qs.length) { $('quizBox').innerHTML = (SN[CUR] ? '' : '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">There is no quiz for this module.</p>') + scenHtml(true); return; }
     var done = 0, right = 0;
     var h = '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">Check your understanding while you go through the slides. Pick one answer for each question.</p>';
     qs.forEach(function (q, i) {
@@ -274,7 +287,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     });
     if (done === qs.length) h += '<div class="qscore"><b>You scored ' + right + ' out of ' + qs.length + '</b><button class="btn" type="button" id="quizAgain">Try again</button></div>';
     else h += '<p class="qsub">' + done + ' of ' + qs.length + ' answered</p>';
-    $('quizBox').innerHTML = h;
+    $('quizBox').innerHTML = h + scenHtml(done === qs.length);
     if (done === qs.length && !ANS.sent) {
       ANS.sent = 1;
       try { fetch(API, { method: 'POST', body: JSON.stringify({ action: 'score', client: client(), name: getName(), n: CUR, score: right, total: qs.length }) }); } catch (e) {}
@@ -285,7 +298,42 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       var bd = $('qb' + CUR); if (bd) { bd.textContent = badge(CUR); bd.classList.remove('hidden'); }
     }
   }
+  function paras(t) { return String(t || '').split(/\n\s*\n/).map(function (x) { return '<p>' + esc(x.trim()) + '</p>'; }).join(''); }
+  function scenHtml(open) {
+    var s = SN[CUR]; if (!s || !s.questions || !s.questions.length) return '';
+    var st = SA[CUR] || { a: [], sent: false };
+    var h = '<div class="scen" id="scenBox"><h3><small>After the quiz</small>Scenario exercise</h3>';
+    if (!open && !st.sent) return h + '<div class="slock">Finish the quiz above to open the scenario exercise for this module.</div></div>';
+    h += '<p class="qsub">Read the scenario, then answer each question in your own words. Your trainer will see your answers.</p><div class="stxt">' + paras(s.scenario) + '</div>';
+    s.questions.forEach(function (q, i) {
+      h += '<div class="qq"><p><small>Question ' + (i + 1) + ' of ' + s.questions.length + '</small>' + esc(q.q) + '</p>' +
+        '<textarea data-si="' + i + '" maxlength="4000" placeholder="Write your answer here"' + (st.sent ? ' readonly' : '') + '>' + esc(st.a[i] || '') + '</textarea>' +
+        (st.sent && q.a ? '<div class="model"><b>Suggested answer</b>' + esc(q.a) + '</div>' : '') + '</div>';
+    });
+    h += st.sent
+      ? '<div class="qscore"><b>Answers sent to your trainer</b><button class="btn" type="button" id="scenEdit">Edit my answers</button></div>'
+      : '<div class="sact"><button class="btn" type="button" id="scenSend">Send my answers</button><span class="qfb no hidden" id="scenErr"></span></div>';
+    return h + '</div>';
+  }
+  $('quizBox').addEventListener('input', function (e) {
+    var t = e.target; if (!t.matches || !t.matches('textarea[data-si]')) return;
+    var st = SA[CUR] = SA[CUR] || { a: [], sent: false }; st.a[Number(t.getAttribute('data-si'))] = t.value; saveSA();
+  });
   $('quizBox').addEventListener('click', function (e) {
+    if (e.target.closest('#scenEdit')) { SA[CUR].sent = false; saveSA(); drawQuiz(); var sb = $('scenBox'); if (sb) sb.scrollIntoView(); return; }
+    var sendB = e.target.closest('#scenSend');
+    if (sendB) {
+      var st = SA[CUR] = SA[CUR] || { a: [], sent: false }, nq = SN[CUR].questions.length, ans = [];
+      for (var i = 0; i < nq; i++) ans.push(String(st.a[i] || '').trim());
+      var err = $('scenErr');
+      if (ans.some(function (x) { return x.length < 3; })) { err.textContent = 'Please answer every question first.'; err.classList.remove('hidden'); return; }
+      sendB.disabled = true; sendB.textContent = 'Sending…';
+      fetch(API, { method: 'POST', body: JSON.stringify({ action: 'scenario', client: client(), name: getName(), n: CUR, answers: ans }) })
+        .then(function (r) { return r.json(); })
+        .then(function (r) { if (!r || !r.ok) throw new Error((r && r.error) || 'x'); st.sent = true; saveSA(); drawQuiz(); var sb = $('scenBox'); if (sb) sb.scrollIntoView(); })
+        .catch(function () { sendB.disabled = false; sendB.textContent = 'Send my answers'; err.textContent = 'Could not send. Check your connection and try again.'; err.classList.remove('hidden'); });
+      return;
+    }
     if (e.target.closest('#quizAgain')) { ANS = {}; drawQuiz(); $('quizBox').scrollTop = 0; return; }
     var b = e.target.closest('.qo'); if (!b || b.disabled) return;
     var top = $('quizBox').scrollTop;
@@ -295,7 +343,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   function closeViewer() { $('viewer').classList.add('hidden'); $('viewerFrame').src = 'about:blank'; document.body.style.overflow = ''; }
   $('viewerClose').addEventListener('click', closeViewer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
-  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
+  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
   $('resetBtn').addEventListener('click', logout);
   $('logoutBtn').addEventListener('click', logout);
 

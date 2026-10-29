@@ -73,6 +73,12 @@ header .tools{flex-wrap:nowrap}
 .stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .stat{background:var(--soft);border-radius:10px;padding:10px 14px}
 .stat b{display:block;font-size:20px;color:var(--blue)} .stat span{font-size:12px;color:var(--mut)}
+.ans{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--soft)}
+.ans .ah{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.ans .ah b{color:var(--blue)} .ans .ah small{color:var(--mut)}
+.ans .aq{font-size:13px;font-weight:700;color:var(--teal);margin:10px 0 3px}
+.ans .aa{font-size:14px;line-height:1.5;white-space:pre-wrap;background:#fff;border-radius:8px;padding:8px 10px}
+.scenedit textarea{min-height:90px}
 @media(max-width:760px){.row{grid-template-columns:1fr}.content-row{grid-template-columns:1fr}.brand small{display:none}}
 </style>
 </head>
@@ -140,6 +146,11 @@ header .tools{flex-wrap:nowrap}
       <div class="stats" id="pStats"></div>
       <div class="tscroll"><table id="pTable"></table></div>
     </div>
+    <div class="card">
+      <div class="cohort-head"><div><h2>Scenario answers</h2><p class="sub">Written answers to the scenario exercise after each module quiz. Uses the cohort filter above.</p></div>
+        <div class="tools"><select id="aModule" aria-label="Filter by module"></select><button class="btn line sm" id="aCsvBtn" type="button">Download CSV</button></div></div>
+      <div id="aOut"></div>
+    </div>
   </section>
 
   <section data-panel="quiz" class="hidden">
@@ -148,6 +159,12 @@ header .tools{flex-wrap:nowrap}
         <div class="tools"><select id="qModule" aria-label="Module"></select></div></div>
       <div id="qOut"></div>
       <div class="tools"><button class="btn line" id="qAdd" type="button">Add question</button><button class="btn" id="qSave" type="button">Save quiz</button><span class="msg hidden" id="qMsg"></span></div>
+    </div>
+    <div class="card scenedit">
+      <h2>Scenario exercise</h2><p class="sub">Shown under the quiz once a participant finishes it. Participants write their answers; the suggested answer appears after they send theirs. Up to 3 questions. This edits the module selected above.</p>
+      <label for="sText">Scenario</label><textarea id="sText" style="min-height:150px" placeholder="Describe the situation. Leave an empty line between paragraphs."></textarea>
+      <div id="sOut"></div>
+      <div class="tools" style="margin-top:12px"><button class="btn line" id="sAdd" type="button">Add question</button><button class="btn" id="sSave" type="button">Save scenario</button><span class="msg hidden" id="sMsg"></span></div>
     </div>
   </section>
 
@@ -234,7 +251,7 @@ header .tools{flex-wrap:nowrap}
     document.querySelectorAll('[data-panel]').forEach(function (p) { p.classList.toggle('hidden', p.getAttribute('data-panel') !== b.getAttribute('data-tab')); });
   });
 
-  function renderAll() { renderCohorts(); renderPeople(); renderQuizSelect(); renderContent(); }
+  function renderAll() { renderCohorts(); renderPeople(); renderAns(); renderQuizSelect(); renderContent(); }
 
   /* ---------- cohorts & codes ---------- */
   function renderCohorts() {
@@ -316,13 +333,68 @@ header .tools{flex-wrap:nowrap}
     a.download = 'participants-scores.csv'; document.body.appendChild(a); a.click(); a.remove();
   });
 
+  /* ---------- scenario editor ---------- */
+  var SEDIT = { scenario: '', questions: [] };
+  function loadScen(m) { var s = (m && m.scen) || { scenario: '', questions: [] }; SEDIT = JSON.parse(JSON.stringify(s)); $('sText').value = SEDIT.scenario || ''; drawScen(); msg($('sMsg'), ''); }
+  function drawScen() {
+    $('sOut').innerHTML = SEDIT.questions.map(function (q, i) {
+      return '<div class="qcard" data-si="' + i + '"><div class="qtop"><b>Question ' + (i + 1) + '</b><button class="btn danger sm" type="button" data-dels="' + i + '">Remove question</button></div>' +
+        '<label>Question</label><textarea data-f="q">' + esc(q.q) + '</textarea><label>Suggested answer</label><textarea data-f="a">' + esc(q.a) + '</textarea></div>';
+    }).join('') || '<p class="empty">No questions yet.</p>';
+    $('sAdd').classList.toggle('hidden', SEDIT.questions.length >= 3);
+  }
+  $('sText').addEventListener('input', function () { SEDIT.scenario = $('sText').value; });
+  $('sOut').addEventListener('input', function (e) { var c = e.target.closest('.qcard'); if (!c) return; SEDIT.questions[Number(c.getAttribute('data-si'))][e.target.getAttribute('data-f')] = e.target.value; });
+  $('sOut').addEventListener('click', function (e) { var d = e.target.closest('[data-dels]'); if (!d) return; SEDIT.questions.splice(Number(d.getAttribute('data-dels')), 1); drawScen(); });
+  $('sAdd').addEventListener('click', function () { SEDIT.questions.push({ q: '', a: '' }); drawScen(); });
+  $('sSave').addEventListener('click', function () {
+    var b = $('sSave'), n = Number($('qModule').value); busy(b, true, 'Saving…'); msg($('sMsg'), '');
+    call('adminSaveScen', { n: n, scen: SEDIT }).then(function (r) {
+      busy(b, false);
+      if (!r.ok) return msg($('sMsg'), r.error);
+      S.modules.forEach(function (m) { if (m.n === n) m.scen = r.scen; });
+      msg($('sMsg'), 'Saved. Participants see it the next time they open the portal.', true);
+    });
+  });
+
+  /* ---------- scenario answers ---------- */
+  function ansRows() {
+    var f = $('pCohort').value, mf = $('aModule').value, coh = {};
+    S.participants.forEach(function (p) { coh[p[0]] = p[2]; });
+    return (S.scenarios || []).filter(function (r) { return (!f || coh[r[0]] === f) && (!mf || String(r[2]) === mf); })
+      .map(function (r) { return { name: r[1], cohort: coh[r[0]] || '', n: Number(r[2]), a: [r[3], r[4], r[5]], when: r[6], times: r[7] }; })
+      .sort(function (a, b) { return a.n - b.n || a.name.localeCompare(b.name); });
+  }
+  function qOf(n) { var m = S.modules.filter(function (x) { return x.n === n; })[0]; return (m && m.scen && m.scen.questions) || []; }
+  function renderAns() {
+    var cur = $('aModule').value;
+    $('aModule').innerHTML = '<option value="">All modules</option>' + S.modules.map(function (m) { return '<option value="' + m.n + '"' + (String(m.n) === cur ? ' selected' : '') + '>Module ' + m.n + '</option>'; }).join('');
+    drawAns();
+  }
+  function drawAns() {
+    var rows = ansRows();
+    $('aOut').innerHTML = rows.map(function (r) {
+      var qs = qOf(r.n);
+      return '<div class="ans"><div class="ah"><b>' + esc(r.name) + (r.cohort ? ' · ' + esc(r.cohort) : '') + '</b><small>Module ' + r.n + ' · ' + esc(r.when) + (Number(r.times) > 1 ? ' · edited' : '') + '</small></div>' +
+        r.a.map(function (a, i) { if (!a && !qs[i]) return ''; return '<div class="aq">' + esc(qs[i] ? qs[i].q : 'Answer ' + (i + 1)) + '</div><div class="aa">' + esc(a || '(no answer)') + '</div>'; }).join('') + '</div>';
+    }).join('') || '<p class="empty">No scenario answers yet.</p>';
+  }
+  $('aModule').addEventListener('change', drawAns);
+  $('pCohort').addEventListener('change', drawAns);
+  $('aCsvBtn').addEventListener('click', function () {
+    var lines = [['Name', 'Cohort', 'Module', 'Submitted', 'Answer 1', 'Answer 2', 'Answer 3']];
+    ansRows().forEach(function (r) { lines.push([r.name, r.cohort, r.n, r.when, r.a[0], r.a[1], r.a[2]]); });
+    var csv = lines.map(function (l) { return l.map(function (v) { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(','); }).join('\n');
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' })); a.download = 'scenario-answers.csv'; a.click();
+  });
+
   /* ---------- quiz editor ---------- */
   function renderQuizSelect() {
     var cur = $('qModule').value || '1';
     $('qModule').innerHTML = S.modules.map(function (m) { return '<option value="' + m.n + '"' + (String(m.n) === cur ? ' selected' : '') + '>Module ' + m.n + ': ' + esc(m.title) + '</option>'; }).join('');
     loadQuiz();
   }
-  function loadQuiz() { var m = S.modules.filter(function (x) { return String(x.n) === $('qModule').value; })[0]; QEDIT = JSON.parse(JSON.stringify((m && m.quiz) || [])); drawQuiz(); msg($('qMsg'), ''); }
+  function loadQuiz() { var m = S.modules.filter(function (x) { return String(x.n) === $('qModule').value; })[0]; QEDIT = JSON.parse(JSON.stringify((m && m.quiz) || [])); drawQuiz(); msg($('qMsg'), ''); loadScen(m); }
   function drawQuiz() {
     $('qOut').innerHTML = QEDIT.map(function (q, i) {
       return '<div class="qcard" data-qi="' + i + '"><div class="qtop"><b>Question ' + (i + 1) + '</b><button class="btn danger sm" type="button" data-delq="' + i + '">Remove question</button></div>' +
