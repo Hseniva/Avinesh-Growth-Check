@@ -79,6 +79,8 @@ header .tools{flex-wrap:nowrap}
 .ans .aq{font-size:13px;font-weight:700;color:var(--teal);margin:10px 0 3px}
 .ans .aa{font-size:14px;line-height:1.5;white-space:pre-wrap;background:#fff;border-radius:8px;padding:8px 10px}
 .scenedit textarea{min-height:90px}
+.showrow{background:var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:14px}.showrow b{display:block;color:var(--teal)}.showrow .sub{display:block;margin:2px 0 8px}
+.btn.sm.shown{background:var(--teal);color:#fff;border-color:var(--teal)}
 @media(max-width:760px){.row{grid-template-columns:1fr}.content-row{grid-template-columns:1fr}.brand small{display:none}}
 </style>
 </head>
@@ -149,6 +151,7 @@ header .tools{flex-wrap:nowrap}
     <div class="card">
       <div class="cohort-head"><div><h2>Scenario answers</h2><p class="sub">Written answers to the scenario exercise after each module quiz. Uses the cohort filter above.</p></div>
         <div class="tools"><select id="aModule" aria-label="Filter by module"></select><button class="btn line sm" id="aCsvBtn" type="button">Download CSV</button></div></div>
+      <div class="showrow"><b>Suggested answers for participants</b><span class="sub">Hidden until you open them. Participants see them after they refresh the portal.</span><div class="tools" id="showOut"></div></div>
       <div id="aOut"></div>
     </div>
   </section>
@@ -369,8 +372,19 @@ header .tools{flex-wrap:nowrap}
   function renderAns() {
     var cur = $('aModule').value;
     $('aModule').innerHTML = '<option value="">All modules</option>' + S.modules.map(function (m) { return '<option value="' + m.n + '"' + (String(m.n) === cur ? ' selected' : '') + '>Module ' + m.n + '</option>'; }).join('');
-    drawAns();
+    drawAns(); drawShow();
   }
+  function drawShow() {
+    $('showOut').innerHTML = S.modules.filter(function (m) { return m.scen; }).map(function (m) {
+      return '<button type="button" class="btn line sm' + (m.show ? ' shown' : '') + '" data-show="' + m.n + '" title="' + (m.show ? 'Click to hide again' : 'Click to show participants') + '">M' + m.n + ': ' + (m.show ? 'Shown' : 'Hidden') + '</button>';
+    }).join('') || '<span class="empty">No scenarios set up yet.</span>';
+  }
+  $('showOut').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-show]'); if (!b) return;
+    var n = Number(b.getAttribute('data-show')), m = S.modules.filter(function (x) { return x.n === n; })[0], to = !m.show;
+    busy(b, true, '…');
+    call('adminScenShow', { n: n, show: to }).then(function (r) { busy(b, false); if (!r.ok) return alert(r.error || 'Could not change this. Please try again.'); m.show = r.show; drawShow(); });
+  });
   function drawAns() {
     var rows = ansRows();
     $('aOut').innerHTML = rows.map(function (r) {

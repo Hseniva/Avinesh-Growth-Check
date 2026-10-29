@@ -304,11 +304,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     var st = SA[CUR] || { a: [], sent: false };
     var h = '<div class="scen" id="scenBox"><h3><small>After the quiz</small>Scenario exercise</h3>';
     if (!open && !st.sent) return h + '<div class="slock">Finish the quiz above to open the scenario exercise for this module.</div></div>';
-    h += '<p class="qsub">Read the scenario, then answer each question in your own words. Your trainer will see your answers.</p><div class="stxt">' + paras(s.scenario) + '</div>';
+    h += '<p class="qsub">Read the scenario, then answer each question in your own words. Your trainer will see your answers' + (s.show ? '. Your trainer has opened the suggested answers.' : ' and will open the suggested answers in class.') + '</p><div class="stxt">' + paras(s.scenario) + '</div>';
     s.questions.forEach(function (q, i) {
       h += '<div class="qq"><p><small>Question ' + (i + 1) + ' of ' + s.questions.length + '</small>' + esc(q.q) + '</p>' +
         '<textarea data-si="' + i + '" maxlength="4000" placeholder="Write your answer here"' + (st.sent ? ' readonly' : '') + '>' + esc(st.a[i] || '') + '</textarea>' +
-        (st.sent && q.a ? '<div class="model"><b>Suggested answer</b>' + esc(q.a) + '</div>' : '') + '</div>';
+        (q.a ? '<div class="model"><b>Suggested answer</b>' + esc(q.a) + '</div>' : '') + '</div>';
     });
     h += st.sent
       ? '<div class="qscore"><b>Answers sent to your trainer</b><button class="btn" type="button" id="scenEdit">Edit my answers</button></div>'
