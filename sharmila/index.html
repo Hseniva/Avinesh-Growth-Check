@@ -105,9 +105,16 @@ main{padding:44px 0 70px}
 .scen .model b{display:block;color:var(--teal);margin-bottom:3px}
 .scen .sact{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .scen .slock{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:14px;font-size:13.5px;color:var(--grey)}
+.qo.picked{background:#eef0fb;border-color:var(--blue);color:var(--blue);font-weight:700}
+.qdone{background:#e3f1ee;color:#0b3d40;border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.5;margin-bottom:6px}
+.qdone b{display:block;color:var(--teal);font-size:16px;margin-bottom:4px}
+.slides-lock{display:none;flex:1;background:#062B2E;align-items:center;justify-content:center;text-align:center;color:#e6f0f0;padding:32px}
+.slides-lock div{max-width:380px}.slides-lock b{display:block;font-size:20px;color:#fff;margin:10px 0 6px}.slides-lock svg{width:44px;height:44px;color:var(--gold)}
+.viewer.qlock iframe{display:none}.viewer.qlock .slides-lock{display:flex}.viewer.qlock #viewerOpen{display:none}
+.mod .locknote{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--grey)}.mod .locknote svg{width:15px;height:15px;color:var(--teal)}
 .qbadge{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;background:var(--soft);color:var(--blue);border-radius:6px;padding:3px 7px;letter-spacing:.04em}
 .quiztab{display:none}
-@media(max-width:900px){.vbody{flex-direction:column}.quiz{width:auto;flex:1;border-left:0;border-top:4px solid var(--gold)}.viewer.q-on iframe{display:none}.viewer:not(.q-on) .quiz{display:none}.quiztab{display:inline-flex}}
+@media(max-width:900px){.viewer.qlock .slides-lock{display:none}.vbody{flex-direction:column}.quiz{width:auto;flex:1;border-left:0;border-top:4px solid var(--gold)}.viewer.q-on iframe{display:none}.viewer:not(.q-on) .quiz{display:none}.quiztab{display:inline-flex}}
 footer{background:var(--teal);color:#cfe3e3;font-size:13px;padding:22px 0}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 footer .credit{display:block;width:100%;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.14);font-size:12px;color:#a9c7c8;letter-spacing:.02em}
@@ -169,7 +176,7 @@ footer .credit b{color:#fff;font-weight:600}
 
 <div class="viewer hidden" id="viewer" role="dialog" aria-modal="true" aria-label="Module slides">
   <div class="bar"><b id="viewerTitle"></b><span><button class="btn btn-ghost quiztab" id="quizToggle" type="button">Quiz</button> <a class="btn btn-ghost" id="viewerOpen" href="#" target="_blank" rel="noopener">Open in new tab</a> <button class="btn btn-ghost" id="viewerClose" type="button">Close</button></span></div>
-  <div class="vbody"><iframe id="viewerFrame" title="Module slides" allow="fullscreen"></iframe><aside class="quiz" id="quizBox" aria-label="Module quiz"></aside></div>
+  <div class="vbody"><div class="slides-lock" id="slidesLock"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><b>Quiz first</b>Answer the quiz questions to open this module&#39;s slides. There are no right or wrong answers at this stage.</div></div><iframe id="viewerFrame" title="Module slides" allow="fullscreen"></iframe><aside class="quiz" id="quizBox" aria-label="Module quiz"></aside></div>
 </div>
 
 <footer><div class="wrap"><span>© Sharmila Kalachand · Strategic Marketing, Sales &amp; Pitching Excellence</span><span>HRDC refundable · MQA approved</span><span class="credit">Designed and developed by <b>Hseniva Media</b></span></div></footer>
@@ -189,7 +196,11 @@ footer .credit b{color:#fff;font-weight:600}
   try { SA = JSON.parse(localStorage.getItem('sk_scen') || '{}'); } catch (e) {}
   function saveSA() { try { localStorage.setItem('sk_scen', JSON.stringify(SA)); } catch (e) {} }
   try { SC = JSON.parse(localStorage.getItem('sk_quiz_scores') || '{}'); } catch (e) {}
-  function badge(n) { var s = SC[n]; return s ? 'Quiz ' + s[0] + '/' + s[1] : ''; }
+  function badge(n) { return isDone(n) && (QZ[n] || []).length ? 'Quiz done' : ''; }
+  var PRE = {}, LASTR = null, CURVIEW = '';
+  try { PRE = JSON.parse(localStorage.getItem('sk_pre') || '{}'); } catch (e) {}
+  function isDone(n) { return !(QZ[n] || []).length || !!PRE[n] || !!SC[n]; }
+  var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
   function getName() { try { return localStorage.getItem('sk_name') || NAME; } catch (e) { return NAME; } }
   var NAME = '';
   function setName(n) { NAME = n; try { localStorage.setItem('sk_name', n); } catch (e) {} }
@@ -207,6 +218,7 @@ footer .credit b{color:#fff;font-weight:600}
     $('whoDay').textContent = (getName() ? getName().split(' ')[0] + ' · ' : '') + 'Day ' + r.maxDay + ' unlocked';
     $('portalSub').textContent = r.maxDay >= 3 ? 'All three days are open. Well done on reaching the final day.' : 'With Sharmila Kalachand. Days unlock one by one as you receive each day\'s code.';
     if (r.guide) { $('guideBtn').href = r.guide; $('guideBtn').classList.remove('hidden'); }
+    LASTR = r;
     r.modules.forEach(function (m) { QZ[m.n] = m.quiz || []; SN[m.n] = m.scen || null; });
     var h = '';
     [1, 2, 3].forEach(function (d) {
@@ -214,10 +226,13 @@ footer .credit b{color:#fff;font-weight:600}
       if (d <= r.maxDay) {
         h += '<div class="grid">' + r.modules.filter(function (m) { return m.day === d; }).map(function (m) {
           var da = ' data-n="' + m.n + '" data-view="' + esc(m.view) + '" data-open="' + esc(m.open) + '" data-title="Module ' + m.n + ': ' + esc(m.title) + '"';
-          return '<article class="mod"><span class="num">Module ' + m.n + '<span class="qbadge' + (SC[m.n] ? '' : ' hidden') + '" id="qb' + m.n + '">' + badge(m.n) + '</span></span><h4>' + esc(m.title) + '</h4><div class="acts">' +
-            '<button class="btn btn-gold" type="button"' + da + '>View slides</button>' +
-            (((m.quiz && m.quiz.length) || m.scen) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">Take quiz</button>' : '') +
-            '<a class="btn btn-line" href="' + esc(m.open) + '" target="_blank" rel="noopener">Open</a></div></article>';
+          var dn = isDone(m.n), b = badge(m.n);
+          return '<article class="mod"><span class="num">Module ' + m.n + '<span class="qbadge' + (b ? '' : ' hidden') + '" id="qb' + m.n + '">' + b + '</span></span><h4>' + esc(m.title) + '</h4><div class="acts">' +
+            (dn ? '<button class="btn btn-gold" type="button"' + da + '>View slides</button>' +
+              (((m.quiz && m.quiz.length) || m.scen) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">' + ((m.quiz && m.quiz.length) ? 'Quiz &amp; scenario' : 'Scenario') + '</button>' : '') +
+              '<a class="btn btn-line" href="' + esc(m.open) + '" target="_blank" rel="noopener">Open</a>'
+            : '<button class="btn btn-gold" type="button"' + da + ' data-quizfirst="1">Start with the quiz</button><span class="locknote">' + LOCK_SVG + 'Slides open after the quiz</span>') +
+            '</div></article>';
         }).join('') + '</div>';
       } else {
         h += '<div class="locked"><div><p><b>Locked.</b> Enter your Day ' + d + ' code to open these modules.</p><div class="lockedlist">' +
@@ -267,9 +282,12 @@ footer .credit b{color:#fff;font-weight:600}
     var b = e.target.closest('[data-view]'); if (!b) return;
     $('viewerTitle').textContent = b.getAttribute('data-title');
     $('viewerOpen').href = b.getAttribute('data-open');
-    $('viewerFrame').src = b.getAttribute('data-view');
-    CUR = Number(b.getAttribute('data-n')) || 0; ANS = {}; drawQuiz();
-    setQ(!!b.getAttribute('data-quizfirst'));
+    CUR = Number(b.getAttribute('data-n')) || 0; ANS = {}; CURVIEW = b.getAttribute('data-view');
+    var dn = isDone(CUR);
+    $('viewer').classList.toggle('qlock', !dn);
+    $('viewerFrame').src = dn ? CURVIEW : 'about:blank';
+    drawQuiz();
+    setQ(!dn || !!b.getAttribute('data-quizfirst'));
     $('viewer').classList.remove('hidden'); document.body.style.overflow = 'hidden';
   });
   function setQ(on) { $('viewer').classList.toggle('q-on', on); $('quizToggle').textContent = on ? 'Slides' : 'Quiz'; }
@@ -277,27 +295,32 @@ footer .credit b{color:#fff;font-weight:600}
   function drawQuiz() {
     var qs = QZ[CUR] || [], L = 'abcd';
     if (!qs.length) { $('quizBox').innerHTML = (SN[CUR] ? '' : '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">There is no quiz for this module.</p>') + scenHtml(true); return; }
+    var wasDone = isDone(CUR);
+    if (wasDone && !Object.keys(ANS).length) {
+      $('quizBox').innerHTML = '<h3>Module ' + CUR + ' quiz</h3><div class="qdone"><b>Quiz done</b>Thank you. The slides for this module are open.</div>' + scenHtml(true);
+      return;
+    }
     var done = 0, right = 0;
-    var h = '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">Check your understanding while you go through the slides. Pick one answer for each question.</p>';
+    var h = '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">Answer these questions before you see the slides. There are no right or wrong answers at this stage: pick the one you think fits best.</p>';
     qs.forEach(function (q, i) {
       var a = ANS[i];
       if (a !== undefined) { done++; if (a === q.a) right++; }
       h += '<div class="qq"><p><small>Question ' + (i + 1) + ' of ' + qs.length + '</small>' + esc(q.q) + '</p>' + q.o.map(function (o, j) {
-        var c = (a === undefined || j !== a) ? '' : (a === q.a ? ' right' : ' wrong');
-        return '<button type="button" class="qo' + c + '" data-qi="' + i + '" data-oi="' + j + '"' + (a !== undefined ? ' disabled' : '') + '><i>' + L.charAt(j) + '</i><span>' + esc(o) + '</span></button>';
-      }).join('') + (a === undefined ? '' : (a === q.a ? '<div class="qfb">Correct.</div>' : '<div class="qfb no">Not quite. Go back over the slides, then use Try again at the end.</div>')) + '</div>';
+        return '<button type="button" class="qo' + (a === j ? ' picked' : '') + '" data-qi="' + i + '" data-oi="' + j + '"' + (a !== undefined ? ' disabled' : '') + '><i>' + L.charAt(j) + '</i><span>' + esc(o) + '</span></button>';
+      }).join('') + '</div>';
     });
-    if (done === qs.length) h += '<div class="qscore"><b>You scored ' + right + ' out of ' + qs.length + '</b><button class="btn" type="button" id="quizAgain">Try again</button></div>';
+    var all = done === qs.length;
+    if (all) h += '<div class="qdone"><b>Thank you</b>Module ' + CUR + ' slides are now open.</div><button class="btn btn-gold quiztab" type="button" id="toSlides">Go to the slides</button>';
     else h += '<p class="qsub">' + done + ' of ' + qs.length + ' answered</p>';
-    $('quizBox').innerHTML = h + scenHtml(done === qs.length);
-    if (done === qs.length && !ANS.sent) {
+    $('quizBox').innerHTML = h + scenHtml(all);
+    if (all && !ANS.sent) {
       ANS.sent = 1;
       try { fetch(API, { method: 'POST', body: JSON.stringify({ action: 'score', client: client(), name: getName(), n: CUR, score: right, total: qs.length }) }); } catch (e) {}
-    }
-    if (done === qs.length) {
-      var best = SC[CUR] && SC[CUR][0] > right ? SC[CUR] : [right, qs.length];
-      SC[CUR] = best; try { localStorage.setItem('sk_quiz_scores', JSON.stringify(SC)); } catch (e) {}
-      var bd = $('qb' + CUR); if (bd) { bd.textContent = badge(CUR); bd.classList.remove('hidden'); }
+      SC[CUR] = SC[CUR] && SC[CUR][0] > right ? SC[CUR] : [right, qs.length];
+      PRE[CUR] = 1;
+      try { localStorage.setItem('sk_quiz_scores', JSON.stringify(SC)); localStorage.setItem('sk_pre', JSON.stringify(PRE)); } catch (e) {}
+      $('viewer').classList.remove('qlock'); $('viewerFrame').src = CURVIEW;
+      if (LASTR) { var st = window.scrollY; render(LASTR); window.scrollTo(0, st); }
     }
   }
   function paras(t) { return String(t || '').split(/\n\s*\n/).map(function (x) { return '<p>' + esc(x.trim()) + '</p>'; }).join(''); }
@@ -336,7 +359,7 @@ footer .credit b{color:#fff;font-weight:600}
         .catch(function () { sendB.disabled = false; sendB.textContent = 'Send my answers'; err.textContent = 'Could not send. Check your connection and try again.'; err.classList.remove('hidden'); });
       return;
     }
-    if (e.target.closest('#quizAgain')) { ANS = {}; drawQuiz(); $('quizBox').scrollTop = 0; return; }
+    if (e.target.closest('#toSlides')) { setQ(false); return; }
     var b = e.target.closest('.qo'); if (!b || b.disabled) return;
     var top = $('quizBox').scrollTop;
     ANS[Number(b.getAttribute('data-qi'))] = Number(b.getAttribute('data-oi')); drawQuiz();
@@ -345,7 +368,7 @@ footer .credit b{color:#fff;font-weight:600}
   function closeViewer() { $('viewer').classList.add('hidden'); $('viewerFrame').src = 'about:blank'; document.body.style.overflow = ''; }
   $('viewerClose').addEventListener('click', closeViewer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
-  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
+  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_pre'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
   $('resetBtn').addEventListener('click', logout);
   $('logoutBtn').addEventListener('click', logout);
 
