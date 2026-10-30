@@ -82,12 +82,30 @@ header .tools{flex-wrap:nowrap}
 .showrow{background:var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:14px}.showrow b{display:block;color:var(--teal)}.showrow .sub{display:block;margin:2px 0 8px}
 .btn.sm.shown{background:var(--teal);color:#fff;border-color:var(--teal)}
 .credit{text-align:center;font-size:12px;color:var(--mut);margin:28px 0 24px}.credit b{color:var(--grey);font-weight:600}
+nav.tabs button:focus{outline:none}nav.tabs button:focus-visible{outline:2px solid var(--blue);outline-offset:-2px;border-radius:8px}
+.sec{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);max-width:900px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.sec-side{background:var(--teal);color:#d9ebeb;padding:32px 30px;display:flex;flex-direction:column;gap:14px}
+.sec-side .ico{width:52px;height:52px;border-radius:14px;background:rgba(232,184,74,.16);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.sec-side .ico svg{width:26px;height:26px}
+.sec-side h2{margin:0;color:#fff;font-size:21px}
+.sec-side p{margin:0;font-size:14px;line-height:1.55}
+.sec-side ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:13.5px;line-height:1.45}
+.sec-side li{display:flex;gap:10px}.sec-side li:before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-top:6px}
+.sec-form{padding:32px 34px}
+.sec-form h3{margin:0 0 4px;font-size:18px;color:var(--txt)}
+.sec-form .sub{margin:0 0 8px;color:var(--mut);font-size:13.5px}
+.pwf{position:relative}.pwf input{padding-right:64px}
+.pwf button{position:absolute;right:6px;top:50%;transform:translateY(-50%);font:inherit;font-size:12.5px;font-weight:700;color:var(--blue);background:none;border:0;padding:8px;cursor:pointer;border-radius:6px}
+.meter{height:6px;background:var(--soft);border-radius:4px;margin-top:8px;overflow:hidden}.meter i{display:block;height:100%;width:0;border-radius:4px;transition:width .2s,background .2s}
+.mtxt{font-size:12px;color:var(--mut);margin-top:5px;min-height:15px}
+.sec-form .btn{width:100%;justify-content:center;margin-top:20px;padding:12px 16px}
+@media(max-width:760px){.sec{grid-template-columns:1fr}.sec-side,.sec-form{padding:24px 22px}}
 @media(max-width:760px){.row{grid-template-columns:1fr}.content-row{grid-template-columns:1fr}.brand small{display:none}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <div class="brand"><i></i><div>Programme admin<small>Strategic Marketing, Sales &amp; Pitching Excellence</small></div></div>
+  <div class="brand"><div>Programme admin<small>Strategic Marketing, Sales &amp; Pitching Excellence</small></div></div>
   <div class="tools"><a class="btn line sm" href="../" target="_blank" rel="noopener">Open portal</a><button class="btn line sm hidden" id="outBtn" type="button">Log out</button></div>
 </div></header>
 
@@ -182,13 +200,25 @@ header .tools{flex-wrap:nowrap}
   </section>
 
   <section data-panel="settings" class="hidden">
-    <div class="card" style="max-width:460px">
-      <h2>Change password</h2>
-      <form id="pwForm" novalidate>
-        <label for="op">Current password</label><input id="op" type="password" autocomplete="current-password">
-        <label for="p1">New password (at least 8 characters)</label><input id="p1" type="password" autocomplete="new-password">
-        <label for="p2">Repeat new password</label><input id="p2" type="password" autocomplete="new-password">
-        <button class="btn" type="submit" style="margin-top:16px">Change password</button>
+    <div class="sec">
+      <div class="sec-side">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"></path><path d="M9.5 12l1.8 1.8 3.4-3.6"></path></svg></span>
+        <h2>Account security</h2>
+        <p>This password protects your participants&#39; names, scores and answers.</p>
+        <ul>
+          <li>Use at least 8 characters, mixing letters, numbers and a symbol.</li>
+          <li>Don&#39;t reuse a password from another account.</li>
+          <li>You stay logged in for 6 hours on this device. Log out on shared computers.</li>
+        </ul>
+      </div>
+      <form class="sec-form" id="pwForm" novalidate>
+        <h3>Change password</h3>
+        <p class="sub">Enter your current password, then choose a new one.</p>
+        <label for="op">Current password</label><div class="pwf"><input id="op" type="password" autocomplete="current-password"><button type="button" data-eye="op" aria-label="Show current password">Show</button></div>
+        <label for="p1">New password</label><div class="pwf"><input id="p1" type="password" autocomplete="new-password"><button type="button" data-eye="p1" aria-label="Show new password">Show</button></div>
+        <div class="meter" aria-hidden="true"><i id="pwBar"></i></div><div class="mtxt" id="pwTxt">At least 8 characters</div>
+        <label for="p2">Repeat new password</label><div class="pwf"><input id="p2" type="password" autocomplete="new-password"><button type="button" data-eye="p2" aria-label="Show repeated password">Show</button></div>
+        <button class="btn" type="submit">Change password</button>
         <div class="msg hidden" id="pwMsg"></div>
       </form>
     </div>
@@ -480,13 +510,25 @@ header .tools{flex-wrap:nowrap}
   });
 
   /* ---------- password ---------- */
+  $('pwForm').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-eye]'); if (!b) return;
+    var inp = $(b.getAttribute('data-eye')), show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password'; b.textContent = show ? 'Hide' : 'Show';
+  });
+  $('p1').addEventListener('input', function () {
+    var v = $('p1').value, sc = 0;
+    if (v.length >= 8) sc++; if (v.length >= 12) sc++; if (/[a-z]/.test(v) && /[A-Z]/.test(v)) sc++; if (/\d/.test(v)) sc++; if (/[^A-Za-z0-9]/.test(v)) sc++;
+    var lv = !v ? 0 : v.length < 8 ? 1 : sc <= 2 ? 2 : sc <= 3 ? 3 : 4;
+    var C = ['', '#B42318', '#C27803', '#0B6E73', '#004146'], T = ['At least 8 characters', 'Too short', 'Fair', 'Good', 'Strong'];
+    $('pwBar').style.width = (lv * 25) + '%'; $('pwBar').style.background = C[lv]; $('pwTxt').textContent = T[lv];
+  });
   $('pwForm').addEventListener('submit', function (e) {
     e.preventDefault(); msg($('pwMsg'), '');
     if ($('p1').value.length < 8) return msg($('pwMsg'), 'Please choose a password of at least 8 characters.');
     if ($('p1').value !== $('p2').value) return msg($('pwMsg'), 'The two new passwords do not match.');
     call('adminPassword', { old: $('op').value, password: $('p1').value }).then(function (r) {
       if (!r.ok) return msg($('pwMsg'), r.error);
-      $('op').value = $('p1').value = $('p2').value = ''; msg($('pwMsg'), 'Password changed.', true);
+      $('op').value = $('p1').value = $('p2').value = ''; $('p1').dispatchEvent(new Event('input')); msg($('pwMsg'), 'Password changed.', true);
     });
   });
 
