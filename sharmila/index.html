@@ -176,7 +176,7 @@ footer .credit b{color:#fff;font-weight:600}
 
 <div class="viewer hidden" id="viewer" role="dialog" aria-modal="true" aria-label="Module slides">
   <div class="bar"><b id="viewerTitle"></b><span><button class="btn btn-ghost quiztab" id="quizToggle" type="button">Quiz</button> <a class="btn btn-ghost" id="viewerOpen" href="#" target="_blank" rel="noopener">Open in new tab</a> <button class="btn btn-ghost" id="viewerClose" type="button">Close</button></span></div>
-  <div class="vbody"><div class="slides-lock" id="slidesLock"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><b>Quiz first</b>Answer the quiz questions to open this module&#39;s slides. There are no right or wrong answers at this stage.</div></div><iframe id="viewerFrame" title="Module slides" allow="fullscreen"></iframe><aside class="quiz" id="quizBox" aria-label="Module quiz"></aside></div>
+  <div class="vbody"><div class="slides-lock" id="slidesLock"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><b>Quiz and scenario first</b>Answer the quiz, then the scenario questions, to open this module&#39;s slides. There are no right or wrong answers at this stage.</div></div><iframe id="viewerFrame" title="Module slides" allow="fullscreen"></iframe><aside class="quiz" id="quizBox" aria-label="Module quiz"></aside></div>
 </div>
 
 <footer><div class="wrap"><span>© Sharmila Kalachand · Strategic Marketing, Sales &amp; Pitching Excellence</span><span>HRDC refundable · MQA approved</span><span class="credit">Designed and developed by <b>Hseniva Media</b></span></div></footer>
@@ -196,10 +196,20 @@ footer .credit b{color:#fff;font-weight:600}
   try { SA = JSON.parse(localStorage.getItem('sk_scen') || '{}'); } catch (e) {}
   function saveSA() { try { localStorage.setItem('sk_scen', JSON.stringify(SA)); } catch (e) {} }
   try { SC = JSON.parse(localStorage.getItem('sk_quiz_scores') || '{}'); } catch (e) {}
-  function badge(n) { return isDone(n) && (QZ[n] || []).length ? 'Quiz done' : ''; }
+  function badge(n) { return quizDone(n) && (QZ[n] || []).length ? 'Quiz done' : ''; }
   var PRE = {}, LASTR = null, CURVIEW = '';
   try { PRE = JSON.parse(localStorage.getItem('sk_pre') || '{}'); } catch (e) {}
-  function isDone(n) { return !(QZ[n] || []).length || !!PRE[n] || !!SC[n]; }
+  var UNL = {}; try { UNL = JSON.parse(localStorage.getItem('sk_unl') || '{}'); } catch (e) {}
+  function quizDone(n) { return !(QZ[n] || []).length || !!PRE[n] || !!SC[n]; }
+  function scenDone(n) { var s = SN[n]; return !s || !s.questions || !s.questions.length || !!(SA[n] && SA[n].sent); }
+  function isDone(n) { return !!UNL[n] || (quizDone(n) && scenDone(n)); }
+  function unlockNow() {
+    if (!isDone(CUR)) return false;
+    UNL[CUR] = 1; try { localStorage.setItem('sk_unl', JSON.stringify(UNL)); } catch (e) {}
+    $('viewer').classList.remove('qlock'); if ($('viewerFrame').src !== CURVIEW) $('viewerFrame').src = CURVIEW;
+    if (LASTR) { var st = window.scrollY; render(LASTR); window.scrollTo(0, st); }
+    return true;
+  }
   var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
   function getName() { try { return localStorage.getItem('sk_name') || NAME; } catch (e) { return NAME; } }
   var NAME = '';
@@ -231,7 +241,7 @@ footer .credit b{color:#fff;font-weight:600}
             (dn ? '<button class="btn btn-gold" type="button"' + da + '>View slides</button>' +
               (((m.quiz && m.quiz.length) || m.scen) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">' + ((m.quiz && m.quiz.length) ? 'Quiz &amp; scenario' : 'Scenario') + '</button>' : '') +
               '<a class="btn btn-line" href="' + esc(m.open) + '" target="_blank" rel="noopener">Open</a>'
-            : '<button class="btn btn-gold" type="button"' + da + ' data-quizfirst="1">Start with the quiz</button><span class="locknote">' + LOCK_SVG + 'Slides open after the quiz</span>') +
+            : '<button class="btn btn-gold" type="button"' + da + ' data-quizfirst="1">' + (!quizDone(m.n) ? 'Start with the quiz' : ((m.quiz && m.quiz.length) ? 'Continue: scenario' : 'Start with the scenario')) + '</button><span class="locknote">' + LOCK_SVG + 'Slides open after the ' + ((m.quiz && m.quiz.length) ? 'quiz and scenario' : 'scenario') + '</span>') +
             '</div></article>';
         }).join('') + '</div>';
       } else {
@@ -295,9 +305,8 @@ footer .credit b{color:#fff;font-weight:600}
   function drawQuiz() {
     var qs = QZ[CUR] || [], L = 'abcd';
     if (!qs.length) { $('quizBox').innerHTML = (SN[CUR] ? '' : '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">There is no quiz for this module.</p>') + scenHtml(true); return; }
-    var wasDone = isDone(CUR);
-    if (wasDone && !Object.keys(ANS).length) {
-      $('quizBox').innerHTML = '<h3>Module ' + CUR + ' quiz</h3><div class="qdone"><b>Quiz done</b>Thank you. The slides for this module are open.</div>' + scenHtml(true);
+    if (quizDone(CUR) && !Object.keys(ANS).length) {
+      $('quizBox').innerHTML = '<h3>Module ' + CUR + ' quiz</h3><div class="qdone"><b>Quiz done</b>' + (isDone(CUR) ? 'Thank you. The slides for this module are open.' : 'Thank you. Now answer the scenario below to open the slides.') + '</div>' + scenHtml(true);
       return;
     }
     var done = 0, right = 0;
@@ -310,7 +319,9 @@ footer .credit b{color:#fff;font-weight:600}
       }).join('') + '</div>';
     });
     var all = done === qs.length;
-    if (all) h += '<div class="qdone"><b>Thank you</b>Module ' + CUR + ' slides are now open.</div><button class="btn btn-gold quiztab" type="button" id="toSlides">Go to the slides</button>';
+    var needScen = !scenDone(CUR) && !UNL[CUR];
+    if (all) h += needScen ? '<div class="qdone"><b>Thank you</b>One more step: answer the scenario below to open the Module ' + CUR + ' slides.</div>'
+      : '<div class="qdone"><b>Thank you</b>Module ' + CUR + ' slides are now open.</div><button class="btn btn-gold quiztab" type="button" id="toSlides">Go to the slides</button>';
     else h += '<p class="qsub">' + done + ' of ' + qs.length + ' answered</p>';
     $('quizBox').innerHTML = h + scenHtml(all);
     if (all && !ANS.sent) {
@@ -319,8 +330,8 @@ footer .credit b{color:#fff;font-weight:600}
       SC[CUR] = SC[CUR] && SC[CUR][0] > right ? SC[CUR] : [right, qs.length];
       PRE[CUR] = 1;
       try { localStorage.setItem('sk_quiz_scores', JSON.stringify(SC)); localStorage.setItem('sk_pre', JSON.stringify(PRE)); } catch (e) {}
-      $('viewer').classList.remove('qlock'); $('viewerFrame').src = CURVIEW;
-      if (LASTR) { var st = window.scrollY; render(LASTR); window.scrollTo(0, st); }
+      if (!unlockNow() && LASTR) { var sy = window.scrollY; render(LASTR); window.scrollTo(0, sy); }
+      var sb0 = $('scenBox'); if (needScen && sb0) setTimeout(function () { sb0.scrollIntoView({ behavior: 'smooth' }); }, 150);
     }
   }
   function paras(t) { return String(t || '').split(/\n\s*\n/).map(function (x) { return '<p>' + esc(x.trim()) + '</p>'; }).join(''); }
@@ -329,7 +340,7 @@ footer .credit b{color:#fff;font-weight:600}
     var st = SA[CUR] || { a: [], sent: false };
     var h = '<div class="scen" id="scenBox"><h3><small>After the quiz</small>Scenario exercise</h3>';
     if (!open && !st.sent) return h + '<div class="slock">Finish the quiz above to open the scenario exercise for this module.</div></div>';
-    h += '<p class="qsub">Read the scenario, then answer each question in your own words. Your trainer will see your answers' + (s.show ? '. Your trainer has opened the suggested answers.' : ' and will open the suggested answers in class.') + '</p><div class="stxt">' + paras(s.scenario) + '</div>';
+    h += '<p class="qsub">Read the scenario, then answer each question in your own words. Your trainer will see your answers' + (s.show ? '. Your trainer has opened the suggested answers.' : ' and will open the suggested answers in class.') + (isDone(CUR) ? '' : ' <b>Send your answers to open the slides.</b>') + '</p><div class="stxt">' + paras(s.scenario) + '</div>';
     s.questions.forEach(function (q, i) {
       h += '<div class="qq"><p><small>Question ' + (i + 1) + ' of ' + s.questions.length + '</small>' + esc(q.q) + '</p>' +
         '<textarea data-si="' + i + '" maxlength="4000" placeholder="Write your answer here"' + (st.sent ? ' readonly' : '') + '>' + esc(st.a[i] || '') + '</textarea>' +
@@ -355,7 +366,7 @@ footer .credit b{color:#fff;font-weight:600}
       sendB.disabled = true; sendB.textContent = 'Sending…';
       fetch(API, { method: 'POST', body: JSON.stringify({ action: 'scenario', client: client(), name: getName(), n: CUR, answers: ans }) })
         .then(function (r) { return r.json(); })
-        .then(function (r) { if (!r || !r.ok) throw new Error((r && r.error) || 'x'); st.sent = true; saveSA(); drawQuiz(); var sb = $('scenBox'); if (sb) sb.scrollIntoView(); })
+        .then(function (r) { if (!r || !r.ok) throw new Error((r && r.error) || 'x'); st.sent = true; saveSA(); var opened = unlockNow(); drawQuiz(); var sb = $('scenBox'); if (sb) sb.scrollIntoView(); if (opened) { var dn2 = document.createElement('div'); dn2.className = 'qdone'; dn2.innerHTML = '<b>Slides open</b>Thank you. Module ' + CUR + ' slides are now open.'; if (sb) sb.appendChild(dn2); var tb = document.createElement('button'); tb.className = 'btn btn-gold quiztab'; tb.type = 'button'; tb.id = 'toSlides'; tb.textContent = 'Go to the slides'; if (sb) sb.appendChild(tb); } })
         .catch(function () { sendB.disabled = false; sendB.textContent = 'Send my answers'; err.textContent = 'Could not send. Check your connection and try again.'; err.classList.remove('hidden'); });
       return;
     }
@@ -368,7 +379,7 @@ footer .credit b{color:#fff;font-weight:600}
   function closeViewer() { $('viewer').classList.add('hidden'); $('viewerFrame').src = 'about:blank'; document.body.style.overflow = ''; }
   $('viewerClose').addEventListener('click', closeViewer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
-  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_pre'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
+  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_pre'); localStorage.removeItem('sk_unl'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
   $('resetBtn').addEventListener('click', logout);
   $('logoutBtn').addEventListener('click', logout);
 
