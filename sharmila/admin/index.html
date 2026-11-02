@@ -178,13 +178,13 @@ nav.tabs button:focus{outline:none}nav.tabs button:focus-visible{outline:2px sol
 
   <section data-panel="quiz" class="hidden">
     <div class="card">
-      <div class="cohort-head"><div><h2>Edit quiz questions</h2><p class="sub">Each module's quiz appears beside its slides. Tick the correct answer for every question, then save.</p></div>
+      <div class="cohort-head"><div><h2>Edit quiz questions</h2><p class="sub">Participants answer the quiz before the module's slides open, and they are not told which answers are right. Tick the correct answer for each question: it is only used for the scores you see. Then save.</p></div>
         <div class="tools"><select id="qModule" aria-label="Module"></select></div></div>
       <div id="qOut"></div>
       <div class="tools"><button class="btn line" id="qAdd" type="button">Add question</button><button class="btn" id="qSave" type="button">Save quiz</button><span class="msg hidden" id="qMsg"></span></div>
     </div>
     <div class="card scenedit">
-      <h2>Scenario exercise</h2><p class="sub">Shown under the quiz once a participant finishes it. Participants write their answers; the suggested answer appears after they send theirs. Up to 3 questions. This edits the module selected above.</p>
+      <h2>Scenario exercise</h2><p class="sub">Comes after the quiz: participants send their written answers, and the module's slides then open. Suggested answers stay hidden until you switch them on in Participants &amp; scores. Up to 3 questions. This edits the module selected above.</p>
       <label for="sText">Scenario</label><textarea id="sText" style="min-height:150px" placeholder="Describe the situation. Leave an empty line between paragraphs."></textarea>
       <div id="sOut"></div>
       <div class="tools" style="margin-top:12px"><button class="btn line" id="sAdd" type="button">Add question</button><button class="btn" id="sSave" type="button">Save scenario</button><span class="msg hidden" id="sMsg"></span></div>

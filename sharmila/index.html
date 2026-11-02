@@ -45,6 +45,7 @@ h1 span{color:var(--teal)}
 .card h2{margin:0 0 6px;font-size:22px;color:var(--blue)}
 .card p.sub{margin:0 0 20px;color:var(--mut);font-size:14px;line-height:1.55}
 label{display:block;font-size:13px;font-weight:700;margin:0 0 8px;color:var(--grey)}
+input.code.nm{text-transform:none;letter-spacing:0;font-weight:600}
 input.code{width:100%;font:inherit;font-size:20px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:14px 16px;border:2px solid var(--line);border-radius:10px;outline:none;color:var(--blue)}
 input.code:focus{border-color:var(--blue)}
 .card .btn{width:100%;margin-top:14px}
@@ -110,7 +111,7 @@ main{padding:44px 0 70px}
 .qdone b{display:block;color:var(--teal);font-size:16px;margin-bottom:4px}
 .slides-lock{display:none;flex:1;background:#062B2E;align-items:center;justify-content:center;text-align:center;color:#e6f0f0;padding:32px}
 .slides-lock div{max-width:380px}.slides-lock b{display:block;font-size:20px;color:#fff;margin:10px 0 6px}.slides-lock svg{width:44px;height:44px;color:var(--gold)}
-.viewer.qlock iframe{display:none}.viewer.qlock .slides-lock{display:flex}.viewer.qlock #viewerOpen{display:none}
+.viewer.qlock iframe{display:none}.viewer.qlock #quizToggle{display:none!important}.viewer.qlock .slides-lock{display:flex}.viewer.qlock #viewerOpen{display:none}
 .mod .locknote{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--grey)}.mod .locknote svg{width:15px;height:15px;color:var(--teal)}
 .qbadge{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;background:var(--soft);color:var(--blue);border-radius:6px;padding:3px 7px;letter-spacing:.04em}
 .quiztab{display:none}
@@ -169,7 +170,7 @@ footer .credit b{color:#fff;font-weight:600}
 <main class="hidden" id="portal"><div class="wrap">
   <div class="toolbar">
     <div class="tb-trainer"><img src="img/sharmila-avatar.jpg" alt="Sharmila Kalachand" width="56" height="56"><div><h2>Your modules</h2><p id="portalSub"></p></div></div>
-    <span class="tb-acts"><button class="btn btn-line" id="logoutBtn" type="button">Log out</button> <a class="btn btn-dark hidden" id="guideBtn" href="#" target="_blank" rel="noopener">Participant guide (PDF)</a></span>
+    <span class="tb-acts"><a class="btn btn-dark hidden" id="guideBtn" href="#" target="_blank" rel="noopener">Participant guide (PDF)</a></span>
   </div>
   <div id="daysOut"></div>
 </div></main>
@@ -381,7 +382,7 @@ footer .credit b{color:#fff;font-weight:600}
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
   function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_pre'); localStorage.removeItem('sk_unl'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
   $('resetBtn').addEventListener('click', logout);
-  $('logoutBtn').addEventListener('click', logout);
+  
 
   var saved = load();
   if (saved.length && getName()) tryCodes(saved, $('codeErr'), null);
