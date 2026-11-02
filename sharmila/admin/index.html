@@ -174,6 +174,12 @@ nav.tabs button:focus{outline:none}nav.tabs button:focus-visible{outline:2px sol
       <div class="showrow"><b>Suggested answers for participants</b><span class="sub">Hidden until you open them. Participants see them after they refresh the portal.</span><div class="tools" id="showOut"></div></div>
       <div id="aOut"></div>
     </div>
+    <div class="card">
+      <div class="cohort-head"><div><h2>Case study answers</h2><p class="sub">Written answers to each module&#39;s case study, done after the slides. Uses the cohort filter above.</p></div>
+        <div class="tools"><select id="cModule" aria-label="Filter by module"></select><button class="btn line sm" id="cCsvBtn" type="button">Download CSV</button></div></div>
+      <div class="showrow"><b>Suggested case study answers</b><span class="sub">Hidden until you open them. Participants see them after they refresh the portal.</span><div class="tools" id="cShowOut"></div></div>
+      <div id="cOut"></div>
+    </div>
   </section>
 
   <section data-panel="quiz" class="hidden">
@@ -188,6 +194,13 @@ nav.tabs button:focus{outline:none}nav.tabs button:focus-visible{outline:2px sol
       <label for="sText">Scenario</label><textarea id="sText" style="min-height:150px" placeholder="Describe the situation. Leave an empty line between paragraphs."></textarea>
       <div id="sOut"></div>
       <div class="tools" style="margin-top:12px"><button class="btn line" id="sAdd" type="button">Add question</button><button class="btn" id="sSave" type="button">Save scenario</button><span class="msg hidden" id="sMsg"></span></div>
+    </div>
+    <div class="card scenedit">
+      <h2>Case study</h2><p class="sub">Opens after the module&#39;s slides. Participants send their written answers; suggested answers stay hidden until you switch them on in Participants &amp; scores. Up to 3 questions. This edits the module selected above.</p>
+      <label for="cTitle">Title</label><input id="cTitle" maxlength="120" placeholder="e.g. Understanding a Changing Customer Base">
+      <label for="cText">Scenario (one point per line)</label><textarea id="cText" style="min-height:120px"></textarea>
+      <div id="cEdOut"></div>
+      <div class="tools" style="margin-top:12px"><button class="btn line" id="cAdd" type="button">Add question</button><button class="btn" id="cSave" type="button">Save case study</button><span class="msg hidden" id="cMsg"></span></div>
     </div>
   </section>
 
@@ -287,7 +300,7 @@ nav.tabs button:focus{outline:none}nav.tabs button:focus-visible{outline:2px sol
     document.querySelectorAll('[data-panel]').forEach(function (p) { p.classList.toggle('hidden', p.getAttribute('data-panel') !== b.getAttribute('data-tab')); });
   });
 
-  function renderAll() { renderCohorts(); renderPeople(); renderAns(); renderQuizSelect(); renderContent(); }
+  function renderAll() { renderCohorts(); renderPeople(); renderAns(); renderCases(); renderQuizSelect(); renderContent(); }
 
   /* ---------- cohorts & codes ---------- */
   function renderCohorts() {
@@ -435,13 +448,76 @@ nav.tabs button:focus{outline:none}nav.tabs button:focus-visible{outline:2px sol
     var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' })); a.download = 'scenario-answers.csv'; a.click();
   });
 
+  /* ---------- case studies: editor, answers, show buttons ---------- */
+  var CEDIT = { title: '', scenario: '', questions: [] };
+  function loadCase(m) { var c = (m && m.cs) || { title: '', scenario: '', questions: [] }; CEDIT = JSON.parse(JSON.stringify(c)); $('cTitle').value = CEDIT.title || ''; $('cText').value = CEDIT.scenario || ''; drawCaseEd(); msg($('cMsg'), ''); }
+  function drawCaseEd() {
+    $('cEdOut').innerHTML = CEDIT.questions.map(function (q, i) {
+      return '<div class="qcard" data-ci="' + i + '"><div class="qtop"><b>Question ' + (i + 1) + '</b><button class="btn danger sm" type="button" data-delc="' + i + '">Remove question</button></div>' +
+        '<label>Question</label><textarea data-f="q">' + esc(q.q) + '</textarea><label>Suggested answer</label><textarea data-f="a">' + esc(q.a) + '</textarea></div>';
+    }).join('') || '<p class="empty">No questions yet.</p>';
+    $('cAdd').classList.toggle('hidden', CEDIT.questions.length >= 3);
+  }
+  $('cTitle').addEventListener('input', function () { CEDIT.title = $('cTitle').value; });
+  $('cText').addEventListener('input', function () { CEDIT.scenario = $('cText').value; });
+  $('cEdOut').addEventListener('input', function (e) { var c = e.target.closest('.qcard'); if (!c) return; CEDIT.questions[Number(c.getAttribute('data-ci'))][e.target.getAttribute('data-f')] = e.target.value; });
+  $('cEdOut').addEventListener('click', function (e) { var d = e.target.closest('[data-delc]'); if (!d) return; CEDIT.questions.splice(Number(d.getAttribute('data-delc')), 1); drawCaseEd(); });
+  $('cAdd').addEventListener('click', function () { CEDIT.questions.push({ q: '', a: '' }); drawCaseEd(); });
+  $('cSave').addEventListener('click', function () {
+    var b = $('cSave'), n = Number($('qModule').value); busy(b, true, 'Saving…'); msg($('cMsg'), '');
+    call('adminSaveCase', { n: n, cs: CEDIT }).then(function (r) {
+      busy(b, false); if (!r.ok) return msg($('cMsg'), r.error);
+      S.modules.forEach(function (m) { if (m.n === n) m.cs = r.cs; });
+      msg($('cMsg'), 'Saved. Participants see it the next time they open the portal.', true); drawCaseShow();
+    });
+  });
+  function caseRows() {
+    var f = $('pCohort').value, mf = $('cModule').value, coh = {};
+    S.participants.forEach(function (p) { coh[p[0]] = p[2]; });
+    return (S.cases || []).filter(function (r) { return (!f || coh[r[0]] === f) && (!mf || String(r[2]) === mf); })
+      .map(function (r) { return { name: r[1], cohort: coh[r[0]] || '', n: Number(r[2]), a: [r[3], r[4], r[5]], when: r[6], times: r[7] }; })
+      .sort(function (a, b) { return a.n - b.n || a.name.localeCompare(b.name); });
+  }
+  function cqOf(n) { var m = S.modules.filter(function (x) { return x.n === n; })[0]; return (m && m.cs && m.cs.questions) || []; }
+  function renderCases() {
+    var cur = $('cModule').value;
+    $('cModule').innerHTML = '<option value="">All modules</option>' + S.modules.map(function (m) { return '<option value="' + m.n + '"' + (String(m.n) === cur ? ' selected' : '') + '>Module ' + m.n + '</option>'; }).join('');
+    drawCases(); drawCaseShow();
+  }
+  function drawCases() {
+    $('cOut').innerHTML = caseRows().map(function (r) {
+      var qs = cqOf(r.n);
+      return '<div class="ans"><div class="ah"><b>' + esc(r.name) + (r.cohort ? ' · ' + esc(r.cohort) : '') + '</b><small>Module ' + r.n + ' · ' + esc(r.when) + (Number(r.times) > 1 ? ' · edited' : '') + '</small></div>' +
+        r.a.map(function (a, i) { if (!a && !qs[i]) return ''; return '<div class="aq">' + esc(qs[i] ? qs[i].q : 'Answer ' + (i + 1)) + '</div><div class="aa">' + esc(a || '(no answer)') + '</div>'; }).join('') + '</div>';
+    }).join('') || '<p class="empty">No case study answers yet.</p>';
+  }
+  function drawCaseShow() {
+    $('cShowOut').innerHTML = S.modules.filter(function (m) { return m.cs; }).map(function (m) {
+      return '<button type="button" class="btn line sm' + (m.csShow ? ' shown' : '') + '" data-cshow="' + m.n + '">M' + m.n + ': ' + (m.csShow ? 'Shown' : 'Hidden') + '</button>';
+    }).join('') || '<span class="empty">No case studies set up yet.</span>';
+  }
+  $('cModule').addEventListener('change', drawCases);
+  $('pCohort').addEventListener('change', drawCases);
+  $('cShowOut').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-cshow]'); if (!b) return;
+    var n = Number(b.getAttribute('data-cshow')), m = S.modules.filter(function (x) { return x.n === n; })[0];
+    busy(b, true, '…');
+    call('adminCaseShow', { n: n, show: !m.csShow }).then(function (r) { busy(b, false); if (!r.ok) return alert(r.error || 'Could not change this. Please try again.'); m.csShow = r.show; drawCaseShow(); });
+  });
+  $('cCsvBtn').addEventListener('click', function () {
+    var lines = [['Name', 'Cohort', 'Module', 'Submitted', 'Answer 1', 'Answer 2', 'Answer 3']];
+    caseRows().forEach(function (r) { lines.push([r.name, r.cohort, r.n, r.when, r.a[0], r.a[1], r.a[2]]); });
+    var csv = lines.map(function (l) { return l.map(function (v) { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(','); }).join('\n');
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' })); a.download = 'case-study-answers.csv'; a.click();
+  });
+
   /* ---------- quiz editor ---------- */
   function renderQuizSelect() {
     var cur = $('qModule').value || '1';
     $('qModule').innerHTML = S.modules.map(function (m) { return '<option value="' + m.n + '"' + (String(m.n) === cur ? ' selected' : '') + '>Module ' + m.n + ': ' + esc(m.title) + '</option>'; }).join('');
     loadQuiz();
   }
-  function loadQuiz() { var m = S.modules.filter(function (x) { return String(x.n) === $('qModule').value; })[0]; QEDIT = JSON.parse(JSON.stringify((m && m.quiz) || [])); drawQuiz(); msg($('qMsg'), ''); loadScen(m); }
+  function loadQuiz() { var m = S.modules.filter(function (x) { return String(x.n) === $('qModule').value; })[0]; QEDIT = JSON.parse(JSON.stringify((m && m.quiz) || [])); drawQuiz(); msg($('qMsg'), ''); loadScen(m); loadCase(m); }
   function drawQuiz() {
     $('qOut').innerHTML = QEDIT.map(function (q, i) {
       return '<div class="qcard" data-qi="' + i + '"><div class="qtop"><b>Question ' + (i + 1) + '</b><button class="btn danger sm" type="button" data-delq="' + i + '">Remove question</button></div>' +

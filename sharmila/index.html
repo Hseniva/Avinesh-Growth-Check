@@ -113,6 +113,8 @@ main{padding:44px 0 70px}
 .slides-lock div{max-width:380px}.slides-lock b{display:block;font-size:20px;color:#fff;margin:10px 0 6px}.slides-lock svg{width:44px;height:44px;color:var(--gold)}
 .viewer.qlock iframe{display:none}.viewer.qlock #quizToggle{display:none!important}.viewer.qlock .slides-lock{display:flex}.viewer.qlock #viewerOpen{display:none}
 .mod .locknote{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--grey)}.mod .locknote svg{width:15px;height:15px;color:var(--teal)}
+.mod .casenote{display:block;margin-top:10px;font-size:13px;color:#8A6510;font-weight:600}.mod .casenote.ok{color:var(--teal)}
+.case .stxt ul{margin:0;padding-left:18px}.case .stxt li{margin:4px 0}
 .qbadge{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;background:var(--soft);color:var(--blue);border-radius:6px;padding:3px 7px;letter-spacing:.04em}
 .quiztab{display:none}
 @media(max-width:900px){.viewer.qlock .slides-lock{display:none}.vbody{flex-direction:column}.quiz{width:auto;flex:1;border-left:0;border-top:4px solid var(--gold)}.viewer.q-on iframe{display:none}.viewer:not(.q-on) .quiz{display:none}.quiztab{display:inline-flex}}
@@ -196,6 +198,8 @@ footer .credit b{color:#fff;font-weight:600}
   var MEM = [], QZ = {}, SN = {}, CUR = 0, ANS = {}, SC = {}, SA = {};
   try { SA = JSON.parse(localStorage.getItem('sk_scen') || '{}'); } catch (e) {}
   function saveSA() { try { localStorage.setItem('sk_scen', JSON.stringify(SA)); } catch (e) {} }
+  var CSD = {}, CA = {}; try { CA = JSON.parse(localStorage.getItem('sk_case') || '{}'); } catch (e) {}
+  function saveCA() { try { localStorage.setItem('sk_case', JSON.stringify(CA)); } catch (e) {} }
   try { SC = JSON.parse(localStorage.getItem('sk_quiz_scores') || '{}'); } catch (e) {}
   function badge(n) { return quizDone(n) && (QZ[n] || []).length ? 'Quiz done' : ''; }
   var PRE = {}, LASTR = null, CURVIEW = '';
@@ -230,7 +234,7 @@ footer .credit b{color:#fff;font-weight:600}
     $('portalSub').textContent = r.maxDay >= 3 ? 'All three days are open. Well done on reaching the final day.' : 'With Sharmila Kalachand. Days unlock one by one as you receive each day\'s code.';
     if (r.guide) { $('guideBtn').href = r.guide; $('guideBtn').classList.remove('hidden'); }
     LASTR = r;
-    r.modules.forEach(function (m) { QZ[m.n] = m.quiz || []; SN[m.n] = m.scen || null; });
+    r.modules.forEach(function (m) { QZ[m.n] = m.quiz || []; SN[m.n] = m.scen || null; CSD[m.n] = m.cs || null; });
     var h = '';
     [1, 2, 3].forEach(function (d) {
       h += '<section class="day"><div class="dayhead"><span class="daytag">Day ' + d + '</span><h3>' + esc(DAYS[d]) + '</h3></div>';
@@ -240,10 +244,10 @@ footer .credit b{color:#fff;font-weight:600}
           var dn = isDone(m.n), b = badge(m.n);
           return '<article class="mod"><span class="num">Module ' + m.n + '<span class="qbadge' + (b ? '' : ' hidden') + '" id="qb' + m.n + '">' + b + '</span></span><h4>' + esc(m.title) + '</h4><div class="acts">' +
             (dn ? '<button class="btn btn-gold" type="button"' + da + '>View slides</button>' +
-              (((m.quiz && m.quiz.length) || m.scen) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">' + ((m.quiz && m.quiz.length) ? 'Quiz &amp; scenario' : 'Scenario') + '</button>' : '') +
+              (((m.quiz && m.quiz.length) || m.scen || m.cs) ? '<button class="btn btn-line" type="button"' + da + ' data-quizfirst="1">' + (m.cs ? 'Exercises' : (m.quiz && m.quiz.length) ? 'Quiz &amp; scenario' : 'Scenario') + '</button>' : '') +
               '<a class="btn btn-line" href="' + esc(m.open) + '" target="_blank" rel="noopener">Open</a>'
             : '<button class="btn btn-gold" type="button"' + da + ' data-quizfirst="1">' + (!quizDone(m.n) ? 'Start with the quiz' : ((m.quiz && m.quiz.length) ? 'Continue: scenario' : 'Start with the scenario')) + '</button><span class="locknote">' + LOCK_SVG + 'Slides open after the ' + ((m.quiz && m.quiz.length) ? 'quiz and scenario' : 'scenario') + '</span>') +
-            '</div></article>';
+            '</div>' + (dn && m.cs ? '<span class="casenote' + (CA[m.n] && CA[m.n].sent ? ' ok' : '') + '">' + (CA[m.n] && CA[m.n].sent ? 'Case study sent' : 'Case study to complete after the slides') + '</span>' : '') + '</article>';
         }).join('') + '</div>';
       } else {
         h += '<div class="locked"><div><p><b>Locked.</b> Enter your Day ' + d + ' code to open these modules.</p><div class="lockedlist">' +
@@ -301,9 +305,10 @@ footer .credit b{color:#fff;font-weight:600}
     setQ(!dn || !!b.getAttribute('data-quizfirst'));
     $('viewer').classList.remove('hidden'); document.body.style.overflow = 'hidden';
   });
-  function setQ(on) { $('viewer').classList.toggle('q-on', on); $('quizToggle').textContent = on ? 'Slides' : 'Quiz'; }
+  function setQ(on) { $('viewer').classList.toggle('q-on', on); $('quizToggle').textContent = on ? 'Slides' : 'Exercises'; }
   $('quizToggle').addEventListener('click', function () { setQ(!$('viewer').classList.contains('q-on')); });
-  function drawQuiz() {
+  function drawQuiz() { drawQuiz0(); var c = caseHtml(); if (c) $('quizBox').insertAdjacentHTML('beforeend', c); }
+  function drawQuiz0() {
     var qs = QZ[CUR] || [], L = 'abcd';
     if (!qs.length) { $('quizBox').innerHTML = (SN[CUR] ? '' : '<h3>Module ' + CUR + ' quiz</h3><p class="qsub">There is no quiz for this module.</p>') + scenHtml(true); return; }
     if (quizDone(CUR) && !Object.keys(ANS).length) {
@@ -335,6 +340,40 @@ footer .credit b{color:#fff;font-weight:600}
       var sb0 = $('scenBox'); if (needScen && sb0) setTimeout(function () { sb0.scrollIntoView({ behavior: 'smooth' }); }, 150);
     }
   }
+  function caseHtml() {
+    var c = CSD[CUR]; if (!c || !c.questions || !c.questions.length) return '';
+    var st = CA[CUR] || { a: [], sent: false };
+    var h = '<div class="scen case" id="caseBox"><h3><small>After the slides</small>Case study' + (c.title ? ': ' + esc(c.title) : '') + '</h3>';
+    if (!isDone(CUR)) return h + '<div class="slock">The case study opens once you have finished the quiz and scenario and gone through the slides.</div></div>';
+    var lines = String(c.scenario || '').split(/\n+/).filter(function (x) { return x.trim(); });
+    h += '<p class="qsub">Now that you have been through the slides, apply what you learned. Your trainer will see your answers' + (c.show ? '. Your trainer has opened the suggested answers.' : ' and will open the suggested answers in class.') + '</p><div class="stxt">' + (lines.every(function (x) { return x.length < 140; }) ? '<ul>' + lines.map(function (x) { return '<li>' + esc(x.trim()) + '</li>'; }).join('') + '</ul>' : lines.map(function (x) { return '<p>' + esc(x.trim()) + '</p>'; }).join('')) + '</div>';
+    c.questions.forEach(function (q, i) {
+      h += '<div class="qq"><p><small>Question ' + (i + 1) + ' of ' + c.questions.length + '</small>' + esc(q.q) + '</p>' +
+        '<textarea data-ci="' + i + '" maxlength="4000" placeholder="Write your answer here"' + (st.sent ? ' readonly' : '') + '>' + esc(st.a[i] || '') + '</textarea>' +
+        (q.a ? '<div class="model"><b>Suggested answer</b>' + esc(q.a) + '</div>' : '') + '</div>';
+    });
+    h += st.sent
+      ? '<div class="qscore"><b>Case study sent to your trainer</b><button class="btn" type="button" id="caseEdit">Edit my answers</button></div>'
+      : '<div class="sact"><button class="btn" type="button" id="caseSend">Send my answers</button><span class="qfb no hidden" id="caseErr"></span></div>';
+    return h + '</div>';
+  }
+  $('quizBox').addEventListener('input', function (e) {
+    var t = e.target; if (!t.matches || !t.matches('textarea[data-ci]')) return;
+    var st = CA[CUR] = CA[CUR] || { a: [], sent: false }; st.a[Number(t.getAttribute('data-ci'))] = t.value; saveCA();
+  });
+  $('quizBox').addEventListener('click', function (e) {
+    if (e.target.closest('#caseEdit')) { CA[CUR].sent = false; saveCA(); drawQuiz(); var cb = $('caseBox'); if (cb) cb.scrollIntoView(); return; }
+    var b = e.target.closest('#caseSend'); if (!b) return;
+    var st = CA[CUR] = CA[CUR] || { a: [], sent: false }, nq = CSD[CUR].questions.length, ans = [];
+    for (var i = 0; i < nq; i++) ans.push(String(st.a[i] || '').trim());
+    var err = $('caseErr');
+    if (ans.some(function (x) { return x.length < 3; })) { err.textContent = 'Please answer every question first.'; err.classList.remove('hidden'); return; }
+    b.disabled = true; b.textContent = 'Sending…';
+    fetch(API, { method: 'POST', body: JSON.stringify({ action: 'caseAnswer', client: client(), name: getName(), n: CUR, answers: ans }) })
+      .then(function (r) { return r.json(); })
+      .then(function (r) { if (!r || !r.ok) throw new Error('x'); st.sent = true; saveCA(); drawQuiz(); if (LASTR) { var sy = window.scrollY; render(LASTR); window.scrollTo(0, sy); } var cb = $('caseBox'); if (cb) cb.scrollIntoView(); })
+      .catch(function () { b.disabled = false; b.textContent = 'Send my answers'; err.textContent = 'Could not send. Check your connection and try again.'; err.classList.remove('hidden'); });
+  });
   function paras(t) { return String(t || '').split(/\n\s*\n/).map(function (x) { return '<p>' + esc(x.trim()) + '</p>'; }).join(''); }
   function scenHtml(open) {
     var s = SN[CUR]; if (!s || !s.questions || !s.questions.length) return '';
@@ -380,7 +419,7 @@ footer .credit b{color:#fff;font-weight:600}
   function closeViewer() { $('viewer').classList.add('hidden'); $('viewerFrame').src = 'about:blank'; document.body.style.overflow = ''; }
   $('viewerClose').addEventListener('click', closeViewer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
-  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_pre'); localStorage.removeItem('sk_unl'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
+  function logout() { save([]); try { localStorage.removeItem('sk_quiz_scores'); localStorage.removeItem('sk_scen'); localStorage.removeItem('sk_pre'); localStorage.removeItem('sk_unl'); localStorage.removeItem('sk_case'); localStorage.removeItem('sk_name'); } catch (e) {} location.href = location.pathname; }
   $('resetBtn').addEventListener('click', logout);
   
 
