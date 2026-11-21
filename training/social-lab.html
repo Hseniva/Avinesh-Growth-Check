@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social Media Lab | Oreegami Mauritius</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: hands-on classroom lab, clear and encouraging; DMM bootcamp, Mauritius.
+IDEA: a lab bench of 8 stations; each station is worked, submitted, then marked.
+PICTURE: the interactive station itself (boards, dropdowns, calculators) fills the screen.
+COLOUR and TYPE: Oreegami portal palette: purple #667eea/#764ba2, navy #1B2140, lavender; Inter.
+LAYOUT: portal header, navy title band with station stepper, one station at a time, sticky action bar.
+*/
+:root{--pur:#667EEA;--pur2:#764BA2;--grad:linear-gradient(135deg,#667eea,#764ba2);--navy:#1B2140;--ink:#1B2140;--text:#3d4466;--muted:#6b7392;--line:#e3e1f5;--bg:#F3F2FC;--panel:#fff;--ok:#16a36a;--okbg:#e8f7ef;--bad:#d64545;--badbg:#fdeceb;--amber:#f0a33a}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{color:var(--ink);margin:0}
+button,select,input,textarea{font:inherit}
+.portal{background:#fff;border-bottom:1px solid var(--line)}.portal .in{max-width:1300px;margin:0 auto;padding:0 max(4vw,16px);height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;text-decoration:none}.logo{height:44px;width:auto;display:block}.bsep{width:1px;height:26px;background:#d9dbe8}
+.back{font-size:14px;font-weight:600;text-decoration:none;color:var(--pur)}
+.hero{background:var(--navy);color:#fff;padding:20px max(4vw,16px) 0}
+.hero .in{max-width:1300px;margin:auto}
+.hero h1{color:#fff;font-size:clamp(24px,3vw,34px);line-height:1.1}
+.hero p{color:#c9ccf0;margin:6px 0 14px;max-width:820px}
+.steps{display:flex;gap:6px;overflow-x:auto;padding-bottom:0}
+.step{flex:none;border:0;background:#2a3263;color:#dfe2ff;border-radius:12px 12px 0 0;padding:10px 14px;cursor:pointer;font-size:14px;font-weight:600;min-height:44px;display:flex;gap:8px;align-items:center}
+.step.on{background:var(--bg);color:var(--ink)}
+.step em{font-style:normal;font-size:12px;padding:2px 8px;border-radius:999px;background:#ffffff22}
+.step.on em{background:var(--bg);border:1px solid var(--line)}
+.step em.g{background:var(--ok);color:#fff}.step em.m{background:var(--amber);color:#fff}
+main{max-width:1300px;margin:auto;padding:22px max(4vw,16px) 120px}
+.head{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;justify-content:space-between}
+.head h2{font-size:26px}
+.time{font-size:14px;color:var(--muted)}
+.brief{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin:12px 0 18px}
+.brief b{color:var(--ink)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+/* sorter */
+.pool{background:#fff;border:2px dashed var(--line);border-radius:16px;padding:12px;min-height:80px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.pool.empty::after{content:"All cards placed. Press Submit.";color:var(--muted);padding:10px}
+.bins{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:10px;margin-top:14px}
+.bin{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px;min-height:220px;display:flex;flex-direction:column;gap:7px}
+.bin.target{border-style:dashed;border-color:var(--pur);cursor:pointer}.bin.over{border-color:var(--pur)}
+.bin h3{font-size:16px;display:flex;gap:8px;align-items:center}.bin h3 i{width:12px;height:12px;border-radius:4px}
+.bin small{color:var(--muted);font-size:13px;line-height:1.35}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;font-size:15px;cursor:grab;user-select:none;box-shadow:0 2px 6px rgba(27,33,64,.07);color:var(--ink)}
+.card.sel{border-color:var(--pur);box-shadow:0 0 0 3px rgba(102,126,234,.35)}
+.card .tip{display:none;font-size:13px;color:var(--muted);margin-top:4px}
+.done .bin .card .tip{display:block}
+.right{border-color:var(--ok)!important;background:var(--okbg)!important}.wrong{border-color:var(--bad)!important;background:var(--badbg)!important}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--bg);color:var(--pur2);margin-right:6px}
+/* cases */
+.cases{display:grid;gap:12px}
+.case{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px 16px}
+.case h3{font-size:16px;margin-bottom:4px}
+.case p{margin:0 0 10px}
+.row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+select,input[type=number],input[type=text],textarea{border:1.5px solid var(--line);border-radius:10px;padding:10px;font-size:16px;color:var(--ink);background:#fff;min-height:44px;width:100%}
+select:focus,input:focus,textarea:focus,.btn:focus-visible,.card:focus-visible,.bin:focus-visible,.step:focus-visible,.opt:focus-within{outline:3px solid #f5b83d;outline-offset:1px}
+.fb{font-size:14px;margin-top:8px;display:none}.done .fb{display:block}
+.fb.ok{color:#14532d}.fb.no{color:#7f1d1d}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;cursor:pointer;background:#fff;min-height:44px;color:var(--ink)}
+.opt input{width:18px;height:18px;accent-color:var(--pur)}
+/* metrics */
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{background:var(--bg);color:var(--ink);font-size:13px}
+.scroll{overflow-x:auto}
+td input{max-width:110px;text-align:right}
+.ans{display:block;font-size:12px;color:var(--muted)}
+/* ad mock */
+.ad{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:start}
+.phone{border:2px solid var(--navy);border-radius:16px;padding:8px;background:#f7f7fb;font-size:11px;color:var(--ink)}
+.phone .media{border-radius:8px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;padding:6px}
+.phone .cta{margin-top:6px;background:#e7e9f5;border-radius:6px;padding:4px;text-align:center;font-weight:700}
+/* calendar */
+.week .bin{min-height:150px}
+.rules{margin:12px 0 0;padding-left:20px}.rules li{margin:3px 0}
+.rules li.ok{color:#14532d}.rules li.no{color:#7f1d1d}
+/* bar */
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px max(4vw,16px);z-index:5}
+.bar .in{max-width:1300px;margin:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1.5px solid var(--line);border-radius:999px;padding:10px 18px;min-height:44px;font-weight:600;cursor:pointer;background:#fff;color:var(--ink)}
+.btn.p{background:var(--grad);color:#fff;border-color:transparent}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btn[hidden]{display:none}
+.score{margin-left:auto;font-weight:800;font-size:20px;color:var(--ink)}.score span{font-weight:500;font-size:14px;color:var(--muted)}
+.result{margin-top:14px;padding:12px 16px;border-radius:14px;font-weight:600}.result.good{background:var(--okbg);color:#14532d}.result.mid{background:#fff4e0;color:#7a4b00}
+.sum td,.sum th{text-align:left}
+@media(max-width:900px){.bins{grid-template-columns:repeat(2,minmax(0,1fr))}.row{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){.bins{grid-template-columns:minmax(0,1fr)}.ad{grid-template-columns:minmax(0,1fr)}.phone{max-width:200px}.score{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<header class="portal"><div class="in"><a class="brand" href="/"><img class="logo" src="/img/oreegami-logo.png" alt="Oreegami Mauritius" width="103" height="44"><span class="bsep" aria-hidden="true"></span><span>Digital Marketing &amp; AI</span></a><a class="back" href="/#/c/DMM">← Back to my course</a></div></header>
+<section class="hero"><div class="in">
+  <h1>Social Media Lab: 8 hands-on stations</h1>
+  <p>Work through each station, press Submit, then read the feedback on anything marked red. Allow about 2 hours 20 minutes. Your work is kept in this browser, so you can come back later.</p>
+  <nav class="steps" id="steps"></nav>
+</div></section>
+<main id="main"></main>
+<div class="bar"><div class="in">
+  <button class="btn" id="prev">← Previous</button>
+  <button class="btn p" id="submit">Submit</button>
+  <button class="btn" id="retry" hidden>Try again</button>
+  <button class="btn p" id="next">Next station →</button>
+  <div class="score" id="score"></div>
+</div></div>
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get(k,d){try{const v=localStorage.getItem('slab_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('slab_'+k,JSON.stringify(v))}catch(e){}}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---------- DATA ---------- */
+const FUNNEL={bins:[
+ {id:'aw',name:'Awareness',c:'#667EEA',d:'Get known by new people.'},
+ {id:'co',name:'Consideration',c:'#9b6fd1',d:'Make them interested: visits, chats, video views.'},
+ {id:'cv',name:'Conversion',c:'#764BA2',d:'Get the lead, booking or sale.'},
+ {id:'lo',name:'Loyalty',c:'#f0a33a',d:'Bring customers back and make them fans.'}],
+ items:[
+ ['Awareness campaign (Maximise reach): show a new Grand Baie resort to locals aged 25–45','aw','Reach = as many new people as possible, no action expected yet.'],
+ ['15-second Reel to introduce a new bubble tea brand, optimised for ad recall','aw','Ad recall and reach are brand awareness goals.'],
+ ['Traffic campaign to the restaurant menu page','co','Visiting the site = showing interest, not buying yet.'],
+ ['Engagement campaign: start WhatsApp chats with a car rental company','co','A conversation is a step of consideration before the booking.'],
+ ['Engagement campaign: ThruPlay video views of a cooking tutorial','co','Watching a full video = interest. Meta puts video views under Engagement.'],
+ ['Leads campaign: Instant Form for a free gym trial','cv','The person gives their details: that is a conversion.'],
+ ['Sales campaign: purchases on the online clothes shop','cv','A purchase is the main conversion.'],
+ ['Retarget people who added to cart in the last 7 days with free delivery','cv','Pushing warm people to complete the purchase.'],
+ ['Customer list ad: −15% on a 2nd order for people who bought last month','lo','Targets existing customers to make them buy again.'],
+ ['Instagram “Close Friends” stories for VIP customers with early access','lo','Rewarding existing fans builds loyalty.']]};
+
+const OBJ=['Awareness','Traffic','Engagement','Leads','App promotion','Sales'];
+const GOAL=['Maximise reach of ads','Maximise ad recall lift','Maximise ThruPlay views','Maximise number of link clicks','Maximise number of landing page views','Maximise number of conversations','Maximise number of leads','Maximise number of conversions','Maximise value of conversions'];
+const BID=['Highest volume','Cost per result goal','ROAS goal','Bid cap'];
+const STRAT=[
+ {t:'Opening of a café in Grand Baie',b:'The café wants as many people living in the north as possible to see the opening offer this week. Budget Rs 15,000. Nothing to buy online.',a:[['Awareness'],['Maximise reach of ads'],['Highest volume']],w:'Awareness + reach shows the ad to the most different people. Highest volume spends the budget for the most results without a cost limit.'},
+ {t:'Online clothes shop, good data',b:'Pixel and Conversions API send purchase values. 120 purchases last month. The owner needs revenue of at least 4× the ad spend.',a:[['Sales'],['Maximise value of conversions'],['ROAS goal']],w:'With purchase values tracked and enough data, a ROAS goal tells Meta to aim for 4 rupees back for every rupee spent.'},
+ {t:'Gym in Quatre Bornes',b:'Wants free-trial sign-ups through a form inside Facebook and Instagram. The owner cannot pay more than Rs 300 per lead on average.',a:[['Leads'],['Maximise number of leads'],['Cost per result goal']],w:'Instant Forms = Leads objective. A cost per result goal keeps the average cost per lead around Rs 300.'},
+ {t:'Hotel booking page',b:'The hotel wants real visits to its booking page. The website is slow, and many “clicks” never load the page.',a:[['Traffic'],['Maximise number of landing page views'],['Highest volume']],w:'Landing page views only count people who waited for the page to load, so they are better than link clicks for a slow site.'},
+ {t:'Car rental in Mahébourg',b:'Customers book by WhatsApp. The owner wants as many WhatsApp conversations as possible with the budget.',a:[['Engagement','Leads'],['Maximise number of conversations'],['Highest volume']],w:'Messaging campaigns sit under Engagement (Leads also offers messaging). Optimise for conversations.'},
+ {t:'Music festival tickets',b:'An experienced media buyer sells tickets online. Auctions are very competitive on festival weekend and she wants to control the maximum she bids in each auction.',a:[['Sales'],['Maximise number of conversions'],['Bid cap']],w:'Bid cap sets the maximum bid per auction: full control, but it can limit delivery. For experts only.'},
+ {t:'Cooking video for a spice brand',b:'The brand wants people to watch its 15-second recipe video to the end.',a:[['Engagement'],['Maximise ThruPlay views'],['Highest volume']],w:'ThruPlay = watched to the end (or 15 seconds). Video views are under the Engagement objective.'},
+ {t:'Electronics shop, new pixel',b:'The pixel was installed last week. Only 4–5 purchases a week so far. The shop wants sales.',a:[['Sales'],['Maximise number of conversions'],['Highest volume']],w:'With so little data, start with Highest volume so Meta can learn. A ROAS or cost goal now would block delivery.'}];
+
+const PLAT=['Facebook','Instagram','TikTok','LinkedIn','YouTube','WhatsApp Business'];
+const PLATQ=[
+ ['An accounting firm in Port Louis wants to recruit 2 qualified accountants.',['LinkedIn'],'LinkedIn targets by job title, skills and industry.'],
+ ['A bakery posts its fresh products every morning and customers order by chat.',['WhatsApp Business','Facebook'],'WhatsApp catalogue, status and chat ordering fit daily local sales.'],
+ ['A bubble tea shop wants 16–24 year olds with fun, trending short videos.',['TikTok','Instagram'],'Young audience + trend-led short video = TikTok first.'],
+ ['A fashion boutique shows its new collection with influencers and a shoppable catalogue.',['Instagram'],'Instagram is visual, influencer-driven and supports product tags.'],
+ ['A community association invites people aged 45+ to local events.',['Facebook'],'Facebook has the strongest 45+ audience, groups and events.'],
+ ['A chef publishes 20-minute tutorials on Mauritian recipes.',['YouTube'],'Long, searchable tutorials live best on YouTube.'],
+ ['A software company sells an HR tool to HR managers of large companies.',['LinkedIn'],'B2B decision makers by job function = LinkedIn.'],
+ ['A restaurant promotes its new menu with Reels and Stories to people aged 25–40 in the west.',['Instagram','Facebook'],'Reels and Stories with local targeting: Instagram (also via Meta Ads on Facebook).']];
+
+const MET={rows:[
+ {n:'Ad set A · Broad',spend:6000,imp:120000,reach:40000,clicks:1800,pur:20,rev:36000},
+ {n:'Ad set B · Interests',spend:6000,imp:200000,reach:25000,clicks:1000,pur:8,rev:12000},
+ {n:'Ad set C · Lookalike 1%',spend:3000,imp:50000,reach:30000,clicks:1250,pur:15,rev:30000}],
+ cols:[['ctr','CTR (%)',r=>r.clicks/r.imp*100],['cpc','CPC (Rs)',r=>r.spend/r.clicks],['cpm','CPM (Rs)',r=>r.spend/r.imp*1000],['freq','Frequency',r=>r.imp/r.reach],['cpa','Cost / purchase (Rs)',r=>r.spend/r.pur],['roas','ROAS',r=>r.rev/r.spend]]};
+
+const ADS=[
+ {m:'Horizontal 16:9 video',c:'Shop now',x:'A 16:9 horizontal video is running in Instagram Reels and Stories placements.',o:['Wrong format: Reels/Stories need vertical 9:16','The call to action is wrong','Budget too low','Targeting too broad'],a:0,w:'Vertical 9:16 fills the screen; a 16:9 video shows with big empty bars.'},
+ {m:'BEST PRICES!!!',c:'Learn more',x:'Text: “Click here!!! Best prices!!! Don’t miss!!!” No product, no price, no reason to believe.',o:['Video too short','No clear offer or benefit','Wrong objective','Too many images'],a:1,w:'Shouting adds nothing. Show the product, the price or offer, and why it is better.'},
+ {m:'Are you overweight?',c:'Sign up',x:'A slimming centre’s ad says: “Are you overweight? Lose 10 kg now.”',o:['Fine, very direct','Breaks Meta’s personal attributes / health policy','Needs more emojis','Should be a carousel'],a:1,w:'Ads must not assert or imply personal attributes (health, weight). Talk about the programme, not “you are…”.'},
+ {m:'Free trial form',c:'Sign up',x:'A lead form for a free gym trial asks 12 questions, including salary and full address.',o:['Too many questions: friction kills leads','The form needs a video','Use Bid cap','Target only men'],a:0,w:'Ask only what you need (name, phone, preferred time). Each extra field lowers sign-ups.'},
+ {m:'Red sneakers −20%',c:'Shop now',x:'The ad shows red sneakers at −20% but the link opens the shop’s home page.',o:['Landing page does not match the ad','Wrong colour','Not enough hashtags','Frequency too low'],a:0,w:'Send people straight to the product page with the offer, or they leave.'},
+ {m:'Same ad · week 6',c:'Book now',x:'The same ad has run for 6 weeks. Frequency is 9 and CTR fell from 1.8% to 0.4%.',o:['Increase the budget','Creative fatigue: refresh the ad','Change the objective to Awareness','Nothing, it is normal'],a:1,w:'High frequency + falling CTR = people are tired of it. Rotate new creatives every 2–4 weeks.'},
+ {m:'Sunset… (logo at 0:12)',c:'Learn more',x:'A 15-second hotel video shows the brand name and offer only in the last 3 seconds.',o:['Too short','Brand and message come too late','Wrong platform','Needs a Bid cap'],a:1,w:'Most people scroll in 2–3 seconds. Show the brand and the hook at the start.'}];
+
+const AUD=[
+ {t:'Dental clinic in Rose Hill wants new patients',o:[['Location: 10–15 km around Rose Hill',1],['Location: all of France',0],['Age 18+',1],['Exclude the list of existing patients (custom audience)',1],['Only ages 18–20',0],['Retarget website visitors of the last 30 days',1]]},
+ {t:'Online shop wants new buyers who look like its best customers',o:[['Lookalike 1% based on the purchasers list',1],['Exclude people who purchased in the last 180 days',1],['Only people who already like the Facebook page',0],['Advantage+ audience with your best customers as a suggestion',1],['Stack 12 narrow interests plus one job title',0]]},
+ {t:'Bring back people who abandoned their cart',o:[['Website custom audience: AddToCart in the last 7 days',1],['Exclude Purchase in the last 7 days',1],['Lookalike 10% of all Mauritius',0],['Broad: everyone in Mauritius aged 18–65',0],['Show a reminder with free delivery or a small discount',1]]}];
+
+const CAL={days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+ posts:[
+ {id:'p1',t:'Reel: barista latte art',p:'Entertain',f:'Reel'},{id:'p2',t:'Carousel: 5 ways to brew at home',p:'Educate',f:'Carousel'},
+ {id:'p3',t:'Weekend offer: 2 for 1 cappuccino',p:'Promote',f:'Image'},{id:'p4',t:'Reel: behind the scenes, roasting the beans',p:'Behind the scenes',f:'Reel'},
+ {id:'p5',t:'Customer photo repost + thank you',p:'Community',f:'Image'},{id:'p6',t:'Story poll: iced or hot?',p:'Community',f:'Story'},
+ {id:'p7',t:'New pastry launch, order now',p:'Promote',f:'Reel'},{id:'p8',t:'Reel: meet our team',p:'Behind the scenes',f:'Reel'},
+ {id:'p9',t:'Happy hour −30% today',p:'Promote',f:'Image'},{id:'p10',t:'Live Q&A with the barista',p:'Educate',f:'Live'}],
+ rules:[
+  ['One post every day (7 posts)',c=>c.days.every(d=>c.by[d].length===1)],
+  ['No more than 2 Promote posts in the week',c=>c.all.filter(p=>p.p==='Promote').length<=2],
+  ['Never 2 Promote posts on consecutive days',c=>!c.days.some((d,i)=>i>0&&c.by[d].some(p=>p.p==='Promote')&&c.by[c.days[i-1]].some(p=>p.p==='Promote'))],
+  ['At least 3 Reels',c=>c.all.filter(p=>p.f==='Reel').length>=3],
+  ['The weekend offer goes on Friday or Saturday',c=>['Fri','Sat'].some(d=>c.by[d].some(p=>p.id==='p3'))],
+  ['At least 4 different content pillars',c=>new Set(c.all.map(p=>p.p)).size>=4]]};
+
+const BRIEF=['Business you chose (real or made-up, in Mauritius)','Business goal for the next month (with a number)','Funnel stage and Meta objective','Performance goal and bid strategy, and why','Audience: location, age, custom or lookalike audiences, exclusions','Budget per day and per month (Rs) and how you split it','Two ad ideas (format + hook in the first 3 seconds)','The 3 KPIs you will check every week'];
+
+const EX=[
+ {id:'funnel',name:'Funnel sorter',time:10,intro:'Drag each Meta campaign into the funnel stage it serves. On a phone, tap a card and then tap a box.'},
+ {id:'strategy',name:'Objective & bid strategy',time:25,intro:'For each Mauritian business, choose the campaign objective, the performance goal and the bid strategy you would set in Meta Ads Manager.'},
+ {id:'platform',name:'Platform picker',time:10,intro:'Which network would you use first for each brief?'},
+ {id:'metrics',name:'Metrics lab',time:25,intro:'A shop selling sneakers ran 3 ad sets for 2 weeks. Calculate the metrics (2 decimals is fine), then decide what to do. The margin means the shop breaks even at a ROAS of 3.'},
+ {id:'ads',name:'Spot the problem',time:15,intro:'Each ad has one main problem. Pick it.'},
+ {id:'audience',name:'Audience builder',time:15,intro:'Tick every targeting choice that makes sense for the brief, and leave the bad ones unticked.'},
+ {id:'calendar',name:'Content calendar',time:20,intro:'Plan one week of posts for “Island Brew”, a café in Curepipe. Put exactly one post in each day (3 cards will stay unused). The checker tests the 6 rules below.'},
+ {id:'brief',name:'Mini campaign brief',time:20,intro:'Put it all together for a business of your choice. When you are done, press “Copy my brief” and paste it into an exercise box on the portal or send it to your trainer.'}];
+
+/* ---------- STATE ---------- */
+let cur=Math.min(Math.max(+store.get('cur',0)||0,0),EX.length-1);
+const S=store.get('state',{});const SC=store.get('scores',{});
+function save(){store.set('state',S);store.set('scores',SC);store.set('cur',cur)}
+function st(id){return S[id]||(S[id]={})}
+
+/* ---------- SORTER ---------- */
+let sel=null;
+function sorterInit(id,keys){const s=st(id);if(!s.place){s.place={};s.order=shuffle(keys);keys.forEach(k=>s.place[k]='pool')}return s}
+function sorterHTML(id,bins,cardFn,n){const s=st(id);
+  const pool=s.order.filter(k=>s.place[k]==='pool');
+  return `<p style="margin:0 0 6px;font-weight:600;color:var(--muted);font-size:14px">Cards to place</p><div class="pool ${pool.length?'':'empty'}" data-bin="pool">${pool.map(k=>cardFn(k,'pool')).join('')}</div>
+  <div class="bins" style="--n:${n||bins.length}">${bins.map(b=>`<section class="bin ${sel&&sel[0]===id?'target':''}" data-bin="${b.id}" tabindex="0"><h3>${b.c?`<i style="background:${b.c}"></i>`:''}${b.name}</h3>${b.d?`<small>${b.d}</small>`:''}${s.order.filter(k=>s.place[k]===b.id).map(k=>cardFn(k,b.id)).join('')}</section>`).join('')}</div>`}
+
+/* ---------- RENDERERS ---------- */
+const R={
+funnel(){const s=sorterInit('funnel',FUNNEL.items.map((_,i)=>i));
+  return sorterHTML('funnel',FUNNEL.bins,(k,b)=>{const it=FUNNEL.items[k];const cls=s.done&&b!=='pool'?(b===it[1]?'right':'wrong'):'';
+   const ans=s.done&&b!==it[1]?' Answer: '+FUNNEL.bins.find(x=>x.id===it[1]).name+'.':'';
+   return `<div class="card ${cls} ${sel&&sel[0]==='funnel'&&sel[1]==k?'sel':''}" draggable="${!s.done}" tabindex="0" data-k="${k}">${esc(it[0])}<div class="tip">${esc(it[2])}${ans}</div></div>`})},
+strategy(){const s=st('strategy');s.v=s.v||{};
+  const sl=(i,j,list)=>{const v=(s.v[i]||[])[j]||'';const ok=s.done&&STRAT[i].a[j].includes(v);
+   return `<select data-i="${i}" data-j="${j}" ${s.done?'disabled':''} class="${s.done?(ok?'right':'wrong'):''}"><option value="">Choose…</option>${list.map(o=>`<option ${o===v?'selected':''}>${esc(o)}</option>`).join('')}</select>`};
+  return `<div class="cases">${STRAT.map((c,i)=>`<div class="case"><h3>${i+1}. ${esc(c.t)}</h3><p>${esc(c.b)}</p>
+   <div class="row"><label class="f">Objective${sl(i,0,OBJ)}</label><label class="f">Performance goal${sl(i,1,GOAL)}</label><label class="f">Bid strategy${sl(i,2,BID)}</label></div>
+   <div class="fb ${s.done&&[0,1,2].every(j=>c.a[j].includes((s.v[i]||[])[j]))?'ok':'no'}"><b>Answer:</b> ${esc(c.a[0].join(' or '))} · ${esc(c.a[1][0])} · ${esc(c.a[2][0])}. ${esc(c.w)}</div></div>`).join('')}</div>`},
+platform(){const s=st('platform');s.v=s.v||{};
+  return `<div class="cases">${PLATQ.map((q,i)=>{const v=s.v[i];const ok=s.done&&q[1].includes(v);
+   return `<div class="case ${s.done?(ok?'right':'wrong'):''}"><h3>${i+1}. ${esc(q[0])}</h3><div class="opts">${PLAT.map(p=>`<label class="opt"><input type="radio" name="pl${i}" value="${esc(p)}" data-i="${i}" ${v===p?'checked':''} ${s.done?'disabled':''}>${esc(p)}</label>`).join('')}</div>
+   <div class="fb ${ok?'ok':'no'}"><b>Best:</b> ${esc(q[1].join(' or '))}. ${esc(q[2])}</div></div>`}).join('')}</div>`},
+metrics(){const s=st('metrics');s.v=s.v||{};
+  const fmt=n=>Number.isInteger(n)?n.toLocaleString('en'):n.toLocaleString('en',{maximumFractionDigits:2});
+  return `<div class="panel scroll"><table><thead><tr><th>Ad set</th><th>Spend (Rs)</th><th>Impressions</th><th>Reach</th><th>Link clicks</th><th>Purchases</th><th>Revenue (Rs)</th></tr></thead><tbody>
+   ${MET.rows.map(r=>`<tr><td>${r.n}</td><td>${fmt(r.spend)}</td><td>${fmt(r.imp)}</td><td>${fmt(r.reach)}</td><td>${fmt(r.clicks)}</td><td>${r.pur}</td><td>${fmt(r.rev)}</td></tr>`).join('')}</tbody></table></div>
+   <p style="margin:14px 0 6px;font-weight:700;color:var(--ink)">Your calculations</p>
+   <div class="panel scroll"><table><thead><tr><th>Ad set</th>${MET.cols.map(c=>`<th>${c[1]}</th>`).join('')}</tr></thead><tbody>
+   ${MET.rows.map((r,i)=>`<tr><td>${r.n.split(' · ')[0]}</td>${MET.cols.map(c=>{const k=i+'_'+c[0],v=s.v[k]??'',t=c[2](r),ok=s.done&&v!==''&&Math.abs(+v-t)<=Math.max(0.02*t,0.011);
+     return `<td><input type="number" step="any" inputmode="decimal" data-k="${k}" value="${esc(v)}" ${s.done?'disabled':''} class="${s.done?(ok?'right':'wrong'):''}">${s.done&&!ok?`<span class="ans">= ${fmt(Math.round(t*100)/100)}</span>`:''}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+   <div class="row" style="margin-top:14px">${[['scale','Which ad set would you scale (more budget)?','C','C has the best ROAS (10) and cost per purchase (Rs 200), with a low frequency of 1.67: room to grow.'],['pause','Which ad set would you pause or fix first?','B','B has ROAS 2 (below the break-even of 3) and a frequency of 8: the same people see it too often.']].map(([k,q,a,w])=>{const v=s.v[k]||'';const ok=s.done&&v===a;
+     return `<div class="case ${s.done?(ok?'right':'wrong'):''}"><h3>${q}</h3><div class="opts">${['A','B','C'].map(o=>`<label class="opt"><input type="radio" name="${k}" value="${o}" data-k="${k}" ${v===o?'checked':''} ${s.done?'disabled':''}>Ad set ${o}</label>`).join('')}</div><div class="fb ${ok?'ok':'no'}"><b>Answer: ${a}.</b> ${w}</div></div>`}).join('')}</div>
+   <details style="margin-top:12px"><summary>Formulas</summary><p>CTR = clicks ÷ impressions × 100 · CPC = spend ÷ clicks · CPM = spend ÷ impressions × 1,000 · Frequency = impressions ÷ reach · Cost per purchase = spend ÷ purchases · ROAS = revenue ÷ spend</p></details>`},
+ads(){const s=st('ads');s.v=s.v||{};
+  return `<div class="cases">${ADS.map((ad,i)=>{const v=s.v[i];const ok=s.done&&+v===ad.a;
+   return `<div class="case ${s.done?(ok?'right':'wrong'):''}"><div class="ad"><div class="phone"><b>Sponsored</b><div class="media" style="aspect-ratio:${i===0?'16/9':'4/5'}">${esc(ad.m)}</div><div class="cta">${esc(ad.c)}</div></div>
+   <div><h3>Ad ${i+1}</h3><p>${esc(ad.x)}</p><div class="opts">${ad.o.map((o,j)=>`<label class="opt"><input type="radio" name="ad${i}" value="${j}" data-i="${i}" ${v==j&&v!==undefined?'checked':''} ${s.done?'disabled':''}>${esc(o)}</label>`).join('')}</div>
+   <div class="fb ${ok?'ok':'no'}"><b>Answer:</b> ${esc(ad.o[ad.a])}. ${esc(ad.w)}</div></div></div></div>`}).join('')}</div>`},
+audience(){const s=st('audience');s.v=s.v||{};
+  return `<div class="cases">${AUD.map((b,i)=>`<div class="case"><h3>${i+1}. ${esc(b.t)}</h3><div class="opts">${b.o.map((o,j)=>{const k=i+'_'+j,c=!!s.v[k],ok=c===!!o[1];
+   return `<label class="opt ${s.done?(ok?'right':'wrong'):''}"><input type="checkbox" data-k="${k}" ${c?'checked':''} ${s.done?'disabled':''}>${esc(o[0])}${s.done?` <b style="font-size:13px">${o[1]?'✓ good choice':'✗ avoid'}</b>`:''}</label>`}).join('')}</div></div>`).join('')}</div>`},
+calendar(){const s=sorterInit('calendar',CAL.posts.map(p=>p.id));
+  const bins=CAL.days.map(d=>({id:d,name:d}));const res=s.done?calCheck(s):null;
+  return `<div class="week">${sorterHTML('calendar',bins,(k)=>{const p=CAL.posts.find(x=>x.id===k);
+   return `<div class="card ${sel&&sel[0]==='calendar'&&sel[1]==k?'sel':''}" draggable="${!s.done}" tabindex="0" data-k="${k}"><span class="tag">${p.p}</span><span class="tag">${p.f}</span><div>${esc(p.t)}</div></div>`},7)}</div>
+   <div class="panel" style="margin-top:14px"><b style="color:var(--ink)">Rules</b><ul class="rules">${CAL.rules.map((r,i)=>`<li class="${res?(res[i]?'ok':'no'):''}">${res?(res[i]?'✓ ':'✗ '):''}${r[0]}</li>`).join('')}</ul></div>`},
+brief(){const s=st('brief');s.v=s.v||{};
+  const rows=EX.slice(0,7).map(e=>{const sc=SC[e.id];return `<tr><td>${e.name}</td><td>${sc?sc[0]+' / '+sc[1]:'not submitted'}</td></tr>`}).join('');
+  return `<div class="cases">${BRIEF.map((q,i)=>`<label class="f case">${i+1}. ${esc(q)}<textarea rows="2" data-i="${i}">${esc(s.v[i]||'')}</textarea></label>`).join('')}</div>
+   <div class="panel" style="margin-top:14px"><b style="color:var(--ink)">Your lab results</b><table class="sum"><tbody>${rows}</tbody></table>
+   <p><button class="btn p" id="copy">Copy my brief and results</button> <span id="copied" class="time"></span></p></div>`}
+};
+function calCheck(s){const by={};CAL.days.forEach(d=>by[d]=s.order.filter(k=>s.place[k]===d).map(k=>CAL.posts.find(p=>p.id===k)));
+  const c={days:CAL.days,by,all:CAL.days.flatMap(d=>by[d])};return CAL.rules.map(r=>!!r[1](c))}
+
+/* ---------- SCORING ---------- */
+const SCORE={
+ funnel:s=>[FUNNEL.items.filter((it,k)=>s.place[k]===it[1]).length,FUNNEL.items.length],
+ strategy:s=>[STRAT.reduce((a,c,i)=>a+[0,1,2].filter(j=>c.a[j].includes((s.v[i]||[])[j])).length,0),STRAT.length*3],
+ platform:s=>[PLATQ.filter((q,i)=>q[1].includes(s.v[i])).length,PLATQ.length],
+ metrics:s=>{let ok=0,n=0;MET.rows.forEach((r,i)=>MET.cols.forEach(c=>{n++;const v=s.v[i+'_'+c[0]];const t=c[2](r);if(v!==undefined&&v!==''&&Math.abs(+v-t)<=Math.max(0.02*t,0.011))ok++}));ok+=(s.v.scale==='C')+(s.v.pause==='B');return[ok,n+2]},
+ ads:s=>[ADS.filter((a,i)=>+s.v[i]===a.a&&s.v[i]!==undefined).length,ADS.length],
+ audience:s=>{let ok=0,n=0;AUD.forEach((b,i)=>b.o.forEach((o,j)=>{n++;if(!!s.v[i+'_'+j]===!!o[1])ok++}));return[ok,n]},
+ calendar:s=>{const r=calCheck(s);return[r.filter(Boolean).length,r.length]}};
+const READY={
+ funnel:s=>Object.values(s.place).every(v=>v!=='pool')||'Place every card first',
+ strategy:s=>STRAT.every((_,i)=>[0,1,2].every(j=>(s.v[i]||[])[j]))||'Fill in all 24 choices first',
+ platform:s=>PLATQ.every((_,i)=>s.v[i])||'Answer every brief first',
+ metrics:s=>!!(MET.rows.every((_,i)=>MET.cols.every(c=>(s.v[i+'_'+c[0]]??'')!==''))&&s.v.scale&&s.v.pause)||'Fill in all 18 boxes and both questions',
+ ads:s=>ADS.every((_,i)=>s.v[i]!==undefined)||'Answer every ad first',
+ audience:()=>true,
+ calendar:s=>CAL.days.some(d=>Object.values(s.place).includes(d))||'Place posts in the week first'};
+
+/* ---------- PAGE ---------- */
+function draw(){const e=EX[cur];const s=st(e.id);
+  $('#steps').innerHTML=EX.map((x,i)=>{const sc=SC[x.id];const cls=sc?(sc[0]/sc[1]>=.7?'g':'m'):'';
+    return `<button class="step ${i===cur?'on':''}" data-step="${i}">${i+1}. ${x.name}<em class="${cls}">${sc?sc[0]+'/'+sc[1]:x.time+' min'}</em></button>`}).join('');
+  $('#main').innerHTML=`<div class="head"><h2>Station ${cur+1} · ${e.name}</h2><span class="time">About ${e.time} minutes</span></div><div class="brief">${e.intro}</div><div id="ex" class="${s.done?'done':''}">${R[e.id]()}</div><div id="res"></div>`;
+  const sub=$('#submit'),ry=$('#retry');const isBrief=e.id==='brief';
+  sub.hidden=isBrief||!!s.done;ry.hidden=isBrief||!s.done;
+  if(!isBrief){const r=READY[e.id](s);sub.disabled=r!==true;sub.textContent=r===true?'Submit':'Submit · '+r}
+  $('#prev').disabled=cur===0;$('#next').hidden=cur===EX.length-1;
+  const sc=SC[e.id];$('#score').innerHTML=s.done&&sc?`${sc[0]} / ${sc[1]} <span>correct</span>`:'';
+  if(s.done&&sc){const pct=Math.round(sc[0]/sc[1]*100);$('#res').innerHTML=`<div class="result ${pct>=70?'good':'mid'}">${pct===100?'Perfect score!':pct>=70?`Well done: ${pct}%. Read the feedback in red.`:`${pct}%. Read the red feedback, then press Try again.`}</div>`}
+  save()}
+function go(i){cur=i;sel=null;draw();window.scrollTo({top:0,behavior:'smooth'})}
+
+document.addEventListener('click',ev=>{
+  const stp=ev.target.closest('[data-step]');if(stp){go(+stp.dataset.step);return}
+  if(ev.target.id==='copy'){copyBrief();return}
+  const e=EX[cur];if(e.id!=='funnel'&&e.id!=='calendar')return;
+  const s=st(e.id);if(s.done)return;
+  const c=ev.target.closest('.card');const b=ev.target.closest('[data-bin]');
+  if(c){const k=c.dataset.k;const key=e.id==='funnel'?+k:k;
+    if(sel&&sel[1]!==key&&b&&b.dataset.bin!==s.place[sel[1]]){s.place[sel[1]]=b.dataset.bin;sel=null;draw();return}
+    sel=sel&&sel[1]===key?null:[e.id,key];draw();return}
+  if(b&&sel){s.place[sel[1]]=b.dataset.bin;sel=null;draw()}});
+document.addEventListener('keydown',ev=>{if((ev.key==='Enter'||ev.key===' ')&&ev.target.matches('.card,.bin')){ev.preventDefault();ev.target.click()}});
+document.addEventListener('dragstart',ev=>{const c=ev.target.closest('.card');if(c)ev.dataTransfer.setData('text/plain',c.dataset.k)});
+document.addEventListener('dragover',ev=>{const b=ev.target.closest('[data-bin]');if(b){ev.preventDefault();document.querySelectorAll('.over').forEach(x=>x.classList.remove('over'));b.classList.add('over')}});
+document.addEventListener('drop',ev=>{const b=ev.target.closest('[data-bin]');if(!b)return;ev.preventDefault();const e=EX[cur];const s=st(e.id);if(s.done||!s.place)return;
+  let k=ev.dataTransfer.getData('text/plain');if(e.id==='funnel')k=+k;if(k in s.place||(e.id==='funnel'&&s.place[k]!==undefined)){s.place[k]=b.dataset.bin;sel=null;draw()}});
+document.addEventListener('change',ev=>{const e=EX[cur];const s=st(e.id);const t=ev.target;
+  if(e.id==='strategy'&&t.matches('select')){const i=t.dataset.i;s.v[i]=s.v[i]||[];s.v[i][+t.dataset.j]=t.value}
+  else if(e.id==='platform'||e.id==='ads'){s.v[t.dataset.i]=t.value}
+  else if(e.id==='metrics'&&t.matches('input[type=radio]')){s.v[t.dataset.k]=t.value}
+  else if(e.id==='audience'){s.v[t.dataset.k]=t.checked}
+  else return;draw()});
+document.addEventListener('input',ev=>{const e=EX[cur];const s=st(e.id);const t=ev.target;
+  if(e.id==='metrics'&&t.matches('input[type=number]')){s.v[t.dataset.k]=t.value;save();const r=READY.metrics(s);const sub=$('#submit');sub.disabled=r!==true;sub.textContent=r===true?'Submit':'Submit · '+r}
+  if(e.id==='brief'&&t.matches('textarea')){s.v[t.dataset.i]=t.value;save()}});
+$('#submit').addEventListener('click',()=>{const e=EX[cur];const s=st(e.id);if(READY[e.id](s)!==true)return;s.done=true;SC[e.id]=SCORE[e.id](s);draw();$('#res').scrollIntoView({behavior:'smooth',block:'center'})});
+$('#retry').addEventListener('click',()=>{const e=EX[cur];const s=st(e.id);s.done=false;delete SC[e.id];
+  if(e.id==='funnel'||e.id==='calendar'){delete s.place}else if(e.id!=='brief'){s.v={}}draw()});
+$('#prev').addEventListener('click',()=>cur>0&&go(cur-1));
+$('#next').addEventListener('click',()=>cur<EX.length-1&&go(cur+1));
+function copyBrief(){const s=st('brief');s.v=s.v||{};
+  const txt='SOCIAL MEDIA LAB\n\nResults\n'+EX.slice(0,7).map(e=>`- ${e.name}: ${SC[e.id]?SC[e.id][0]+'/'+SC[e.id][1]:'not submitted'}`).join('\n')+'\n\nMini campaign brief\n'+BRIEF.map((q,i)=>`${i+1}. ${q}\n${(s.v[i]||'').trim()||'-'}`).join('\n\n');
+  const done=()=>{$('#copied').textContent='Copied. Paste it into the portal or an email.'};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>fallback(txt))}else fallback(txt);
+  function fallback(t){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){$('#copied').textContent='Select the text and copy it manually.'}a.remove()}}
+draw();
+}
+</script>
+</body>
+</html>
