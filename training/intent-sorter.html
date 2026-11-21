@@ -29,11 +29,15 @@ h1,h2,.bin h3,.btn{font-family:Inter,system-ui,sans-serif}
 .btn{border:0;border-radius:999px;padding:11px 18px;min-height:44px;font-size:15px;font-weight:600;cursor:pointer;background:var(--panel);color:var(--ink);border:1.5px solid var(--line)}
 .btn:focus-visible,.card:focus-visible,.bin:focus-visible{outline:3px solid #f5b83d;outline-offset:2px}
 .btn.primary{background:linear-gradient(135deg,var(--pur),var(--pur2));color:#fff;border-color:transparent}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btn[hidden]{display:none}
+.result{margin-top:14px;padding:14px 16px;border-radius:14px;font-weight:600}.result.good{background:#e8f7ef;color:#14532d}.result.mid{background:#fff4e0;color:#7a4b00}
 .btn.on{background:var(--pur);color:#fff;border-color:var(--pur)}
-.top .btn{background:transparent;color:#fff;border-color:#4a5388}.top .btn.on{background:var(--pur);border-color:var(--pur)}
+.top .btn{background:transparent;color:#fff;border-color:#4a5388}.top .btn:disabled{opacity:.45;cursor:not-allowed}.btn[hidden]{display:none}
+.result{margin-top:14px;padding:14px 16px;border-radius:14px;font-weight:600}.result.good{background:#e8f7ef;color:#14532d}.result.mid{background:#fff4e0;color:#7a4b00}
+.btn.on{background:var(--pur);border-color:var(--pur)}
 main{padding:18px max(4vw,16px) 40px;max-width:1400px;margin:auto}
 .pool{background:var(--panel);border:2px dashed var(--line);border-radius:18px;padding:14px;min-height:96px;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
-.pool.empty::after{content:"All searches sorted. Press “Check answers”.";color:var(--muted);padding:12px}
+.pool.empty::after{content:"All searches sorted. Press Submit below.";color:var(--muted);padding:12px}
 .label{font:600 14px Inter,sans-serif;color:var(--muted);margin:0 0 8px}
 .card{display:flex;align-items:center;gap:8px;background:var(--panel);border:1.5px solid var(--line);border-radius:999px;padding:9px 16px 9px 12px;font-size:16px;cursor:grab;user-select:none;box-shadow:0 2px 6px rgba(27,33,64,.08);touch-action:manipulation}
 .card svg{flex:none;width:16px;height:16px;color:var(--pur)}
@@ -68,7 +72,7 @@ main{padding:18px max(4vw,16px) 40px;max-width:1400px;margin:auto}
 <header class="top">
   <div>
     <h1>Module 6 · Live exercise: search intent sorter</h1>
-    <p>Why is this person searching? Drag each search into the right box, or tap a search and then tap a box.</p>
+    <p>Why is this person searching? Drag each search into the right box (or tap a search, then tap a box). When all are sorted, press Submit to see what you got right.</p>
   </div>
   <div class="rounds" id="rounds"></div>
 </header>
@@ -77,11 +81,13 @@ main{padding:18px max(4vw,16px) 40px;max-width:1400px;margin:auto}
   <div class="pool" id="pool" data-bin="pool"></div>
   <div class="bins" id="bins"></div>
   <div class="bar">
-    <button class="btn primary" id="check">Check answers</button>
-    <button class="btn" id="reveal">Show correct boxes</button>
-    <button class="btn" id="reset">Reset round</button>
+    <button class="btn primary" id="check">Submit</button>
+    <button class="btn" id="reveal" hidden>Show correct boxes</button>
+    <button class="btn" id="reset" hidden>Try again</button>
+    <button class="btn primary" id="next" hidden>Next round →</button>
     <div class="score" id="score"></div>
   </div>
+  <div id="result" class="result" hidden></div>
   <p class="hint">Examples are made up for class, based on Mauritius. Some searches can mix two intents: discuss them together.</p>
 </main>
 <script>
@@ -144,7 +150,7 @@ function start(r){round=r;place={};sel=null;checked=false;order=shuffle(ROUNDS[r
 function cardHTML(i){
   const [t,a,tip]=ROUNDS[round].q[i];const st=checked&&place[i]!=='pool'?(place[i]===a?'right':'wrong'):'';
   const ans=checked&&place[i]!=='pool'&&place[i]!==a?' Answer: '+BINS.find(b=>b.id===a).name+'.':'';
-  return `<div class="card ${st} ${sel===i?'sel':''}" draggable="true" tabindex="0" data-i="${i}">${ICON}<span>${t}</span><span class="tip">${tip}${ans}</span></div>`;
+  return `<div class="card ${st} ${sel===i?'sel':''}" draggable="${!checked}" tabindex="0" data-i="${i}">${ICON}<span>${t}</span><span class="tip">${tip}${ans}</span></div>`;
 }
 function render(){
   $('#rounds').innerHTML=ROUNDS.map((r,i)=>`<button class="btn ${i===round?'on':''}" data-r="${i}">${r.name}</button>`).join('');
@@ -156,15 +162,23 @@ function render(){
     <div class="drop">${order.filter(i=>place[i]===b.id).map(cardHTML).join('')}</div></section>`).join('');
   document.body.classList.toggle('checked',checked);
   const n=ROUNDS[round].q.length;
-  if(checked){const ok=ROUNDS[round].q.filter((q,i)=>place[i]===q[1]).length;$('#score').innerHTML=`${ok} / ${n} <span>correct</span>`}
-  else{const done=Object.values(place).filter(v=>v!=='pool').length;$('#score').innerHTML=`${done} / ${n} <span>sorted</span>`}
+  const done=Object.values(place).filter(v=>v!=='pool').length,left=n-done,ck=$('#check');
+  ck.hidden=checked;ck.disabled=left>0;ck.textContent=left>0?`Submit ${ROUNDS[round].name} (${left} left to sort)`:`Submit ${ROUNDS[round].name}`;
+  $('#reveal').hidden=!checked;$('#reset').hidden=!checked;$('#next').hidden=!checked||round===ROUNDS.length-1;
+  const res=$('#result');
+  if(checked){const ok=ROUNDS[round].q.filter((q,i)=>place[i]===q[1]).length;$('#score').innerHTML=`${ok} / ${n} <span>correct</span>`;
+    const pct=Math.round(ok/n*100);res.hidden=false;res.className='result '+(pct>=70?'good':'mid');
+    res.textContent=pct===100?`Perfect: ${ok}/${n}! Every search is in the right box.`:pct>=70?`Well done: ${ok}/${n} (${pct}%). Read the explanations on the red cards.`:`${ok}/${n} (${pct}%). Read the red cards to see the right box, then press Try again.`}
+  else{res.hidden=true;$('#score').innerHTML=`${done} / ${n} <span>sorted</span>`}
 }
-function move(i,bin){place[i]=bin;sel=null;checked=false;render()}
+function move(i,bin){if(checked)return;place[i]=bin;sel=null;render()}
 
 document.addEventListener('click',e=>{
   const r=e.target.closest('[data-r]');if(r){start(+r.dataset.r);return}
   const c=e.target.closest('.card');
-  if(c){const i=+c.dataset.i;sel=sel===i?null:i;render();return}
+  if(c){if(checked)return;const i=+c.dataset.i;
+    if(sel!==null&&sel!==i){const tb=c.closest('[data-bin]');if(tb&&tb.dataset.bin!==place[sel]){move(sel,tb.dataset.bin);return}}
+    sel=sel===i?null:i;render();return}
   const b=e.target.closest('[data-bin]');
   if(b&&sel!==null){move(sel,b.dataset.bin)}
 });
@@ -179,7 +193,8 @@ document.addEventListener('dragover',e=>{const b=e.target.closest('[data-bin]');
 document.addEventListener('dragleave',e=>{const b=e.target.closest('.bin');if(b&&!b.contains(e.relatedTarget))b.classList.remove('over')});
 document.addEventListener('drop',e=>{const b=e.target.closest('[data-bin]');if(!b)return;e.preventDefault();const i=+e.dataTransfer.getData('text/plain');if(!isNaN(i))move(i,b.dataset.bin)});
 
-$('#check').addEventListener('click',()=>{checked=true;sel=null;render()});
+$('#check').addEventListener('click',()=>{if(Object.values(place).some(v=>v==='pool'))return;checked=true;sel=null;render();$('#result').scrollIntoView({behavior:'smooth',block:'nearest'})});
+$('#next').addEventListener('click',()=>{start(round+1);window.scrollTo({top:0,behavior:'smooth'})});
 $('#reveal').addEventListener('click',()=>{ROUNDS[round].q.forEach((q,i)=>place[i]=q[1]);checked=true;sel=null;render()});
 $('#reset').addEventListener('click',()=>start(round));
 
