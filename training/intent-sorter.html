@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search Intent Sorter | Oreegami Mauritius</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: classroom game on a projector, upbeat but clear, Oreegami DMM bootcamp.
+IDEA: a sorting tray: search-bar "slips" dropped into five labelled bins.
+PICTURE: the board itself (cards + bins) is the picture, top of page.
+COLOUR and TYPE: brand purple #667eea / #764ba2 on navy #1B2140 and lavender; Poppins + Inter.
+LAYOUT: compact title row, card pool, five bins in a grid, actions + score bar.
+*/
+:root{color-scheme:light;
+--bg:#F3F2FC;--panel:#ffffff;--ink:#1B2140;--muted:#5b6283;
+--line:#dcdaf3;--pur:#667EEA;--pur2:#764BA2;--ok:#1f9d63;--bad:#d64545}
+
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,.bin h3,.btn{font-family:Inter,system-ui,sans-serif}
+.portal{background:#fff;border-bottom:1px solid var(--line)}.portal .in{max-width:1400px;margin:0 auto;padding:0 max(4vw,16px);height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;color:#1B2140;font-weight:700;text-decoration:none}.logo{height:44px;width:auto;display:block}.bsep{width:1px;height:26px;background:#d9dbe8;flex:none}.back{font-size:14px;font-weight:600;text-decoration:none;color:var(--pur)}
+.top{background:#1B2140;color:#fff;padding:18px max(4vw,16px);display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:clamp(24px,3vw,34px);line-height:1.1}
+.top p{margin:4px 0 0;color:#c9ccf0;font-size:15px}
+.rounds{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:11px 18px;min-height:44px;font-size:15px;font-weight:600;cursor:pointer;background:var(--panel);color:var(--ink);border:1.5px solid var(--line)}
+.btn:focus-visible,.card:focus-visible,.bin:focus-visible{outline:3px solid #f5b83d;outline-offset:2px}
+.btn.primary{background:linear-gradient(135deg,var(--pur),var(--pur2));color:#fff;border-color:transparent}
+.btn.on{background:var(--pur);color:#fff;border-color:var(--pur)}
+.top .btn{background:transparent;color:#fff;border-color:#4a5388}.top .btn.on{background:var(--pur);border-color:var(--pur)}
+main{padding:18px max(4vw,16px) 40px;max-width:1400px;margin:auto}
+.pool{background:var(--panel);border:2px dashed var(--line);border-radius:18px;padding:14px;min-height:96px;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
+.pool.empty::after{content:"All searches sorted. Press “Check answers”.";color:var(--muted);padding:12px}
+.label{font:600 14px Inter,sans-serif;color:var(--muted);margin:0 0 8px}
+.card{display:flex;align-items:center;gap:8px;background:var(--panel);border:1.5px solid var(--line);border-radius:999px;padding:9px 16px 9px 12px;font-size:16px;cursor:grab;user-select:none;box-shadow:0 2px 6px rgba(27,33,64,.08);touch-action:manipulation}
+.card svg{flex:none;width:16px;height:16px;color:var(--pur)}
+.card.sel{border-color:var(--pur);box-shadow:0 0 0 3px rgba(102,126,234,.35)}
+.card.dragging{opacity:.4}
+.card.right{border-color:var(--ok);background:#e8f7ef}
+.card.wrong{border-color:var(--bad);background:#fdeceb}
+.card .tip{display:none;font-size:13px;color:var(--muted);margin-left:4px}
+.checked .bin .card .tip{display:inline}
+.checked .pool .card{border-radius:999px}
+.checked .card{border-radius:14px;flex-wrap:wrap}
+.bins{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:18px}
+.bin{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:12px;min-height:260px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
+.bin.over{border-color:var(--pur);transform:translateY(-2px)}
+.bin.target{cursor:pointer;border-style:dashed;border-color:var(--pur)}
+.bin h3{margin:0;font-size:18px;display:flex;align-items:center;gap:8px}
+.bin h3 i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.bin small{color:var(--muted);font-size:13px;line-height:1.35}
+.bin .drop{display:flex;flex-direction:column;gap:8px;flex:1}
+.bin .card{border-radius:14px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+.score{margin-left:auto;font:700 22px Inter,sans-serif}
+.score span{color:var(--muted);font:500 15px Inter,sans-serif}
+.hint{color:var(--muted);font-size:14px;margin:10px 0 0}
+@media(max-width:1000px){.bins{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.bins{grid-template-columns:repeat(2,minmax(0,1fr))}.bin{min-height:160px}.score{margin-left:0;width:100%}}
+@media(prefers-reduced-motion:reduce){.bin{transition:none}}
+</style>
+</head>
+<body>
+<header class="portal"><div class="in"><a class="brand" href="/"><img class="logo" src="/img/oreegami-logo.png" alt="Oreegami Mauritius" width="103" height="44"><span class="bsep" aria-hidden="true"></span><span>Digital Marketing &amp; AI</span></a><a class="back" href="/#/c/DMM">← Back to my course</a></div></header>
+<header class="top">
+  <div>
+    <h1>Module 6 · Live exercise: search intent sorter</h1>
+    <p>Why is this person searching? Drag each search into the right box, or tap a search and then tap a box.</p>
+  </div>
+  <div class="rounds" id="rounds"></div>
+</header>
+<main>
+  <p class="label">Searches to sort</p>
+  <div class="pool" id="pool" data-bin="pool"></div>
+  <div class="bins" id="bins"></div>
+  <div class="bar">
+    <button class="btn primary" id="check">Check answers</button>
+    <button class="btn" id="reveal">Show correct boxes</button>
+    <button class="btn" id="reset">Reset round</button>
+    <div class="score" id="score"></div>
+  </div>
+  <p class="hint">Examples are made up for class, based on Mauritius. Some searches can mix two intents: discuss them together.</p>
+</main>
+<script>
+{
+const BINS=[
+ {id:'info',name:'Informational',c:'#667EEA',d:'Wants to learn or understand something. Not ready to buy.'},
+ {id:'nav',name:'Navigational',c:'#1B2140',d:'Wants to reach a specific website, brand or login page.'},
+ {id:'comm',name:'Commercial',c:'#9b6fd1',d:'Comparing options or reading reviews before choosing.'},
+ {id:'trans',name:'Transactional',c:'#764BA2',d:'Ready to act now: buy, book, order, sign up.'},
+ {id:'local',name:'Local',c:'#f0a33a',d:'Looking for a place nearby or in a named town.'}
+];
+const ROUNDS=[
+ {name:'Round 1',q:[
+  ['how to learn scuba diving','info','“how to”: they want to learn, not buy yet.'],
+  ['MCB internet banking','nav','They want one specific website.'],
+  ['best diving centre Blue Bay','comm','“best”: comparing before choosing.'],
+  ['book try dive Blue Bay','trans','“book”: ready to act now.'],
+  ['diving near me','local','“near me”: a place close by.'],
+  ['is snorkelling safe for kids','info','A question to understand something.'],
+  ['Courts Mammouth website','nav','Going straight to a known brand.'],
+  ['Samsung vs iPhone camera','comm','“vs”: comparing two products.'],
+  ['buy iPhone 16 Mauritius','trans','“buy”: ready to purchase.'],
+  ['restaurant open now Port Louis','local','A place, a town and “open now”.'],
+  ['what is a lagoon','info','“what is”: pure learning.'],
+  ['Air Mauritius manage booking','nav','Heading to a page on a known site.']]},
+ {name:'Round 2',q:[
+  ['Grand Baie hotel reviews','comm','“reviews”: checking before deciding.'],
+  ['Domino’s pizza order online','trans','“order online”: ready to buy.'],
+  ['pharmacy near me','local','“near me”.'],
+  ['Netflix login','nav','“login”: going to one site.'],
+  ['what is SEO','info','“what is”: learning.'],
+  ['best laptop for students 2026','comm','“best … for”: comparing.'],
+  ['Emtel prepaid recharge online','trans','Wants to pay right now.'],
+  ['facebook','nav','A brand name on its own = go to that site.'],
+  ['top 10 beaches in Mauritius','info','Inspiration and learning, nothing to buy yet.'],
+  ['car rental Mahébourg','local','A service in a named town (also close to buying).'],
+  ['Lagon Bleu Diving vs Blue Safari','comm','Comparing two companies.'],
+  ['catamaran Ile aux Cerfs book price','trans','“book” + “price”: ready to pay.']]},
+ {name:'Round 3 · mixed',q:[
+  ['how much does a try dive cost','comm','Checking prices: close to buying, still comparing.'],
+  ['Lagon Bleu Diving','nav','Typing the brand name = looking for that business.'],
+  ['dentist Rose Hill','local','A service in a named town.'],
+  ['why is my phone battery draining','info','A problem to understand.'],
+  ['subscribe Canal+ Mauritius','trans','“subscribe”: ready to sign up.'],
+  ['cheapest flights Mauritius to Paris','comm','“cheapest”: comparing prices.'],
+  ['gym open late Quatre Bornes','local','A place, a town, opening hours.'],
+  ['Gmail','nav','Going straight to a known site.'],
+  ['download Juice app','trans','“download”: acting now.'],
+  ['benefits of digital marketing course','info','Learning about the topic.']]}
+];
+const ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';
+const $=s=>document.querySelector(s);
+let round=0,place={},sel=null,checked=false;
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+let order=[];
+function start(r){round=r;place={};sel=null;checked=false;order=shuffle(ROUNDS[r].q.map((_,i)=>i));ROUNDS[r].q.forEach((_,i)=>place[i]='pool');store.set('intentRound',r);render()}
+
+function cardHTML(i){
+  const [t,a,tip]=ROUNDS[round].q[i];const st=checked&&place[i]!=='pool'?(place[i]===a?'right':'wrong'):'';
+  const ans=checked&&place[i]!=='pool'&&place[i]!==a?' Answer: '+BINS.find(b=>b.id===a).name+'.':'';
+  return `<div class="card ${st} ${sel===i?'sel':''}" draggable="true" tabindex="0" data-i="${i}">${ICON}<span>${t}</span><span class="tip">${tip}${ans}</span></div>`;
+}
+function render(){
+  $('#rounds').innerHTML=ROUNDS.map((r,i)=>`<button class="btn ${i===round?'on':''}" data-r="${i}">${r.name}</button>`).join('');
+  const inPool=order.filter(i=>place[i]==='pool');
+  $('#pool').innerHTML=inPool.map(cardHTML).join('');
+  $('#pool').classList.toggle('empty',inPool.length===0);
+  $('#bins').innerHTML=BINS.map(b=>`<section class="bin ${sel!==null?'target':''}" data-bin="${b.id}" tabindex="0" aria-label="${b.name}">
+    <h3><i style="background:${b.c}"></i>${b.name}</h3><small>${b.d}</small>
+    <div class="drop">${order.filter(i=>place[i]===b.id).map(cardHTML).join('')}</div></section>`).join('');
+  document.body.classList.toggle('checked',checked);
+  const n=ROUNDS[round].q.length;
+  if(checked){const ok=ROUNDS[round].q.filter((q,i)=>place[i]===q[1]).length;$('#score').innerHTML=`${ok} / ${n} <span>correct</span>`}
+  else{const done=Object.values(place).filter(v=>v!=='pool').length;$('#score').innerHTML=`${done} / ${n} <span>sorted</span>`}
+}
+function move(i,bin){place[i]=bin;sel=null;checked=false;render()}
+
+document.addEventListener('click',e=>{
+  const r=e.target.closest('[data-r]');if(r){start(+r.dataset.r);return}
+  const c=e.target.closest('.card');
+  if(c){const i=+c.dataset.i;sel=sel===i?null:i;render();return}
+  const b=e.target.closest('[data-bin]');
+  if(b&&sel!==null){move(sel,b.dataset.bin)}
+});
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'&&e.key!==' ')return;
+  const t=document.activeElement;if(!t)return;
+  if(t.classList.contains('card')||(t.dataset&&t.dataset.bin)){e.preventDefault();t.click()}
+});
+document.addEventListener('dragstart',e=>{const c=e.target.closest('.card');if(!c)return;e.dataTransfer.setData('text/plain',c.dataset.i);c.classList.add('dragging')});
+document.addEventListener('dragend',e=>{const c=e.target.closest('.card');if(c)c.classList.remove('dragging')});
+document.addEventListener('dragover',e=>{const b=e.target.closest('[data-bin]');if(!b)return;e.preventDefault();document.querySelectorAll('.over').forEach(x=>x.classList.remove('over'));if(b.classList.contains('bin'))b.classList.add('over')});
+document.addEventListener('dragleave',e=>{const b=e.target.closest('.bin');if(b&&!b.contains(e.relatedTarget))b.classList.remove('over')});
+document.addEventListener('drop',e=>{const b=e.target.closest('[data-bin]');if(!b)return;e.preventDefault();const i=+e.dataTransfer.getData('text/plain');if(!isNaN(i))move(i,b.dataset.bin)});
+
+$('#check').addEventListener('click',()=>{checked=true;sel=null;render()});
+$('#reveal').addEventListener('click',()=>{ROUNDS[round].q.forEach((q,i)=>place[i]=q[1]);checked=true;sel=null;render()});
+$('#reset').addEventListener('click',()=>start(round));
+
+const saved=parseInt(store.get('intentRound'),10);
+start(saved>=0&&saved<ROUNDS.length?saved:0);
+}
+</script>
+</body>
+</html>
